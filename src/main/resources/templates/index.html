@@ -4,6 +4,7 @@
     <meta th:charset="UTF-8">
     <link th:href="@{/css/index.css}" th:rel="stylesheet">
     <script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}"></script>
+    <script th:src="@{https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js}"></script>
     <script th:src="@{/js/index.js}"></script>
     <title>Manage</title>
 </head>
@@ -12,25 +13,22 @@
 <table>
     <thead>
         <tr>
-            <td th:colspan="12">员工信息</td>
-        </tr>
-        <tr>
-            <td>编号</td>
-            <td>姓名</td>
-            <td>性别</td>
-            <td>年龄</td>
-            <td>身份证号码</td>
-            <td>住址</td>
-            <td>电话号码</td>
-            <td>添加者</td>
-            <td>添加时间</td>
-            <td>最后操作时间</td>
-            <td>更改</td>
-            <td>删除</td>
+            <td th:text='编号'></td>
+            <td th:text='姓名'></td>
+            <td th:text='性别'></td>
+            <td th:text='年龄'></td>
+            <td th:text='身份证号码'></td>
+            <td th:text='住址'></td>
+            <td th:text='电话号码'></td>
+            <td th:text='添加者'></td>
+            <td th:text='添加时间'></td>
+            <td th:text='最后操作时间'></td>
+            <td th:text='更改'></td>
+            <td th:text='删除'></td>
         </tr>
     </thead>
-    <tbody th:id="tbodyId">
-        <tr th:each="employee, stati: ${employee}">
+    <tbody>
+        <tr th:each="employee, stati: ${employee}" th:id="'trId' + ${stati.count}">
             <td th:text="${stati.count}"></td>
             <td>
                 <label>
@@ -40,8 +38,8 @@
             <td>
                 <label>
                     <select th:id="'sexSelectId' + ${stati.count}" th:name="sex" th:class="${employee.sex}">
-                        <option th:value="男" th:text="男"></option>
-                        <option th:value="女" th:text="女"></option>
+                        <option th:value="Male" th:text="Male"></option>
+                        <option th:value="Female" th:text="Female"></option>
                     </select>
                 </label>
             </td>
@@ -101,7 +99,7 @@
             </td>
             <td>
                 <label>
-                    <input th:value="${employee.idCard}" th:type="text">
+                    <input th:value="${employee.idCard}" th:type="text" th:class="idCard">
                 </label>
             </td>
             <td>
@@ -119,7 +117,7 @@
             <td th:text="${employee.lastModifiedDate}"></td>
             <td>
                 <label>
-                    <input th:type="button" th:value="更改" th:onclick="updateEmployee([[${employee.id}]], [[${stati.current}]])">
+                    <input th:type="button" th:value="更改" th:onclick="updateEmployee([[${employee.id}]], [[${stati.count}]])">
                 </label>
             </td>
             <td>

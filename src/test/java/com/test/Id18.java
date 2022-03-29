@@ -29,7 +29,18 @@ public class Id18 {
 
     public static void main(String[] args) {
         Id18 test = new Id18();
-        System.out.println("该身份证验证码：" + test.getValidateCode("11022519640302612"));    //该身份证校验码：3
+//        int i = 12345678;
+//        int n = i / 10000 % 10;
+//        int z = i / 1000 % 10;
+//        int c = i / 100 % 10;
+//        int x = i / 10  % 10;
+//        int b = i % 10;
+//        System.out.println(n);
+//        System.out.println(z);
+//        System.out.println(c);
+//        System.out.println(x);
+//        System.out.println(b);
+        System.out.println("该身份证验证码：" + test.getValidateCode("31010119730521583"));    //该身份证校验码：3
     }
 
 }

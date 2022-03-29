@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}"></script>
+    <script th:src="@{https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js}"></script>
+    <script type="text/javascript">
+		$(function () {
+			$(".selectDate").each(function () {
+				laydate.render({
+					elem: this,
+					trigger: 'click',
+				});
+			});
+			jQuery.validator.addMethod("info", function (value, element) {
+				var returnVal = true;
+				var isCheck = $("select[name='isCheck']").val();
+				if (isCheck === '1') {
+					returnVal = false;
+					$(element).data("error-msg", "不要忘记查验时间！");
+				}
+				return returnVal;
+			}, function (params, element) {
+				return $(element).data("error-msg");
+			});
+
+			$("#form1").validate({
+				rules: {
+					declNo: {
+						required: true
+					},
+					checkTime: {
+						info: true  //如果返回为false则展示提示信息
+					}
+				}
+			});
+		});
+    </script>
+    <title>登录</title>
+</head>
+<body>
+<label>
+    <input th:type="text" th:id="username">
+    <div class="right-body">
+        <form method="post" action="javascript:void" id="appEdit_Form">
+            <table style="width:400px;" border="0" cellpadding="0" cellspacing="0"
+                   class="viewdatagrid">
+                <tbody>
+                <tr>
+                    <th width="160">编码：</th>
+                    <td width="0"><input id="code" name="code" type="text" style="width: 240px" value="" level="2"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="btn-view-block">
+                <div class="toolbar">
+                    <ul>
+                        <li>
+                            <a href="javascript:void 0;" class="save" id="appEdit_btok"
+                               name="appEdit_btok"><span>保存</span></a>
+                        </li>
+                        <li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</label>
+
+</body>
+</html>

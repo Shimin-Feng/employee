@@ -2,7 +2,6 @@ package com.example.controller;
 
 import com.example.entity.Employee;
 import com.example.repository.EmployeeRepository;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +17,8 @@ public class EmployeeController {
         this.employeeRepository = employeeRepository;
     }
 
+
+    // login.html 界面 <form> 表单设置为 th:action="@{/employee/index}" 提交后为什么还是来到了这个登录界面？
     @GetMapping("login")
     public String login() {
         return "login";
@@ -41,9 +42,8 @@ public class EmployeeController {
     // @RequestParam 400
     // @RequestAttribute 400
     // @RequestBody 415
-    public String updateEmployee(@ModelAttribute Employee employee) {
-        System.out.println(employee);
-        employeeRepository.saveAndFlush(employee);
+    public String updateEmployee(@RequestBody Employee employee) {
+        employeeRepository.save(employee);
         return "index";
     }
 
