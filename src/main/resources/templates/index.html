@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:charset="UTF-8">
+    <link th:href="@{/css/index.css}" th:rel="stylesheet">
+    <script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}"></script>
+    <script th:src="@{/js/index.js}"></script>
+    <title>Manage</title>
+</head>
+<body>
+<h1>员工管理</h1>
+<table>
+    <thead>
+        <tr>
+            <td th:colspan="12">员工信息</td>
+        </tr>
+        <tr>
+            <td>编号</td>
+            <td>姓名</td>
+            <td>性别</td>
+            <td>年龄</td>
+            <td>身份证号码</td>
+            <td>住址</td>
+            <td>电话号码</td>
+            <td>添加者</td>
+            <td>添加时间</td>
+            <td>最后操作时间</td>
+            <td>更改</td>
+            <td>删除</td>
+        </tr>
+    </thead>
+    <tbody th:id="tbodyId">
+        <tr th:each="employee, stati: ${employee}">
+            <td th:text="${stati.count}"></td>
+            <td>
+                <label>
+                    <input th:value="${employee.name}" th:type="text">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <select th:id="'sexSelectId' + ${stati.count}" th:name="sex" th:class="${employee.sex}">
+                        <option th:value="男" th:text="男"></option>
+                        <option th:value="女" th:text="女"></option>
+                    </select>
+                </label>
+            </td>
+            <td>
+                <label>
+                    <select th:id="'ageSelectId' + ${stati.count}" th:name="age" th:class="${employee.age}">
+                        <option th:value="18" th:text="18"></option>
+                        <option th:value="19" th:text="19"></option>
+                        <option th:value="20" th:text="20"></option>
+                        <option th:value="21" th:text="21"></option>
+                        <option th:value="22" th:text="22"></option>
+                        <option th:value="23" th:text="23"></option>
+                        <option th:value="24" th:text="24"></option>
+                        <option th:value="25" th:text="25"></option>
+                        <option th:value="26" th:text="26"></option>
+                        <option th:value="27" th:text="27"></option>
+                        <option th:value="28" th:text="28"></option>
+                        <option th:value="29" th:text="29"></option>
+                        <option th:value="30" th:text="30"></option>
+                        <option th:value="31" th:text="31"></option>
+                        <option th:value="32" th:text="32"></option>
+                        <option th:value="33" th:text="33"></option>
+                        <option th:value="34" th:text="34"></option>
+                        <option th:value="35" th:text="35"></option>
+                        <option th:value="36" th:text="36"></option>
+                        <option th:value="37" th:text="37"></option>
+                        <option th:value="38" th:text="38"></option>
+                        <option th:value="39" th:text="39"></option>
+                        <option th:value="40" th:text="40"></option>
+                        <option th:value="41" th:text="41"></option>
+                        <option th:value="42" th:text="42"></option>
+                        <option th:value="43" th:text="43"></option>
+                        <option th:value="44" th:text="44"></option>
+                        <option th:value="45" th:text="45"></option>
+                        <option th:value="46" th:text="46"></option>
+                        <option th:value="47" th:text="47"></option>
+                        <option th:value="48" th:text="48"></option>
+                        <option th:value="49" th:text="49"></option>
+                        <option th:value="50" th:text="50"></option>
+                        <option th:value="51" th:text="51"></option>
+                        <option th:value="52" th:text="52"></option>
+                        <option th:value="53" th:text="53"></option>
+                        <option th:value="54" th:text="54"></option>
+                        <option th:value="55" th:text="55"></option>
+                        <option th:value="56" th:text="56"></option>
+                        <option th:value="57" th:text="57"></option>
+                        <option th:value="58" th:text="58"></option>
+                        <option th:value="59" th:text="59"></option>
+                        <option th:value="60" th:text="60"></option>
+                        <option th:value="61" th:text="61"></option>
+                        <option th:value="62" th:text="62"></option>
+                        <option th:value="63" th:text="63"></option>
+                        <option th:value="64" th:text="64"></option>
+                        <option th:value="65" th:text="65"></option>
+                    </select>
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input th:value="${employee.idCard}" th:type="text">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input th:value="${employee.address}" th:type="text">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input th:value="${employee.phoneNumber}" th:type="text">
+                </label>
+            </td>
+            <td th:text="${employee.createdBy}"></td>
+            <td th:text="${employee.createdDate}"></td>
+            <td th:text="${employee.lastModifiedDate}"></td>
+            <td>
+                <label>
+                    <input th:type="button" th:value="更改" th:onclick="updateEmployee([[${employee.id}]], [[${stati.current}]])">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input th:type="button" th:value="删除" th:onclick="deleteEmployee([[${employee.id}]], this)">
+                </label>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<form th:action="@{/employee/save}" th:method="post">
+    <label>
+        <input th:type="submit" th:value="添加">
+    </label>
+</form>
+<form th:action="@{/logout}" th:method="post">
+    <label>
+        <input th:type="submit" th:value="退出">
+    </label>
+</form>
+</body>
+</html>
