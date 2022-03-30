@@ -102,3 +102,8 @@ function calculateLastNumber(id17) {
 	mode = sum % 11;
 	return validate[mode];
 }
+
+jQuery.validator.addMethod("phone", function (value, element) {
+	const tel = /^(d{3,4}-?)?d{7,9}$/g;
+	return this.optional(element) || (tel.test(value));
+}, "电话号码格式错误!")
