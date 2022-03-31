@@ -13,18 +13,18 @@ $(document).ready(function () {
 		$('#ageSelectId' + i + " option[value='" + age + "']").attr('selected', 'selected');
 	}
 
-	$('.idCard').blur(function () {
+	$('.employeeIdCard').blur(function () {
 		console.log('根据时间自动调节背景！！！！！！！！！！！！！！！！！！！');
 	})
 });
 
 // 确定删除?
-function deleteEmployee(id, input) {
+function deleteEmployee(employeeId, input) {
 	if (confirm('确定删除?')) {
 		$.ajax({
 			type: 'DELETE',
-			// 最前面必须要加斜杠/ '/employee/deleteById/'
-			url: '/employee/deleteById/' + id,
+			// 最前面必须要加斜杠/ '/employee/deleteEmployee/'
+			url: '/employee/deleteEmployee/' + employeeId,
 			success: function () {
 				const tr = input.parentNode.parentNode.parentNode;
 				const tbody = tr.parentNode;
@@ -43,33 +43,43 @@ function deleteEmployee(id, input) {
 }
 
 // 确定更改?
-function updateEmployee(id, count) {
+function updateEmployee(employeeId, count) {
+	// 验证姓名
+	// ^[\u4E00-\u9FA5A-Za-z0-9_]+$  /\p{Unified_Ideograph}/u
+	const regExpEmployeeName = /^[\u4e00-\u9fa5A-Za-z]{1,25}$/;
+	let employeeName = $('#trId' + count + ' td:eq(1) label input').val();
+	if (!regExpEmployeeName.test(employeeName)) {
+		alert('姓名填写有误。只支持 1 - 25 个字符组成。');
+		return false;
+	}
+	// 验证身份证
 	let id17 = [];
-	let idCard = $('#trId' + count + ' td:eq(4) label input').val();
-	for (let i = 0, j = idCard.length - 1; i < idCard.length - 1, j > 0; i++, j--) {
-		id17[i] = idCard.substring(i, idCard.length - j);
+	let employeeIdCard = $('#trId' + count + ' td:eq(4) label input').val();
+	for (let i = 0, j = employeeIdCard.length - 1; i < employeeIdCard.length - 1, j > 0; i++, j--) {
+		id17[i] = employeeIdCard.substring(i, employeeIdCard.length - j);
 	}
 	let lastNumber = calculateLastNumber(id17);
-	const regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-	if (!regIdNo.test(idCard) || lastNumber !== idCard.substring(17)) {
+	const regExpIdCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+	if (!regExpIdCard.test(employeeIdCard) || lastNumber !== employeeIdCard.substring(17)) {
 		alert('身份证号码填写有误。');
 		return false;
 	}
+
 	if (confirm('确定更改?')) {
-		let date = new Date().toJSON();
-		date = date.substring(0, date.length - 5);
+		let lastModifiedDate = new Date().toJSON();
+		lastModifiedDate = lastModifiedDate.substring(0, lastModifiedDate.length - 5);
 
 		function Employee() {
-			this.id = id;
-			this.name = $('#trId' + count + ' td:eq(1) label input').val();
-			this.sex = $('#trId' + count + ' td:eq(2) label select').val();
-			this.age = $('#trId' + count + ' td:eq(3) label select').val();
-			this.idCard = idCard;
-			this.address = $('#trId' + count + ' td:eq(5) label input').val();
-			this.phoneNumber = $('#trId' + count + ' td:eq(6) label input').val();
+			this.employeeId = employeeId;
+			this.employeeName = employeeName;
+			this.employeeSex = $('#trId' + count + ' td:eq(2) label select').val();
+			this.employeeAge = $('#trId' + count + ' td:eq(3) label select').val();
+			this.employeeIdCard = employeeIdCard;
+			this.employeeAddress = $('#trId' + count + ' td:eq(5) label input').val();
+			this.employeePhoneNumber = $('#trId' + count + ' td:eq(6) label input').val();
 			this.createdBy = $('#trId' + count + ' td:eq(7)').text();
 			this.createdDate = $('#trId' + count + ' td:eq(8)').text();
-			this.lastModifiedDate = date;
+			this.lastModifiedDate = lastModifiedDate;
 		}
 
 		$.ajax({
@@ -81,7 +91,7 @@ function updateEmployee(id, count) {
 			url: '/employee/updateEmployee',
 			data: JSON.stringify(new Employee()),
 			success: function () {
-				$('#trId' + count + ' td:eq(9)').html(date);
+				$('#trId' + count + ' td:eq(9)').html(lastModifiedDate);
 			},
 			error: function () {
 				alert('更改失败，请检查后重试。');
@@ -103,7 +113,73 @@ function calculateLastNumber(id17) {
 	return validate[mode];
 }
 
-jQuery.validator.addMethod("phone", function (value, element) {
-	const tel = /^(d{3,4}-?)?d{7,9}$/g;
-	return this.optional(element) || (tel.test(value));
-}, "电话号码格式错误!")
+// $(function () {
+// 	// 手机号码验证
+// 	// $.validator.addMethod("mobile", function (value, element) {
+// 	// 	const length = value.length
+// 	// 	const mobile = /^(((13\d)|(15\d))+\d{8})$/
+// 	// 	return this.optional(element) || (length === 11 && mobile.test(value));
+// 	// }, "手机号码格式错误");
+// 	//
+// 	// // 电话号码验证
+// 	// $.validator.addMethod("phone", function (value, element) {
+// 	// 	const tel = /^(0\d{2,3})?([2-9]\d{6,7})+(\d{1,4})?$/
+// 	// 	return this.optional(element) || (tel.test(value));
+// 	// }, "电话号码格式错误");
+// 	//
+// 	// // 字母和数字的验证
+// 	// $.validator.addMethod("charAndNum", function (value, element) {
+// 	// 	const chrnum = /^([a-zA-Z\d]+)$/
+// 	// 	return this.optional(element) || (chrnum.test(value));
+// 	// }, "只能输入数字和字母(字符A-Z, a-z, 0-9)");
+//
+// 	// 中文的验证
+// 	$.validator.addMethod("chinese", function (value, element) {
+// 		const chinese = /^[\u4e00-\u9fa5]{1,25}}$/
+// 		return this.optional(element) || (chinese.test(value));
+// 	}, "只能输入中文");
+//
+// 	// // 下拉框验证
+// 	// $.validator.addMethod("selectNone", function (value, element, param) {
+// 	// 	return value !== param[0];
+// 	// }, "必须选择一项");
+// 	//
+// 	// //整数位，小数位验证
+// 	// $.validator.addMethod("decimal", function (value, element, param) {
+// 	// 	return this.optional(element) || new RegExp("^-?\\d{1," + (param[0] != null ? param[0] : "") + "}" + (param[1] != null ? (param[1] > 0 ? "(\\.\\d{1," + param[1] + "})?$" : "$") : "(\\.\\d+)?$")).test(value);
+// 	// }, $.validator.format("内容输入错误或者格式错误：整数位最多{0}位，小数位最多{1}位"));
+// 	//
+// 	// // 验证值必须大于特定值(不能等于)
+// 	// $.validator.addMethod("gt", function (value, element, param) {
+// 	// 	return value > param[0];
+// 	// }, $.validator.format("输入值必须大于 {0}!"));
+//
+// 	$('#employeeForm').validate({
+// 		rules: {
+// 			employeeName: {required: true, rangelength: [1, 10], chinese: true},
+// 			// age: {required: true, decimal: [2, 2]},
+// 			// account: {required: true, charAndNum: true},
+// 			// mobile: {required: true, mobile: true},
+// 			// phone: {required: true, phone: true},
+// 			// code: {required: true, gt: [10]},
+// 			// type: {required: true, selectNone: [0]}
+// 		}, messages: {
+// 			employeeName: {required: '请填写真实姓名', rangelength: '请输入1-10个字'},
+// 			// age: {required: '请填写手机号'},
+// 			// account: {required: '请填写账号'},
+// 			// mobile: {required: '请填写手机号'},
+// 			// phone: {required: '请填写电话号'},
+// 			// code: {required: '请填写身份证'},
+// 			// type: {required: '请选择类型'}
+// 		}
+// 	});
+// });
+//
+// $('#employeeForm').click(function () {
+// 	//验证是否通过
+// 	if (!$("#employeeForm").valid()) {
+// 		alert('aaaaaaaaaaaaaaaaaaaa');
+// 		return;
+// 	}
+// 	alert('bbbbbbbbbbbbbbbbbbbbbbb');
+// });

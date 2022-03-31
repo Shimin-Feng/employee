@@ -5,14 +5,40 @@
     <title>js校验</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
-    <script src="verificationTest.js" type="text/javascript"></script>
 </head>
 <body>
 <form id="myform" action="" method="post">
     <table>
         <tr>
-            <td>姓名</td>
-            <td><label for="name"> </label><input type="text" id="name" name="name"></td>
+            <td>姓名v</td>
+            <td><label for="namec"> </label><input id="namec" maxlength="18"
+                                                   oninput="value=value.replace(/[\D|X|x]/,'')" type="text"></td>
+        </tr>
+        <tr>
+            <td>姓名v</td>
+            <td><label for="namech"> </label><input id="namech" maxlength="18"
+                                                    onkeyup="value=value.replace(/[[1-9]\d{16}[X|x]]/g,'')" type="text">
+            </td>
+        </tr>
+        <tr>
+            <td>姓名v</td>
+            <td><label for="namechkk"> </label><input id="namechkk" maxlength="18"
+                                                      onkeydown="value=value.replace(/^\d|X|x/,'')" type="text"></td>
+        </tr>
+        <tr>
+            <td>姓名v</td>
+            <td><label for="namechkhhk"> </label><input id="namechkhhk" maxlength="18"
+                                                        onkeypress="value=value.replace(/[^\d|X|x]/g,'')" type="text">
+            </td>
+        </tr>
+        <tr>
+            <td>姓名vjj</td>
+            <td><label for="namecjj"> </label><input id="namecjj" maxlength="18" pattern=[0-9]* type="text"></td>
+        </tr>
+        <tr>
+            <td>姓名THHHHHHHHHHHHHHHHH</td>
+            <td><label for="name"> </label><input id="name" name="name" onkeyup="value=value.replace(/[^\d|X|x]/g,'')"
+                                                  type="text"></td>
         </tr>
         <tr>
             <td>年龄</td>

@@ -2,9 +2,7 @@ package com.test;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.util.UUID;
 
 public class Id18 {
     //    public static void main(String[] args) {
@@ -40,7 +38,10 @@ public class Id18 {
 //        System.out.println(c);
 //        System.out.println(x);
 //        System.out.println(b);
-        System.out.println("该身份证验证码：" + test.getValidateCode("31010119730521583"));    //该身份证校验码：3
+        System.out.println("gdgd高低杠大概的活动gs俄国覅骄傲哦嗡嗡嗡骄傲九阿哥发噶i为哦阿姐gg该身份证验证码：" + test.getValidateCode("31010119730521583"));
+        UUID uuid = UUID.randomUUID();
+        System.out.println(uuid);//该身份证校验码：3
+        System.out.println(UUID.randomUUID());//该身份证校验码：3
     }
 
 }

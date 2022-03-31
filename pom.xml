@@ -52,6 +52,8 @@
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         <!-- 不知道有什么作用，是有一次编写代码使提示添加的 -->
+        <!-- 知道了，是为了导入下面的包 -->
+        <!-- import org.jetbrains.annotations.NotNull; -->
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>

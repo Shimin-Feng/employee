@@ -43,9 +43,9 @@ $(function () {
 	}, $.validator.format("输入值必须大于 {0}!"));
 
 
-	$("#myform").validate({
+	$("#employeeForm").validate({
 		rules: {
-			name: {required: true, rangeLength: [1, 10], chinese: true},
+			name: {required: true, rangelength: [1, 10], chinese: true},
 			age: {required: true, decimal: [2, 2]},
 			account: {required: true, charAndNum: true},
 			mobile: {required: true, mobile: true},
@@ -53,9 +53,8 @@ $(function () {
 			code: {required: true, gt: [10]},
 			type: {required: true, selectNone: [0]}
 
-		},
-		messages: {
-			name: {required: '请填写真实姓名', rangeLength: '请输入1-10个字'},
+		}, messages: {
+			name: {required: '请填写真实姓名', rangelength: '请输入1-10个字'},
 			age: {required: '请填写手机号'},
 			account: {required: '请填写账号'},
 			mobile: {required: '请填写手机号'},
@@ -65,9 +64,9 @@ $(function () {
 		}
 	});
 });
-$("#myform").click(function () {
+$("#myformSubmit").click(function () {
 	//验证是否通过
-	if (!$("#myform").valid()) {
+	if (!$("#employeeForm").valid()) {
 		// return;
 	}
 	//其他代码

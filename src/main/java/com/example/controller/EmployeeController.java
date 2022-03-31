@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Controller
 @RequestMapping(method = RequestMethod.GET)
 public class EmployeeController {
@@ -30,9 +32,9 @@ public class EmployeeController {
         return "index";
     }
 
-    @DeleteMapping("employee/deleteById/{id}")
-    public String deleteById(@PathVariable("id") Long id) {
-        employeeRepository.deleteById(id);
+    @DeleteMapping("employee/deleteEmployee/{employeeId}")
+    public String deleteEmployee(@PathVariable("employeeId") String employeeId) {
+        employeeRepository.deleteById(employeeId);
         return "index";
     }
 
@@ -54,14 +56,15 @@ public class EmployeeController {
 
     @PostMapping("employee/saveEmployee")
     public String saveEmployee(@ModelAttribute Employee employee, @NotNull Model model) {
+        employee.setEmployeeId(String.valueOf(UUID.randomUUID()));
         employeeRepository.save(employee);
         model.addAttribute("employee", employeeRepository.findAll());
         return "redirect:employee/index";
     }
 
-    @GetMapping("employee/findById/{id}")
-    public String findById(@PathVariable("id") Long id, @NotNull Model model) {
-        model.addAttribute("employee", employeeRepository.getById(id));
+    @GetMapping("employee/findById/{employeeId}")
+    public String findById(@PathVariable("employeeId") String employeeId, @NotNull Model model) {
+        model.addAttribute("employee", employeeRepository.getById(employeeId));
         return "redirect:employee/index";
     }
 }

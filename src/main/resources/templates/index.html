@@ -10,8 +10,9 @@
 </head>
 <body>
 <h1>员工管理</h1>
-<table>
-    <thead>
+<form th:id="employeeForm">
+    <table>
+        <thead>
         <tr>
             <td th:text='编号'></td>
             <td th:text='姓名'></td>
@@ -26,18 +27,18 @@
             <td th:text='更改'></td>
             <td th:text='删除'></td>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         <tr th:each="employee, stati: ${employee}" th:id="'trId' + ${stati.count}">
             <td th:text="${stati.count}"></td>
             <td>
                 <label>
-                    <input th:value="${employee.name}" th:type="text">
+                    <input th:name="employeeName" th:type="text" th:value="${employee.employeeName}">
                 </label>
             </td>
             <td>
                 <label>
-                    <select th:id="'sexSelectId' + ${stati.count}" th:name="sex" th:class="${employee.sex}">
+                    <select th:class="${employee.employeeSex}" th:id="'sexSelectId' + ${stati.count}" th:name="sex">
                         <option th:value="Male" th:text="Male"></option>
                         <option th:value="Female" th:text="Female"></option>
                     </select>
@@ -45,7 +46,7 @@
             </td>
             <td>
                 <label>
-                    <select th:id="'ageSelectId' + ${stati.count}" th:name="age" th:class="${employee.age}">
+                    <select th:class="${employee.employeeAge}" th:id="'ageSelectId' + ${stati.count}" th:name="age">
                         <option th:value="18" th:text="18"></option>
                         <option th:value="19" th:text="19"></option>
                         <option th:value="20" th:text="20"></option>
@@ -99,17 +100,18 @@
             </td>
             <td>
                 <label>
-                    <input th:value="${employee.idCard}" th:type="text" th:class="idCard">
+                    <input th:class="employeeIdCard" th:maxlength="18" th:type="text"
+                           th:value="${employee.employeeIdCard}">
                 </label>
             </td>
             <td>
                 <label>
-                    <input th:value="${employee.address}" th:type="text">
+                    <input th:type="text" th:value="${employee.employeeAddress}">
                 </label>
             </td>
             <td>
                 <label>
-                    <input th:value="${employee.phoneNumber}" th:type="text">
+                    <input th:type="text" th:value="${employee.employeePhoneNumber}">
                 </label>
             </td>
             <td th:text="${employee.createdBy}"></td>
@@ -117,17 +119,19 @@
             <td th:text="${employee.lastModifiedDate}"></td>
             <td>
                 <label>
-                    <input th:type="button" th:value="更改" th:onclick="updateEmployee([[${employee.id}]], [[${stati.count}]])">
+                    <input th:onclick="updateEmployee([[${employee.employeeId}]], [[${stati.count}]])" th:type="button"
+                           th:value="更改">
                 </label>
             </td>
             <td>
                 <label>
-                    <input th:type="button" th:value="删除" th:onclick="deleteEmployee([[${employee.id}]], this)">
+                    <input th:onclick="deleteEmployee([[${employee.employeeId}]], this)" th:type="button" th:value="删除">
                 </label>
             </td>
         </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</form>
 <form th:action="@{/employee/save}" th:method="post">
     <label>
         <input th:type="submit" th:value="添加">

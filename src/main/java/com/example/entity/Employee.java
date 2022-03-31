@@ -1,12 +1,17 @@
 package com.example.entity;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -18,20 +23,19 @@ import java.util.Objects;
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String employeeId;
     @Column
-    private String name;
+    private String employeeName;
     @Column
-    private String sex;
+    private String employeeSex;
     @Column
-    private Long age;
+    private Long employeeAge;
     @Column
-    private String idCard;
+    private String employeeIdCard;
     @Column
-    private String address;
+    private String employeeAddress;
     @Column
-    private Long phoneNumber;
+    private String employeePhoneNumber;
     @CreatedBy
     @Column
     private String createdBy;
@@ -47,7 +51,7 @@ public class Employee {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Employee employee = (Employee) o;
-        return id != null && Objects.equals(id, employee.id);
+        return employeeId != null && Objects.equals(employeeId, employee.employeeId);
     }
 
     @Override
