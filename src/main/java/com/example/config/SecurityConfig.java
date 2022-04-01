@@ -17,9 +17,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 .inMemoryAuthentication()
                 .passwordEncoder(new MyPasswordEncoder())
+                // 在登录成功后不退出就直接登录其他账号是会被挤下线的
                 .withUser("admin")
                 .password(new MyPasswordEncoder().encode("hKJB$$%8ffFpGnLWE"))
-                .roles("ADMIN");
+                // 比 hasRole() 更加通用
+                .authorities("ADMIN");
     }
 
 
@@ -30,8 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("employee/index", "employee/save", "employee/update", "employee/findById")
-                .hasRole("ADMIN")
+                // /employee/* 表示 employee 目录下所有的子目录
+                .antMatchers("/employee/*", "/**/*.css", "/**/*.js")
+                // 比 hasRole() 更加通用
+                .hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()

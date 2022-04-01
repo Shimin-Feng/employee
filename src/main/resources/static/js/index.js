@@ -46,22 +46,43 @@ function deleteEmployee(employeeId, input) {
 function updateEmployee(employeeId, count) {
 	// 验证姓名
 	// ^[\u4E00-\u9FA5A-Za-z0-9_]+$  /\p{Unified_Ideograph}/u
-	const regExpEmployeeName = /^[\u4e00-\u9fa5A-Za-z]{1,25}$/;
+	const regExpEmployeeName = /^[\u4e00-\u9fa5A-Za-z\s\\•]{1,25}$/;
 	let employeeName = $('#trId' + count + ' td:eq(1) label input').val();
 	if (!regExpEmployeeName.test(employeeName)) {
-		alert('姓名填写有误。只支持 1 - 25 个字符组成。');
+		alert('姓名填写有误，只支持 1 - 25 个汉字、英文、空格和•的组合。');
 		return false;
 	}
+
 	// 验证身份证
-	let id17 = [];
 	let employeeIdCard = $('#trId' + count + ' td:eq(4) label input').val();
-	for (let i = 0, j = employeeIdCard.length - 1; i < employeeIdCard.length - 1, j > 0; i++, j--) {
-		id17[i] = employeeIdCard.substring(i, employeeIdCard.length - j);
+	if (employeeIdCard.length !== 15 || employeeIdCard.length !== 18) {
+		alert('身份证号码填写有误，请检查后重试。');
+		return false;
 	}
-	let lastNumber = calculateLastNumber(id17);
-	const regExpIdCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-	if (!regExpIdCard.test(employeeIdCard) || lastNumber !== employeeIdCard.substring(17)) {
-		alert('身份证号码填写有误。');
+	const regExpIdCard = /^[\d{15}]|[\d{18}]|[\d{17}X|x]$/;
+	// 15 位身份证
+	if (!regExpIdCard.test(employeeIdCard)) {
+		alert('身份证号码填写有误，请检查后重试。');
+		return false;
+	}
+	// 18 位身份证
+	if (employeeIdCard.length === 18) {
+		let id17 = [];
+		for (let i = 0, j = employeeIdCard.length - 1; i < employeeIdCard.length - 1, j > 0; i++, j--) {
+			id17[i] = employeeIdCard.substring(i, employeeIdCard.length - j);
+		}
+		let lastNumber = calculateLastNumber(id17);
+		if (lastNumber !== employeeIdCard.substring(17)) {
+			alert('身份证号码填写有误。');
+			return false;
+		}
+	}
+
+	// 验证电话号码
+	let employeePhoneNumber = $('#trId' + count + ' td:eq(6) label input').val();
+	const regExpEmployeePhoneNumber = /^[[0|1][3-9]\d{9}]|[\\+\d{1,3}[1-9][10]]$/;
+	if (!regExpEmployeePhoneNumber.test(employeePhoneNumber)) {
+		alert('电话号码填写有误，请检查后重试。');
 		return false;
 	}
 
@@ -76,7 +97,7 @@ function updateEmployee(employeeId, count) {
 			this.employeeAge = $('#trId' + count + ' td:eq(3) label select').val();
 			this.employeeIdCard = employeeIdCard;
 			this.employeeAddress = $('#trId' + count + ' td:eq(5) label input').val();
-			this.employeePhoneNumber = $('#trId' + count + ' td:eq(6) label input').val();
+			this.employeePhoneNumber = employeePhoneNumber;
 			this.createdBy = $('#trId' + count + ' td:eq(7)').text();
 			this.createdDate = $('#trId' + count + ' td:eq(8)').text();
 			this.lastModifiedDate = lastModifiedDate;
