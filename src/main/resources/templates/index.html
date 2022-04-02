@@ -111,7 +111,8 @@
             </td>
             <td>
                 <label>
-                    <input th:type="text" th:value="${employee.employeePhoneNumber}">
+                    <input th:maxlength="11" th:oninput="value=value.replace(/\D/,'')" th:type="text"
+                           th:value="${employee.employeePhoneNumber}">
                 </label>
             </td>
             <td th:text="${employee.createdBy}"></td>

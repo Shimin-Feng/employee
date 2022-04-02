@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.entity.Employee;
 import com.example.repository.EmployeeRepository;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @Controller
-@RequestMapping(method = RequestMethod.GET)
+@RequestMapping(method = RequestMethod.POST)
 public class EmployeeController {
 
     private final EmployeeRepository employeeRepository;
@@ -28,7 +29,8 @@ public class EmployeeController {
 
     @GetMapping("employee/index")
     public String index(@NotNull Model model) {
-        model.addAttribute("employee", employeeRepository.findAll());
+        // 根据添加的时间顺序排序
+        model.addAttribute("employee", employeeRepository.findAll(Sort.by("createdDate")));
         return "index";
     }
 
@@ -47,6 +49,11 @@ public class EmployeeController {
     public String updateEmployee(@RequestBody Employee employee) {
         employeeRepository.save(employee);
         return "index";
+    }
+
+    @GetMapping("/timeout")
+    public String timeout() {
+        return "timeout";
     }
 
     @PostMapping("employee/save")

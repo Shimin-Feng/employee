@@ -49,20 +49,20 @@ function updateEmployee(employeeId, count) {
 	const regExpEmployeeName = /^[\u4e00-\u9fa5A-Za-z\s\\•]{1,25}$/;
 	let employeeName = $('#trId' + count + ' td:eq(1) label input').val();
 	if (!regExpEmployeeName.test(employeeName)) {
-		alert('姓名填写有误，只支持 1 - 25 个汉字、英文、空格和•的组合。');
+		alert('姓名只支持由 1 - 25 个汉字、英文、空格和•的组合。');
 		return false;
 	}
 
 	// 验证身份证
 	let employeeIdCard = $('#trId' + count + ' td:eq(4) label input').val();
-	if (employeeIdCard.length !== 15 || employeeIdCard.length !== 18) {
-		alert('身份证号码填写有误，请检查后重试。');
+	if (employeeIdCard.length !== 15 && employeeIdCard.length !== 18) {
+		alert('身份证号码格式有误，请检查后重试。');
 		return false;
 	}
-	const regExpIdCard = /^[\d{15}]|[\d{18}]|[\d{17}X|x]$/;
+	const regExpIdCard = /^\d{15}|\d{18}|(\d{17}X|x)$/;
 	// 15 位身份证
 	if (!regExpIdCard.test(employeeIdCard)) {
-		alert('身份证号码填写有误，请检查后重试。');
+		alert('身份证号码格式有误，请检查后重试。');
 		return false;
 	}
 	// 18 位身份证
@@ -73,16 +73,16 @@ function updateEmployee(employeeId, count) {
 		}
 		let lastNumber = calculateLastNumber(id17);
 		if (lastNumber !== employeeIdCard.substring(17)) {
-			alert('身份证号码填写有误。');
+			alert('身份证号码格式有误，请检查后重试。');
 			return false;
 		}
 	}
 
-	// 验证电话号码
+	// 验证电话号码（暂时就只验证：一般情况下的中国大陆移动手机号码）
 	let employeePhoneNumber = $('#trId' + count + ' td:eq(6) label input').val();
-	const regExpEmployeePhoneNumber = /^[[0|1][3-9]\d{9}]|[\\+\d{1,3}[1-9][10]]$/;
+	const regExpEmployeePhoneNumber = /^1[3-9]\d{9}$/;
 	if (!regExpEmployeePhoneNumber.test(employeePhoneNumber)) {
-		alert('电话号码填写有误，请检查后重试。');
+		alert('电话号码格式有误，请检查后重试。');
 		return false;
 	}
 
