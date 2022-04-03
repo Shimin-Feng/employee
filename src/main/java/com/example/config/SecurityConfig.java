@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(@NotNull AuthenticationManagerBuilder auth) throws Exception {
         auth
-                // 对密码进行加密
+                // 把账号储存在数据库中，并对密码进行加密
                 .userDetailsService(accountService).passwordEncoder(new BCryptPasswordEncoder());
 //                .inMemoryAuthentication()
 //                .passwordEncoder(new MyPasswordEncoder())
@@ -87,13 +87,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         public PersistentTokenRepository persistentTokenRepository() {
             TokenRepository tokenRepository = new TokenRepository();
             JdbcCheckTableExitDemo jdbcCheckTableExitDemo = new JdbcCheckTableExitDemo();
-            tokenRepository.setDataSource(dataSource);
-            System.out.println("-------------------------------------------------" + jdbcCheckTableExitDemo.isExist());
             // 判断表是否存在，不存在则创建
             if (!jdbcCheckTableExitDemo.isExist()) {
                 tokenRepository.setCreateTableOnStartup(true);
                 tokenRepository.initDao();
             }
+            tokenRepository.setDataSource(dataSource);
             return tokenRepository;
         }
     }

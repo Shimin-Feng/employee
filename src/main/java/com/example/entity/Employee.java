@@ -12,7 +12,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 @Getter
@@ -29,7 +29,7 @@ public class Employee {
     @Column
     private String employeeSex;
     @Column
-    private Long employeeAge;
+    private Integer employeeAge;
     @Column
     private String employeeIdCard;
     @Column
@@ -41,10 +41,10 @@ public class Employee {
     private String createdBy;
     @CreatedDate
     @Column
-    private LocalDateTime createdDate;
+    private Date createdDate;
     @LastModifiedDate
     @Column
-    private LocalDateTime lastModifiedDate;
+    private Date lastModifiedDate;
 
     @Override
     public boolean equals(Object o) {

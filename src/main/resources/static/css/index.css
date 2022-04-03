@@ -1,9 +1,15 @@
-table,
-td {
+table, td {
     border: 1px solid #333;
     border-collapse: collapse;
-    margin: auto;
     text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    table-layout: fixed;
+    white-space: nowrap;
 }
 
 h1 {

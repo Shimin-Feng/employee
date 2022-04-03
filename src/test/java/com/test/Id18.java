@@ -1,7 +1,6 @@
 package com.test;
 
-import org.jetbrains.annotations.NotNull;
-
+import java.util.Date;
 import java.util.UUID;
 
 public class Id18 {
@@ -11,37 +10,14 @@ public class Id18 {
 ////        LocalDateTime localDateTime = LocalDateTime.ofEpochSecond(138140162874696958L - 0x01b21dd213814000L, 0, ZoneOffset.ofHours(8));
 ////        System.out.println("localDateTime.now() = " + LocalDateTime.now());
 //
-//    }
-    int[] weight = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};    //十七位数字本体码权重
-    char[] validate = {'1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'};    //mod11,对应校验码字符值
 
-    public char getValidateCode(@NotNull String id17) {
-        int sum = 0;
-        int mode;
-        for (int i = 0; i < id17.length(); i++) {
-            sum += Integer.parseInt(String.valueOf(id17.charAt(i))) * weight[i];
-        }
-        mode = sum % 11;
-        return validate[mode];
-    }
 
     public static void main(String[] args) {
-        Id18 test = new Id18();
-//        int i = 12345678;
-//        int n = i / 10000 % 10;
-//        int z = i / 1000 % 10;
-//        int c = i / 100 % 10;
-//        int x = i / 10  % 10;
-//        int b = i % 10;
-//        System.out.println(n);
-//        System.out.println(z);
-//        System.out.println(c);
-//        System.out.println(x);
-//        System.out.println(b);
-        System.out.println("gdgd高低杠大概的活动gs俄国覅骄傲哦嗡嗡嗡骄傲九阿哥发噶i为哦阿姐gg该身份证验证码：" + test.getValidateCode("31010119730521583"));
         UUID uuid = UUID.randomUUID();
-        System.out.println(uuid);//该身份证校验码：3
-        System.out.println(UUID.randomUUID());//该身份证校验码：3
+        System.out.println(uuid);
+        System.out.println(UUID.randomUUID());
+        Date date = new Date();
+        System.out.println(date);
     }
 
 }

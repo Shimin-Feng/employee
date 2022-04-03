@@ -3,6 +3,9 @@ package com.example.controller;
 import com.example.entity.Employee;
 import com.example.repository.EmployeeRepository;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,17 +23,20 @@ public class EmployeeController {
         this.employeeRepository = employeeRepository;
     }
 
-
-    // login.html 界面 <form> 表单设置为 th:action="@{/employee/index}" 提交后为什么还是来到了这个登录界面？
+    // TODO: jQuery 根据时间自动调节背景颜色！
+    // TODO: <input> 如何解决在使用中文输入时的错误？
+    // TODO: 如何解决 HTML 中那些不该报错的报错？
+    // TODO: login.html 界面 <form> 表单设置为 th:action="@{/employee/index}" 提交后为什么还是来到了这个登录界面？
     @GetMapping("login")
     public String login() {
         return "login";
     }
 
     @GetMapping("employee/index")
-    public String index(@NotNull Model model) {
-        // 根据添加的时间顺序排序
-        model.addAttribute("employee", employeeRepository.findAll(Sort.by("createdDate")));
+    public String index(@NotNull Model model, @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by("createdDate"));
+        Page<Employee> employees = employeeRepository.findAll(pageable);
+        model.addAttribute("employees", employees);
         return "index";
     }
 

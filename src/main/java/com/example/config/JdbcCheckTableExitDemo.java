@@ -3,7 +3,9 @@ package com.example.config;
 import java.sql.*;
 
 /**
- * 如何简化下面的代码？
+ * TODO: 如何简化此类的代码？
+ * JdbcTemplate template = new JdbcTemplate(dataSource);
+ * template.query("SHOW TABLES FROM test_database LIKE 'persistent_logins';", new BeanPropertyRowMapper<>());
  */
 public class JdbcCheckTableExitDemo {
 

@@ -14,7 +14,7 @@
     <table>
         <thead>
         <tr>
-            <td th:text='编号'></td>
+            <td th:text="'#'"></td>
             <td th:text='姓名'></td>
             <td th:text='性别'></td>
             <td th:text='年龄'></td>
@@ -29,90 +29,88 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="employee, stati: ${employee}" th:id="'trId' + ${stati.count}">
+        <tr th:each="employee, stati: ${employees}" th:id="'trId' + ${stati.count}">
             <td th:text="${stati.count}"></td>
             <td>
                 <label>
-                    <input th:name="employeeName" th:type="text" th:value="${employee.employeeName}">
+                    <input th:maxlength="25" th:type="text" th:value="${employee.employeeName}">
                 </label>
             </td>
             <td>
                 <label>
-                    <select th:class="${employee.employeeSex}" th:id="'sexSelectId' + ${stati.count}" th:name="sex">
-                        <option th:value="Male" th:text="Male"></option>
-                        <option th:value="Female" th:text="Female"></option>
+                    <select th:class="${employee.employeeSex}" th:id="'sexSelectId' + ${stati.count}">
+                        <option th:text="Male" th:value="Male"></option>
+                        <option th:text="Female" th:value="Female"></option>
                     </select>
                 </label>
             </td>
             <td>
                 <label>
-                    <select th:class="${employee.employeeAge}" th:id="'ageSelectId' + ${stati.count}" th:name="age">
-                        <option th:value="18" th:text="18"></option>
-                        <option th:value="19" th:text="19"></option>
-                        <option th:value="20" th:text="20"></option>
-                        <option th:value="21" th:text="21"></option>
-                        <option th:value="22" th:text="22"></option>
-                        <option th:value="23" th:text="23"></option>
-                        <option th:value="24" th:text="24"></option>
-                        <option th:value="25" th:text="25"></option>
-                        <option th:value="26" th:text="26"></option>
-                        <option th:value="27" th:text="27"></option>
-                        <option th:value="28" th:text="28"></option>
-                        <option th:value="29" th:text="29"></option>
-                        <option th:value="30" th:text="30"></option>
-                        <option th:value="31" th:text="31"></option>
-                        <option th:value="32" th:text="32"></option>
-                        <option th:value="33" th:text="33"></option>
-                        <option th:value="34" th:text="34"></option>
-                        <option th:value="35" th:text="35"></option>
-                        <option th:value="36" th:text="36"></option>
-                        <option th:value="37" th:text="37"></option>
-                        <option th:value="38" th:text="38"></option>
-                        <option th:value="39" th:text="39"></option>
-                        <option th:value="40" th:text="40"></option>
-                        <option th:value="41" th:text="41"></option>
-                        <option th:value="42" th:text="42"></option>
-                        <option th:value="43" th:text="43"></option>
-                        <option th:value="44" th:text="44"></option>
-                        <option th:value="45" th:text="45"></option>
-                        <option th:value="46" th:text="46"></option>
-                        <option th:value="47" th:text="47"></option>
-                        <option th:value="48" th:text="48"></option>
-                        <option th:value="49" th:text="49"></option>
-                        <option th:value="50" th:text="50"></option>
-                        <option th:value="51" th:text="51"></option>
-                        <option th:value="52" th:text="52"></option>
-                        <option th:value="53" th:text="53"></option>
-                        <option th:value="54" th:text="54"></option>
-                        <option th:value="55" th:text="55"></option>
-                        <option th:value="56" th:text="56"></option>
-                        <option th:value="57" th:text="57"></option>
-                        <option th:value="58" th:text="58"></option>
-                        <option th:value="59" th:text="59"></option>
-                        <option th:value="60" th:text="60"></option>
-                        <option th:value="61" th:text="61"></option>
-                        <option th:value="62" th:text="62"></option>
-                        <option th:value="63" th:text="63"></option>
-                        <option th:value="64" th:text="64"></option>
-                        <option th:value="65" th:text="65"></option>
+                    <select th:class="${employee.employeeAge}" th:id="'ageSelectId' + ${stati.count}">
+                        <option th:text="18" th:value="18"></option>
+                        <option th:text="19" th:value="19"></option>
+                        <option th:text="20" th:value="20"></option>
+                        <option th:text="21" th:value="21"></option>
+                        <option th:text="22" th:value="22"></option>
+                        <option th:text="23" th:value="23"></option>
+                        <option th:text="24" th:value="24"></option>
+                        <option th:text="25" th:value="25"></option>
+                        <option th:text="26" th:value="26"></option>
+                        <option th:text="27" th:value="27"></option>
+                        <option th:text="28" th:value="28"></option>
+                        <option th:text="29" th:value="29"></option>
+                        <option th:text="30" th:value="30"></option>
+                        <option th:text="31" th:value="31"></option>
+                        <option th:text="32" th:value="32"></option>
+                        <option th:text="33" th:value="33"></option>
+                        <option th:text="34" th:value="34"></option>
+                        <option th:text="35" th:value="35"></option>
+                        <option th:text="36" th:value="36"></option>
+                        <option th:text="37" th:value="37"></option>
+                        <option th:text="38" th:value="38"></option>
+                        <option th:text="39" th:value="39"></option>
+                        <option th:text="40" th:value="40"></option>
+                        <option th:text="41" th:value="41"></option>
+                        <option th:text="42" th:value="42"></option>
+                        <option th:text="43" th:value="43"></option>
+                        <option th:text="44" th:value="44"></option>
+                        <option th:text="45" th:value="45"></option>
+                        <option th:text="46" th:value="46"></option>
+                        <option th:text="47" th:value="47"></option>
+                        <option th:text="48" th:value="48"></option>
+                        <option th:text="49" th:value="49"></option>
+                        <option th:text="50" th:value="50"></option>
+                        <option th:text="51" th:value="51"></option>
+                        <option th:text="52" th:value="52"></option>
+                        <option th:text="53" th:value="53"></option>
+                        <option th:text="54" th:value="54"></option>
+                        <option th:text="55" th:value="55"></option>
+                        <option th:text="56" th:value="56"></option>
+                        <option th:text="57" th:value="57"></option>
+                        <option th:text="58" th:value="58"></option>
+                        <option th:text="59" th:value="59"></option>
+                        <option th:text="60" th:value="60"></option>
+                        <option th:text="61" th:value="61"></option>
+                        <option th:text="62" th:value="62"></option>
+                        <option th:text="63" th:value="63"></option>
+                        <option th:text="64" th:value="64"></option>
+                        <option th:text="65" th:value="65"></option>
                     </select>
                 </label>
             </td>
             <td>
                 <label>
-                    <input th:class="employeeIdCard" th:maxlength="18" th:type="text"
-                           th:value="${employee.employeeIdCard}">
+                    <input th:maxlength="18" th:type="text" th:value="${employee.employeeIdCard}">
                 </label>
             </td>
             <td>
                 <label>
-                    <input th:type="text" th:value="${employee.employeeAddress}">
+                    <input th:maxlength="45" th:type="text" th:value="${employee.employeeAddress}">
                 </label>
             </td>
             <td>
                 <label>
-                    <input th:maxlength="11" th:oninput="value=value.replace(/\D/,'')" th:type="text"
-                           th:value="${employee.employeePhoneNumber}">
+                    <input th:maxlength="11" th:type="text" th:value="${employee.employeePhoneNumber}">
                 </label>
             </td>
             <td th:text="${employee.createdBy}"></td>
@@ -120,8 +118,8 @@
             <td th:text="${employee.lastModifiedDate}"></td>
             <td>
                 <label>
-                    <input th:onclick="updateEmployee([[${employee.employeeId}]], [[${stati.count}]])" th:type="button"
-                           th:value="更改">
+                    <input th:onclick="updateEmployee([[${stati.count}]], [[${employee.employeeId}]], [[${employee.createdDate}]])"
+                           th:type="button" th:value="更改">
                 </label>
             </td>
             <td>
@@ -133,11 +131,34 @@
         </tbody>
     </table>
 </form>
-<form th:action="@{/employee/save}" th:method="post">
-    <label>
-        <input th:type="submit" th:value="添加">
-    </label>
-</form>
+<div class="modal-footer no-margin-top">
+    <ul class="pagination pull-right no-margin" th:if="${employees != null}">
+        <li>
+            <a th:href="'/employee/index?pageNum=0'" th:text="首页"></a>
+        </li>
+        <li th:if="${employees.hasPrevious()}">
+            <a th:href="'/employee/index?pageNum=' + ${employees.previousPageable().getPageNumber()}" th:text="上一页"></a>
+        </li>
+        <li th:each="pageNum:${#numbers.sequence(0, employees.getTotalPages() - 1)}">
+            <a th:href="'/employee/index?pageNum=' + ${pageNum}"
+               th:if="${pageNum ne employees.pageable.getPageNumber()}"
+               th:text="${pageNum + 1}"></a>
+            <a th:href="'/employee/index?pageNum=' + ${pageNum}"
+               th:if="${pageNum eq employees.pageable.getPageNumber()}"
+               th:style="'font-weight:bold;background: #6faed9;'" th:text="${pageNum + 1}"></a>
+        </li>
+        <li th:if="${employees.hasNext()}">
+            <a th:href="'/employee/index?pageNum=' + ${employees.nextPageable().getPageNumber()}" th:text="下一页"></a>
+        </li>
+        <li>
+            <a th:href="'/employee/index?pageNum=' + ${employees.getTotalPages() - 1}" th:text="尾页"></a>
+        </li>
+
+    </ul>
+</div>
+<label>
+    <input th:onclick="additionEmployee()" th:type="button" th:value="添加">
+</label>
 <form th:action="@{/logout}" th:method="post">
     <label>
         <input th:type="submit" th:value="退出">
