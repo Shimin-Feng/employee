@@ -11,19 +11,22 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final AccountService accountService;
-    private final DataSource dataSource;
+    @Resource
+    private AccountService accountService;
+    @Resource
+    private DataSource dataSource;
 
-    public SecurityConfig(AccountService accountService, DataSource dataSource) {
-        this.accountService = accountService;
-        this.dataSource = dataSource;
-    }
+//    public SecurityConfig(AccountService accountService, DataSource dataSource) {
+//        this.accountService = accountService;
+//        this.dataSource = dataSource;
+//    }
 
     @Override
     protected void configure(@NotNull AuthenticationManagerBuilder auth) throws Exception {
@@ -58,9 +61,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/timeout").permitAll()
                 .anyRequest()
                 .authenticated()
-                .and()
-                .sessionManagement()
-                .invalidSessionUrl("/timeout")
+//                .and()
+//                .sessionManagement()
+//                .invalidSessionUrl("/timeout")
                 .and()
                 .rememberMe()
                 .tokenValiditySeconds(2000)

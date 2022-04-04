@@ -5,7 +5,7 @@ spring:
     password: MySQL1672943850
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    # 禁用警告
+    # Silent
     open-in-view: true
     show-sql: true
     properties:

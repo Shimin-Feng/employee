@@ -2,16 +2,22 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta th:charset="UTF-8">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" th:crossorigin="anonymous"
+          th:integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" th:rel="stylesheet">
     <link th:href="@{/css/index.css}" th:rel="stylesheet">
     <script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}"></script>
-    <script th:src="@{https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js}"></script>
+    <!-- JavaScript Bundle with Popper -->
+    <script crossorigin="anonymous"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script th:src="@{/js/index.js}"></script>
     <title>Manage</title>
 </head>
-<body>
+<body class="container">
 <h1>员工管理</h1>
-<form th:id="employeeForm">
-    <table>
+<div>
+    <table class="table table-hover">
         <thead>
         <tr>
             <td th:text="'#'"></td>
@@ -29,8 +35,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="employee, stati: ${employees}" th:id="'trId' + ${stati.count}">
-            <td th:text="${stati.count}"></td>
+        <tr th:each="employee, stat: ${employees}" th:id="'trId' + ${stat.count}">
+            <td th:text="${stat.count}"></td>
             <td>
                 <label>
                     <input th:maxlength="25" th:type="text" th:value="${employee.employeeName}">
@@ -38,7 +44,7 @@
             </td>
             <td>
                 <label>
-                    <select th:class="${employee.employeeSex}" th:id="'sexSelectId' + ${stati.count}">
+                    <select th:class="${employee.employeeSex}" th:id="'sexSelectId' + ${stat.count}">
                         <option th:text="Male" th:value="Male"></option>
                         <option th:text="Female" th:value="Female"></option>
                     </select>
@@ -46,7 +52,7 @@
             </td>
             <td>
                 <label>
-                    <select th:class="${employee.employeeAge}" th:id="'ageSelectId' + ${stati.count}">
+                    <select th:class="${employee.employeeAge}" th:id="'ageSelectId' + ${stat.count}">
                         <option th:text="18" th:value="18"></option>
                         <option th:text="19" th:value="19"></option>
                         <option th:text="20" th:value="20"></option>
@@ -118,7 +124,7 @@
             <td th:text="${employee.lastModifiedDate}"></td>
             <td>
                 <label>
-                    <input th:onclick="updateEmployee([[${stati.count}]], [[${employee.employeeId}]], [[${employee.createdDate}]])"
+                    <input th:onclick="updateEmployee([[${stat.count}]], [[${employee.employeeId}]], [[${employee.createdDate}]])"
                            th:type="button" th:value="更改">
                 </label>
             </td>
@@ -130,7 +136,7 @@
         </tr>
         </tbody>
     </table>
-</form>
+</div>
 <div class="modal-footer no-margin-top">
     <ul class="pagination pull-right no-margin" th:if="${employees != null}">
         <li>
@@ -157,8 +163,44 @@
     </ul>
 </div>
 <label>
-    <input th:onclick="additionEmployee()" th:type="button" th:value="添加">
+    <input th:type="button" th:value="添加">
 </label>
+<button class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal" data-bs-whatever="@mdo"
+        th:onclick="additionEmployee()" type="button">Open modal for @mdo
+</button>
+<button class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal" data-bs-whatever="@fat"
+        type="button">Open modal for @fat
+</button>
+<button class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal" data-bs-whatever="@getbootstrap"
+        type="button">Open modal for @getbootstrap
+</button>
+
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="myModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="col-form-label" for="myInput">Recipient:</label>
+                        <input class="form-control" id="myInput" type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label" for="message-text">Message:</label>
+                        <textarea class="form-control" id="message-text"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                <button class="btn btn-primary" type="button">Send message</button>
+            </div>
+        </div>
+    </div>
+</div>
 <form th:action="@{/logout}" th:method="post">
     <label>
         <input th:type="submit" th:value="退出">

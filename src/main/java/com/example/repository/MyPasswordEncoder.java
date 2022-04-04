@@ -3,7 +3,7 @@ package com.example.repository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-// 这个类还可以如何使用？
+// TODO: 类 'MyPasswordEncoder' 从未使用
 public class MyPasswordEncoder implements PasswordEncoder {
     @Override
     public String encode(

@@ -11,28 +11,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.UUID;
 
 @Controller
-@RequestMapping(method = RequestMethod.POST)
 public class EmployeeController {
 
-    private final EmployeeRepository employeeRepository;
-
-    public EmployeeController(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
+    @Resource
+    private EmployeeRepository employeeRepository;
 
     // TODO: jQuery 根据时间自动调节背景颜色！
     // TODO: <input> 如何解决在使用中文输入时的错误？
     // TODO: 如何解决 HTML 中那些不该报错的报错？
     // TODO: login.html 界面 <form> 表单设置为 th:action="@{/employee/index}" 提交后为什么还是来到了这个登录界面？
-    @GetMapping("login")
+    @RequestMapping("login")
     public String login() {
         return "login";
     }
 
-    @GetMapping("employee/index")
+    @RequestMapping("employee/index")
     public String index(@NotNull Model model, @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by("createdDate"));
         Page<Employee> employees = employeeRepository.findAll(pageable);
@@ -40,13 +37,15 @@ public class EmployeeController {
         return "index";
     }
 
-    @DeleteMapping("employee/deleteEmployee/{employeeId}")
-    public String deleteEmployee(@PathVariable("employeeId") String employeeId) {
+    @RequestMapping("employee/deleteEmployee")
+    public String deleteEmployee(String employeeId) {
         employeeRepository.deleteById(employeeId);
-        return "index";
+        // TODO: 什么时候能做到删除一个 employee 后无刷新顶替一条数据时就不重定向
+        // return "index";
+        return "redirect:/employee/index";
     }
 
-    @PostMapping("employee/updateEmployee")
+    @RequestMapping("employee/updateEmployee")
     // @ModelAttribute null
     // @JsonFormat null
     // @RequestParam 400
@@ -57,17 +56,17 @@ public class EmployeeController {
         return "index";
     }
 
-    @GetMapping("/timeout")
+    @RequestMapping("/timeout")
     public String timeout() {
         return "timeout";
     }
 
-    @PostMapping("employee/save")
+    @RequestMapping("employee/save")
     public String save() {
         return "save";
     }
 
-    @PostMapping("employee/saveEmployee")
+    @RequestMapping("employee/saveEmployee")
     public String saveEmployee(@ModelAttribute Employee employee, @NotNull Model model) {
         employee.setEmployeeId(String.valueOf(UUID.randomUUID()));
         employeeRepository.save(employee);
@@ -75,7 +74,7 @@ public class EmployeeController {
         return "redirect:employee/index";
     }
 
-    @GetMapping("employee/findById/{employeeId}")
+    @RequestMapping("employee/findById/{employeeId}")
     public String findById(@PathVariable("employeeId") String employeeId, @NotNull Model model) {
         model.addAttribute("employee", employeeRepository.getById(employeeId));
         return "redirect:employee/index";

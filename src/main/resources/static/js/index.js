@@ -18,9 +18,10 @@ $(document).ready(function () {
 function deleteEmployee(employeeId, input) {
 	if (confirm('确定删除?')) {
 		$.ajax({
-			type: 'DELETE',
+			type: 'POST',
 			// 最前面必须要加斜杠/ '/employee/deleteEmployee/'
-			url: '/employee/deleteEmployee/' + employeeId,
+			url: '/employee/deleteEmployee',
+			data: {'employeeId': employeeId},
 			success: function () {
 				const tr = input.parentNode.parentNode.parentNode;
 				const tbody = tr.parentNode;
@@ -147,4 +148,10 @@ function calculateLastNumber(id17) {
 // 添加员工
 function additionEmployee() {
 	$('table').append('<tr><td>第二行</td></tr>');
+	var myModal = document.getElementById('myModal')
+	var myInput = document.getElementById('myInput')
+
+	myModal.addEventListener('shown.bs.modal', function () {
+		myInput.focus();
+	})
 }

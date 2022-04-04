@@ -1,13 +1,10 @@
 table, td {
     border: 1px solid #333;
-    border-collapse: collapse;
     text-align: center;
-    text-overflow: ellipsis;
     overflow: hidden;
 }
 
 table {
-    width: 100%;
     table-layout: fixed;
     white-space: nowrap;
 }
