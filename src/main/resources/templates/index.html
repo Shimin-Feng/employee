@@ -1,21 +1,39 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta th:charset="UTF-8">
+    <meta charset="UTF-8">
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" th:crossorigin="anonymous"
-          th:integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" th:rel="stylesheet">
-    <link th:href="@{/css/index.css}" th:rel="stylesheet">
-    <script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}"></script>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+    <link href="/css/index.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- JavaScript Bundle with Popper -->
     <script crossorigin="anonymous"
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script th:src="@{/js/index.js}"></script>
-    <title>Manage</title>
+    <script src="/js/index.js"></script>
+    <title>员工管理</title>
 </head>
 <body class="container">
-<h1>员工管理</h1>
+<div>
+    <h1>员工管理</h1>
+    <div>
+        欢迎: <a id="username" sec:authentication="name"></a>
+        <form action="/logout" id="logout" method="post">
+            <button class="btn btn-primary" type="submit">退出</button>
+        </form>
+        <form action="" id="findForm">
+            <label for="findInput">
+                <input class="form-control" id="findInput" placeholder="请输入搜索内容" type="text">
+            </label>
+            <button class="btn btn-primary" id="findButton" onclick="findEmployee()" type="button">查找员工</button>
+        </form>
+        <!-- Button trigger modal -->
+        <button class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal" id="save" type="button">
+            添加员工
+        </button>
+    </div>
+</div>
 <div>
     <table class="table table-hover">
         <thead>
@@ -39,99 +57,102 @@
             <td th:text="${stat.count}"></td>
             <td>
                 <label>
-                    <input th:maxlength="25" th:type="text" th:value="${employee.employeeName}">
+                    <input maxlength="25" th:value="${employee.employeeName}" type="text">
                 </label>
             </td>
             <td>
                 <label>
                     <select th:class="${employee.employeeSex}" th:id="'sexSelectId' + ${stat.count}">
-                        <option th:text="Male" th:value="Male"></option>
-                        <option th:text="Female" th:value="Female"></option>
+                        <option th:text="男" value="男"></option>
+                        <option th:text="女" value="女"></option>
                     </select>
                 </label>
             </td>
             <td>
                 <label>
                     <select th:class="${employee.employeeAge}" th:id="'ageSelectId' + ${stat.count}">
-                        <option th:text="18" th:value="18"></option>
-                        <option th:text="19" th:value="19"></option>
-                        <option th:text="20" th:value="20"></option>
-                        <option th:text="21" th:value="21"></option>
-                        <option th:text="22" th:value="22"></option>
-                        <option th:text="23" th:value="23"></option>
-                        <option th:text="24" th:value="24"></option>
-                        <option th:text="25" th:value="25"></option>
-                        <option th:text="26" th:value="26"></option>
-                        <option th:text="27" th:value="27"></option>
-                        <option th:text="28" th:value="28"></option>
-                        <option th:text="29" th:value="29"></option>
-                        <option th:text="30" th:value="30"></option>
-                        <option th:text="31" th:value="31"></option>
-                        <option th:text="32" th:value="32"></option>
-                        <option th:text="33" th:value="33"></option>
-                        <option th:text="34" th:value="34"></option>
-                        <option th:text="35" th:value="35"></option>
-                        <option th:text="36" th:value="36"></option>
-                        <option th:text="37" th:value="37"></option>
-                        <option th:text="38" th:value="38"></option>
-                        <option th:text="39" th:value="39"></option>
-                        <option th:text="40" th:value="40"></option>
-                        <option th:text="41" th:value="41"></option>
-                        <option th:text="42" th:value="42"></option>
-                        <option th:text="43" th:value="43"></option>
-                        <option th:text="44" th:value="44"></option>
-                        <option th:text="45" th:value="45"></option>
-                        <option th:text="46" th:value="46"></option>
-                        <option th:text="47" th:value="47"></option>
-                        <option th:text="48" th:value="48"></option>
-                        <option th:text="49" th:value="49"></option>
-                        <option th:text="50" th:value="50"></option>
-                        <option th:text="51" th:value="51"></option>
-                        <option th:text="52" th:value="52"></option>
-                        <option th:text="53" th:value="53"></option>
-                        <option th:text="54" th:value="54"></option>
-                        <option th:text="55" th:value="55"></option>
-                        <option th:text="56" th:value="56"></option>
-                        <option th:text="57" th:value="57"></option>
-                        <option th:text="58" th:value="58"></option>
-                        <option th:text="59" th:value="59"></option>
-                        <option th:text="60" th:value="60"></option>
-                        <option th:text="61" th:value="61"></option>
-                        <option th:text="62" th:value="62"></option>
-                        <option th:text="63" th:value="63"></option>
-                        <option th:text="64" th:value="64"></option>
-                        <option th:text="65" th:value="65"></option>
+                        <option th:text="18" value="18"></option>
+                        <option th:text="19" value="19"></option>
+                        <option th:text="20" value="20"></option>
+                        <option th:text="21" value="21"></option>
+                        <option th:text="22" value="22"></option>
+                        <option th:text="23" value="23"></option>
+                        <option th:text="24" value="24"></option>
+                        <option th:text="25" value="25"></option>
+                        <option th:text="26" value="26"></option>
+                        <option th:text="27" value="27"></option>
+                        <option th:text="28" value="28"></option>
+                        <option th:text="29" value="29"></option>
+                        <option th:text="30" value="30"></option>
+                        <option th:text="31" value="31"></option>
+                        <option th:text="32" value="32"></option>
+                        <option th:text="33" value="33"></option>
+                        <option th:text="34" value="34"></option>
+                        <option th:text="35" value="35"></option>
+                        <option th:text="36" value="36"></option>
+                        <option th:text="37" value="37"></option>
+                        <option th:text="38" value="38"></option>
+                        <option th:text="39" value="39"></option>
+                        <option th:text="40" value="40"></option>
+                        <option th:text="41" value="41"></option>
+                        <option th:text="42" value="42"></option>
+                        <option th:text="43" value="43"></option>
+                        <option th:text="44" value="44"></option>
+                        <option th:text="45" value="45"></option>
+                        <option th:text="46" value="46"></option>
+                        <option th:text="47" value="47"></option>
+                        <option th:text="48" value="48"></option>
+                        <option th:text="49" value="49"></option>
+                        <option th:text="50" value="50"></option>
+                        <option th:text="51" value="51"></option>
+                        <option th:text="52" value="52"></option>
+                        <option th:text="53" value="53"></option>
+                        <option th:text="54" value="54"></option>
+                        <option th:text="55" value="55"></option>
+                        <option th:text="56" value="56"></option>
+                        <option th:text="57" value="57"></option>
+                        <option th:text="58" value="58"></option>
+                        <option th:text="59" value="59"></option>
+                        <option th:text="60" value="60"></option>
+                        <option th:text="61" value="61"></option>
+                        <option th:text="62" value="62"></option>
+                        <option th:text="63" value="63"></option>
+                        <option th:text="64" value="64"></option>
+                        <option th:text="65" value="65"></option>
                     </select>
                 </label>
             </td>
             <td>
                 <label>
-                    <input th:maxlength="18" th:type="text" th:value="${employee.employeeIdCard}">
+                    <input maxlength="18" th:value="${employee.employeeIdCard}" type="text">
                 </label>
             </td>
             <td>
                 <label>
-                    <input th:maxlength="45" th:type="text" th:value="${employee.employeeAddress}">
+                    <input maxlength="45" th:value="${employee.employeeAddress}" type="text">
                 </label>
             </td>
             <td>
                 <label>
-                    <input th:maxlength="11" th:type="text" th:value="${employee.employeePhoneNumber}">
+                    <input maxlength="11" th:value="${employee.employeePhoneNumber}" type="text">
                 </label>
             </td>
             <td th:text="${employee.createdBy}"></td>
             <td th:text="${employee.createdDate}"></td>
             <td th:text="${employee.lastModifiedDate}"></td>
             <td>
-                <label>
-                    <input th:onclick="updateEmployee([[${stat.count}]], [[${employee.employeeId}]], [[${employee.createdDate}]])"
-                           th:type="button" th:value="更改">
-                </label>
+                <!-- console.log('$(\'#username\').text()---------' + $('#username').text()); -->
+                <button class="btn btn-primary"
+                        th:onclick="updateEmployee([[${stat.count}]], [[${employee.employeeId}]], [[${employee.createdDate}]])"
+                        type="button">更改
+                </button>
             </td>
             <td>
-                <label>
-                    <input th:onclick="deleteEmployee([[${employee.employeeId}]], this)" th:type="button" th:value="删除">
-                </label>
+                <form action="">
+                    <button class="btn btn-primary" th:onclick="deleteEmployee([[${employee.employeeId}]], this)"
+                            type="button">删除
+                    </button>
+                </form>
             </td>
         </tr>
         </tbody>
@@ -140,7 +161,7 @@
 <div class="modal-footer no-margin-top">
     <ul class="pagination pull-right no-margin" th:if="${employees != null}">
         <li>
-            <a th:href="'/employee/index?pageNum=0'" th:text="首页"></a>
+            <a href='/employee/index?pageNum=0' th:text="首页"></a>
         </li>
         <li th:if="${employees.hasPrevious()}">
             <a th:href="'/employee/index?pageNum=' + ${employees.previousPageable().getPageNumber()}" th:text="上一页"></a>
@@ -149,9 +170,9 @@
             <a th:href="'/employee/index?pageNum=' + ${pageNum}"
                th:if="${pageNum ne employees.pageable.getPageNumber()}"
                th:text="${pageNum + 1}"></a>
-            <a th:href="'/employee/index?pageNum=' + ${pageNum}"
-               th:if="${pageNum eq employees.pageable.getPageNumber()}"
-               th:style="'font-weight:bold;background: #6faed9;'" th:text="${pageNum + 1}"></a>
+            <a style='font-weight:bold;background: #6faed9;'
+               th:href="'/employee/index?pageNum=' + ${pageNum}"
+               th:if="${pageNum eq employees.pageable.getPageNumber()}" th:text="${pageNum + 1}"></a>
         </li>
         <li th:if="${employees.hasNext()}">
             <a th:href="'/employee/index?pageNum=' + ${employees.nextPageable().getPageNumber()}" th:text="下一页"></a>
@@ -162,49 +183,52 @@
 
     </ul>
 </div>
-<label>
-    <input th:type="button" th:value="添加">
-</label>
-<button class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal" data-bs-whatever="@mdo"
-        th:onclick="additionEmployee()" type="button">Open modal for @mdo
-</button>
-<button class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal" data-bs-whatever="@fat"
-        type="button">Open modal for @fat
-</button>
-<button class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal" data-bs-whatever="@getbootstrap"
-        type="button">Open modal for @getbootstrap
-</button>
 
-<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="myModal" tabindex="-1">
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" data-bs-backdrop="static"
+     id="exampleModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <h5 class="modal-title" id="exampleModalLabel">新员工信息</h5>
                 <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="">
                     <div class="mb-3">
-                        <label class="col-form-label" for="myInput">Recipient:</label>
-                        <input class="form-control" id="myInput" type="text">
+                        <label class="col-form-label" for="recipient-name">姓名:</label>
+                        <input class="form-control" id="recipient-name" maxlength="25" type="text">
                     </div>
                     <div class="mb-3">
-                        <label class="col-form-label" for="message-text">Message:</label>
-                        <textarea class="form-control" id="message-text"></textarea>
+                        <label class="col-form-label" for="recipient-sxe">性别:</label>
+                        <input class="form-control" id="recipient-sxe" type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label" for="recipient-age">年龄:</label>
+                        <input class="form-control" id="recipient-age" maxlength="2" type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label" for="recipient-idCard">身份证号码:</label>
+                        <input class="form-control" id="recipient-idCard" maxlength="18" type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label" for="recipient-address">住址:</label>
+                        <input class="form-control" id="recipient-address" maxlength="45" type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label" for="recipient-phoneNumber">电话号码:</label>
+                        <input class="form-control" id="recipient-phoneNumber" maxlength="11" type="text">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
-                <button class="btn btn-primary" type="button">Send message</button>
+                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">关闭</button>
+                <button class="btn btn-primary" data-bs-dismiss="modal" id="additionEmployee"
+                        onclick="additionEmployee()" type="button">确定添加
+                </button>
             </div>
         </div>
     </div>
 </div>
-<form th:action="@{/logout}" th:method="post">
-    <label>
-        <input th:type="submit" th:value="退出">
-    </label>
-</form>
 </body>
 </html>

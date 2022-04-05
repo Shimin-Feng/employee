@@ -1,32 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <meta th:charset="utf-8">
-    <meta th:name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta th:name="description">
-    <meta th:name="author">
-    <title>Please sign in</title>
-    <link th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css}" th:rel="stylesheet"
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta name="description">
+    <meta name="author">
+    <title>请登录</title>
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
-          th:crossorigin="anonymous">
-    <link th:href="@{https://getbootstrap.com/docs/4.0/examples/signin/signin.css}" th:rel="stylesheet"
-          th:crossorigin="anonymous">
+          rel="stylesheet">
+    <link crossorigin="anonymous" href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css"
+          rel="stylesheet">
 </head>
 <body>
-<div th:class="container">
-    <form th:class="form-signin" th:method="post" th:action="@{/login}">
-        <h2 th:class="form-signin-heading">Please sign in</h2>
+<div class="container">
+    <form action="/login" class="form-signin" method="post">
+        <h2 class="form-signin-heading">请登录</h2>
         <p>
-            <label th:for="username" th:class="sr-only">Username</label>
-            <input th:type="text" id="username" th:name="username" th:class="form-control" th:placeholder="Username">
+            <label class="sr-only" for="username">账号</label>
+            <input class="form-control" id="username" name="username" placeholder="Username" type="text">
         </p>
         <p>
-            <label th:for="password" th:class="sr-only">Password</label>
-            <input th:type="password" id="password" th:name="password" th:class="form-control"
-                   th:placeholder="Password">
+            <label class="sr-only" for="password">密码</label>
+            <input class="form-control" id="password" name="password" placeholder="Password" type="password">
         </p>
-        <input th:name="_csrf" type="hidden" th:value="34f6b3e4-c1ff-4158-98d5-823fbf3ca283">
-        <button class="btn btn-lg btn-primary btn-block" th:type="submit">Sign in</button>
+        <input name="_csrf" type="hidden" value="34f6b3e4-c1ff-4158-98d5-823fbf3ca283">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
     </form>
 </div>
 </body>

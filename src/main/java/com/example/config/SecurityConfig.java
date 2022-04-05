@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 // 把账号储存在数据库中，并对密码进行加密
                 .userDetailsService(accountService).passwordEncoder(new BCryptPasswordEncoder());
+
 //                .inMemoryAuthentication()
 //                .passwordEncoder(new MyPasswordEncoder())
 //                // 在登录成功后不退出就直接登录其他账号是会被挤下线的
@@ -56,7 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successForwardUrl("/employee/index")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/admin").hasRole("ADMIN")
+                // 要访问 employee/index 员工页面必须具有 ADMIN 角色
+                .antMatchers("/employee/index").hasRole("ADMIN")
                 .antMatchers("/user").hasRole("USER")
                 .antMatchers("/timeout").permitAll()
                 .anyRequest()
@@ -68,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMe()
                 .tokenValiditySeconds(2000)
                 .tokenRepository(new TokenRepository().persistentTokenRepository());
+
 //                .csrf()
 //                .disable()
 //                .formLogin()
@@ -91,11 +94,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             TokenRepository tokenRepository = new TokenRepository();
             JdbcCheckTableExitDemo jdbcCheckTableExitDemo = new JdbcCheckTableExitDemo();
             // 判断表是否存在，不存在则创建
+            System.out.println("Token 表是否存在-------------------------------------------------" + jdbcCheckTableExitDemo.isExist());
             if (!jdbcCheckTableExitDemo.isExist()) {
                 tokenRepository.setCreateTableOnStartup(true);
                 tokenRepository.initDao();
             }
             tokenRepository.setDataSource(dataSource);
+            System.out.println("已添加 Token 登录信息-------------------------------------------------");
             return tokenRepository;
         }
     }

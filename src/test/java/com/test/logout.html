@@ -2,72 +2,65 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" th:crossorigin="anonymous"
+          th:integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" th:rel="stylesheet">
     <script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script th:src="@{https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js}"></script>
-    <script type="text/javascript">
-		$(function () {
-			$(".selectDate").each(function () {
-				laydate.render({
-					elem: this,
-					trigger: 'click',
-				});
-			});
-			jQuery.validator.addMethod("info", function (value, element) {
-				var returnVal = true;
-				var isCheck = $("select[name='isCheck']").val();
-				if (isCheck === '1') {
-					returnVal = false;
-					$(element).data("error-msg", "不要忘记查验时间！");
-				}
-				return returnVal;
-			}, function (params, element) {
-				return $(element).data("error-msg");
-			});
-
-			$("#form1").validate({
-				rules: {
-					declNo: {
-						required: true
-					},
-					checkTime: {
-						info: true  //如果返回为false则展示提示信息
-					}
-				}
-			});
-		});
-    </script>
     <title>登录</title>
 </head>
 <body>
-<label>
-    <input th:type="text" th:id="username">
-    <div class="right-body">
-        <form method="post" action="javascript:void" id="appEdit_Form">
-            <table style="width:400px;" border="0" cellpadding="0" cellspacing="0"
-                   class="viewdatagrid">
-                <tbody>
-                <tr>
-                    <th width="160">编码：</th>
-                    <td width="0"><input id="code" name="code" type="text" style="width: 240px" value="" level="2"/>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+<!-- Button trigger modal -->
+<button class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal" type="button">
+    Launch demo modal
+</button>
 
-            <div class="btn-view-block">
-                <div class="toolbar">
-                    <ul>
-                        <li>
-                            <a href="javascript:void 0;" class="save" id="appEdit_btok"
-                               name="appEdit_btok"><span>保存</span></a>
-                        </li>
-                        <li>
-                    </ul>
-                </div>
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
             </div>
-        </form>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                <button class="btn btn-primary" type="button">Save changes</button>
+            </div>
+        </div>
     </div>
-</label>
+</div>
 
+
+<!-- Button trigger modal -->
+<button class="btn btn-primary" data-bs-target="#staticBackdrop" data-bs-toggle="modal" type="button">
+    Launch static backdrop modal
+</button>
+
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="staticBackdropLabel" class="modal fade" data-bs-backdrop="static"
+     data-bs-keyboard="false" id="staticBackdrop" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                <button class="btn btn-primary" type="button">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

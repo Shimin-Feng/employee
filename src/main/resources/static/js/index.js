@@ -22,7 +22,7 @@ function deleteEmployee(employeeId, input) {
 			// 最前面必须要加斜杠/ '/employee/deleteEmployee/'
 			url: '/employee/deleteEmployee',
 			data: {'employeeId': employeeId},
-			success: function () {
+			success: function (data) {
 				const tr = input.parentNode.parentNode.parentNode;
 				const tbody = tr.parentNode;
 				tbody.removeChild(tr);
@@ -31,6 +31,7 @@ function deleteEmployee(employeeId, input) {
 				for (let i = 0; i < totalNumber; i++) {
 					$('tbody tr:eq(' + i + ') td:eq(0)').html(i + 1);
 				}
+				$('table').val(data);
 			},
 			error: function () {
 				alert('删除失败，请检查后重试。');
@@ -39,25 +40,32 @@ function deleteEmployee(employeeId, input) {
 	}
 }
 
+// 验证姓名
+const regExpEmployeeName = /^[\u4e00-\u9fa5\w\s•]{1,25}$/;
+// 验证身份证
+const regExpIdCard = /^\d{15}|\d{18}|(\d{17}X|x)$/;
+// 验证住址
+const regExpEmployeeAddress = /^[\u4e00-\u9fa5\w\s•,]{2,45}$/;
+// 验证电话号码（暂时只验证在一般情况下的中国大陆移动手机号码）
+const regExpEmployeePhoneNumber = /^1[3-9]\d{9}$/;
+
 // 确定更改?
+
 function updateEmployee(count, employeeId, createdDate) {
 	// 验证姓名
 	// 已取消输入时限制（以下代码），因为体验并不好
 	// th:oninput="value=value.replace(/[^\u4e00-\u9fa5\w\s•]/,'')"
-	const regExpEmployeeName = /^[\u4e00-\u9fa5\w\s•]{1,25}$/;
 	const employeeName = $('#trId' + count + ' td:eq(1) label input').val();
 	if (!regExpEmployeeName.test(employeeName)) {
 		alert('姓名只支持由 1 - 25 个汉字、英文、数字、空格和•的组合。');
 		return false;
 	}
-
 	// 验证身份证
 	const employeeIdCard = $('#trId' + count + ' td:eq(4) label input').val();
 	if (employeeIdCard.length !== 15 && employeeIdCard.length !== 18) {
 		alert('身份证号码格式有误，请检查后重试。');
 		return false;
 	}
-	const regExpIdCard = /^\d{15}|\d{18}|(\d{17}X|x)$/;
 	// 15 位身份证
 	if (!regExpIdCard.test(employeeIdCard)) {
 		alert('身份证号码格式有误，请检查后重试。');
@@ -75,17 +83,13 @@ function updateEmployee(count, employeeId, createdDate) {
 			return false;
 		}
 	}
-
 	// 验证住址
-	const regExpEmployeeAddress = /^[\u4e00-\u9fa5\w\s•]{2,45}$/;
 	const employeeAddress = $('#trId' + count + ' td:eq(5) label input').val();
 	if (!regExpEmployeeAddress.test(employeeAddress)) {
 		alert('住址只支持由最多 45 个汉字、英文、空格和•的组合。');
 		return false;
 	}
-
 	// 验证电话号码（暂时只验证在一般情况下的中国大陆移动手机号码）
-	const regExpEmployeePhoneNumber = /^1[3-9]\d{9}$/;
 	const employeePhoneNumber = $('#trId' + count + ' td:eq(6) label input').val();
 	if (!regExpEmployeePhoneNumber.test(employeePhoneNumber)) {
 		alert('电话号码格式有误，请检查后重试。');
@@ -146,12 +150,102 @@ function calculateLastNumber(id17) {
 }
 
 // 添加员工
+// function (params) html 如何给 params 传参？
+// $('#additionEmployee').on('click', function () {
 function additionEmployee() {
-	$('table').append('<tr><td>第二行</td></tr>');
-	var myModal = document.getElementById('myModal')
-	var myInput = document.getElementById('myInput')
 
-	myModal.addEventListener('shown.bs.modal', function () {
-		myInput.focus();
+	// 验证姓名
+	// 已取消输入时限制（以下代码），因为体验并不好
+	const employeeName = $('#recipient-name').val();
+	if (!regExpEmployeeName.test(employeeName)) {
+		alert('姓名只支持由 1 - 25 个汉字、英文、数字、空格和•的组合。');
+		return false;
+	}
+
+	// 验证身份证
+	let employeeIdCard = $('#recipient-idCard').val();
+	if (employeeIdCard.length !== 15 && employeeIdCard.length !== 18) {
+		alert('请填写 15 或者 18 位身份证号码。');
+		return false;
+	}
+	// 15、18 位身份证号码第一重验证
+	if (!regExpIdCard.test(employeeIdCard)) {
+		alert('身份证号码格式有误，请检查后重试。');
+		return false;
+	}
+	// 18 位身份证号码第二重验证
+	if (employeeIdCard.length === 18) {
+		let id17 = [];
+		for (let i = 0, j = 17; i < 17, j > 0; i++, j--) {
+			id17[i] = employeeIdCard.substring(i, 18 - j);
+		}
+		const lastNumber = calculateLastNumber(id17);
+		employeeIdCard = employeeIdCard.toUpperCase();
+		if (lastNumber !== employeeIdCard.substring(17)) {
+			alert('身份证号码格式有误，请检查后重试。');
+			return false;
+		}
+	}
+
+	// 验证住址
+	const employeeAddress = $('#recipient-address').val();
+	if (!regExpEmployeeAddress.test(employeeAddress)) {
+		alert('住址只支持由最多 45 个汉字、英文、空格、英文逗号和•的组合。');
+		return false;
+	}
+
+	// 验证电话号码（暂时只验证在一般情况下的中国大陆移动手机号码）
+	const employeePhoneNumber = $('#recipient-phoneNumber').val();
+	if (!regExpEmployeePhoneNumber.test(employeePhoneNumber)) {
+		alert('电话号码格式有误，请检查后重试。');
+		return false;
+	}
+
+	const createdDate = new Date();
+
+	function Employee() {
+		this.employeeName = employeeName;
+		this.employeeSex = $('#recipient-sxe').val();
+		this.employeeAge = $('#recipient-age').val();
+		this.employeeIdCard = employeeIdCard;
+		this.employeeAddress = employeeAddress;
+		this.employeePhoneNumber = employeePhoneNumber;
+		this.createdBy = $('#username').text();
+		this.createdDate = createdDate;
+		this.lastModifiedDate = createdDate;
+	}
+
+	$.ajax({
+		type: 'POST',
+		// 下面这行非常重要，没有会报错
+		// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
+		// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
+		contentType: 'application/json',
+		url: '/employee/saveEmployee',
+		data: JSON.stringify(new Employee()),
+		success: function (data) {
+			$('table').val(data);
+		},
+		error: function () {
+			alert('添加失败，请检查后重试。');
+		}
+	})
+}
+
+// 查找员工
+function findEmployee() {
+	$.ajax({
+		type: 'POST',
+		// 下面这行非常重要，没有会报错
+		// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
+		// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
+		url: '/employee/findEmployee',
+		data: {'param': $('#findInput').val()},
+		success: function (data) {
+			$('table').val(data);
+		},
+		error: function () {
+			alert('查询失败，请检查字段后重试。');
+		}
 	})
 }

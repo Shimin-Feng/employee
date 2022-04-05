@@ -3,13 +3,12 @@ package com.example.controller;
 import com.example.entity.Employee;
 import com.example.repository.EmployeeRepository;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import java.util.UUID;
@@ -30,7 +29,8 @@ public class EmployeeController {
     }
 
     @RequestMapping("employee/index")
-    public String index(@NotNull Model model, @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+    public String index(@NotNull Model model, @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
+                        @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by("createdDate"));
         Page<Employee> employees = employeeRepository.findAll(pageable);
         model.addAttribute("employees", employees);
@@ -42,15 +42,12 @@ public class EmployeeController {
         employeeRepository.deleteById(employeeId);
         // TODO: 什么时候能做到删除一个 employee 后无刷新顶替一条数据时就不重定向
         // return "index";
+        // TODO: 为什么重定向设置不起作用？是因为发送的是 ajax 请求吗？
+        // TODO: 删除数据之后没有数据顶替
         return "redirect:/employee/index";
     }
 
     @RequestMapping("employee/updateEmployee")
-    // @ModelAttribute null
-    // @JsonFormat null
-    // @RequestParam 400
-    // @RequestAttribute 400
-    // @RequestBody 415
     public String updateEmployee(@RequestBody Employee employee) {
         employeeRepository.save(employee);
         return "index";
@@ -61,22 +58,32 @@ public class EmployeeController {
         return "timeout";
     }
 
-    @RequestMapping("employee/save")
-    public String save() {
-        return "save";
-    }
-
     @RequestMapping("employee/saveEmployee")
-    public String saveEmployee(@ModelAttribute Employee employee, @NotNull Model model) {
+    public String saveEmployee(@RequestBody @NotNull Employee employee) {
         employee.setEmployeeId(String.valueOf(UUID.randomUUID()));
         employeeRepository.save(employee);
-        model.addAttribute("employee", employeeRepository.findAll());
-        return "redirect:employee/index";
+        return "index";
     }
 
-    @RequestMapping("employee/findById/{employeeId}")
-    public String findById(@PathVariable("employeeId") String employeeId, @NotNull Model model) {
-        model.addAttribute("employee", employeeRepository.getById(employeeId));
-        return "redirect:employee/index";
+    @RequestMapping("employee/findEmployee")
+    // TODO: 搜索后的数据没有显示出来
+    public String findById(String param, @NotNull Model model, @RequestParam(value = "pageNum",
+            defaultValue = "0") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by("createdDate"));
+        Employee employee = new Employee();
+        employee.setEmployeeName(param);
+
+
+        // endsWith() 是 employeeName 结尾为喜欢的数据
+        ExampleMatcher exampleMatcher = ExampleMatcher.matchingAll().withMatcher("employeeName",
+                ExampleMatcher.GenericPropertyMatchers.contains()).withIgnorePaths("employeeId");
+
+
+        //创建实例
+        Example<Employee> example = Example.of(employee, exampleMatcher);
+        Page<Employee> page = employeeRepository.findAll(example, pageable);
+        model.addAttribute("employee", page);
+        return "redirect:/employee/index";
     }
+
 }
