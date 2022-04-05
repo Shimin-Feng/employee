@@ -5,19 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/save.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/save.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/timeout.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/timeout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/Id18.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/Id18.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/logout.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/logout.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,7 +175,7 @@
       <workItem from="1648816068294" duration="1049000" />
       <workItem from="1648818392004" duration="35845000" />
       <workItem from="1648977274664" duration="36903000" />
-      <workItem from="1649053344052" duration="54756000" />
+      <workItem from="1649053344052" duration="55194000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1648665299036</created>
@@ -231,7 +219,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649070978512</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="完善添加功能&#10;简化代码&#10;其他优化">
+      <created>1649189525424</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1649189525424</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -271,7 +266,8 @@
     <MESSAGE value="Something changes." />
     <MESSAGE value="增加分页、其他优化" />
     <MESSAGE value="其他优化" />
-    <option name="LAST_COMMIT_MESSAGE" value="其他优化" />
+    <MESSAGE value="完善添加功能&#10;简化代码&#10;其他优化" />
+    <option name="LAST_COMMIT_MESSAGE" value="完善添加功能&#10;简化代码&#10;其他优化" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
