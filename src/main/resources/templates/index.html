@@ -174,7 +174,7 @@
                 <div class="modal-footer no-margin-top">
                     <ul class="pagination pull-right no-margin" th:if="${employees != null}">
                         <li>
-                            <a th:href="'/employee/index?pageNum=0'" th:text="首页"></a>
+                            <a methods="post" th:href="'/employee/index?pageNum=0'" th:text="首页"></a>
                         </li>
                         <li th:if="${employees.hasPrevious()}">
                             <a th:href="'/employee/index?pageNum=' + ${employees.previousPageable().getPageNumber()}"
@@ -203,7 +203,6 @@
         </tfoot>
     </table>
 </div>
-
 
 <!-- Modal -->
 <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" data-bs-backdrop="static"

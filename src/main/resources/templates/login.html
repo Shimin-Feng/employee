@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
@@ -11,11 +11,25 @@
           rel="stylesheet">
     <link crossorigin="anonymous" href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css"
           rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+		$(document).ready(function () {
+			$('.btn-primary').on('click', function () {
+				if ($('#username').val() === '' || $('#password').val() === '') {
+					alert('请先输入账号和密码。');
+					return false;
+				}
+			})
+		})
+    </script>
 </head>
 <body>
 <div class="container">
     <form action="/login" class="form-signin" method="post">
         <h2 class="form-signin-heading">请登录</h2>
+        <!-- 从 Spring Security4 开始 CSRF 防护默认开启。默认会拦截请求。进行 CSRF 处理。CSRF 为了保证不是其他第三方网站访问，
+        要求访问时携带参数名为_csrf 值为 token(token 在服务端产生)的内容，如果token 和服务端的 token 匹配成功，则正常访问。 -->
+        <!--<input name="_csrf" th:if="${_csrf}" th:value="${_csrf.token}" type="hidden"/>-->
         <p>
             <label class="sr-only" for="username">账号</label>
             <input class="form-control" id="username" name="username" placeholder="Username" type="text">

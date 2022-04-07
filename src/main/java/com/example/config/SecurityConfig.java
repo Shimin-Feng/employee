@@ -25,11 +25,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(@NotNull AuthenticationManagerBuilder auth) throws Exception {
-        if (accountService != null) {
-            auth
-                    // 把账号储存在数据库中，并对密码进行加密
-                    .userDetailsService(accountService).passwordEncoder(new BCryptPasswordEncoder());
-        }
+        auth
+                // passwordEncoder(new BCryptPasswordEncoder()) 密码加密方式
+                .userDetailsService(accountService).passwordEncoder(new BCryptPasswordEncoder());
+
 //                .inMemoryAuthentication()
 //                .passwordEncoder(new MyPasswordEncoder())
 //                // 在登录成功后不退出就直接登录其他账号是会被挤下线的
@@ -44,28 +43,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(@NotNull HttpSecurity http) throws Exception {
         http
+                // 关闭 csrf（Cross-site request forgery 跨站请求伪造）防护
                 .csrf()
                 .disable()
                 .formLogin()
+                // 所有的登录请求都被允许，不设置就无法访问登录界面
                 .loginPage("/login")
                 .permitAll()
-                .loginProcessingUrl("/login")
-                .successForwardUrl("/employee/index")
+                // 登录处理网址
+                // TODO: 有何作用？
+                /*.loginProcessingUrl("/login")
+                // 登录成功后到达的页面
+                .successForwardUrl("/employee/index")*/
                 .and()
+                // 授权请求
+                // TODO: 验证出问题了！！！
                 .authorizeRequests()
-                // 要访问 employee/index 员工页面必须具有 ADMIN 角色
+                // 如要访问 employee/* 页面必须具有 ROLE_ADMIN 权限
                 .antMatchers("/employee/index").hasRole("ADMIN")
-                .antMatchers("/user").hasRole("USER")
-                .antMatchers("/timeout").permitAll()
+                .antMatchers("/user").hasAuthority("USER")
+                // .antMatchers("/timeout").permitAll()
+                // 任何请求都需要通过认证
                 .anyRequest()
                 .authenticated()
-                .and()
+                /*.and()
+                // 开启超时检测
                 .sessionManagement()
-                .invalidSessionUrl("/timeout")
-                .and()
+                // 如果超时则跳转到以下页面
+                .invalidSessionUrl("/timeout")*/
+                /*.and()
+                // 开启’记住我‘功能
                 .rememberMe()
-                .tokenValiditySeconds(2000)
-                .tokenRepository(new TokenRepository().persistentTokenRepository());
+                // ’记住我‘ 86400 秒/一天，即使服务器重启也不会下线，除非其主动退出登录
+                .tokenValiditySeconds(86400)
+                // 并存储进数据库
+                .tokenRepository(new TokenRepository().persistentTokenRepository())*/;
 
 //                .csrf()
 //                .disable()

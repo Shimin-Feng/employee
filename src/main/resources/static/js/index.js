@@ -223,9 +223,10 @@ function findEmployee(param) {
 				const array2 = array1[1].split('</tbody>');
 				const array3 = array2[1].split('<div class="modal-footer no-margin-top">');
 				let array4 = array3[1].split('</div>', 1181);
-				const regExp = /index/g;
+				const regExp = /index\?/g;
 				// 把对象也写进页面请求路径中
-				array4 = array4[0].replace(regExp, 'findEmployee');
+				// encodeURIComponent(JSON.stringify(new Employee()))
+				array4 = array4[0].replace(regExp, 'findEmployee?' + encodeURIComponent(JSON.stringify(new Employee())) + '&');
 				// 截取字符串之后不需要将其转换为 HTML
 				// $('tbody').html($(array2[0]));
 				$('tbody').html(array2[0]);
