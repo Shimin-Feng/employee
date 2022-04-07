@@ -979,63 +979,282 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     <user id="282" parent="1" name="root">
       <Host>localhost</Host>
     </user>
-    <table id="283" parent="274" name="employee">
+    <table id="283" parent="274" name="account">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <column id="284" parent="283" name="employee_id">
-      <DataType>varchar(45)|0s</DataType>
+    <table id="284" parent="274" name="employee">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="285" parent="274" name="execution_jobs">
+      <Comment>long execId;
+long projectId;
+long version;
+String flowId;
+String jobId;
+int attempt;
+long startTime;
+long endTime;</Comment>
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="286" parent="274" name="hibernate_sequence">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8_general_ci</CollationName>
+    </table>
+    <table id="287" parent="274" name="persistent_logins">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="288" parent="274" name="user">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <column id="289" parent="283" name="account_id">
+      <DataType>varchar(36)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="285" parent="283" name="employee_name">
+    <column id="290" parent="283" name="username">
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="286" parent="283" name="employee_age">
-      <DataType>int|0s</DataType>
+    <column id="291" parent="283" name="password">
+      <DataType>varchar(60)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="287" parent="283" name="employee_sex">
+    <column id="292" parent="283" name="role">
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="288" parent="283" name="employee_id_card">
+    <index id="293" parent="283" name="table_account_column_id_uindex">
+      <ColNames>account_id</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="294" parent="283" name="table_account_column_username_uindex">
+      <ColNames>username</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="295" parent="283" name="PRIMARY">
+      <ColNames>account_id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+    </key>
+    <key id="296" parent="283" name="table_account_column_id_uindex">
+      <ColNames>account_id</ColNames>
+      <UnderlyingIndexName>table_account_column_id_uindex</UnderlyingIndexName>
+    </key>
+    <key id="297" parent="283" name="table_account_column_username_uindex">
+      <ColNames>username</ColNames>
+      <UnderlyingIndexName>table_account_column_username_uindex</UnderlyingIndexName>
+    </key>
+    <column id="298" parent="284" name="employee_id">
+      <Comment>由 Java UUID 类生成的 36 位 id</Comment>
+      <DataType>varchar(36)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="299" parent="284" name="employee_name">
       <DataType>varchar(45)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="300" parent="284" name="employee_age">
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="301" parent="284" name="employee_sex">
+      <DataType>varchar(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="302" parent="284" name="employee_id_card">
+      <Comment>大陆 18 位</Comment>
+      <DataType>varchar(18)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="289" parent="283" name="employee_address">
+    <column id="303" parent="284" name="employee_address">
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="290" parent="283" name="employee_phone_number">
-      <DataType>varchar(45)|0s</DataType>
+    <column id="304" parent="284" name="employee_phone_number">
+      <Comment>最长: +121(101)77773333</Comment>
+      <DataType>varchar(17)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
-    <column id="291" parent="283" name="created_by">
-      <DataType>varchar(45)|0s</DataType>
+    <column id="305" parent="284" name="created_by">
+      <DataType>varchar(10)|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>8</Position>
     </column>
-    <column id="292" parent="283" name="created_date">
+    <column id="306" parent="284" name="created_date">
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <Position>9</Position>
     </column>
-    <column id="293" parent="283" name="last_modified_date">
+    <column id="307" parent="284" name="last_modified_date">
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <Position>10</Position>
     </column>
-    <key id="294" parent="283" name="PRIMARY">
+    <foreign-key id="308" parent="284" name="employee_account_username_fk">
+      <ColNames>created_by</ColNames>
+      <RefColNames>username</RefColNames>
+      <RefTableName>account</RefTableName>
+    </foreign-key>
+    <index id="309" parent="284" name="employee_employee_id_uindex">
+      <ColNames>employee_id</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="310" parent="284" name="employee_account_username_fk">
+      <ColNames>created_by</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="311" parent="284" name="PRIMARY">
       <ColNames>employee_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
+    </key>
+    <key id="312" parent="284" name="employee_employee_id_uindex">
+      <ColNames>employee_id</ColNames>
+      <UnderlyingIndexName>employee_employee_id_uindex</UnderlyingIndexName>
+    </key>
+    <column id="313" parent="285" name="exec_id">
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="314" parent="285" name="project_id">
+      <DataType>bigint|0s</DataType>
+      <Position>2</Position>
+    </column>
+    <column id="315" parent="285" name="version">
+      <DataType>bigint|0s</DataType>
+      <Position>3</Position>
+    </column>
+    <column id="316" parent="285" name="flow_id">
+      <DataType>varchar(45)|0s</DataType>
+      <Position>4</Position>
+    </column>
+    <column id="317" parent="285" name="job_id">
+      <DataType>varchar(45)|0s</DataType>
+      <Position>5</Position>
+    </column>
+    <column id="318" parent="285" name="attempt">
+      <DataType>int|0s</DataType>
+      <Position>6</Position>
+    </column>
+    <column id="319" parent="285" name="start_time">
+      <DataType>bigint|0s</DataType>
+      <Position>7</Position>
+    </column>
+    <column id="320" parent="285" name="end_time">
+      <DataType>bigint|0s</DataType>
+      <Position>8</Position>
+    </column>
+    <column id="321" parent="285" name="status">
+      <DataType>tinyint|0s</DataType>
+      <Position>9</Position>
+    </column>
+    <column id="322" parent="285" name="input_params">
+      <DataType>longblob|0s</DataType>
+      <Position>10</Position>
+    </column>
+    <column id="323" parent="285" name="output_params">
+      <DataType>longblob|0s</DataType>
+      <Position>11</Position>
+    </column>
+    <column id="324" parent="285" name="attachments">
+      <DataType>longblob|0s</DataType>
+      <Position>12</Position>
+    </column>
+    <key id="325" parent="285" name="PRIMARY">
+      <ColNames>exec_id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+    </key>
+    <column id="326" parent="286" name="next_val">
+      <DataType>bigint|0s</DataType>
+      <Position>1</Position>
+    </column>
+    <column id="327" parent="287" name="username">
+      <DataType>varchar(64)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="328" parent="287" name="series">
+      <DataType>varchar(64)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="329" parent="287" name="token">
+      <DataType>varchar(64)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="330" parent="287" name="last_used">
+      <DataType>timestamp|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <key id="331" parent="287" name="PRIMARY">
+      <ColNames>series</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+    </key>
+    <column id="332" parent="288" name="id">
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="333" parent="288" name="user_name">
+      <DataType>varchar(45)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="334" parent="288" name="pass_word">
+      <DataType>varchar(45)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="335" parent="288" name="email">
+      <DataType>varchar(45)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="336" parent="288" name="nick_name">
+      <DataType>varchar(45)|0s</DataType>
+      <Position>5</Position>
+    </column>
+    <column id="337" parent="288" name="reg_time">
+      <DataType>varchar(45)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+    </column>
+    <index id="338" parent="288" name="user_id_uindex">
+      <ColNames>id</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="339" parent="288" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+    </key>
+    <key id="340" parent="288" name="user_id_uindex">
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>user_id_uindex</UnderlyingIndexName>
     </key>
   </database-model>
 </dataSource>

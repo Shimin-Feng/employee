@@ -6,13 +6,17 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     # Silent
-    open-in-view: true
+    #    open-in-view: true
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-  thymeleaf:
-    encoding: utf-8
+server:
+  servlet:
+    session:
+      timeout: 1800
+#  thymeleaf:
+#    encoding: utf-8
 #  security:
 #    user:
 #      name: admin

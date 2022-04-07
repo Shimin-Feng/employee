@@ -20,12 +20,21 @@ public class AccountService implements UserDetailsService {
         this.accountRepository = accountRepository;
     }
 
+    /**
+     * 有时候会报以下错误：
+     * An internal error occurred while trying to authenticate the user.
+     * org.springframework.security.authentication.InternalAuthenticationServiceException:
+     * UserDetailsService returned null, which is an interface contract violation
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = new Account();
-        account.setUsername(username);
-        Example<Account> example = Example.of(account);
-        Optional<Account> optional = accountRepository.findOne(example);
-        return optional.map(value -> User.withUsername(value.getUsername()).password(value.getPassword()).roles(value.getRole()).build()).orElse(null);
+        if (username != null && !username.equals("")) {
+            Account account = new Account();
+            account.setUsername(username);
+            Example<Account> example = Example.of(account);
+            Optional<Account> optional = accountRepository.findOne(example);
+            return optional.map(value -> User.withUsername(value.getUsername()).password(value.getPassword()).roles(value.getRole()).build()).orElse(null);
+        }
+        return null;
     }
 }

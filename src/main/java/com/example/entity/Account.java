@@ -9,6 +9,7 @@ import org.hibernate.Hibernate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
@@ -16,7 +17,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class Account {
+public class Account implements Serializable {
     @Id
     private String accountId;
     @Column

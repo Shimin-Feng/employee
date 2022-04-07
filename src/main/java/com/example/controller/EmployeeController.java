@@ -53,6 +53,7 @@ public class EmployeeController {
         return "index";
     }
 
+    // TODO: 为什么点退出会来的 timeout 页面？
     @RequestMapping("/timeout")
     public String timeout() {
         return "timeout";
@@ -62,28 +63,51 @@ public class EmployeeController {
     public String saveEmployee(@RequestBody @NotNull Employee employee) {
         employee.setEmployeeId(String.valueOf(UUID.randomUUID()));
         employeeRepository.save(employee);
-        return "index";
+        return "redirect:/employee/index";
     }
 
     @RequestMapping("employee/findEmployee")
-    // TODO: 搜索后的数据没有显示出来
-    public String findById(String param, @NotNull Model model, @RequestParam(value = "pageNum",
+    // TODO: 搜索后的数据在页面没有显示出来
+    // 如果没有 @RequestBody，就接收不到 jQuery 传过来的值
+    // http://localhost:8080/employee/index?pageNum=1
+    // http://localhost:8080/employee/findEmployee?pageNum=1
+    public String findEmployee(@RequestBody Employee employee, @NotNull Model model, @RequestParam(value = "pageNum",
             defaultValue = "0") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by("createdDate"));
-        Employee employee = new Employee();
-        employee.setEmployeeName(param);
+        // TODO: 如何匹配多个字段？比如 String[] params，我要如何匹配数组的值给对象的属性
 
 
-        // endsWith() 是 employeeName 结尾为喜欢的数据
-        ExampleMatcher exampleMatcher = ExampleMatcher.matchingAll().withMatcher("employeeName",
-                ExampleMatcher.GenericPropertyMatchers.contains()).withIgnorePaths("employeeId");
+        // .matchingAll()                                返回一个匹配所有字段的 ExampleMatcher 对象
+        // .withMatcher(                                 规则匹配器
+        //      "employeeName",                          propertyPath "employeeName" 需要匹配的字段名
+        //      ExampleMatcher
+        //          .GenericPropertyMatchers
+        //          .contains()                          匹配规则，表示 like %？%，主要用于模糊查询，匹配任意位置
+        // )
+        // .withIgnoreCase("employeeName")               忽略数据库该字段的大小写，也可以多个字段参数
+        // .withIgnoreCase(true)                         默认忽略大小写，所以不需要设置
+        // .withIgnorePaths("employeeId")                需要忽略匹配的数据库字段。不对 "employeeId" 字段进行任何处理
+        ExampleMatcher exampleMatcher = ExampleMatcher
+                .matchingAll()
+                // TODO: 每个字段都需要单独设置规则匹配器。如何简化？
+                .withMatcher("employeeName", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("employeeSex", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("employeeAge", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("employeeIdCard", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("employeeAddress", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("employeePhoneNumber", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("createdBy", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("createdDate", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("lastModifiedDate", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withIgnorePaths("employeeId");
 
 
-        //创建实例
         Example<Employee> example = Example.of(employee, exampleMatcher);
-        Page<Employee> page = employeeRepository.findAll(example, pageable);
-        model.addAttribute("employee", page);
-        return "redirect:/employee/index";
+        System.out.println("---------------------------------------" + exampleMatcher);
+        Page<Employee> employees = employeeRepository.findAll(example, pageable);
+        model.addAttribute("employees", employees);
+        return "index";
     }
 
 }

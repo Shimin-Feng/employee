@@ -1,24 +1,9 @@
 package com.test;
 
-import java.util.Date;
-import java.util.UUID;
-
-public class Id18 {
-    //    public static void main(String[] args) {
-//
-//        //把uuid的时间戳转成可以识别的时间戳
-////        LocalDateTime localDateTime = LocalDateTime.ofEpochSecond(138140162874696958L - 0x01b21dd213814000L, 0, ZoneOffset.ofHours(8));
-////        System.out.println("localDateTime.now() = " + LocalDateTime.now());
-//
-
-
+public class Test {
     public static void main(String[] args) {
-        UUID uuid = UUID.randomUUID();
-        System.out.println(uuid);
-        System.out.println(UUID.randomUUID());
-        Date date = new Date();
-        System.out.println(date);
 
+//        // admin1/2/3
 //        String a1 = BCrypt.hashpw("WsmW%SVCmz8K*aT%tj", BCrypt.gensalt());
 //        System.out.println(a1);
 //        String a2 = BCrypt.hashpw("nDr6%RE&n3j45FF7$*%", BCrypt.gensalt());
@@ -33,6 +18,7 @@ public class Id18 {
 //        System.out.println(e2);
 //        String e3 = BCrypt.hashpw("Bg2nbRM*n7LyDD$LmSX", BCrypt.gensalt());
 //        System.out.println(e3);
+
     }
 
 }

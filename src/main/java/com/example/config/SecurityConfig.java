@@ -23,17 +23,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private DataSource dataSource;
 
-//    public SecurityConfig(AccountService accountService, DataSource dataSource) {
-//        this.accountService = accountService;
-//        this.dataSource = dataSource;
-//    }
-
     @Override
     protected void configure(@NotNull AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                // 把账号储存在数据库中，并对密码进行加密
-                .userDetailsService(accountService).passwordEncoder(new BCryptPasswordEncoder());
-
+        if (accountService != null) {
+            auth
+                    // 把账号储存在数据库中，并对密码进行加密
+                    .userDetailsService(accountService).passwordEncoder(new BCryptPasswordEncoder());
+        }
 //                .inMemoryAuthentication()
 //                .passwordEncoder(new MyPasswordEncoder())
 //                // 在登录成功后不退出就直接登录其他账号是会被挤下线的
@@ -63,9 +59,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/timeout").permitAll()
                 .anyRequest()
                 .authenticated()
-//                .and()
-//                .sessionManagement()
-//                .invalidSessionUrl("/timeout")
+                .and()
+                .sessionManagement()
+                .invalidSessionUrl("/timeout")
                 .and()
                 .rememberMe()
                 .tokenValiditySeconds(2000)
@@ -100,7 +96,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 tokenRepository.initDao();
             }
             tokenRepository.setDataSource(dataSource);
-            System.out.println("已添加 Token 登录信息-------------------------------------------------");
             return tokenRepository;
         }
     }

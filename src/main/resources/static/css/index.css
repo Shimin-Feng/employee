@@ -13,10 +13,18 @@ h1 {
     text-align: center;
 }
 
-#username, #logout, #save, #findForm {
+#username, #logout, #save {
     display: inline-block;
 }
 
 #save {
     float: right;
+}
+
+#findButton {
+    margin-right: 10px;
+}
+
+#findSelect {
+    margin-left: 10px;
 }

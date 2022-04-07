@@ -12,15 +12,22 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * Serializable
+ * 系列化的用途：
+ * 需要把内存中的对象状态保存到一个文件中或者数据库中时候
+ * 需要把对象通过网络进行传播的时候
+ */
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @Entity
-public class Employee {
+public class Employee implements Serializable {
 
     @Id
     private String employeeId;
@@ -58,4 +65,5 @@ public class Employee {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }

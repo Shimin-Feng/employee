@@ -8,37 +8,37 @@ $(document).ready(function () {
 		let sex = $('#sexSelectId' + i).attr('class');
 		// every employee's age
 		let age = $('#ageSelectId' + i).attr('class');
-		// æ ¹æ®æ€§åˆ«ä½¿ option é€‰ä¸­
+		// ¸ù¾İĞÔ±ğÊ¹ option Ñ¡ÖĞ
 		$('#sexSelectId' + i + " option[value='" + sex + "']").attr('selected', 'selected');
-		// æ ¹æ®å¹´é¾„ä½¿ option é€‰ä¸­
+		// ¸ù¾İÄêÁäÊ¹ option Ñ¡ÖĞ
 		$('#ageSelectId' + i + " option[value='" + age + "']").attr('selected', 'selected');
 	}
 
-	// æ·»åŠ å‘˜å·¥
+	// Ìí¼ÓÔ±¹¤
 	// function (params)
-	// html å¦‚ä½•ç»™ params ä¼ å‚ï¼Ÿ
+	// html ÈçºÎ¸ø params ´«²Î£¿
 	$('#saveEmployee').on('click', function () {
 
-		// éªŒè¯å§“å
-		// å·²å–æ¶ˆè¾“å…¥æ—¶é™åˆ¶ï¼ˆä»¥ä¸‹ä»£ç ï¼‰ï¼Œå› ä¸ºä½“éªŒå¹¶ä¸å¥½
+		// ÑéÖ¤ĞÕÃû
+		// ÒÑÈ¡ÏûÊäÈëÊ±ÏŞÖÆ£¨ÒÔÏÂ´úÂë£©£¬ÒòÎªÌåÑé²¢²»ºÃ
 		const employeeName = $('#recipient-name').val();
 		if (!regExpEmployeeName.test(employeeName)) {
-			alert('å§“ååªæ”¯æŒç”± 1 - 25 ä¸ªæ±‰å­—ã€è‹±æ–‡ã€æ•°å­—ã€ç©ºæ ¼å’Œâ€¢çš„ç»„åˆã€‚');
+			alert('ĞÕÃûÖ»Ö§³ÖÓÉ 1 - 25 ¸öºº×Ö¡¢Ó¢ÎÄ¡¢Êı×Ö¡¢¿Õ¸ñºÍ?µÄ×éºÏ¡£');
 			return false;
 		}
 
-		// éªŒè¯èº«ä»½è¯
+		// ÑéÖ¤Éí·İÖ¤
 		let employeeIdCard = $('#recipient-idCard').val();
 		if (employeeIdCard.length !== 15 && employeeIdCard.length !== 18) {
-			alert('è¯·å¡«å†™ 15 æˆ–è€… 18 ä½èº«ä»½è¯å·ç ã€‚');
+			alert('ÇëÌîĞ´ 15 »òÕß 18 Î»Éí·İÖ¤ºÅÂë¡£');
 			return false;
 		}
-		// 15ã€18 ä½èº«ä»½è¯å·ç ç¬¬ä¸€é‡éªŒè¯
+		// 15¡¢18 Î»Éí·İÖ¤ºÅÂëµÚÒ»ÖØÑéÖ¤
 		if (!regExpIdCard.test(employeeIdCard)) {
-			alert('èº«ä»½è¯å·ç æ ¼å¼æœ‰è¯¯ï¼Œè¯·æ£€æŸ¥åé‡è¯•ã€‚');
+			alert('Éí·İÖ¤ºÅÂë¸ñÊ½ÓĞÎó£¬Çë¼ì²éºóÖØÊÔ¡£');
 			return false;
 		}
-		// 18 ä½èº«ä»½è¯å·ç ç¬¬äºŒé‡éªŒè¯
+		// 18 Î»Éí·İÖ¤ºÅÂëµÚ¶şÖØÑéÖ¤
 		if (employeeIdCard.length === 18) {
 			let id17 = [];
 			for (let i = 0, j = 17; i < 17, j > 0; i++, j--) {
@@ -47,22 +47,22 @@ $(document).ready(function () {
 			const lastNumber = calculateLastNumber(id17);
 			employeeIdCard = employeeIdCard.toUpperCase();
 			if (lastNumber !== employeeIdCard.substring(17)) {
-				alert('èº«ä»½è¯å·ç æ ¼å¼æœ‰è¯¯ï¼Œè¯·æ£€æŸ¥åé‡è¯•ã€‚');
+				alert('Éí·İÖ¤ºÅÂë¸ñÊ½ÓĞÎó£¬Çë¼ì²éºóÖØÊÔ¡£');
 				return false;
 			}
 		}
 
-		// éªŒè¯ä½å€
+		// ÑéÖ¤×¡Ö·
 		const employeeAddress = $('#recipient-address').val();
 		if (!regExpEmployeeAddress.test(employeeAddress)) {
-			alert('ä½å€åªæ”¯æŒç”±æœ€å¤š 45 ä¸ªæ±‰å­—ã€è‹±æ–‡ã€ç©ºæ ¼ã€è‹±æ–‡é€—å·å’Œâ€¢çš„ç»„åˆã€‚');
+			alert('×¡Ö·Ö»Ö§³ÖÓÉ×î¶à 45 ¸öºº×Ö¡¢Ó¢ÎÄ¡¢¿Õ¸ñ¡¢Ó¢ÎÄ¶ººÅºÍ?µÄ×éºÏ¡£');
 			return false;
 		}
 
-		// éªŒè¯ç”µè¯å·ç ï¼ˆæš‚æ—¶åªéªŒè¯åœ¨ä¸€èˆ¬æƒ…å†µä¸‹çš„ä¸­å›½å¤§é™†ç§»åŠ¨æ‰‹æœºå·ç ï¼‰
+		// ÑéÖ¤µç»°ºÅÂë£¨ÔİÊ±Ö»ÑéÖ¤ÔÚÒ»°ãÇé¿öÏÂµÄÖĞ¹ú´óÂ½ÒÆ¶¯ÊÖ»úºÅÂë£©
 		const employeePhoneNumber = $('#recipient-phoneNumber').val();
 		if (!regExpEmployeePhoneNumber.test(employeePhoneNumber)) {
-			alert('ç”µè¯å·ç æ ¼å¼æœ‰è¯¯ï¼Œè¯·æ£€æŸ¥åé‡è¯•ã€‚');
+			alert('µç»°ºÅÂë¸ñÊ½ÓĞÎó£¬Çë¼ì²éºóÖØÊÔ¡£');
 			return false;
 		}
 
@@ -82,7 +82,7 @@ $(document).ready(function () {
 
 		$.ajax({
 			type: 'POST',
-			// ä¸‹é¢è¿™è¡Œéå¸¸é‡è¦ï¼Œæ²¡æœ‰ä¼šæŠ¥é”™
+			// ÏÂÃæÕâĞĞ·Ç³£ÖØÒª£¬Ã»ÓĞ»á±¨´í
 			// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
 			// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
 			contentType: 'application/json',
@@ -128,14 +128,14 @@ $(document).ready(function () {
 				}
 			},
 			error: function () {
-				alert('æ·»åŠ å¤±è´¥ï¼Œè¯·æ£€æŸ¥åé‡è¯•ã€‚');
+				alert('Ìí¼ÓÊ§°Ü£¬Çë¼ì²éºóÖØÊÔ¡£');
 			}
 		})
 	})
 
-	// æŸ¥æ‰¾å‘˜å·¥
-	// å°è¯•è¿‡æŠŠä¸‹é¢ä¸¤ä¸ªæ–¹æ³•å†™è¿›ä¸€ä¸ªæ–¹æ³•é‡Œï¼Œä½†ä¸ç†æƒ³
-	// ç‚¹å‡»äº‹ä»¶
+	// ²éÕÒÔ±¹¤
+	// ³¢ÊÔ¹ı°ÑÏÂÃæÁ½¸ö·½·¨Ğ´½øÒ»¸ö·½·¨Àï£¬µ«²»ÀíÏë
+	// µã»÷ÊÂ¼ş
 	$('#findButton').on('click', function () {
 		const param = $('#findInput').val();
 		if (param !== '') {
@@ -143,7 +143,7 @@ $(document).ready(function () {
 			$('#findButton').blur();
 		}
 	})
-	// è¾“å…¥å®Œæœç´¢å†…å®¹åçš„å›è½¦äº‹ä»¶
+	// ÊäÈëÍêËÑË÷ÄÚÈİºóµÄ»Ø³µÊÂ¼ş
 	$('#findInput').on('keydown', function (e) {
 		const findInput = $('#findInput');
 		const param = findInput.val();
@@ -158,16 +158,16 @@ $(document).ready(function () {
 
 });
 
-// å§“åæ­£åˆ™
-const regExpEmployeeName = /^[\u4e00-\u9fa5\w\sâ€¢]{1,25}$/;
-// èº«ä»½è¯æ­£åˆ™
+// ĞÕÃûÕıÔò
+const regExpEmployeeName = /^[\u4e00-\u9fa5\w\s?]{1,25}$/;
+// Éí·İÖ¤ÕıÔò
 const regExpIdCard = /^\d{15}|\d{18}|(\d{17}X|x)$/;
-// ä½å€æ­£åˆ™
-const regExpEmployeeAddress = /^[\u4e00-\u9fa5\w\sâ€¢,]{2,45}$/;
-// ç”µè¯å·ç æ­£åˆ™ï¼ˆæš‚æ—¶åªéªŒè¯åœ¨ä¸€èˆ¬æƒ…å†µä¸‹çš„ä¸­å›½å¤§é™†ç§»åŠ¨æ‰‹æœºå·ç ï¼‰
+// ×¡Ö·ÕıÔò
+const regExpEmployeeAddress = /^[\u4e00-\u9fa5\w\s?,]{2,45}$/;
+// µç»°ºÅÂëÕıÔò£¨ÔİÊ±Ö»ÑéÖ¤ÔÚÒ»°ãÇé¿öÏÂµÄÖĞ¹ú´óÂ½ÒÆ¶¯ÊÖ»úºÅÂë£©
 const regExpEmployeePhoneNumber = /^1[3-9]\d{9}$/;
 
-// æ ¹æ®æ¡ä»¶æŸ¥æ‰¾å‘˜å·¥
+// ¸ù¾İÌõ¼ş²éÕÒÔ±¹¤
 function findEmployee(param) {
 
 	const attribute = $('#findSelect').val();
@@ -196,55 +196,55 @@ function findEmployee(param) {
 
 	$.ajax({
 		type: 'POST',
-		// ä¸‹é¢è¿™è¡Œéå¸¸é‡è¦ï¼Œæ²¡æœ‰ä¼šæŠ¥é”™
+		// ÏÂÃæÕâĞĞ·Ç³£ÖØÒª£¬Ã»ÓĞ»á±¨´í
 		// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
 		// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
 		contentType: 'application/json',
 		url: '/employee/findEmployee',
 		data: JSON.stringify(new Employee()),
-		// xml ===      ç›´æ¥ error
-		// html ===     å°±æ˜¯é»˜è®¤çš„æ•´ä¸ªé¡µé¢çš„ htmlï¼Œæ²¡æœ‰ tbody å†…å®¹
-		// script ===   ä¹Ÿæ²¡æœ‰ tbody å†…å®¹
+		// xml ===      Ö±½Ó error
+		// html ===     ¾ÍÊÇÄ¬ÈÏµÄÕû¸öÒ³ÃæµÄ html£¬Ã»ÓĞ tbody ÄÚÈİ
+		// script ===   Ò²Ã»ÓĞ tbody ÄÚÈİ
 		// json ===     error
 		// jsonp ===    error
-		// text ===     æ•´ä¸ªé¡µé¢çš„ htmlï¼Œæ²¡æœ‰ tbody å†…å®¹
-		// !!!!!!!!!!!!!!! è¿™æ˜¯æŸ¥æ‰¾æ–¹æ³•ï¼Œä¸ç”¨é‡å®šå‘ä¹Ÿå¯ä»¥æŠŠæ‰€æœ‰æ•°æ®çš„ç¬¬ä¸€é¡µä¼ å›æ¥ !!!!!!!!!!!!!!!
+		// text ===     Õû¸öÒ³ÃæµÄ html£¬Ã»ÓĞ tbody ÄÚÈİ
+		// !!!!!!!!!!!!!!! ÕâÊÇ²éÕÒ·½·¨£¬²»ÓÃÖØ¶¨ÏòÒ²¿ÉÒÔ°ÑËùÓĞÊı¾İµÄµÚÒ»Ò³´«»ØÀ´ !!!!!!!!!!!!!!!
 		// xml ===      error
-		// html ===     æœ‰ tbody å†…å®¹
-		// script ===   æœ‰ tbody å†…å®¹
+		// html ===     ÓĞ tbody ÄÚÈİ
+		// script ===   ÓĞ tbody ÄÚÈİ
 		// json ===     error
 		// jsonp ===    error
-		// text ===     æœ‰ tbody å†…å®¹
+		// text ===     ÓĞ tbody ÄÚÈİ
 		// dataType: 'text',
 		success: function (data, success, state) {
 			if (state.status === 200 && state.readyState === 4) {
-				// æˆªå–ä¹‹åå¡«å……è¿›é¡µé¢
+				// ½ØÈ¡Ö®ºóÌî³ä½øÒ³Ãæ
 				const array1 = data.split('<tbody>');
 				const array2 = array1[1].split('</tbody>');
 				const array3 = array2[1].split('<div class="modal-footer no-margin-top">');
 				let array4 = array3[1].split('</div>', 1181);
 				const regExp = /index/g;
-				// æŠŠå¯¹è±¡ä¹Ÿå†™è¿›é¡µé¢è¯·æ±‚è·¯å¾„ä¸­
+				// °Ñ¶ÔÏóÒ²Ğ´½øÒ³ÃæÇëÇóÂ·¾¶ÖĞ
 				array4 = array4[0].replace(regExp, 'findEmployee');
-				// æˆªå–å­—ç¬¦ä¸²ä¹‹åä¸éœ€è¦å°†å…¶è½¬æ¢ä¸º HTML
+				// ½ØÈ¡×Ö·û´®Ö®ºó²»ĞèÒª½«Æä×ª»»Îª HTML
 				// $('tbody').html($(array2[0]));
 				$('tbody').html(array2[0]);
 				$('.no-margin-top').html(array4);
 			}
 		},
 		error: function () {
-			alert('æŸ¥è¯¢å¤±è´¥ï¼Œè¯·æ£€æŸ¥å­—æ®µåé‡è¯•ã€‚');
+			alert('²éÑ¯Ê§°Ü£¬Çë¼ì²é×Ö¶ÎºóÖØÊÔ¡£');
 		}
 	})
 
 }
 
-// ç¡®å®šåˆ é™¤?
+// È·¶¨É¾³ı?
 function deleteEmployee(employeeId, input) {
-	if (confirm('ç¡®å®šåˆ é™¤?')) {
+	if (confirm('È·¶¨É¾³ı?')) {
 		$.ajax({
 			type: 'POST',
-			// æœ€å‰é¢å¿…é¡»è¦åŠ æ–œæ / '/employee/deleteEmployee/'
+			// ×îÇ°Ãæ±ØĞëÒª¼ÓĞ±¸Ü/ '/employee/deleteEmployee/'
 			url: '/employee/deleteEmployee',
 			data: {'employeeId': employeeId},
 			success: function (data, success, state) {
@@ -260,34 +260,34 @@ function deleteEmployee(employeeId, input) {
 				}
 			},
 			error: function () {
-				alert('åˆ é™¤å¤±è´¥ï¼Œè¯·æ£€æŸ¥åé‡è¯•ã€‚');
+				alert('É¾³ıÊ§°Ü£¬Çë¼ì²éºóÖØÊÔ¡£');
 			}
 		})
 	}
 }
 
-// ç¡®å®šæ›´æ”¹?
+// È·¶¨¸ü¸Ä?
 function updateEmployee(count, employeeId, createdDate) {
-	// éªŒè¯å§“å
-	// å·²å–æ¶ˆè¾“å…¥æ—¶é™åˆ¶ï¼ˆä»¥ä¸‹ä»£ç ï¼‰ï¼Œå› ä¸ºä½“éªŒå¹¶ä¸å¥½
-	// th:oninput="value=value.replace(/[^\u4e00-\u9fa5\w\sâ€¢]/,'')"
+	// ÑéÖ¤ĞÕÃû
+	// ÒÑÈ¡ÏûÊäÈëÊ±ÏŞÖÆ£¨ÒÔÏÂ´úÂë£©£¬ÒòÎªÌåÑé²¢²»ºÃ
+	// th:oninput="value=value.replace(/[^\u4e00-\u9fa5\w\s?]/,'')"
 	const employeeName = $('#trId' + count + ' td:eq(1) label input').val();
 	if (!regExpEmployeeName.test(employeeName)) {
-		alert('å§“ååªæ”¯æŒç”± 1 - 25 ä¸ªæ±‰å­—ã€è‹±æ–‡ã€æ•°å­—ã€ç©ºæ ¼å’Œâ€¢çš„ç»„åˆã€‚');
+		alert('ĞÕÃûÖ»Ö§³ÖÓÉ 1 - 25 ¸öºº×Ö¡¢Ó¢ÎÄ¡¢Êı×Ö¡¢¿Õ¸ñºÍ?µÄ×éºÏ¡£');
 		return false;
 	}
-	// éªŒè¯èº«ä»½è¯
+	// ÑéÖ¤Éí·İÖ¤
 	const employeeIdCard = $('#trId' + count + ' td:eq(4) label input').val();
 	if (employeeIdCard.length !== 15 && employeeIdCard.length !== 18) {
-		alert('èº«ä»½è¯å·ç æ ¼å¼æœ‰è¯¯ï¼Œè¯·æ£€æŸ¥åé‡è¯•ã€‚');
+		alert('Éí·İÖ¤ºÅÂë¸ñÊ½ÓĞÎó£¬Çë¼ì²éºóÖØÊÔ¡£');
 		return false;
 	}
-	// 15 ä½èº«ä»½è¯
+	// 15 Î»Éí·İÖ¤
 	if (!regExpIdCard.test(employeeIdCard)) {
-		alert('èº«ä»½è¯å·ç æ ¼å¼æœ‰è¯¯ï¼Œè¯·æ£€æŸ¥åé‡è¯•ã€‚');
+		alert('Éí·İÖ¤ºÅÂë¸ñÊ½ÓĞÎó£¬Çë¼ì²éºóÖØÊÔ¡£');
 		return false;
 	}
-	// 18 ä½èº«ä»½è¯
+	// 18 Î»Éí·İÖ¤
 	if (employeeIdCard.length === 18) {
 		let id17 = [];
 		for (let i = 0, j = employeeIdCard.length - 1; i < employeeIdCard.length - 1, j > 0; i++, j--) {
@@ -295,24 +295,24 @@ function updateEmployee(count, employeeId, createdDate) {
 		}
 		const lastNumber = calculateLastNumber(id17);
 		if (lastNumber !== employeeIdCard.substring(17)) {
-			alert('èº«ä»½è¯å·ç æ ¼å¼æœ‰è¯¯ï¼Œè¯·æ£€æŸ¥åé‡è¯•ã€‚');
+			alert('Éí·İÖ¤ºÅÂë¸ñÊ½ÓĞÎó£¬Çë¼ì²éºóÖØÊÔ¡£');
 			return false;
 		}
 	}
-	// éªŒè¯ä½å€
+	// ÑéÖ¤×¡Ö·
 	const employeeAddress = $('#trId' + count + ' td:eq(5) label input').val();
 	if (!regExpEmployeeAddress.test(employeeAddress)) {
-		alert('ä½å€åªæ”¯æŒç”±æœ€å¤š 45 ä¸ªæ±‰å­—ã€è‹±æ–‡ã€ç©ºæ ¼å’Œâ€¢çš„ç»„åˆã€‚');
+		alert('×¡Ö·Ö»Ö§³ÖÓÉ×î¶à 45 ¸öºº×Ö¡¢Ó¢ÎÄ¡¢¿Õ¸ñºÍ?µÄ×éºÏ¡£');
 		return false;
 	}
-	// éªŒè¯ç”µè¯å·ç ï¼ˆæš‚æ—¶åªéªŒè¯åœ¨ä¸€èˆ¬æƒ…å†µä¸‹çš„ä¸­å›½å¤§é™†ç§»åŠ¨æ‰‹æœºå·ç ï¼‰
+	// ÑéÖ¤µç»°ºÅÂë£¨ÔİÊ±Ö»ÑéÖ¤ÔÚÒ»°ãÇé¿öÏÂµÄÖĞ¹ú´óÂ½ÒÆ¶¯ÊÖ»úºÅÂë£©
 	const employeePhoneNumber = $('#trId' + count + ' td:eq(6) label input').val();
 	if (!regExpEmployeePhoneNumber.test(employeePhoneNumber)) {
-		alert('ç”µè¯å·ç æ ¼å¼æœ‰è¯¯ï¼Œè¯·æ£€æŸ¥åé‡è¯•ã€‚');
+		alert('µç»°ºÅÂë¸ñÊ½ÓĞÎó£¬Çë¼ì²éºóÖØÊÔ¡£');
 		return false;
 	}
 
-	if (confirm('ç¡®å®šæ›´æ”¹?')) {
+	if (confirm('È·¶¨¸ü¸Ä?')) {
 		const lastModifiedDate = new Date();
 		const year = lastModifiedDate.getFullYear();
 		const month = lastModifiedDate.getMonth() + 1 < 10 ? '0' + (lastModifiedDate.getMonth() + 1) : lastModifiedDate.getMonth() + 1;
@@ -336,7 +336,7 @@ function updateEmployee(count, employeeId, createdDate) {
 
 		$.ajax({
 			type: 'POST',
-			// ä¸‹é¢è¿™è¡Œéå¸¸é‡è¦ï¼Œæ²¡æœ‰ä¼šæŠ¥é”™
+			// ÏÂÃæÕâĞĞ·Ç³£ÖØÒª£¬Ã»ÓĞ»á±¨´í
 			// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
 			// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
 			contentType: 'application/json',
@@ -348,14 +348,14 @@ function updateEmployee(count, employeeId, createdDate) {
 				}
 			},
 			error: function () {
-				alert('æ›´æ”¹å¤±è´¥ï¼Œè¯·æ£€æŸ¥åé‡è¯•ã€‚');
+				alert('¸ü¸ÄÊ§°Ü£¬Çë¼ì²éºóÖØÊÔ¡£');
 			}
 		})
 	}
 
 }
 
-// æ ¹æ®æ‰€æä¾›èº«ä»½è¯çš„å‰ 17 ä½ç®—å‡ºæœ€åä¸€ä½
+// ¸ù¾İËùÌá¹©Éí·İÖ¤µÄÇ° 17 Î»Ëã³ö×îºóÒ»Î»
 function calculateLastNumber(id17) {
 	const weight = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
 	const validate = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
