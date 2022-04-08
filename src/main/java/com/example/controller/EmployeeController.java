@@ -9,8 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import java.security.Principal;
 import java.util.UUID;
 
 @Controller
@@ -28,13 +30,47 @@ public class EmployeeController {
         return "login";
     }
 
-    @RequestMapping("employee/index")
+    @RequestMapping("index")
+    public String index() {
+        return "index";
+    }
+
+    @RequestMapping("logout")
+    public String logout() {
+        return "logout";
+    }
+
+    @RequestMapping("loginFailed")
+    public String loginFailed() {
+        return "loginFailed";
+    }
+
+    // for 403 access denied page
+    @RequestMapping("403")
+    public ModelAndView accessDenied(Principal user) {
+
+        ModelAndView model = new ModelAndView();
+
+        if (user != null) {
+            model.addObject("msg", "Hi " + user.getName()
+                    + ", you do not have permission to access this page!");
+        } else {
+            model.addObject("msg",
+                    "You do not have permission to access this page!");
+        }
+
+        model.setViewName("403");
+        return model;
+
+    }
+
+    @RequestMapping("employee")
     public String index(@NotNull Model model, @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
                         @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by("createdDate"));
         Page<Employee> employees = employeeRepository.findAll(pageable);
         model.addAttribute("employees", employees);
-        return "index";
+        return "employee";
     }
 
     @RequestMapping("employee/deleteEmployee")
@@ -44,17 +80,17 @@ public class EmployeeController {
         // return "index";
         // TODO: 为什么重定向设置不起作用？是因为发送的是 ajax 请求吗？
         // TODO: 删除数据之后没有数据顶替
-        return "redirect:/employee/index";
+        return "redirect:/employee";
     }
 
     @RequestMapping("employee/updateEmployee")
     public String updateEmployee(@RequestBody Employee employee) {
         employeeRepository.save(employee);
-        return "index";
+        return "employee";
     }
 
     // TODO: 为什么点退出会来的 timeout 页面？
-    @RequestMapping("/timeout")
+    @RequestMapping("timeout")
     public String timeout() {
         return "timeout";
     }
@@ -63,7 +99,7 @@ public class EmployeeController {
     public String saveEmployee(@RequestBody @NotNull Employee employee) {
         employee.setEmployeeId(String.valueOf(UUID.randomUUID()));
         employeeRepository.save(employee);
-        return "redirect:/employee/index";
+        return "redirect:/employee";
     }
 
     @RequestMapping("employee/findEmployee")
@@ -107,7 +143,7 @@ public class EmployeeController {
         System.out.println("---------------------------------------" + exampleMatcher);
         Page<Employee> employees = employeeRepository.findAll(example, pageable);
         model.addAttribute("employees", employees);
-        return "index";
+        return "employee";
     }
 
 }

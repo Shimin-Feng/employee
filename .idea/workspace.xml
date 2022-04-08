@@ -5,14 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/403.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/employee.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/loginFailed.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/logout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/service/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/service/AccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/entity/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/repository/AccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/service/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/timeout.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/timeout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/admin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/logout.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +36,8 @@
       <list>
         <option value="JavaScript File" />
         <option value="Class" />
+        <option value="Thymeleaf" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -36,7 +50,7 @@
     <setting file="file://$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/com/example/entity/Employee.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/static/js/index.js" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/resources/templates/index.html" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/resources/templates/employee.html" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/templates/login.html" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/test/java/com/test/admin.html" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/test/java/com/test/verificationTest.js" root0="FORCE_HIGHLIGHTING" />
@@ -67,6 +81,9 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
   <component name="ProjectId" id="277FsxNNobdQE10odHBakj0L9mP" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -78,6 +95,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
@@ -86,7 +104,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/g1672/IdeaProjects/employee/src/main/resources/templates",
+    "full.screen.before.presentation.mode": "false",
+    "last_opened_file_path": "C:/Users/g1672/IdeaProjects/spring-security-403-access-denied",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -96,7 +115,7 @@
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
     "rearrange.code.on.save": "true",
-    "settings.editor.selected.configurable": "actions.on.save",
+    "settings.editor.selected.configurable": "preferences.general",
     "spring.configuration.checksum": "fa5473530e4d1a5a1e1eb53d2fedb10c"
   },
   "keyToStringList": {
@@ -183,7 +202,10 @@
       <workItem from="1648816068294" duration="1049000" />
       <workItem from="1648818392004" duration="35845000" />
       <workItem from="1648977274664" duration="36903000" />
-      <workItem from="1649053344052" duration="146507000" />
+      <workItem from="1649053344052" duration="146728000" />
+      <workItem from="1649373114807" duration="22710000" />
+      <workItem from="1649417214475" duration="99000" />
+      <workItem from="1649417431566" duration="11197000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1648665299036</created>
@@ -248,7 +270,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649338225098</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="改进登录验证中。。。&#10;其他优化">
+      <created>1649354425759</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1649354425759</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -290,7 +319,8 @@
     <MESSAGE value="其他优化" />
     <MESSAGE value="完善添加功能&#10;简化代码&#10;其他优化" />
     <MESSAGE value="完善添加功能&#10;其他优化" />
-    <option name="LAST_COMMIT_MESSAGE" value="完善添加功能&#10;其他优化" />
+    <MESSAGE value="改进登录验证中。。。&#10;其他优化" />
+    <option name="LAST_COMMIT_MESSAGE" value="改进登录验证中。。。&#10;其他优化" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

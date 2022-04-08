@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
     <meta name="description">
     <meta name="author">
-    <title>请登录</title>
+    <title>Please log in</title>
     <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
           rel="stylesheet">
@@ -16,7 +16,7 @@
 		$(document).ready(function () {
 			$('.btn-primary').on('click', function () {
 				if ($('#username').val() === '' || $('#password').val() === '') {
-					alert('请先输入账号和密码。');
+					alert('Please enter username and password.');
 					return false;
 				}
 			})
@@ -25,24 +25,27 @@
 </head>
 <body>
 <div class="container">
-    <form action="/login" class="form-signin" method="post">
-        <h2 class="form-signin-heading">请登录</h2>
-        <!-- 从 Spring Security4 开始 CSRF 防护默认开启。默认会拦截请求。进行 CSRF 处理。CSRF 为了保证不是其他第三方网站访问，
-        要求访问时携带参数名为_csrf 值为 token(token 在服务端产生)的内容，如果token 和服务端的 token 匹配成功，则正常访问。 -->
-        <!--<input name="_csrf" th:if="${_csrf}" th:value="${_csrf.token}" type="hidden"/>-->
+    <!-- 居然可以不写 action="/login" !!! -->
+    <form class="form-signin" method="post">
+        <h2 class="form-signin-heading">Please log in</h2>
         <p>
-            <label class="sr-only" for="username">账号</label>
+            <label class="sr-only" for="username">username</label>
             <input class="form-control" id="username" name="username" placeholder="Username" type="text">
         </p>
         <p>
-            <label class="sr-only" for="password">密码</label>
+            <label class="sr-only" for="password">password</label>
             <input class="form-control" id="password" name="password" placeholder="Password" type="password">
         </p>
-        <input name="_csrf" type="hidden" value="34f6b3e4-c1ff-4158-98d5-823fbf3ca283">
-        <label>
-            <input name="remember-me" type="checkbox">记住我
-        </label>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+        <p>
+            <label>
+                <input name="remember-me" type="checkbox"> Remember me on this computer.
+            </label>
+        </p>
+        <!-- 从 Spring Security4 开始 CSRF 防护默认开启。默认会拦截请求。进行 CSRF 处理。CSRF 为了保证不是其他第三方网站访问，
+        要求访问时携带参数名为_csrf 值为 token(token 在服务端产生)的内容，如果token 和服务端的 token 匹配成功，则正常访问。 -->
+        <!--<input name="_csrf" type="hidden" value="34f6b3e4-c1ff-4158-98d5-823fbf3ca283">-->
+        <input name="_csrf" th:if="${_csrf}" th:value="${_csrf.token}" type="hidden">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
     </form>
 </div>
 </body>

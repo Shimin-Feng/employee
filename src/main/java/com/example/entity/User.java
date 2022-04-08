@@ -17,22 +17,22 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class Account implements Serializable {
+public class User implements Serializable {
     @Id
-    private String accountId;
+    private String userId;
     @Column
     private String username;
     @Column
     private String password;
     @Column
-    private String role;
+    private String authorities;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Account account = (Account) o;
-        return accountId != null && Objects.equals(accountId, account.accountId);
+        User user = (User) o;
+        return userId != null && Objects.equals(userId, user.userId);
     }
 
     @Override

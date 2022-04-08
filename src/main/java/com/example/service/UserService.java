@@ -1,9 +1,8 @@
 package com.example.service;
 
-import com.example.entity.Account;
-import com.example.repository.AccountRepository;
+import com.example.entity.User;
+import com.example.repository.UserRepository;
 import org.springframework.data.domain.Example;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,7 +12,7 @@ import javax.annotation.Resource;
 import java.util.Optional;
 
 /**
- * &#064;ClassName AccountService
+ * &#064;ClassName UserService
  * &#064;Author $himin F
  * &#064;Date
  * &#064;Version 1.0
@@ -21,10 +20,10 @@ import java.util.Optional;
  */
 
 @Service
-public class AccountService implements UserDetailsService {
+public class UserService implements UserDetailsService {
 
     @Resource
-    private AccountRepository accountRepository;
+    private UserRepository userRepository;
 
     /**
      * 有时候会报以下错误：
@@ -35,10 +34,10 @@ public class AccountService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = new Account();
-        account.setUsername(username);
-        Optional<Account> optional = accountRepository.findOne(Example.of(account));
-        return optional.map(value -> User.withUsername(value.getUsername()).password(value.getPassword())
-                .roles(value.getRole()).build()).orElse(null);
+        User user = new User();
+        user.setUsername(username);
+        Optional<User> optional = userRepository.findOne(Example.of(user));
+        return optional.map(value -> org.springframework.security.core.userdetails.User.withUsername(value.getUsername())
+                .password(value.getPassword()).authorities(value.getAuthorities().split(",")).build()).orElse(null);
     }
 }

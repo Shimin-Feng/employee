@@ -19,7 +19,7 @@
     <!-- 父引用 -->
     <!-- 如果是 spring-boot-parent 是否会报错？ -->
     <!-- 不会 -->
-    <!-- 2022-4-7   今天从 2.6.4 升级到 2.6.5 -->
+    <!-- 2022-4-7 今天从 2.6.4 升级到 2.6.5 -->
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
@@ -27,6 +27,41 @@
     </parent>
 
     <dependencies>
+
+        <!-- 以下新添加的两个 dependencies 是因为报告以下信息而添加的 -->
+        <!-- Provides transitive vulnerable dependency
+         'com.fasterxml.jackson.core':jackson-databind:2.13.2 Out-of-bounds Write vulnerability pending CVSS allocation
+         Provides transitive vulnerable dependency 'org.springframework':spring-beans:5.3.17 Improper Control of
+         Generation of Code ('Code Injection') vulnerability pending CVSS allocation -->
+
+        <!-- Provides transitive vulnerable dependency -->
+        <!-- 2.13.2 Out-of-bounds Write vulnerability pending CVSS allocation -->
+        <!-- Out-Of-Bounds Write -->
+        <!-- Summary
+         jackson-databind before 2.12.6.1 and 2.13.x before 2.13.2.1 allows a Java StackOverflow exception and denial
+         of service via a large depth of nested objects. -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.13.1</version>
+        </dependency>
+
+        <!-- Provides transitive vulnerable dependency -->
+        <!-- 5.3.17 -->
+        <!-- 5.3.17 Improper Control of Generation of Code ('Code Injection') vulnerability pending CVSS allocation -->
+        <!-- Dependency 5.3.17 is vulnerable -->
+        <!-- Improper Control Of Generation Of Code ('Code Injection') -->
+        <!-- Summary
+         spring or spring-beans running on JDK 9+ may be vulnerable to remote code execution (RCE) via data binding.
+         The specific exploit requires the application to run on Tomcat as a WAR deployment.
+         If the application is deployed as a Spring Boot executable jar, i.e. the default,
+         it is not vulnerable to the exploit. However, the nature of the vulnerability is more general,
+         and there may be other ways to exploit it. This was fixed in versions 5.2.20 and 5.3.18. -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>5.3.16</version>
+        </dependency>
 
         <!-- Spring MVC -->
         <dependency>
