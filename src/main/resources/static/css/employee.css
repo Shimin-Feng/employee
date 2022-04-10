@@ -28,3 +28,7 @@ h1 {
 #findSelect {
     margin-left: 10px;
 }
+
+li a {
+    cursor: pointer;
+}

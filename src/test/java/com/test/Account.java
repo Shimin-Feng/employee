@@ -1,11 +1,40 @@
-package com.test;
+/*
+package com.example.entity;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.util.Date;
+
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+public record Employee(
+
+        String employeeName,
+        String employeeSex,
+        Integer employeeAge,
+        String employeeIdCard,
+        String employeeAddress,
+        String employeePhoneNumber,
+        String createdBy,
+        Date createdDate,
+        Date lastModifiedDate
+) {
+    public static String employeeId;
+}*/
 
 /**
- * @Name Account
- * @Author $himin F
- * @Date 2022/4/9 16:58 ÷‹¡˘
- * @Version 1.0
- * @description:
+ * package com.example.entity;
+ *
+ * public record User(
+ *         String userId,
+ *         String username,
+ *         String password,
+ *         String authorities
+ * ) {
+ * }
  */
-public record Account(String id, String username, String password, String authorities) {
-}

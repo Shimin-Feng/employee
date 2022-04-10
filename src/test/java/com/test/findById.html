@@ -5,12 +5,15 @@
     <title>Title</title>
 </head>
 <body>
-<p>test</p>
-<button onclick="function deleteAll() {
-    document.body.innerText = '';
-	document.head.innerText = '';
-	document.body.innerHTML = '<body><p>pppppppppppppppppp</p></body>';
-}
-deleteAll()"></button>
+<a>12</a>
+<button>test</button>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$('button').on('click', function () {
+			alert($('a').text() - 1);
+		})
+	})
+</script>
 </body>
 </html>

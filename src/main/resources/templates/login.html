@@ -11,17 +11,6 @@
           rel="stylesheet">
     <link crossorigin="anonymous" href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css"
           rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-		$(document).ready(function () {
-			$('.btn-primary').on('click', function () {
-				if ($('#username').val() === '' || $('#password').val() === '') {
-					alert('Please enter username and password.');
-					return false;
-				}
-			})
-		})
-    </script>
 </head>
 <body>
 <div class="container">
@@ -48,5 +37,16 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
     </form>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$('.btn-primary').on('click', function () {
+			if ($('#username').val() === '' || $('#password').val() === '') {
+				alert('Please enter username and password.');
+				return false;
+			}
+		})
+	})
+</script>
 </body>
 </html>
