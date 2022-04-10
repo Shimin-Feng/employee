@@ -12,11 +12,11 @@ spring:
       hibernate:
         format_sql: true
 
-#server:
-#  servlet:
-#    session:
-#      # 60 秒无操作后再操作需要重新登录账号
-#      timeout: 60
+server:
+  servlet:
+    session:
+      # 60 秒无操作后再操作需要重新登录账号
+      timeout: 60
 #  thymeleaf:
 #    encoding: utf-8
 #  mvc:

@@ -3,7 +3,7 @@ package com.example.config;
 import java.sql.*;
 
 /**
- * TODO: 如何简化此类的代码？
+ * TODO: Intellij IDEA 已经提示过可以不使用下面的方式连接 MySQL，那么如何简化此类的代码？
  * JdbcTemplate template = new JdbcTemplate(dataSource);
  * template.query("SHOW TABLES FROM test_database LIKE 'persistent_logins';", new BeanPropertyRowMapper<>());
  */
@@ -15,7 +15,7 @@ public class JdbcCheckTableExitDemo {
     private static final String driver = "com.mysql.cj.jdbc.Driver";
 
     public boolean isExist() {
-        boolean isExist = false;
+        var isExist = false;
         Connection c = null;
         DatabaseMetaData d;
         ResultSet r;

@@ -50,51 +50,55 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()*/
                 // 表单认证
                 .formLogin()
+                // 设置登录页面
+                .loginPage("/login")
                 // 登录处理网址
                 // 当发现 login 时认为是登录需要执行我们自定义的登录逻辑，里面的 url 是登录页面表单提交地址
                 // 在本项目现在的状态下可以不写！！！
 //                .loginProcessingUrl("/login")
                 // 登录成功后的请求访问的地址，请求方法必须是 post，这里是跳转控制器
-                .successForwardUrl("/index")
+//                .successForwardUrl("/index")
                 // 登录失败后的请求访问的地址，这里访问的是控制器
-                .failureForwardUrl("/loginFailed")
-                // 设置登录页面
-                .loginPage("/login")
+//                .failureForwardUrl("/loginFailed")
                 // 所有的登录请求都被允许，不设置就无法访问登录界面
                 .and()
                 // 授权请求
                 .authorizeRequests()
+                // 不需要拦截的页面
+                .antMatchers(/*"/403", */"/login", "/loginFailed", "/logout"/*, "/timeout"*/).permitAll()
+                // 需要拦截的页面
                 // 如要访问 employee 页面必须具有 ROLE_ADMIN 权限
                 // ROLE_ADMIN 这个写法不对，这里不需要加 ROLE_ 前缀
+                // TODO: 下面这行为什么没有效果？
+//                .antMatchers("/index").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/employee").hasAuthority("ADMIN")
 //                .antMatchers("/user").hasAuthority("USER")
-                // 不需要拦截的页面
-                .antMatchers("/403").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/loginFailed").permitAll()
-                .antMatchers("/logout").permitAll()
-                .antMatchers("/timeout").permitAll()
                 // 任何请求都需要通过认证
                 .anyRequest()
                 .authenticated()
-                .and()
-                /*// 暂时注释掉，因为不好控制
+                /*.and()
+                // 已在 HTTPStatusCodeErrorController class 中处理
+                // 暂时注释掉，因为不好控制
+                // TODO: 怎么才能控制好 timeout？
                 // 开启超时检测
                 .sessionManagement()
                 // 如果超时则跳转到以下页面
-                .invalidSessionUrl("/timeout")
-                .and()*/
+                .invalidSessionUrl("/timeout")*/
+                // 设置最大Session数为1
+//                .maximumSessions(1)
+                .and()
                 // 开启’记住我‘功能
                 .rememberMe()
                 // ’记住我‘ 86400 秒/一天，即使服务器重启也不会下线，除非其主动退出登录
                 .tokenValiditySeconds(86400)
                 // 并存储进数据库
                 .tokenRepository(new TokenRepository().persistentTokenRepository())
-                .and()
+                /*.and()
+                // 已在 HTTPStatusCodeErrorController class 中处理
                 // 开启异常处理
                 .exceptionHandling()
                 // 拒绝访问后给到的页面
-                .accessDeniedPage("/403")
+                .accessDeniedPage("/403")*/
                 .and()
                 .logout()
                 // 退出成功后访问的地址
@@ -107,7 +111,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             TokenRepository tokenRepository = new TokenRepository();
             JdbcCheckTableExitDemo jdbcCheckTableExitDemo = new JdbcCheckTableExitDemo();
             // 判断表是否存在，不存在则创建
-            System.out.println("Token 表是否存在 ---------------------------------> " + jdbcCheckTableExitDemo.isExist());
+            System.out.println("Token 表 persistent_logins 是否存在 --------------> " + jdbcCheckTableExitDemo.isExist());
             if (!jdbcCheckTableExitDemo.isExist()) {
                 tokenRepository.setCreateTableOnStartup(true);
                 tokenRepository.initDao();

@@ -47,7 +47,6 @@
         </dependency>
 
         <!-- Provides transitive vulnerable dependency -->
-        <!-- 5.3.17 -->
         <!-- 5.3.17 Improper Control of Generation of Code ('Code Injection') vulnerability pending CVSS allocation -->
         <!-- Dependency 5.3.17 is vulnerable -->
         <!-- Improper Control Of Generation Of Code ('Code Injection') -->
