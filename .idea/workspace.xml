@@ -5,28 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/controller/HTTPStatusCodeErrorController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/400.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/404.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/440.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/unknownError.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/Account.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/test.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/error.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/config/JdbcCheckTableExitDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/config/JdbcCheckTableExitDemo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/repository/MyPasswordEncoder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/employee.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/403.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/403.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/employee.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/employee.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/loginFailed.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/loginFailed.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/test/save.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/save.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -112,7 +97,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "项目",
+    "project.structure.last.edited": "模块",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "actions.on.save",
@@ -205,7 +190,8 @@
       <workItem from="1649053344052" duration="146728000" />
       <workItem from="1649373114807" duration="22710000" />
       <workItem from="1649417214475" duration="99000" />
-      <workItem from="1649417431566" duration="95962000" />
+      <workItem from="1649417431566" duration="96248000" />
+      <workItem from="1649568306962" duration="15227000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1648665299036</created>
@@ -284,14 +270,18 @@
       <option name="project" value="LOCAL" />
       <updated>1649430771473</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="修复 spring security 配置&#10;优化页面&#10;其他优化">
+      <created>1649567713661</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1649567713661</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="UpdateCopyrightCheckinHandler">
-    <option name="UPDATE_COPYRIGHT" value="true" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -317,7 +307,8 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="1" />
     <MESSAGE value="Changes:&#10;&#10;1. Password.&#10;2. Entity.&#10;3. Add employee name regExp." />
@@ -328,10 +319,8 @@
     <MESSAGE value="完善添加功能&#10;其他优化" />
     <MESSAGE value="改进登录验证中。。。&#10;其他优化" />
     <MESSAGE value="修复 spring security 配置&#10;其他优化" />
-    <option name="LAST_COMMIT_MESSAGE" value="修复 spring security 配置&#10;其他优化" />
-    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
+    <MESSAGE value="修复 spring security 配置&#10;优化页面&#10;其他优化" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复 spring security 配置&#10;优化页面&#10;其他优化" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

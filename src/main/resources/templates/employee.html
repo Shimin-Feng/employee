@@ -166,30 +166,28 @@
             </td>
         </tr>
         </tbody>
-        <tfoot>
+        <tfoot th:if="${employees != null && employees != ''}">
         <tr>
             <td colspan="12">
                 <div class="modal-footer no-margin-top">
-                    <ul class="pagination pull-right no-margin" th:if="${employees != null}">
+                    <ul class="pagination pull-right no-margin">
                         <li>
-                            <a href="" id="frontPage">首页</a>
+                            <a class="" id="frontPage">首页</a>
                         </li>
                         <li th:if="${employees.hasPrevious()}">
-                            <a href="" id="previousPageable" th:class="${employees.previousPageable().getPageNumber()}">上一页</a>
+                            <a id="previousPageable" th:class="${employees.previousPageable().getPageNumber()}">上一页</a>
                         </li>
                         <li th:each="pageNum:${#numbers.sequence(0, employees.getTotalPages() - 1)}">
-                            <a th:href="'/employee?pageNum=' + ${pageNum}"
-                               th:if="${pageNum ne employees.pageable.getPageNumber()}"
-                               th:text="${pageNum + 1}"></a>
-                            <a style='font-weight:bold;background: #6faed9;'
-                               th:href="'/employee?pageNum=' + ${pageNum}"
+                            <a class="midPages"
+                               th:if="${pageNum ne employees.pageable.getPageNumber()}" th:text="${pageNum + 1}"></a>
+                            <a class="midPages currentPage" style='font-weight:bold;background: #6faed9;'
                                th:if="${pageNum eq employees.pageable.getPageNumber()}" th:text="${pageNum + 1}"></a>
                         </li>
                         <li th:if="${employees.hasNext()}">
-                            <a th:href="'/employee?pageNum=' + ${employees.nextPageable().getPageNumber()}">下一页</a>
+                            <a id="nextPageable" th:class="${employees.nextPageable().getPageNumber()}">下一页</a>
                         </li>
                         <li>
-                            <a th:href="'/employee?pageNum=' + ${employees.getTotalPages() - 1}">尾页</a>
+                            <a id="lastPage" th:class="${employees.getTotalPages() - 1}">尾页</a>
                         </li>
 
                     </ul>

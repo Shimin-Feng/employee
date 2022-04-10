@@ -16,7 +16,7 @@ server:
   servlet:
     session:
       # 60 秒无操作后再操作需要重新登录账号
-      timeout: 60
+      timeout: 1800
 #  thymeleaf:
 #    encoding: utf-8
 #  mvc:

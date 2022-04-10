@@ -2,6 +2,40 @@ $(document).ready(function () {
 
 	showSexAge();
 
+});
+
+// 姓名正则
+const regExpEmployeeName = /^[\u4e00-\u9fa5\w\s•]{1,25}$/;
+// 身份证正则
+const regExpIdCard = /^\d{15}|\d{18}|(\d{17}X|x)$/;
+// 住址正则
+const regExpEmployeeAddress = /^[\u4e00-\u9fa5\w\s•,]{2,45}$/;
+// 电话号码正则（暂时只验证在一般情况下的中国大陆移动手机号码）
+const regExpEmployeePhoneNumber = /^1[3-9]\d{9}$/;
+
+// Get token
+function getToken() {
+	return $("input:hidden[name='_csrf']").val();
+}
+
+// Show employees' sex and age
+function showSexAge() {
+	// Get the total number of employees
+	const totalNumber = $('tbody tr').length;
+	for (let i = 1; i <= totalNumber; i++) {
+		// every employee's sex
+		let sex = $('#sexSelectId' + i).attr('class');
+		// every employee's age
+		let age = $('#ageSelectId' + i).attr('class');
+		// 根据性别使 option 选中
+		$('#sexSelectId' + i + " option[value='" + sex + "']").attr('selected', 'selected');
+		// 根据年龄使 option 选中
+		$('#ageSelectId' + i + " option[value='" + age + "']").attr('selected', 'selected');
+	}
+}
+
+window.onload = function () {
+
 	// 添加员工
 	$('#saveEmployee').on('click', function () {
 
@@ -126,10 +160,11 @@ $(document).ready(function () {
 					if (state.status === 200 && state.readyState === 4) {
 						params.currentTarget.onblur;
 						const findInput = $('#findInput').val();
+						const currentPage = $('.currentPage').text();
 						if (findInput === '') {
 							$.ajax({
 								type: 'GET',
-								url: '/employee',
+								url: '/employee?pageNum=' + (currentPage - 1),
 								// 因为开启了 csrf，所以增加请求头
 								headers: {
 									'X-CSRF-Token': getToken()
@@ -150,7 +185,7 @@ $(document).ready(function () {
 								// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
 								// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
 								contentType: 'application/json',
-								url: '/employee/findEmployee',
+								url: '/employee/findEmployee?pageNum=' + (currentPage - 1),
 								data: JSON.stringify(new Employee($('#findSelect').val(), findInput)),
 								// 因为开启了 csrf，所以增加请求头
 								headers: {
@@ -158,7 +193,9 @@ $(document).ready(function () {
 								},
 								success: function (data, success, state) {
 									if (state.status === 200 && state.readyState === 4) {
-										updatePage(data);
+										if (/tfoot/.test(data)) {
+											updatePage(data);
+										}
 									}
 								},
 								error: function () {
@@ -293,8 +330,79 @@ $(document).ready(function () {
 		}
 	})
 
+	// 根据条件查找员工
+	function findEmployee(param) {
+
+		$.ajax({
+			type: 'POST',
+			// 下面这行非常重要，没有会报错
+			// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
+			// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
+			contentType: 'application/json',
+			url: '/employee/findEmployee',
+			data: JSON.stringify(new Employee($('#findSelect').val(), param)),
+			// 因为开启了 csrf，所以增加请求头
+			// 终于成功了！！！
+			headers: {
+				// 不区分大小写
+				'X-CSRF-Token': getToken()
+			},
+			// xml ===      直接 error
+			// html ===     就是默认的整个页面的 html，没有 tbody 内容
+			// script ===   也没有 tbody 内容
+			// json ===     error
+			// jsonp ===    error
+			// text ===     整个页面的 html，没有 tbody 内容
+			// !!!!!!!!!!!! 这是查找方法，不用重定向也可以把所有数据的第一页传回来 !!!!!!!!!!!!
+			// xml ===      error
+			// html ===     有 tbody 内容
+			// script ===   有 tbody 内容
+			// json ===     error
+			// jsonp ===    error
+			// text ===     有 tbody 内容
+			// dataType: 'text',
+			success: function (data, success, state) {
+				if (state.status === 200 && state.readyState === 4) {
+					if (/tfoot/.test(data)) {
+						// 截取之后填充进页面
+						const array1 = data.split('<tbody>');
+						console.log(data);
+						console.log(array1);
+						console.log(array1[1]);
+						const array2 = array1[1].split('</tbody>');
+						console.log(array2);
+						console.log(array2[1]);
+						const array3 = array2[1].split('<div class="modal-footer no-margin-top">');
+						console.log(array3);
+						console.log(array3[1]);
+						let array4 = array3[1].split('</div>');
+						console.log(array4);
+						console.log(array4[0]);
+						// 把对象也写进页面请求路径中
+						// encodeURIComponent(JSON.stringify(new Employee()))
+						const ul = array4[0].replace(/\?/g, '/findEmployee?');
+						// 截取字符串之后不需要将其转换为 HTML
+						// $('tbody').html($(array2[0]));
+						$('tbody').html(array2[0]);
+						$('.no-margin-top').html(ul);
+						showSexAge();
+					} else {
+						$('tbody tr').remove();
+						$('tfoot').remove();
+						$('tbody').html('<tr><td colspan="12">无匹配结果</td></tr>');
+					}
+				}
+			},
+			error: function () {
+				alert('查找失败，请检查后重试。');
+			}
+		})
+
+	}
+
+	const tfoot = $('tfoot');
 	// 分页-首页
-	$('#frontPage').on('click', function () {
+	tfoot.on('click', 'tr td div ul li #frontPage', function () {
 		const findInput = $('#findInput').val();
 		if (findInput === '') {
 			$.ajax({
@@ -338,7 +446,141 @@ $(document).ready(function () {
 		}
 	})
 	// 分页-上一页
-	$('#previousPageable').on('click', function (params) {
+	tfoot.on('click', 'tr td div ul li #previousPageable', function (params) {
+		const findInput = $('#findInput').val();
+		if (findInput === '') {
+			$.ajax({
+				type: 'POST',
+				url: '/employee?pageNum=' + params.currentTarget.className,
+				// 因为开启了 csrf，所以增加请求头
+				headers: {
+					'X-CSRF-Token': getToken()
+				},
+				success: function (data, success, state) {
+					if (state.status === 200 && state.readyState === 4) {
+						updatePage(data);
+					}
+				},
+				error: function () {
+					alert('翻页失败，请检查后重试。');
+				}
+			})
+		} else {
+			$.ajax({
+				type: 'POST',
+				// 下面这行非常重要，没有会报错
+				// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
+				// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
+				contentType: 'application/json',
+				url: '/employee/findEmployee?pageNum=' + params.currentTarget.className,
+				data: JSON.stringify(new Employee($('#findSelect').val(), findInput)),
+				// 因为开启了 csrf，所以增加请求头
+				headers: {
+					'X-CSRF-Token': getToken()
+				},
+				success: function (data, success, state) {
+					if (state.status === 200 && state.readyState === 4) {
+						updatePage(data);
+					}
+				},
+				error: function () {
+					alert('翻页失败，请检查后重试。');
+				}
+			})
+		}
+	})
+	// 分页-中间页
+	tfoot.on('click', 'tr td div ul li .midPages', function (params) {
+		// console.log(params.currentTarget.textContent - 1);
+		// return false;
+		const findInput = $('#findInput').val();
+		if (findInput === '') {
+			$.ajax({
+				type: 'POST',
+				url: '/employee?pageNum=' + (params.currentTarget.textContent - 1),
+				// 因为开启了 csrf，所以增加请求头
+				headers: {
+					'X-CSRF-Token': getToken()
+				},
+				success: function (data, success, state) {
+					if (state.status === 200 && state.readyState === 4) {
+						updatePage(data);
+					}
+				},
+				error: function () {
+					alert('翻页失败，请检查后重试。');
+				}
+			})
+		} else {
+			$.ajax({
+				type: 'POST',
+				// 下面这行非常重要，没有会报错
+				// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
+				// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
+				contentType: 'application/json',
+				url: '/employee/findEmployee?pageNum=' + (params.currentTarget.textContent - 1),
+				data: JSON.stringify(new Employee($('#findSelect').val(), findInput)),
+				// 因为开启了 csrf，所以增加请求头
+				headers: {
+					'X-CSRF-Token': getToken()
+				},
+				success: function (data, success, state) {
+					if (state.status === 200 && state.readyState === 4) {
+						updatePage(data);
+					}
+				},
+				error: function () {
+					alert('翻页失败，请检查后重试。');
+				}
+			})
+		}
+	})
+	// 分页-下一页
+	tfoot.on('click', 'tr td div ul li #nextPageable', function (params) {
+		const findInput = $('#findInput').val();
+		if (findInput === '') {
+			$.ajax({
+				type: 'POST',
+				url: '/employee?pageNum=' + params.currentTarget.className,
+				// 因为开启了 csrf，所以增加请求头
+				headers: {
+					'X-CSRF-Token': getToken()
+				},
+				success: function (data, success, state) {
+					if (state.status === 200 && state.readyState === 4) {
+						updatePage(data);
+					}
+				},
+				error: function () {
+					alert('翻页失败，请检查后重试。');
+				}
+			})
+		} else {
+			$.ajax({
+				type: 'POST',
+				// 下面这行非常重要，没有会报错
+				// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
+				// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
+				contentType: 'application/json',
+				url: '/employee/findEmployee?pageNum=' + params.currentTarget.className,
+				data: JSON.stringify(new Employee($('#findSelect').val(), findInput)),
+				// 因为开启了 csrf，所以增加请求头
+				headers: {
+					'X-CSRF-Token': getToken()
+				},
+				success: function (data, success, state) {
+					if (state.status === 200 && state.readyState === 4) {
+						updatePage(data);
+					}
+				},
+				error: function () {
+					alert('翻页失败，请检查后重试。');
+				}
+			})
+		}
+	})
+	// 分页-尾页
+	tfoot.on('click', 'tr td div ul li #lastPage', function (params) {
 		const findInput = $('#findInput').val();
 		if (findInput === '') {
 			$.ajax({
@@ -382,139 +624,66 @@ $(document).ready(function () {
 		}
 	})
 
-});
-
-// 姓名正则
-const regExpEmployeeName = /^[\u4e00-\u9fa5\w\s•]{1,25}$/;
-// 身份证正则
-const regExpIdCard = /^\d{15}|\d{18}|(\d{17}X|x)$/;
-// 住址正则
-const regExpEmployeeAddress = /^[\u4e00-\u9fa5\w\s•,]{2,45}$/;
-// 电话号码正则（暂时只验证在一般情况下的中国大陆移动手机号码）
-const regExpEmployeePhoneNumber = /^1[3-9]\d{9}$/;
-
-// Get token
-function getToken() {
-	return $("input:hidden[name='_csrf']").val();
-}
-
-// Show employees' sex and age
-function showSexAge() {
-	// Get the total number of employees
-	const totalNumber = $('tbody tr').length;
-	for (let i = 1; i <= totalNumber; i++) {
-		// every employee's sex
-		let sex = $('#sexSelectId' + i).attr('class');
-		// every employee's age
-		let age = $('#ageSelectId' + i).attr('class');
-		// 根据性别使 option 选中
-		$('#sexSelectId' + i + " option[value='" + sex + "']").attr('selected', 'selected');
-		// 根据年龄使 option 选中
-		$('#ageSelectId' + i + " option[value='" + age + "']").attr('selected', 'selected');
-	}
-}
-
-// 跟新页面数据
-function updatePage(data) {
-	// 截取之后填充进页面
-	const array1 = data.split('<tbody>');
-	const array2 = array1[1].split('</tbody>');
-	const array3 = array2[1].split('<div class="modal-footer no-margin-top">');
-	let array4 = array3[1].split('</div>');
-	// 截取字符串之后不需要将其转换为 HTML
-	// $('tbody').html($(array2[0]));
-	$('tbody').html(array2[0]);
-	$('.no-margin-top').html(array4[0]);
-	showSexAge();
-}
-
-// 根据传参判断对象属性
-function Employee(attribute, param) {
-	if (attribute === 'employeeName') {
-		this.employeeName = param;
-	} else if (attribute === 'employeeSex') {
-		this.employeeSex = param;
-	} else if (attribute === 'employeeAge') {
-		this.employeeAge = param;
-	} else if (attribute === 'employeeIdCard') {
-		this.employeeIdCard = param;
-	} else if (attribute === 'employeeAddress') {
-		this.employeeAddress = param;
-	} else if (attribute === 'employeePhoneNumber') {
-		this.employeePhoneNumber = param;
-	} else if (attribute === 'createdBy') {
-		this.createdBy = param;
-	} else if (attribute === 'createdDate') {
-		this.createdDate = param;
-	} else if (attribute === 'lastModifiedDate') {
-		this.lastModifiedDate = param;
-	}
-}
-
-// 根据条件查找员工
-function findEmployee(param) {
-
-	$.ajax({
-		type: 'POST',
-		// 下面这行非常重要，没有会报错
-		// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
-		// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
-		contentType: 'application/json',
-		url: '/employee/findEmployee',
-		data: JSON.stringify(new Employee($('#findSelect').val(), param)),
-		// 因为开启了 csrf，所以增加请求头
-		// 终于成功了！！！
-		headers: {
-			// 不区分大小写
-			'X-CSRF-Token': getToken()
-		},
-		// xml ===      直接 error
-		// html ===     就是默认的整个页面的 html，没有 tbody 内容
-		// script ===   也没有 tbody 内容
-		// json ===     error
-		// jsonp ===    error
-		// text ===     整个页面的 html，没有 tbody 内容
-		// !!!!!!!!!!!! 这是查找方法，不用重定向也可以把所有数据的第一页传回来 !!!!!!!!!!!!
-		// xml ===      error
-		// html ===     有 tbody 内容
-		// script ===   有 tbody 内容
-		// json ===     error
-		// jsonp ===    error
-		// text ===     有 tbody 内容
-		// dataType: 'text',
-		success: function (data, success, state) {
-			if (state.status === 200 && state.readyState === 4) {
-				// 截取之后填充进页面
-				const array1 = data.split('<tbody>');
-				const array2 = array1[1].split('</tbody>');
-				const array3 = array2[1].split('<div class="modal-footer no-margin-top">');
-				const array4 = array3[1].split('</div>');
-				// 把对象也写进页面请求路径中
-				// encodeURIComponent(JSON.stringify(new Employee()))
-				const ul = array4[0].replace(/\?/g, '/findEmployee?');
-				// 截取字符串之后不需要将其转换为 HTML
-				// $('tbody').html($(array2[0]));
-				$('tbody').html(array2[0]);
-				$('.no-margin-top').html(ul);
-				showSexAge();
-			}
-		},
-		error: function () {
-			alert('查找失败，请检查字段后重试。');
+	// 更新页面数据
+	function updatePage(data) {
+		if (/tfoot/.test(data)) {
+			// 截取之后填充进页面
+			const array1 = data.split('<tbody>');
+			console.log(data);
+			console.log(array1);
+			console.log(array1[1]);
+			const array2 = array1[1].split('</tbody>');
+			console.log(array2);
+			console.log(array2[1]);
+			const array3 = array2[1].split('<div class="modal-footer no-margin-top">');
+			console.log(array3);
+			console.log(array3[1]);
+			let array4 = array3[1].split('</div>');
+			console.log(array4);
+			console.log(array4[0]);
+			tbody.html(array2[0]);
+			$('.no-margin-top').html(array4[0]);
+			showSexAge();
+		} else {
+			$('tbody tr').remove();
+			$('tfoot').remove();
+			$('tbody').html('<tr><td colspan="12">无匹配结果</td></tr>');
 		}
-	})
-
-}
-
-// 根据所提供身份证的前 17 位算出最后一位
-function calculateLastNumber(id17) {
-	const weight = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
-	const validate = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
-	let sum = 0;
-	let mode;
-	for (let i = 0; i < id17.length; i++) {
-		sum += id17[i] * weight[i];
 	}
-	mode = sum % 11;
-	return validate[mode];
+
+	// 根据传参判断对象属性
+	function Employee(attribute, param) {
+		if (attribute === 'employeeName') {
+			this.employeeName = param;
+		} else if (attribute === 'employeeSex') {
+			this.employeeSex = param;
+		} else if (attribute === 'employeeAge') {
+			this.employeeAge = param;
+		} else if (attribute === 'employeeIdCard') {
+			this.employeeIdCard = param;
+		} else if (attribute === 'employeeAddress') {
+			this.employeeAddress = param;
+		} else if (attribute === 'employeePhoneNumber') {
+			this.employeePhoneNumber = param;
+		} else if (attribute === 'createdBy') {
+			this.createdBy = param;
+		} else if (attribute === 'createdDate') {
+			this.createdDate = param;
+		} else if (attribute === 'lastModifiedDate') {
+			this.lastModifiedDate = param;
+		}
+	}
+
+	// 根据所提供身份证的前 17 位算出最后一位
+	function calculateLastNumber(id17) {
+		const weight = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+		const validate = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
+		let sum = 0;
+		let mode;
+		for (let i = 0; i < id17.length; i++) {
+			sum += id17[i] * weight[i];
+		}
+		mode = sum % 11;
+		return validate[mode];
+	}
 }
