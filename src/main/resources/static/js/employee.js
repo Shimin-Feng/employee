@@ -137,7 +137,14 @@ window.onload = function () {
 	$('#saveEmployee').on('click', function () {
 
 		$('#save').blur();
-		regExp($('#recipient-name').val(), $('#recipient-idCard').val(), $('#recipient-address').val(), $('#recipient-phoneNumber').val());
+		if (regExp(
+			$('#recipient-name').val(),
+			$('#recipient-idCard').val(),
+			$('#recipient-address').val(),
+			$('#recipient-phoneNumber').val()
+		) === false) {
+			return false;
+		}
 		const createdDate = new Date();
 
 		function Employee() {
@@ -166,7 +173,11 @@ window.onload = function () {
 			},
 			success: function (data, success, state) {
 				if (state.status === 200 && state.readyState === 4) {
-					ajaxRequest($('.currentPage').text() - 1);
+					if ($('#findInput').val() === '') {
+						ajaxRequest($('.currentPage').text() - 1);
+					} else {
+						ajaxRequestCondition($('.currentPage').text() - 1, $('#findSelect').val(), $('#findInput').val());
+					}
 				}
 			},
 			error: function () {
@@ -202,7 +213,9 @@ window.onload = function () {
 					}
 				},
 				error: function () {
-					alert('删除失败，请检查后重试。');
+					$('tbody tr').remove();
+					$('tfoot').remove();
+					$('tbody').html('<tr><td colspan="12">删除失败，请检查后重试。</td></tr>');
 				}
 			})
 		}
@@ -214,12 +227,14 @@ window.onload = function () {
 		$('.updateEmployee').blur();
 		// 获取当前 count
 		const count = params.currentTarget.parentNode.parentNode.firstElementChild.textContent;
-		regExp(
+		if (regExp(
 			$('#trId' + count + ' td:eq(1) label input').val(),
 			$('#trId' + count + ' td:eq(4) label input').val(),
 			$('#trId' + count + ' td:eq(5) label input').val(),
 			$('#trId' + count + ' td:eq(6) label input').val()
-		);
+		) === false) {
+			return false;
+		}
 
 		if (confirm('确定更改?')) {
 			const lastModifiedDate = new Date();
@@ -261,7 +276,9 @@ window.onload = function () {
 					}
 				},
 				error: function () {
-					alert('更改失败，请检查后重试。');
+					$('tbody tr').remove();
+					$('tfoot').remove();
+					$('tbody').html('<tr><td colspan="12">更改失败，请检查后重试。</td></tr>');
 				}
 			})
 		}
@@ -326,7 +343,9 @@ window.onload = function () {
 				}
 			},
 			error: function () {
-				alert('查找失败，请检查后重试。');
+				$('tbody tr').remove();
+				$('tfoot').remove();
+				$('tbody').html('<tr><td colspan="12">查找失败，请检查后重试。</td></tr>');
 			}
 		})
 
@@ -375,96 +394,110 @@ window.onload = function () {
 
 	// ajax - 无查询条件
 	function ajaxRequest(pageNum) {
-		$.ajax({
-			type: 'POST',
-			url: '/employee?pageNum=' + pageNum,
-			// 因为开启了 csrf，所以增加请求头
-			headers: {
-				'X-CSRF-Token': getToken()
-			},
-			success: function (data, success, state) {
-				if (state.status === 200 && state.readyState === 4) {
-					// 如果当前页还有数据
-					if (/<option value="男">/.test(data)) {
-						updatePage(data);
-					} else {
-						if (pageNum !== 0) {
-							$.ajax({
-								type: 'POST',
-								url: '/employee?pageNum=' + (pageNum - 1),
-								// 因为开启了 csrf，所以增加请求头
-								headers: {
-									'X-CSRF-Token': getToken()
-								},
-								success: function (data, success, state) {
-									if (state.status === 200 && state.readyState === 4) {
-										updatePage(data);
-									}
-								}
-							})
+		if (pageNum > -1) {
+			$.ajax({
+				type: 'POST',
+				url: '/employee?pageNum=' + pageNum,
+				// 因为开启了 csrf，所以增加请求头
+				headers: {
+					'X-CSRF-Token': getToken()
+				},
+				success: function (data, success, state) {
+					if (state.status === 200 && state.readyState === 4) {
+						// 如果当前页还有数据
+						if (/<option value="男">/.test(data)) {
+							updatePage(data);
 						} else {
-							alert('没有数据');
+							if (pageNum > 0) {
+								$.ajax({
+									type: 'POST',
+									url: '/employee?pageNum=' + (pageNum - 1),
+									// 因为开启了 csrf，所以增加请求头
+									headers: {
+										'X-CSRF-Token': getToken()
+									},
+									success: function (data, success, state) {
+										if (state.status === 200 && state.readyState === 4) {
+											updatePage(data);
+										}
+									}
+								})
+							} else {
+								$('tbody tr').remove();
+								$('tfoot').remove();
+								$('tbody').html('<tr><td colspan="12">无匹配结果</td></tr>');
+							}
 						}
 					}
 				}
-			}
-			,
-			error: function () {
-				alert('页面加载失败，请检查后重试。');
-			}
-		})
+				,
+				error: function () {
+					$('tbody tr').remove();
+					$('tfoot').remove();
+					$('tbody').html('<tr><td colspan="12">页面加载失败，请检查后重试。</td></tr>');
+				}
+			})
+		}
 	}
 
 	// ajax - 有查询条件
 	function ajaxRequestCondition(pageNum, attribute, value) {
-		$.ajax({
-			type: 'POST',
-			// 下面这行非常重要，没有会报错
-			// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
-			// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
-			contentType: 'application/json',
-			url: '/employee/findEmployee?pageNum=' + pageNum,
-			data: JSON.stringify(new Employee(attribute, value)),
-			// 因为开启了 csrf，所以增加请求头
-			headers: {
-				'X-CSRF-Token': getToken()
-			},
-			success: function (data, success, state) {
-				if (state.status === 200 && state.readyState === 4) {
-					if (/<option value="男">/.test(data)) {
-						updatePage(data);
-					} else {
-						if (pageNum !== 0) {
-							$.ajax({
-								type: 'POST',
-								// 下面这行非常重要，没有会报错
-								// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
-								// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
-								contentType: 'application/json',
-								url: '/employee/findEmployee?pageNum=' + (pageNum - 1),
-								data: JSON.stringify(new Employee(attribute, value)),
-								// 因为开启了 csrf，所以增加请求头
-								headers: {
-									'X-CSRF-Token': getToken()
-								},
-								success: function (data, success, state) {
-									if (state.status === 200 && state.readyState === 4) {
-										updatePage(data);
-									}
-								},
-								error: function () {
-									alert('页面加载失败，请检查后重试。');
-								}
-							})
+		if (pageNum > -1) {
+			$.ajax({
+				type: 'POST',
+				// 下面这行非常重要，没有会报错
+				// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
+				// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
+				contentType: 'application/json',
+				url: '/employee/findEmployee?pageNum=' + pageNum,
+				data: JSON.stringify(new Employee(attribute, value)),
+				// 因为开启了 csrf，所以增加请求头
+				headers: {
+					'X-CSRF-Token': getToken()
+				},
+				success: function (data, success, state) {
+					if (state.status === 200 && state.readyState === 4) {
+						if (/<option value="男">/.test(data)) {
+							updatePage(data);
 						} else {
-							alert('没有数据');
+							if (pageNum > 0) {
+								$.ajax({
+									type: 'POST',
+									// 下面这行非常重要，没有会报错
+									// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
+									// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
+									contentType: 'application/json',
+									url: '/employee/findEmployee?pageNum=' + (pageNum - 1),
+									data: JSON.stringify(new Employee(attribute, value)),
+									// 因为开启了 csrf，所以增加请求头
+									headers: {
+										'X-CSRF-Token': getToken()
+									},
+									success: function (data, success, state) {
+										if (state.status === 200 && state.readyState === 4) {
+											updatePage(data);
+										}
+									},
+									error: function () {
+										$('tbody tr').remove();
+										$('tfoot').remove();
+										$('tbody').html('<tr><td colspan="12">页面加载失败，请检查后重试。</td></tr>');
+									}
+								})
+							} else {
+								$('tbody tr').remove();
+								$('tfoot').remove();
+								$('tbody').html('<tr><td colspan="12">无匹配结果</td></tr>');
+							}
 						}
 					}
+				},
+				error: function () {
+					$('tbody tr').remove();
+					$('tfoot').remove();
+					$('tbody').html('<tr><td colspan="12">页面加载失败，请检查后重试。</td></tr>');
 				}
-			},
-			error: function () {
-				alert('页面加载失败，请检查后重试。');
-			}
-		})
+			})
+		}
 	}
 }

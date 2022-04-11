@@ -160,10 +160,10 @@
             </td>
         </tr>
         </tbody>
-        <tfoot th:if="${employees != null && employees != ''}">
+        <tfoot>
         <tr>
             <td colspan="12">
-                <div class="modal-footer no-margin-top">
+                <div class="modal-footer no-margin-top" th:if="${employees.hasContent()}">
                     <ul class="pagination pull-right no-margin">
                         <li>
                             <a class="" id="frontPage">首页</a>
@@ -191,7 +191,6 @@
         </tfoot>
     </table>
 </div>
-
 <!-- Modal -->
 <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" data-bs-backdrop="static"
      id="exampleModal" tabindex="-1">

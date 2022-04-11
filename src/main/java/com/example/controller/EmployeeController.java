@@ -53,7 +53,7 @@ public class EmployeeController {
     }*/
 
     @RequestMapping("employee")
-    public String index(@NotNull Model model, @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
+    public String employee(@NotNull Model model, @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
                         @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         model.addAttribute("employees", employeeRepository.findAll(
                 PageRequest.of(pageNum, pageSize, Sort.by("createdDate"))));
@@ -61,22 +61,30 @@ public class EmployeeController {
     }
 
     @RequestMapping("employee/saveEmployee")
-    public String saveEmployee(@RequestBody @NotNull Employee employee) {
+    public String saveEmployee(@RequestBody @NotNull Employee employee, @NotNull Model model, @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
+                               @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         employee.setEmployeeId(String.valueOf(UUID.randomUUID()));
         employeeRepository.save(employee);
-        employeeRepository.findAll();
+        model.addAttribute("employees", employeeRepository.findAll(
+                PageRequest.of(pageNum, pageSize, Sort.by("createdDate"))));
         return "employee";
     }
 
     @RequestMapping("employee/deleteEmployee")
-    public String deleteEmployee(String employeeId) {
+    public String deleteEmployee(String employeeId, @NotNull Model model, @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
+                                 @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         employeeRepository.deleteById(employeeId);
+        model.addAttribute("employees", employeeRepository.findAll(
+                PageRequest.of(pageNum, pageSize, Sort.by("createdDate"))));
         return "employee";
     }
 
     @RequestMapping("employee/updateEmployee")
-    public String updateEmployee(@RequestBody Employee employee) {
+    public String updateEmployee(@RequestBody Employee employee, @NotNull Model model, @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
+                                 @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         employeeRepository.save(employee);
+        model.addAttribute("employees", employeeRepository.findAll(
+                PageRequest.of(pageNum, pageSize, Sort.by("createdDate"))));
         return "employee";
     }
 
