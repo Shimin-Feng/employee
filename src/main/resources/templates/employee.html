@@ -8,17 +8,37 @@
     <link href="/css/employee.css" rel="stylesheet">
     <title>员工管理</title>
 </head>
-<body class="container">
-<div>
-    <h1>员工管理</h1>
-    <div class="input-group mb-3">
-        <a>欢迎:&nbsp;</a>
-        <a id="username" sec:authentication="name"></a>
-        <a href="/index">返回</a>
+<body>
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand">Welcome:</a>
+        <a class="navbar-brand" id="username" sec:authentication="name"></a>
         <form action="/logout" method="post">
             <input name="_csrf" th:if="${_csrf}" th:value="${_csrf.token}" type="hidden">
-            <button class="btn btn-primary" type="submit">退出</button>
+            <button class="btn navbar-brand" type="submit">退出</button>
         </form>
+        <a class="navbar-brand centerrrr">员工管理系统</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navmenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <div class="nav-link">业绩</div>
+                </li>
+                <li class="nav-item">
+                    <div class="nav-link">排假</div>
+                </li>
+                <li class="nav-item">
+                    <div class="nav-link">活动</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="p-5">
+    <div class="container input-group mb-3">
         <select aria-label="Default select example" id="findSelect">
             <option value="employeeName">姓名</option>
             <option value="employeeSex">性别</option>
@@ -38,10 +58,11 @@
                 type="button">添加员工
         </button>
     </div>
-</div>
-<div>
-    <table class="table table-hover text-center">
-        <thead>
+</section>
+<section class="p-5">
+    <table class="container table table-hover text-center table-striped table-bordered caption-top table-responsive-lg">
+        <caption>员工管理系统</caption>
+        <thead class="table-primary">
         <tr>
             <th>#</th>
             <th>姓名</th>
@@ -57,9 +78,9 @@
             <th>删除</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="table-secondary">
         <tr th:each="employee, stat: ${employees}" th:id="'trId' + ${stat.count}">
-            <td th:text="${stat.count}"></td>
+            <th th:text="${stat.count}"></th>
             <td>
                 <label>
                     <input maxlength="25" th:value="${employee.employeeName}" type="text">
@@ -162,7 +183,7 @@
             </td>
         </tr>
         </tbody>
-        <tfoot>
+        <tfoot class="table-success">
         <tr>
             <td colspan="12">
                 <div class="modal-footer no-margin-top" th:if="${employees.hasContent()}">
@@ -176,7 +197,7 @@
                         <li th:each="pageNum:${#numbers.sequence(0, employees.getTotalPages() - 1)}">
                             <a class="midPages"
                                th:if="${pageNum ne employees.pageable.getPageNumber()}" th:text="${pageNum + 1}"></a>
-                            <a class="midPages currentPage" style='font-weight:bold;background: #6faed9;'
+                            <a class="midPages currentPage" style='font-weight:bold;background: #0D6EFD;'
                                th:if="${pageNum eq employees.pageable.getPageNumber()}" th:text="${pageNum + 1}"></a>
                         </li>
                         <li th:if="${employees.hasNext()}">
@@ -192,7 +213,7 @@
         </tr>
         </tfoot>
     </table>
-</div>
+</section>
 <!-- Modal -->
 <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" data-bs-backdrop="static"
      id="exampleModal" tabindex="-1">
@@ -290,6 +311,13 @@
         </div>
     </div>
 </div>
+
+<footer class="p-5 bg-dark text-white text-center">
+    <div class="container">
+        <p class="lead">Copyright &copy; 2022 $himinFXCVII</p>
+    </div>
+</footer>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- JavaScript Bundle with Popper -->
 <script crossorigin="anonymous"

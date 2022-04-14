@@ -1,16 +1,13 @@
-table, td {
-    border: 1px solid #333;
-    text-align: center;
-    overflow: hidden;
+@media (min-width: 768px) {
+    .news-input {
+        width: 50%;
+    }
 }
 
-table {
-    table-layout: fixed;
-    white-space: nowrap;
-}
-
-h1 {
-    text-align: center;
+body::before {
+    display: block;
+    content: '';
+    height: 58px;
 }
 
 #username, #logout, #save {
@@ -19,14 +16,6 @@ h1 {
 
 #save {
     float: right;
-}
-
-#findButton {
-    margin-right: 10px;
-}
-
-#findSelect {
-    margin-left: 10px;
 }
 
 li a {

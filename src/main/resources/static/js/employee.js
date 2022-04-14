@@ -80,7 +80,7 @@ window.onload = function () {
 		} else if (attribute === 'employeeAge') {
 			this.employeeAge = value;
 		} else if (attribute === 'employeeIdCard') {
-			this.employeeIdCard = value;
+			this.employeeIdCard = value.toUpperCase();
 		} else if (attribute === 'employeeAddress') {
 			this.employeeAddress = value;
 		} else if (attribute === 'employeePhoneNumber') {
@@ -160,7 +160,7 @@ window.onload = function () {
 			this.employeeName = $('#recipient-name').val();
 			this.employeeSex = $('#recipient-sxe').val();
 			this.employeeAge = $('#recipient-age').val();
-			this.employeeIdCard = $('#recipient-idCard').val();
+			this.employeeIdCard = $('#recipient-idCard').val().toUpperCase();
 			this.employeeAddress = $('#recipient-address').val();
 			this.employeePhoneNumber = $('#recipient-phoneNumber').val();
 			this.createdBy = $('#username').text();
@@ -252,7 +252,7 @@ window.onload = function () {
 				this.employeeName = $('#trId' + count + ' td:eq(1) label input').val();
 				this.employeeSex = $('#trId' + count + ' td:eq(2) label select').val();
 				this.employeeAge = $('#trId' + count + ' td:eq(3) label select').val();
-				this.employeeIdCard = $('#trId' + count + ' td:eq(4) label input').val();
+				this.employeeIdCard = $('#trId' + count + ' td:eq(4) label input').val().toUpperCase();
 				this.employeeAddress = $('#trId' + count + ' td:eq(5) label input').val();
 				this.employeePhoneNumber = $('#trId' + count + ' td:eq(6) label input').val();
 				this.createdBy = $('#trId' + count + ' td:eq(7)').text();

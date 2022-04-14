@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    // 后续可以添加用户管理界面
+    // TOTO: 后续可以添加用户管理界面，管理请假界面
     @Override
     protected void configure(@NotNull HttpSecurity http) throws Exception {
         http
@@ -55,11 +55,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 登录处理网址
                 // 当发现 login 时认为是登录需要执行我们自定义的登录逻辑，里面的 url 是登录页面表单提交地址
                 // 在本项目现在的状态下可以不写！！！
-//                .loginProcessingUrl("/login")
+                .loginProcessingUrl("/login")
                 // 登录成功后的请求访问的地址，请求方法必须是 post，这里是跳转控制器
-//                .successForwardUrl("/index")
+                .successForwardUrl("/index")
                 // 登录失败后的请求访问的地址，这里访问的是控制器
-//                .failureForwardUrl("/loginFailed")
+                .failureForwardUrl("/loginFailed")
                 // 所有的登录请求都被允许，不设置就无法访问登录界面
                 .and()
                 // 授权请求
@@ -76,14 +76,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 任何请求都需要通过认证
                 .anyRequest()
                 .authenticated()
-                /*.and()
+                .and()
                 // 已在 HTTPStatusCodeErrorController class 中处理
                 // 暂时注释掉，因为不好控制
                 // TODO: 怎么才能控制好 timeout？
+                // 似乎正常了，然而我并没有改变什么
                 // 开启超时检测
                 .sessionManagement()
                 // 如果超时则跳转到以下页面
-                .invalidSessionUrl("/timeout")*/
+                .invalidSessionUrl("/timeout")
                 // 设置最大Session数为1
 //                .maximumSessions(1)
                 .and()
