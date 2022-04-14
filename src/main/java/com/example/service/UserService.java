@@ -30,6 +30,7 @@ public class UserService implements UserDetailsService {
      * org.springframework.security.authentication.InternalAuthenticationServiceException:
      * UserDetailsService returned null, which is an interface contract violation<br/>
      * 已解决!在提交登录信息时在前台验证是否有数据
+     * 有时候还是会报错
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -42,6 +42,17 @@ window.onload = function () {
 		return validate[mode];
 	}
 
+	// 格式化时间
+	function getDateTime(dateTime) {
+		const year = dateTime.getFullYear();
+		const month = dateTime.getMonth() + 1 < 10 ? '0' + (dateTime.getMonth() + 1) : dateTime.getMonth() + 1;
+		const date = dateTime.getDate() < 10 ? '0' + dateTime.getDate() : dateTime.getDate();
+		const hours = dateTime.getHours() < 10 ? '0' + dateTime.getHours() : dateTime.getHours();
+		const minutes = dateTime.getMinutes() < 10 ? '0' + dateTime.getMinutes() : dateTime.getMinutes();
+		const seconds = dateTime.getSeconds() < 10 ? '0' + dateTime.getSeconds() : dateTime.getSeconds();
+		return (year + '-' + month + '-' + date + ' ' + hours + ':' + minutes + ':' + seconds);
+	}
+
 	// 更新页面数据
 	function updatePage(data) {
 		if (/<option value="男">/.test(data)) {
@@ -142,9 +153,7 @@ window.onload = function () {
 			$('#recipient-idCard').val(),
 			$('#recipient-address').val(),
 			$('#recipient-phoneNumber').val()
-		) === false) {
-			return false;
-		}
+		) === false) {return false;}
 		const createdDate = new Date();
 
 		function Employee() {
@@ -155,8 +164,8 @@ window.onload = function () {
 			this.employeeAddress = $('#recipient-address').val();
 			this.employeePhoneNumber = $('#recipient-phoneNumber').val();
 			this.createdBy = $('#username').text();
-			this.createdDate = createdDate;
-			this.lastModifiedDate = createdDate;
+			this.createdDate = getDateTime(createdDate);
+			this.lastModifiedDate = getDateTime(createdDate);
 		}
 
 		$.ajax({
@@ -232,18 +241,11 @@ window.onload = function () {
 			$('#trId' + count + ' td:eq(4) label input').val(),
 			$('#trId' + count + ' td:eq(5) label input').val(),
 			$('#trId' + count + ' td:eq(6) label input').val()
-		) === false) {
-			return false;
-		}
+		) === false) {return false;}
 
 		if (confirm('确定更改?')) {
-			const lastModifiedDate = new Date();
-			const year = lastModifiedDate.getFullYear();
-			const month = lastModifiedDate.getMonth() + 1 < 10 ? '0' + (lastModifiedDate.getMonth() + 1) : lastModifiedDate.getMonth() + 1;
-			const date = lastModifiedDate.getDate() < 10 ? '0' + lastModifiedDate.getDate() : lastModifiedDate.getDate();
-			const hours = lastModifiedDate.getHours() < 10 ? '0' + lastModifiedDate.getHours() : lastModifiedDate.getHours();
-			const minutes = lastModifiedDate.getMinutes() < 10 ? '0' + lastModifiedDate.getMinutes() : lastModifiedDate.getMinutes();
-			const seconds = lastModifiedDate.getSeconds() < 10 ? '0' + lastModifiedDate.getSeconds() : lastModifiedDate.getSeconds();
+			let lastModifiedDate = new Date();
+			lastModifiedDate = getDateTime(lastModifiedDate);
 
 			function Employee() {
 				this.employeeId = params.currentTarget.parentNode.nextElementSibling.firstElementChild.id;
@@ -254,7 +256,7 @@ window.onload = function () {
 				this.employeeAddress = $('#trId' + count + ' td:eq(5) label input').val();
 				this.employeePhoneNumber = $('#trId' + count + ' td:eq(6) label input').val();
 				this.createdBy = $('#trId' + count + ' td:eq(7)').text();
-				this.createdDate = Date.parse(params.currentTarget.parentNode.previousElementSibling.previousElementSibling.textContent);
+				this.createdDate = params.currentTarget.parentNode.previousElementSibling.previousElementSibling.textContent;
 				this.lastModifiedDate = lastModifiedDate;
 			}
 
@@ -272,7 +274,7 @@ window.onload = function () {
 				},
 				success: function (data, success, state) {
 					if (state.status === 200 && state.readyState === 4) {
-						$('#trId' + count + ' td:eq(9)').html(year + '-' + month + '-' + date + ' ' + hours + ':' + minutes + ':' + seconds);
+						$('#trId' + count + ' td:eq(9)').html(lastModifiedDate);
 					}
 				},
 				error: function () {
