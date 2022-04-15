@@ -43,7 +43,7 @@ window.onload = function () {
 			// 截取之后填充进页面
 			const array1 = data.split('<tbody class="table-secondary">');
 			const array2 = array1[1].split('</tbody>');
-			const array3 = array2[1].split('<div class="modal-footer no-margin-top"');
+			const array3 = array2[1].split('<div class="modal-footer no-margin-top">');
 			let array4 = array3[1].split('</div>');
 			$('tbody').html(array2[0]);
 			$('.no-margin-top').html(array4[0]);
@@ -314,7 +314,7 @@ window.onload = function () {
 						// 截取之后填充进页面
 						const array1 = data.split('<tbody class="table-secondary">');
 						const array2 = array1[1].split('</tbody>');
-						const array3 = array2[1].split('<div class="modal-footer no-margin-top"');
+						const array3 = array2[1].split('<div class="modal-footer no-margin-top">');
 						const array4 = array3[1].split('</div>');
 						const ul = array4[0].replace(/\?/, '/findEmployee?');
 						// 截取字符串之后不需要将其转换为 HTML

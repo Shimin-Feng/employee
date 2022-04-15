@@ -7,7 +7,7 @@ import java.sql.*;
  * JdbcTemplate template = new JdbcTemplate(dataSource);
  * template.query("SHOW TABLES FROM test_database LIKE 'persistent_logins';", new BeanPropertyRowMapper<>());
  */
-public class JdbcCheckTableExitDemo {
+public class JdbcCheckTableExit {
 
     private static final String url = "jdbc:mysql://localhost:3306/test_database";
     private static final String user = "root";

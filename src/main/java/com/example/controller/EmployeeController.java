@@ -53,7 +53,7 @@ public class EmployeeController {
 
     @RequestMapping("employee")
     public String employee(@NotNull Model model, @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
-                        @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         model.addAttribute("employees", employeeRepository.findAll(
                 PageRequest.of(pageNum, pageSize, Sort.by("createdDate"))));
         return "employee";

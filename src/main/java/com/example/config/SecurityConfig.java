@@ -77,17 +77,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
-                // 已在 HTTPStatusCodeErrorController class 中处理
-                // 暂时注释掉，因为不好控制
-                // TODO: 怎么才能控制好 timeout？
-                // 似乎正常了，然而我并没有改变什么
-                // 开启超时检测
-                .sessionManagement()
-                // 如果超时则跳转到以下页面
-                .invalidSessionUrl("/timeout")
-                // 设置最大Session数为1
-//                .maximumSessions(1)
-                .and()
                 // 开启’记住我‘功能
                 .rememberMe()
                 // ’记住我‘ 86400 秒/一天，即使服务器重启也不会下线，除非其主动退出登录
@@ -104,16 +93,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 // 退出成功后访问的地址
                 .logoutSuccessUrl("/logout")
+                .and()
+                // 已在 HTTPStatusCodeErrorController class 中处理
+                // 暂时注释掉，因为不好控制
+                // TODO: 怎么才能控制好 timeout？
+                // 似乎正常了，然而我并没有改变什么
+                // 开启超时检测
+                .sessionManagement()
+                // 如果超时则跳转到以下页面
+                .invalidSessionUrl("/timeout")
+                // 设置最大 Session 数为 1
+                .maximumSessions(1)
         ;
     }
 
     public class TokenRepository extends JdbcTokenRepositoryImpl {
         public PersistentTokenRepository persistentTokenRepository() {
             TokenRepository tokenRepository = new TokenRepository();
-            JdbcCheckTableExitDemo jdbcCheckTableExitDemo = new JdbcCheckTableExitDemo();
+            JdbcCheckTableExit jdbcCheckTableExit = new JdbcCheckTableExit();
             // 判断表是否存在，不存在则创建
-            System.out.println("Token 表 persistent_logins 是否存在 --------------> " + jdbcCheckTableExitDemo.isExist());
-            if (!jdbcCheckTableExitDemo.isExist()) {
+            System.out.println("Token 表 persistent_logins 是否存在 --------------> " + jdbcCheckTableExit.isExist());
+            if (!jdbcCheckTableExit.isExist()) {
                 tokenRepository.setCreateTableOnStartup(true);
                 tokenRepository.initDao();
             }
