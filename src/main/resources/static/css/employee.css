@@ -10,14 +10,15 @@ body::before {
     height: 58px;
 }
 
-#username, #logout, #save {
-    display: inline-block;
-}
-
-#save {
-    float: right;
-}
-
 li a {
     cursor: pointer;
+    text-decoration: none;
+}
+
+td:first-of-type label input {
+    width: 70px;
+}
+
+td:nth-of-type(6) label input {
+    width: 111px;
 }

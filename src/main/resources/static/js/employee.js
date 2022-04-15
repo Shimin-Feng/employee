@@ -55,9 +55,9 @@ window.onload = function () {
 
 	// 更新页面数据
 	function updatePage(data) {
-		if (/<option value="男">/.test(data)) {
+		if (/deleteEmployee/.test(data)) {
 			// 截取之后填充进页面
-			const array1 = data.split('<tbody>');
+			const array1 = data.split('<tbody class="table-secondary">');
 			const array2 = array1[1].split('</tbody>');
 			const array3 = array2[1].split('<div class="modal-footer no-margin-top">');
 			let array4 = array3[1].split('</div>');
@@ -235,12 +235,12 @@ window.onload = function () {
 
 		$('.updateEmployee').blur();
 		// 获取当前 count
-		const count = params.currentTarget.parentNode.parentNode.firstElementChild.textContent;
+		const count = params.currentTarget.parentNode.parentNode.firstElementChild.textContent % 10;
 		if (regExp(
-			$('#trId' + count + ' td:eq(1) label input').val(),
+			$('#trId' + count + ' td:eq(0) label input').val(),
+			$('#trId' + count + ' td:eq(3) label input').val(),
 			$('#trId' + count + ' td:eq(4) label input').val(),
-			$('#trId' + count + ' td:eq(5) label input').val(),
-			$('#trId' + count + ' td:eq(6) label input').val()
+			$('#trId' + count + ' td:eq(5) label input').val()
 		) === false) {return false;}
 
 		if (confirm('确定更改?')) {
@@ -249,13 +249,13 @@ window.onload = function () {
 
 			function Employee() {
 				this.employeeId = params.currentTarget.parentNode.nextElementSibling.firstElementChild.id;
-				this.employeeName = $('#trId' + count + ' td:eq(1) label input').val();
-				this.employeeSex = $('#trId' + count + ' td:eq(2) label select').val();
-				this.employeeAge = $('#trId' + count + ' td:eq(3) label select').val();
-				this.employeeIdCard = $('#trId' + count + ' td:eq(4) label input').val().toUpperCase();
-				this.employeeAddress = $('#trId' + count + ' td:eq(5) label input').val();
-				this.employeePhoneNumber = $('#trId' + count + ' td:eq(6) label input').val();
-				this.createdBy = $('#trId' + count + ' td:eq(7)').text();
+				this.employeeName = $('#trId' + count + ' td:eq(0) label input').val();
+				this.employeeSex = $('#trId' + count + ' td:eq(1) label select').val();
+				this.employeeAge = $('#trId' + count + ' td:eq(2) label select').val();
+				this.employeeIdCard = $('#trId' + count + ' td:eq(3) label input').val().toUpperCase();
+				this.employeeAddress = $('#trId' + count + ' td:eq(4) label input').val();
+				this.employeePhoneNumber = $('#trId' + count + ' td:eq(5) label input').val();
+				this.createdBy = $('#trId' + count + ' td:eq(6)').text();
 				this.createdDate = params.currentTarget.parentNode.previousElementSibling.previousElementSibling.textContent;
 				this.lastModifiedDate = lastModifiedDate;
 			}
@@ -274,7 +274,7 @@ window.onload = function () {
 				},
 				success: function (data, success, state) {
 					if (state.status === 200 && state.readyState === 4) {
-						$('#trId' + count + ' td:eq(9)').html(lastModifiedDate);
+						$('#trId' + count + ' td:eq(8)').html(lastModifiedDate);
 					}
 				},
 				error: function () {
@@ -326,13 +326,21 @@ window.onload = function () {
 			},
 			success: function (data, success, state) {
 				if (state.status === 200 && state.readyState === 4) {
-					if (/<option value="男">/.test(data)) {
+					if (/deleteEmployee/.test(data)) {
 						// 截取之后填充进页面
-						const array1 = data.split('<tbody>');
+						const array1 = data.split('<tbody class="table-secondary">');
+						console.log(array1[0]);
+						console.log(array1[1]);
 						const array2 = array1[1].split('</tbody>');
+						console.log(array2[0]);
+						console.log(array2[1]);
 						const array3 = array2[1].split('<div class="modal-footer no-margin-top">');
+						console.log(array3[0]);
+						console.log(array3[1]);
 						const array4 = array3[1].split('</div>');
+						console.log(array4);
 						const ul = array4[0].replace(/\?/, '/findEmployee?');
+						console.log(ul);
 						// 截取字符串之后不需要将其转换为 HTML
 						$('tbody').html(array2[0]);
 						$('.no-margin-top').html(ul);
@@ -407,7 +415,7 @@ window.onload = function () {
 				success: function (data, success, state) {
 					if (state.status === 200 && state.readyState === 4) {
 						// 如果当前页还有数据
-						if (/<option value="男">/.test(data)) {
+						if (/deleteEmployee/.test(data)) {
 							updatePage(data);
 						} else {
 							if (pageNum > 0) {
@@ -459,7 +467,7 @@ window.onload = function () {
 				},
 				success: function (data, success, state) {
 					if (state.status === 200 && state.readyState === 4) {
-						if (/<option value="男">/.test(data)) {
+						if (/deleteEmployee/.test(data)) {
 							updatePage(data);
 						} else {
 							if (pageNum > 0) {
