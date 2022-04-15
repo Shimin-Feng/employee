@@ -2,6 +2,7 @@
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <!-- CSS only -->
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
     <link href="/css/employee.css" rel="stylesheet">
@@ -17,7 +18,7 @@
             <button class="btn navbar-brand" type="submit">退出</button>
         </form>
         <a class="navbar-brand centerrrr">员工管理系统</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+        <button class="navbar-toggler" data-bs-target="#navmenu" data-bs-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navmenu">
@@ -80,8 +81,8 @@
         </tr>
         </thead>
         <tbody class="table-secondary">
-        <tr th:each="employee, stat: ${employees}" th:id="'trId' + ${stat.count}">
-            <th th:text="${stat.count + employees.getPageable().getPageNumber() * 10}"></th>
+        <tr th:each="employee, stat: ${employees}">
+            <th th:id="${employee.employeeId}" th:text="${stat.count + employees.getPageable().getPageNumber() * 10}"></th>
             <td>
                 <label>
                     <input maxlength="25" th:value="${employee.employeeName}" type="text">
@@ -89,63 +90,63 @@
             </td>
             <td>
                 <label>
-                    <select th:class="${employee.employeeSex}" th:id="'sexSelectId' + ${stat.count}">
-                        <option value="男">男</option>
-                        <option value="女">女</option>
+                    <select>
+                        <option th:selected="${employee.employeeSex} == '男'">男</option>
+                        <option th:selected="${employee.employeeSex} == '女'">女</option>
                     </select>
                 </label>
             </td>
             <td>
                 <label>
-                    <select th:class="${employee.employeeAge}" th:id="'ageSelectId' + ${stat.count}">
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                        <option value="23">23</option>
-                        <option value="24">24</option>
-                        <option value="25">25</option>
-                        <option value="26">26</option>
-                        <option value="27">27</option>
-                        <option value="28">28</option>
-                        <option value="29">29</option>
-                        <option value="30">30</option>
-                        <option value="31">31</option>
-                        <option value="32">32</option>
-                        <option value="33">33</option>
-                        <option value="34">34</option>
-                        <option value="35">35</option>
-                        <option value="36">36</option>
-                        <option value="37">37</option>
-                        <option value="38">38</option>
-                        <option value="39">39</option>
-                        <option value="40">40</option>
-                        <option value="41">41</option>
-                        <option value="42">42</option>
-                        <option value="43">43</option>
-                        <option value="44">44</option>
-                        <option value="45">45</option>
-                        <option value="46">46</option>
-                        <option value="47">47</option>
-                        <option value="48">48</option>
-                        <option value="49">49</option>
-                        <option value="50">50</option>
-                        <option value="51">51</option>
-                        <option value="52">52</option>
-                        <option value="53">53</option>
-                        <option value="54">54</option>
-                        <option value="55">55</option>
-                        <option value="56">56</option>
-                        <option value="57">57</option>
-                        <option value="58">58</option>
-                        <option value="59">59</option>
-                        <option value="60">60</option>
-                        <option value="61">61</option>
-                        <option value="62">62</option>
-                        <option value="63">63</option>
-                        <option value="64">64</option>
-                        <option value="65">65</option>
+                    <select>
+                        <option th:selected="${employee.employeeAge} == 18">18</option>
+                        <option th:selected="${employee.employeeAge} == 19">19</option>
+                        <option th:selected="${employee.employeeAge} == 20">20</option>
+                        <option th:selected="${employee.employeeAge} == 21">21</option>
+                        <option th:selected="${employee.employeeAge} == 22">22</option>
+                        <option th:selected="${employee.employeeAge} == 23">23</option>
+                        <option th:selected="${employee.employeeAge} == 24">24</option>
+                        <option th:selected="${employee.employeeAge} == 25">25</option>
+                        <option th:selected="${employee.employeeAge} == 26">26</option>
+                        <option th:selected="${employee.employeeAge} == 27">27</option>
+                        <option th:selected="${employee.employeeAge} == 28">28</option>
+                        <option th:selected="${employee.employeeAge} == 29">29</option>
+                        <option th:selected="${employee.employeeAge} == 30">30</option>
+                        <option th:selected="${employee.employeeAge} == 31">31</option>
+                        <option th:selected="${employee.employeeAge} == 32">32</option>
+                        <option th:selected="${employee.employeeAge} == 33">33</option>
+                        <option th:selected="${employee.employeeAge} == 34">34</option>
+                        <option th:selected="${employee.employeeAge} == 35">35</option>
+                        <option th:selected="${employee.employeeAge} == 36">36</option>
+                        <option th:selected="${employee.employeeAge} == 37">37</option>
+                        <option th:selected="${employee.employeeAge} == 38">38</option>
+                        <option th:selected="${employee.employeeAge} == 39">39</option>
+                        <option th:selected="${employee.employeeAge} == 40">40</option>
+                        <option th:selected="${employee.employeeAge} == 41">41</option>
+                        <option th:selected="${employee.employeeAge} == 42">42</option>
+                        <option th:selected="${employee.employeeAge} == 43">43</option>
+                        <option th:selected="${employee.employeeAge} == 44">44</option>
+                        <option th:selected="${employee.employeeAge} == 45">45</option>
+                        <option th:selected="${employee.employeeAge} == 46">46</option>
+                        <option th:selected="${employee.employeeAge} == 47">47</option>
+                        <option th:selected="${employee.employeeAge} == 48">48</option>
+                        <option th:selected="${employee.employeeAge} == 49">49</option>
+                        <option th:selected="${employee.employeeAge} == 50">50</option>
+                        <option th:selected="${employee.employeeAge} == 51">51</option>
+                        <option th:selected="${employee.employeeAge} == 52">52</option>
+                        <option th:selected="${employee.employeeAge} == 53">53</option>
+                        <option th:selected="${employee.employeeAge} == 54">54</option>
+                        <option th:selected="${employee.employeeAge} == 55">55</option>
+                        <option th:selected="${employee.employeeAge} == 56">56</option>
+                        <option th:selected="${employee.employeeAge} == 57">57</option>
+                        <option th:selected="${employee.employeeAge} == 58">58</option>
+                        <option th:selected="${employee.employeeAge} == 59">59</option>
+                        <option th:selected="${employee.employeeAge} == 60">60</option>
+                        <option th:selected="${employee.employeeAge} == 61">61</option>
+                        <option th:selected="${employee.employeeAge} == 62">62</option>
+                        <option th:selected="${employee.employeeAge} == 63">63</option>
+                        <option th:selected="${employee.employeeAge} == 64">64</option>
+                        <option th:selected="${employee.employeeAge} == 65">65</option>
                     </select>
                 </label>
             </td>
@@ -167,20 +168,11 @@
             <td th:text="${employee.createdBy}"></td>
             <td th:text="${employee.createdDate}"></td>
             <td th:text="${employee.lastModifiedDate}"></td>
-            <!--<td th:text="${#dates.format(employee.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-            <td th:text="${#dates.format(employee.lastModifiedDate, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
-            <!-- <td th:text="${#temporals.format(employee.createdDate, 'yyyy-MM-dd HH:mm')}"></td> -->
-            <!-- <td th:text="${#dates.format(employee.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></td> -->
             <td>
-                <!-- console.log('$(\'#username\').text()---------' + $('#username').text()); -->
                 <button class="btn btn-primary updateEmployee" type="button">更改</button>
             </td>
             <td>
-                <!--<form action="/employee/deleteEmployee" method="post">
-
-                </form>-->
-                <button class="btn btn-primary deleteEmployee" th:id="${employee.employeeId}" type="button">删除</button>
-                <!--<a th:href="@{/employee/deleteEmployee(employeeId=${employee.employeeId})}">删除</a>-->
+                <button class="btn btn-primary deleteEmployee" type="button">删除</button>
             </td>
         </tr>
         </tbody>

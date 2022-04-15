@@ -7,24 +7,8 @@ const regExpEmployeeAddress = /^[\u4e00-\u9fa5\w\s•,]{2,45}$/;
 // 电话号码正则（暂时只验证在一般情况下的中国大陆移动手机号码）
 const regExpEmployeePhoneNumber = /^1[3-9]\d{9}$/;
 
-// Show employees' sex and age
-function showSexAge() {
-	// Get the total number of employees
-	const totalNumber = $('tbody tr').length;
-	for (let i = 1; i <= totalNumber; i++) {
-		// every employee's sex
-		let sex = $('#sexSelectId' + i).attr('class');
-		// every employee's age
-		let age = $('#ageSelectId' + i).attr('class');
-		// 根据性别使 option 选中
-		$('#sexSelectId' + i + " option[value='" + sex + "']").attr('selected', 'selected');
-		// 根据年龄使 option 选中
-		$('#ageSelectId' + i + " option[value='" + age + "']").attr('selected', 'selected');
-	}
-}
-
 $(document).ready(function () {
-	showSexAge();
+
 });
 
 window.onload = function () {
@@ -59,11 +43,10 @@ window.onload = function () {
 			// 截取之后填充进页面
 			const array1 = data.split('<tbody class="table-secondary">');
 			const array2 = array1[1].split('</tbody>');
-			const array3 = array2[1].split('<div class="modal-footer no-margin-top">');
+			const array3 = array2[1].split('<div class="modal-footer no-margin-top"');
 			let array4 = array3[1].split('</div>');
 			$('tbody').html(array2[0]);
 			$('.no-margin-top').html(array4[0]);
-			showSexAge();
 		} else {
 			$('tbody tr').remove();
 			$('tfoot').remove();
@@ -196,10 +179,11 @@ window.onload = function () {
 	})
 
 	// 删除
-	$('tbody').on('click', 'tr td .deleteEmployee', function (params) {
+	$('tbody').on('click', '.deleteEmployee', function () {
 		$('.deleteEmployee').blur();
-		if (params.currentTarget.id === '' || params.currentTarget.id === null) {
-			alert('未获取到对应员工的 id，请检查后重试。');
+		const employeeId = this.parentElement.parentElement.firstElementChild.id;
+		if (employeeId === '' || employeeId === null) {
+			alert('系统出现故障，请检查后重试。');
 			return false;
 		}
 		if (confirm('确定删除?')) {
@@ -207,7 +191,7 @@ window.onload = function () {
 				type: 'POST',
 				// 最前面必须要加斜杠/ '/employee/deleteEmployee/'
 				url: '/employee/deleteEmployee',
-				data: {'employeeId': params.currentTarget.id},
+				data: {'employeeId': employeeId},
 				// 因为开启了 csrf，所以增加请求头
 				headers: {
 					'X-CSRF-Token': getToken()
@@ -231,16 +215,16 @@ window.onload = function () {
 	})
 
 	// 更改
-	$('tbody').on('click', 'tr td .updateEmployee', function (params) {
+	$('tbody').on('click', '.updateEmployee', function () {
 
 		$('.updateEmployee').blur();
 		// 获取当前 count
-		const count = params.currentTarget.parentNode.parentNode.firstElementChild.textContent % 10;
+		const index = this.parentNode.parentNode.firstElementChild.textContent % 10 - 1;
 		if (regExp(
-			$('#trId' + count + ' td:eq(0) label input').val(),
-			$('#trId' + count + ' td:eq(3) label input').val(),
-			$('#trId' + count + ' td:eq(4) label input').val(),
-			$('#trId' + count + ' td:eq(5) label input').val()
+			$('tbody').find('tr:eq(' + index + ') td:eq(0) label input').val(),
+			$('tbody').find('tr:eq(' + index + ') td:eq(3) label input').val(),
+			$('tbody').find('tr:eq(' + index + ') td:eq(4) label input').val(),
+			$('tbody').find('tr:eq(' + index + ') td:eq(5) label input').val()
 		) === false) {return false;}
 
 		if (confirm('确定更改?')) {
@@ -248,15 +232,15 @@ window.onload = function () {
 			lastModifiedDate = getDateTime(lastModifiedDate);
 
 			function Employee() {
-				this.employeeId = params.currentTarget.parentNode.nextElementSibling.firstElementChild.id;
-				this.employeeName = $('#trId' + count + ' td:eq(0) label input').val();
-				this.employeeSex = $('#trId' + count + ' td:eq(1) label select').val();
-				this.employeeAge = $('#trId' + count + ' td:eq(2) label select').val();
-				this.employeeIdCard = $('#trId' + count + ' td:eq(3) label input').val().toUpperCase();
-				this.employeeAddress = $('#trId' + count + ' td:eq(4) label input').val();
-				this.employeePhoneNumber = $('#trId' + count + ' td:eq(5) label input').val();
-				this.createdBy = $('#trId' + count + ' td:eq(6)').text();
-				this.createdDate = params.currentTarget.parentNode.previousElementSibling.previousElementSibling.textContent;
+				this.employeeId = $('tbody').find('tr:eq(' + index + ') th').attr('id');
+				this.employeeName = $('tbody').find('tr:eq(' + index + ') td:eq(0) label input').val();
+				this.employeeSex = $('tbody').find('tr:eq(' + index + ') td:eq(1) label select').val();
+				this.employeeAge = $('tbody').find('tr:eq(' + index + ') td:eq(2) label select').val();
+				this.employeeIdCard = $('tbody').find('tr:eq(' + index + ') td:eq(3) label input').val();
+				this.employeeAddress = $('tbody').find('tr:eq(' + index + ') td:eq(4) label input').val();
+				this.employeePhoneNumber = $('tbody').find('tr:eq(' + index + ') td:eq(5) label input').val();
+				this.createdBy = $('tbody').find('tr:eq(' + index + ') td:eq(6)').text();
+				this.createdDate = $('tbody').find('tr:eq(' + index + ') td:eq(7)').text();
 				this.lastModifiedDate = lastModifiedDate;
 			}
 
@@ -274,7 +258,7 @@ window.onload = function () {
 				},
 				success: function (data, success, state) {
 					if (state.status === 200 && state.readyState === 4) {
-						$('#trId' + count + ' td:eq(8)').html(lastModifiedDate);
+						$('tbody tr:eq(' + index + ') td:eq(8)').html(lastModifiedDate);
 					}
 				},
 				error: function () {
@@ -329,22 +313,13 @@ window.onload = function () {
 					if (/deleteEmployee/.test(data)) {
 						// 截取之后填充进页面
 						const array1 = data.split('<tbody class="table-secondary">');
-						console.log(array1[0]);
-						console.log(array1[1]);
 						const array2 = array1[1].split('</tbody>');
-						console.log(array2[0]);
-						console.log(array2[1]);
-						const array3 = array2[1].split('<div class="modal-footer no-margin-top">');
-						console.log(array3[0]);
-						console.log(array3[1]);
+						const array3 = array2[1].split('<div class="modal-footer no-margin-top"');
 						const array4 = array3[1].split('</div>');
-						console.log(array4);
 						const ul = array4[0].replace(/\?/, '/findEmployee?');
-						console.log(ul);
 						// 截取字符串之后不需要将其转换为 HTML
 						$('tbody').html(array2[0]);
 						$('.no-margin-top').html(ul);
-						showSexAge();
 					} else {
 						$('tbody tr').remove();
 						$('tfoot').remove();

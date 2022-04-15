@@ -14,6 +14,13 @@
     <properties>
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
+        <!-- spring-boot 官方项目的某个配置 -->
+        <!-- <thymeleaf.version>3.0.2.RELEASE</thymeleaf.version>
+		<thymeleaf-layout-dialect.version>2.1.1</thymeleaf-layout-dialect.version> -->
+        <!-- 升级到 3.0.15 -->
+        <thymeleaf.version>3.0.15.RELEASE</thymeleaf.version>
+        <!-- 不知道作用，添加只是因为网上也是这样的 -->
+        <thymeleaf-layout-dialect.version>3.0.15</thymeleaf-layout-dialect.version>
     </properties>
 
     <!-- 父引用 -->
