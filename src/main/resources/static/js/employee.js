@@ -1,11 +1,4 @@
-// 姓名正则
-const regExpEmployeeName = /^[\u4e00-\u9fa5\w\s•]{1,25}$/;
-// 身份证正则
-const regExpIdCard = /^\d{15}|\d{18}|(\d{17}X|x)$/;
-// 住址正则
-const regExpEmployeeAddress = /^[\u4e00-\u9fa5\w\s•,]{2,45}$/;
-// 电话号码正则（暂时只验证在一般情况下的中国大陆移动手机号码）
-const regExpEmployeePhoneNumber = /^1[3-9]\d{9}$/;
+'use strict';
 
 $($).ready(function () {
 
@@ -58,35 +51,9 @@ window.onload = function () {
 		}
 	}
 
-	/*let person = {
-		$('#findSelect').val(): $('#findInput').val()
-	}*/
-
 	// 根据传参判断对象属性
-	// 如何简化以下代码？
 	function Employee() {
-		const attribute = $('#findSelect').val();
-		const value = findInput.val();
-		// this.attribute = value;
-		if (attribute === 'employeeName') {
-			this.employeeName = value;
-		} else if (attribute === 'employeeSex') {
-			this.employeeSex = value;
-		} else if (attribute === 'employeeAge') {
-			this.employeeAge = value;
-		} else if (attribute === 'employeeIdCard') {
-			this.employeeIdCard = value;
-		} else if (attribute === 'employeeAddress') {
-			this.employeeAddress = value;
-		} else if (attribute === 'employeePhoneNumber') {
-			this.employeePhoneNumber = value;
-		} else if (attribute === 'createdBy') {
-			this.createdBy = value;
-		} else if (attribute === 'createdDate') {
-			this.createdDate = value;
-		} else {
-			this.lastModifiedDate = value;
-		}
+		this[$('#findSelect').val()] = findInput.val();
 	}
 
 	// Get token
@@ -97,7 +64,7 @@ window.onload = function () {
 	// 验证信息
 	function regExp(employeeName, employeeIdCard, employeeAddress, employeePhoneNumber) {
 		// 验证姓名
-		if (!regExpEmployeeName.test(employeeName)) {
+		if (!/^[\u4e00-\u9fa5\w\s•]{1,25}$/.test(employeeName)) {
 			alert('姓名只支持由 1 - 25 个汉字、英文、数字、空格和•的组合。');
 			return false;
 		}
@@ -108,7 +75,7 @@ window.onload = function () {
 			return false;
 		}
 		// 15、18 位身份证号码第一重验证
-		if (!regExpIdCard.test(employeeIdCard)) {
+		if (!/^\d{15}|\d{18}|(\d{17}X|x)$/.test(employeeIdCard)) {
 			alert('身份证号码格式有误，请检查后重试。');
 			return false;
 		}
@@ -127,13 +94,13 @@ window.onload = function () {
 		}
 
 		// 验证住址
-		if (!regExpEmployeeAddress.test(employeeAddress)) {
+		if (!/^[\u4e00-\u9fa5\w\s•,]{2,45}$/.test(employeeAddress)) {
 			alert('住址只支持由最多 45 个汉字、英文、空格、英文逗号和•的组合。');
 			return false;
 		}
 
 		// 验证电话号码（暂时只验证在一般情况下的中国大陆移动手机号码）
-		if (!regExpEmployeePhoneNumber.test(employeePhoneNumber)) {
+		if (!/^1[3-9]\d{9}$/.test(employeePhoneNumber)) {
 			alert('电话号码格式有误，请检查后重试。');
 			return false;
 		}
@@ -161,14 +128,14 @@ window.onload = function () {
 		const createdDate = new Date();
 
 		function Employee() {
-			this.employeeName = arr[0];
-			this.employeeSex = arr[1];
-			this.employeeAge = arr[2];
-			this.employeeIdCard = arr[3].toUpperCase();
-			this.employeeAddress = arr[4];
-			this.employeePhoneNumber = arr[5];
-			this.createdBy = $('#username').text();
-			this.lastModifiedDate = this.createdDate = getDateTime(createdDate);
+			this['employeeName'] = arr[0];
+			this['employeeSex'] = arr[1];
+			this['employeeAge' ]= arr[2];
+			this['employeeIdCard'] = arr[3].toUpperCase();
+			this['employeeAddress'] = arr[4];
+			this['employeePhoneNumber'] = arr[5];
+			this['createdBy'] = $('#username').text();
+			this['lastModifiedDate'] = this['createdDate'] = getDateTime(createdDate);
 		}
 
 		$.ajax({
@@ -253,16 +220,16 @@ window.onload = function () {
 			lastModifiedDate = getDateTime(lastModifiedDate);
 
 			function Employee() {
-				this["employeeId"] = tbody.find('tr:eq(' + index + ') th').attr('id');
-				this.employeeName = tbody.find('tr:eq(' + index + ') td:eq(0) label input').val();
-				this.employeeSex = tbody.find('tr:eq(' + index + ') td:eq(1) label select').val();
-				this.employeeAge = tbody.find('tr:eq(' + index + ') td:eq(2) label select').val();
-				this.employeeIdCard = tbody.find('tr:eq(' + index + ') td:eq(3) label input').val().toUpperCase();
-				this.employeeAddress = tbody.find('tr:eq(' + index + ') td:eq(4) label input').val();
-				this.employeePhoneNumber = tbody.find('tr:eq(' + index + ') td:eq(5) label input').val();
-				this.createdBy = tbody.find('tr:eq(' + index + ') td:eq(6)').text();
-				this.createdDate = tbody.find('tr:eq(' + index + ') td:eq(7)').text();
-				this.lastModifiedDate = lastModifiedDate;
+				this['employeeId'] = tbody.find('tr:eq(' + index + ') th').attr('id');
+				this['employeeName'] = tbody.find('tr:eq(' + index + ') td:eq(0) label input').val();
+				this['employeeSex'] = tbody.find('tr:eq(' + index + ') td:eq(1) label select').val();
+				this['employeeAge'] = tbody.find('tr:eq(' + index + ') td:eq(2) label select').val();
+				this['employeeIdCard'] = tbody.find('tr:eq(' + index + ') td:eq(3) label input').val().toUpperCase();
+				this['employeeAddress'] = tbody.find('tr:eq(' + index + ') td:eq(4) label input').val();
+				this['employeePhoneNumber'] = tbody.find('tr:eq(' + index + ') td:eq(5) label input').val();
+				this['createdBy'] = tbody.find('tr:eq(' + index + ') td:eq(6)').text();
+				this['createdDate'] = tbody.find('tr:eq(' + index + ') td:eq(7)').text();
+				this['lastModifiedDate'] = lastModifiedDate;
 			}
 
 			$.ajax({
