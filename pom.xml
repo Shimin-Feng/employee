@@ -19,7 +19,7 @@
 		<thymeleaf-layout-dialect.version>2.1.1</thymeleaf-layout-dialect.version> -->
         <!-- 升级到 3.0.15 -->
         <thymeleaf.version>3.0.15.RELEASE</thymeleaf.version>
-        <!-- 不知道作用，添加只是因为网上也是这样的 -->
+        <!-- 作用：向主页面引入子页面 -->
         <thymeleaf-layout-dialect.version>3.0.15</thymeleaf-layout-dialect.version>
     </properties>
 

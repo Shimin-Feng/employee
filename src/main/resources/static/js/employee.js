@@ -152,7 +152,7 @@ window.onload = function () {
 		$('.form-control').each(function () {
 			arr.push($(this).val());
 		})
-		// 删除第一个不要的值
+		// 删除第一个不需要的值
 		arr.shift();
 		// 验证值
 		if (regExp(arr[0], arr[3], arr[4], arr[5]) === false) {
@@ -357,44 +357,12 @@ window.onload = function () {
 
 	}
 
-	// 首页
-	tfoot.on('click', '#firstPageable', function () {
+	// 首页、上一页、中间页、下一页、尾页
+	tfoot.on('click', '.page-link', function () {
 		if (findInput.val() === '') {
-			ajaxRequest(0);
+			ajaxRequest(this.name);
 		} else {
-			ajaxRequestCondition(0);
-		}
-	})
-	// 上一页
-	tfoot.on('click', '#previousPageable', function () {
-		if (findInput.val() === '') {
-			ajaxRequest(this.className);
-		} else {
-			ajaxRequestCondition(this.className);
-		}
-	})
-	// 中间页
-	tfoot.on('click', '.midPages', function () {
-		if (findInput.val() === '') {
-			ajaxRequest(this.textContent - 1);
-		} else {
-			ajaxRequestCondition(this.textContent - 1);
-		}
-	})
-	// 下一页
-	tfoot.on('click', '#nextPageable', function () {
-		if (findInput.val() === '') {
-			ajaxRequest(this.className);
-		} else {
-			ajaxRequestCondition(this.className);
-		}
-	})
-	// 尾页
-	tfoot.on('click', '#lastPageable', function () {
-		if (findInput.val() === '') {
-			ajaxRequest(this.className);
-		} else {
-			ajaxRequestCondition(this.className);
+			ajaxRequestCondition(this.name);
 		}
 	})
 
