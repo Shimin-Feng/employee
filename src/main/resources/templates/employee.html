@@ -50,9 +50,8 @@
             <option value="createdDate">添加时间</option>
             <option value="lastModifiedDate">最后操作时间</option>
         </select>
-        <input aria-label="Text input with dropdown button" class="form-control findEmployee" id="findInput"
-               placeholder="请输入搜索内容" required type="search">
-        <button class="btn btn-primary findEmployee" id="findButton" type="button">查找员工</button>
+        <input aria-label="Text input with dropdown button" class="form-control" id="findInput" type="search">
+        <button class="btn btn-primary" id="findButton" type="button">查找员工</button>
         <!-- Button trigger modal -->
         <button class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal" id="save"
                 type="button">添加员工
@@ -182,7 +181,7 @@
                 <div class="modal-footer no-margin-top" th:if="${employees.hasContent()}">
                     <ul class="pagination pull-right no-margin">
                         <li>
-                            <a class="" id="frontPage">首页</a>
+                            <a class="" id="firstPageable">首页</a>
                         </li>
                         <li th:if="${employees.hasPrevious()}">
                             <a id="previousPageable" th:class="${employees.previousPageable().getPageNumber()}">上一页</a>
@@ -197,7 +196,7 @@
                             <a id="nextPageable" th:class="${employees.nextPageable().getPageNumber()}">下一页</a>
                         </li>
                         <li>
-                            <a id="lastPage" th:class="${employees.getTotalPages() - 1}">尾页</a>
+                            <a id="lastPageable" th:class="${employees.getTotalPages() - 1}">尾页</a>
                         </li>
                     </ul>
                 </div>

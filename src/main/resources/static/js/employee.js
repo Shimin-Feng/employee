@@ -7,11 +7,15 @@ const regExpEmployeeAddress = /^[\u4e00-\u9fa5\w\s•,]{2,45}$/;
 // 电话号码正则（暂时只验证在一般情况下的中国大陆移动手机号码）
 const regExpEmployeePhoneNumber = /^1[3-9]\d{9}$/;
 
-$(document).ready(function () {
+$($).ready(function () {
 
 });
 
 window.onload = function () {
+
+	const tbody = $($).find('tbody');
+	const tfoot = $($).find('tfoot');
+	const findInput = $($).find('#findInput');
 
 	// 根据所提供身份证的前 17 位算出最后一位
 	function calculateLastNumber(id17) {
@@ -45,17 +49,25 @@ window.onload = function () {
 			const array2 = array1[1].split('</tbody>');
 			const array3 = array2[1].split('<div class="modal-footer no-margin-top">');
 			let array4 = array3[1].split('</div>');
-			$('tbody').html(array2[0]);
+			tbody.html(array2[0]);
 			$('.no-margin-top').html(array4[0]);
 		} else {
-			$('tbody tr').remove();
-			$('tfoot').remove();
-			$('tbody').html('<tr><td colspan="12">无匹配结果</td></tr>');
+			tbody.children().remove();
+			tfoot.remove();
+			tbody.html('<tr><td colspan="12">无匹配结果</td></tr>');
 		}
 	}
 
+	/*let person = {
+		$('#findSelect').val(): $('#findInput').val()
+	}*/
+
 	// 根据传参判断对象属性
-	function Employee(attribute, value) {
+	// 如何简化以下代码？
+	function Employee() {
+		const attribute = $('#findSelect').val();
+		const value = findInput.val();
+		// this.attribute = value;
 		if (attribute === 'employeeName') {
 			this.employeeName = value;
 		} else if (attribute === 'employeeSex') {
@@ -63,7 +75,7 @@ window.onload = function () {
 		} else if (attribute === 'employeeAge') {
 			this.employeeAge = value;
 		} else if (attribute === 'employeeIdCard') {
-			this.employeeIdCard = value.toUpperCase();
+			this.employeeIdCard = value;
 		} else if (attribute === 'employeeAddress') {
 			this.employeeAddress = value;
 		} else if (attribute === 'employeePhoneNumber') {
@@ -72,7 +84,7 @@ window.onload = function () {
 			this.createdBy = value;
 		} else if (attribute === 'createdDate') {
 			this.createdDate = value;
-		} else if (attribute === 'lastModifiedDate') {
+		} else {
 			this.lastModifiedDate = value;
 		}
 	}
@@ -82,9 +94,9 @@ window.onload = function () {
 		return $("input:hidden[name='_csrf']").val();
 	}
 
+	// 验证信息
 	function regExp(employeeName, employeeIdCard, employeeAddress, employeePhoneNumber) {
 		// 验证姓名
-		// 已取消输入时限制（以下代码），因为体验并不好
 		if (!regExpEmployeeName.test(employeeName)) {
 			alert('姓名只支持由 1 - 25 个汉字、英文、数字、空格和•的组合。');
 			return false;
@@ -129,26 +141,34 @@ window.onload = function () {
 
 	// 添加员工
 	$('#saveEmployee').on('click', function () {
-
+		/*console.log($);
+		console.log($());
+		console.log($($));
+		console.log($(document));
+		$(document).blur();*/
 		$('#save').blur();
-		if (regExp(
-			$('#recipient-name').val(),
-			$('#recipient-idCard').val(),
-			$('#recipient-address').val(),
-			$('#recipient-phoneNumber').val()
-		) === false) {return false;}
+		// 获取表单数据
+		let arr = [];
+		$('.form-control').each(function () {
+			arr.push($(this).val());
+		})
+		// 删除第一个不要的值
+		arr.shift();
+		// 验证值
+		if (regExp(arr[0], arr[3], arr[4], arr[5]) === false) {
+			return false;
+		}
 		const createdDate = new Date();
 
 		function Employee() {
-			this.employeeName = $('#recipient-name').val();
-			this.employeeSex = $('#recipient-sxe').val();
-			this.employeeAge = $('#recipient-age').val();
-			this.employeeIdCard = $('#recipient-idCard').val().toUpperCase();
-			this.employeeAddress = $('#recipient-address').val();
-			this.employeePhoneNumber = $('#recipient-phoneNumber').val();
+			this.employeeName = arr[0];
+			this.employeeSex = arr[1];
+			this.employeeAge = arr[2];
+			this.employeeIdCard = arr[3].toUpperCase();
+			this.employeeAddress = arr[4];
+			this.employeePhoneNumber = arr[5];
 			this.createdBy = $('#username').text();
-			this.createdDate = getDateTime(createdDate);
-			this.lastModifiedDate = getDateTime(createdDate);
+			this.lastModifiedDate = this.createdDate = getDateTime(createdDate);
 		}
 
 		$.ajax({
@@ -165,10 +185,10 @@ window.onload = function () {
 			},
 			success: function (data, success, state) {
 				if (state.status === 200 && state.readyState === 4) {
-					if ($('#findInput').val() === '') {
+					if (findInput.val() === '') {
 						ajaxRequest($('.currentPage').text() - 1);
 					} else {
-						ajaxRequestCondition($('.currentPage').text() - 1, $('#findSelect').val(), $('#findInput').val());
+						ajaxRequestCondition($('.currentPage').text() - 1);
 					}
 				}
 			},
@@ -179,7 +199,7 @@ window.onload = function () {
 	})
 
 	// 删除
-	$('tbody').on('click', '.deleteEmployee', function () {
+	tbody.on('click', '.deleteEmployee', function () {
 		$('.deleteEmployee').blur();
 		const employeeId = this.parentElement.parentElement.firstElementChild.id;
 		if (employeeId === '' || employeeId === null) {
@@ -198,49 +218,50 @@ window.onload = function () {
 				},
 				success: function (data, success, state) {
 					if (state.status === 200 && state.readyState === 4) {
-						if ($('#findInput').val() === '') {
+						if (findInput.val() === '') {
 							ajaxRequest($('.currentPage').text() - 1);
 						} else {
-							ajaxRequestCondition($('.currentPage').text() - 1, $('#findSelect').val(), $('#findInput').val());
+							ajaxRequestCondition($('.currentPage').text() - 1);
 						}
 					}
 				},
 				error: function () {
-					$('tbody tr').remove();
-					$('tfoot').remove();
-					$('tbody').html('<tr><td colspan="12">删除失败，请检查后重试。</td></tr>');
+					tbody.children().remove();
+					tfoot.remove();
+					tbody.html('<tr><td colspan="12">删除失败，请检查后重试。</td></tr>');
 				}
 			})
 		}
 	})
 
 	// 更改
-	$('tbody').on('click', '.updateEmployee', function () {
-
+	tbody.on('click', '.updateEmployee', function () {
 		$('.updateEmployee').blur();
-		// 获取当前 count
+		// 获取当前 tbody tr 下标
 		const index = this.parentNode.parentNode.firstElementChild.textContent % 10 - 1;
 		if (regExp(
-			$('tbody').find('tr:eq(' + index + ') td:eq(0) label input').val(),
-			$('tbody').find('tr:eq(' + index + ') td:eq(3) label input').val(),
-			$('tbody').find('tr:eq(' + index + ') td:eq(4) label input').val(),
-			$('tbody').find('tr:eq(' + index + ') td:eq(5) label input').val()
-		) === false) {return false;}
+			tbody.find('tr:eq(' + index + ') td:eq(0) label input').val(),
+			tbody.find('tr:eq(' + index + ') td:eq(3) label input').val(),
+			tbody.find('tr:eq(' + index + ') td:eq(4) label input').val(),
+			tbody.find('tr:eq(' + index + ') td:eq(5) label input').val()
+		) === false) {
+			return false;
+		}
 
 		if (confirm('确定更改?')) {
 			let lastModifiedDate = new Date();
 			lastModifiedDate = getDateTime(lastModifiedDate);
 
 			function Employee() {
-				this.employeeId = $('tbody').find('tr:eq(' + index + ') th').attr('id');
-				this.employeeName = $('tbody').find('tr:eq(' + index + ') td:eq(0) label input').val();
-				this.employeeSex = $('tbody').find('tr:eq(' + index + ') td:eq(1) label select').val();
-				this.employeeAge = $('tbody').find('tr:eq(' + index + ') td:eq(2) label select').val();
-				this.employeeIdCard = $('tbody').find('tr:eq(' + index + ') td:eq(3) label input').val();
-				this.employeeAddress = $('tbody').find('tr:eq(' + index + ') td:eq(4) label input').val();
-				this.employeePhoneNumber = $('tbody').find('tr:eq(' + index + ') td:eq(5) label input').val();
-				this.createdBy = $('tbody').find('tr:eq(' + index + ') td:eq(6)').text();
-				this.createdDate = $('tbody').find('tr:eq(' + index + ') td:eq(7)').text();
+				this["employeeId"] = tbody.find('tr:eq(' + index + ') th').attr('id');
+				this.employeeName = tbody.find('tr:eq(' + index + ') td:eq(0) label input').val();
+				this.employeeSex = tbody.find('tr:eq(' + index + ') td:eq(1) label select').val();
+				this.employeeAge = tbody.find('tr:eq(' + index + ') td:eq(2) label select').val();
+				this.employeeIdCard = tbody.find('tr:eq(' + index + ') td:eq(3) label input').val().toUpperCase();
+				this.employeeAddress = tbody.find('tr:eq(' + index + ') td:eq(4) label input').val();
+				this.employeePhoneNumber = tbody.find('tr:eq(' + index + ') td:eq(5) label input').val();
+				this.createdBy = tbody.find('tr:eq(' + index + ') td:eq(6)').text();
+				this.createdDate = tbody.find('tr:eq(' + index + ') td:eq(7)').text();
 				this.lastModifiedDate = lastModifiedDate;
 			}
 
@@ -262,9 +283,9 @@ window.onload = function () {
 					}
 				},
 				error: function () {
-					$('tbody tr').remove();
-					$('tfoot').remove();
-					$('tbody').html('<tr><td colspan="12">更改失败，请检查后重试。</td></tr>');
+					tbody.children().remove();
+					tfoot.remove();
+					tbody.html('<tr><td colspan="12">更改失败，请检查后重试。</td></tr>');
 				}
 			})
 		}
@@ -275,17 +296,17 @@ window.onload = function () {
 	// 尝试过把下面两个方法写进一个方法里，但不理想
 	// 点击事件
 	$('#findButton').on('click', function () {
-		if ($('#findInput').val() !== '') {
-			$('#findButton').blur();
+		if (this.previousElementSibling.value !== '') {
+			this.blur();
 			findEmployee();
 		}
 	})
 	// 输入完搜索内容后的回车事件
-	$('#findInput').on('keydown', function (e) {
-		if ($('#findInput').val() !== '') {
-			const eCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
-			if (eCode === 13) {
-				$('#findInput').blur();
+	findInput.on('keydown', function (e) {
+		if (this.value !== '') {
+			const keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+			if (keyCode === 13) {
+				this.blur();
 				findEmployee();
 			}
 		}
@@ -301,7 +322,7 @@ window.onload = function () {
 			// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
 			contentType: 'application/json',
 			url: '/employee/findEmployee',
-			data: JSON.stringify(new Employee($('#findSelect').val(), $('#findInput').val())),
+			data: JSON.stringify(new Employee()),
 			// 因为开启了 csrf，所以增加请求头
 			// 终于成功了！！！
 			headers: {
@@ -318,62 +339,62 @@ window.onload = function () {
 						const array4 = array3[1].split('</div>');
 						const ul = array4[0].replace(/\?/, '/findEmployee?');
 						// 截取字符串之后不需要将其转换为 HTML
-						$('tbody').html(array2[0]);
+						tbody.html(array2[0]);
 						$('.no-margin-top').html(ul);
 					} else {
-						$('tbody tr').remove();
-						$('tfoot').remove();
-						$('tbody').html('<tr><td colspan="12">无匹配结果</td></tr>');
+						tbody.children().remove();
+						tfoot.remove();
+						tbody.html('<tr><td colspan="12">无匹配结果</td></tr>');
 					}
 				}
 			},
 			error: function () {
-				$('tbody tr').remove();
-				$('tfoot').remove();
-				$('tbody').html('<tr><td colspan="12">查找失败，请检查后重试。</td></tr>');
+				tbody.children().remove();
+				tfoot.remove();
+				tbody.html('<tr><td colspan="12">查找失败，请检查后重试。</td></tr>');
 			}
 		})
 
 	}
 
 	// 首页
-	$('tfoot').on('click', 'tr td div ul li #frontPage', function () {
-		if ($('#findInput').val() === '') {
+	tfoot.on('click', '#firstPageable', function () {
+		if (findInput.val() === '') {
 			ajaxRequest(0);
 		} else {
-			ajaxRequestCondition(0, $('#findSelect').val(), $('#findInput').val());
+			ajaxRequestCondition(0);
 		}
 	})
 	// 上一页
-	$('tfoot').on('click', 'tr td div ul li #previousPageable', function (params) {
-		if ($('#findInput').val() === '') {
-			ajaxRequest(params.currentTarget.className);
+	tfoot.on('click', '#previousPageable', function () {
+		if (findInput.val() === '') {
+			ajaxRequest(this.className);
 		} else {
-			ajaxRequestCondition(params.currentTarget.className, $('#findSelect').val(), $('#findInput').val());
+			ajaxRequestCondition(this.className);
 		}
 	})
 	// 中间页
-	$('tfoot').on('click', 'tr td div ul li .midPages', function (params) {
-		if ($('#findInput').val() === '') {
-			ajaxRequest(params.currentTarget.textContent - 1);
+	tfoot.on('click', '.midPages', function () {
+		if (findInput.val() === '') {
+			ajaxRequest(this.textContent - 1);
 		} else {
-			ajaxRequestCondition(params.currentTarget.textContent - 1, $('#findSelect').val(), $('#findInput').val());
+			ajaxRequestCondition(this.textContent - 1);
 		}
 	})
 	// 下一页
-	$('tfoot').on('click', 'tr td div ul li #nextPageable', function (params) {
-		if ($('#findInput').val() === '') {
-			ajaxRequest(params.currentTarget.className);
+	tfoot.on('click', '#nextPageable', function () {
+		if (findInput.val() === '') {
+			ajaxRequest(this.className);
 		} else {
-			ajaxRequestCondition(params.currentTarget.className, $('#findSelect').val(), $('#findInput').val());
+			ajaxRequestCondition(this.className);
 		}
 	})
 	// 尾页
-	$('tfoot').on('click', 'tr td div ul li #lastPage', function (params) {
-		if ($('#findInput').val() === '') {
-			ajaxRequest(params.currentTarget.className);
+	tfoot.on('click', '#lastPageable', function () {
+		if (findInput.val() === '') {
+			ajaxRequest(this.className);
 		} else {
-			ajaxRequestCondition(params.currentTarget.className, $('#findSelect').val(), $('#findInput').val());
+			ajaxRequestCondition(this.className);
 		}
 	})
 
@@ -408,25 +429,25 @@ window.onload = function () {
 									}
 								})
 							} else {
-								$('tbody tr').remove();
-								$('tfoot').remove();
-								$('tbody').html('<tr><td colspan="12">无匹配结果</td></tr>');
+								tbody.children().remove();
+								tfoot.remove();
+								tbody.html('<tr><td colspan="12">无匹配结果</td></tr>');
 							}
 						}
 					}
 				}
 				,
 				error: function () {
-					$('tbody tr').remove();
-					$('tfoot').remove();
-					$('tbody').html('<tr><td colspan="12">页面加载失败，请检查后重试。</td></tr>');
+					tbody.children().remove();
+					tfoot.remove();
+					tbody.html('<tr><td colspan="12">页面加载失败，请检查后重试。</td></tr>');
 				}
 			})
 		}
 	}
 
 	// ajax - 有查询条件
-	function ajaxRequestCondition(pageNum, attribute, value) {
+	function ajaxRequestCondition(pageNum) {
 		if (pageNum > -1) {
 			$.ajax({
 				type: 'POST',
@@ -435,7 +456,7 @@ window.onload = function () {
 				// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
 				contentType: 'application/json',
 				url: '/employee/findEmployee?pageNum=' + pageNum,
-				data: JSON.stringify(new Employee(attribute, value)),
+				data: JSON.stringify(new Employee()),
 				// 因为开启了 csrf，所以增加请求头
 				headers: {
 					'X-CSRF-Token': getToken()
@@ -453,7 +474,7 @@ window.onload = function () {
 									// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
 									contentType: 'application/json',
 									url: '/employee/findEmployee?pageNum=' + (pageNum - 1),
-									data: JSON.stringify(new Employee(attribute, value)),
+									data: JSON.stringify(new Employee()),
 									// 因为开启了 csrf，所以增加请求头
 									headers: {
 										'X-CSRF-Token': getToken()
@@ -464,23 +485,23 @@ window.onload = function () {
 										}
 									},
 									error: function () {
-										$('tbody tr').remove();
-										$('tfoot').remove();
-										$('tbody').html('<tr><td colspan="12">页面加载失败，请检查后重试。</td></tr>');
+										tbody.children().remove();
+										tfoot.remove();
+										tbody.html('<tr><td colspan="12">页面加载失败，请检查后重试。</td></tr>');
 									}
 								})
 							} else {
-								$('tbody tr').remove();
-								$('tfoot').remove();
-								$('tbody').html('<tr><td colspan="12">无匹配结果</td></tr>');
+								tbody.children().remove();
+								tfoot.remove();
+								tbody.html('<tr><td colspan="12">无匹配结果</td></tr>');
 							}
 						}
 					}
 				},
 				error: function () {
-					$('tbody tr').remove();
-					$('tfoot').remove();
-					$('tbody').html('<tr><td colspan="12">页面加载失败，请检查后重试。</td></tr>');
+					tbody.children().remove();
+					tfoot.remove();
+					tbody.html('<tr><td colspan="12">页面加载失败，请检查后重试。</td></tr>');
 				}
 			})
 		}
