@@ -14,7 +14,7 @@ public class JdbcCheckTableExit {
     private static final String password = "MySQL1672943850";
     private static final String driver = "com.mysql.cj.jdbc.Driver";
 
-    public boolean isExist() {
+    public static boolean isExist() {
         var isExist = false;
         Connection c = null;
         DatabaseMetaData d;
