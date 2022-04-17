@@ -30,7 +30,7 @@
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
-        <version>2.6.5</version>
+        <version>2.6.6</version>
     </parent>
 
     <dependencies>
@@ -73,42 +73,49 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <version>2.6.6</version>
         </dependency>
 
         <!-- Spring 安全框架 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+            <version>2.6.6</version>
         </dependency>
 
         <!-- 引入 Thymeleaf 模板 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>2.6.6</version>
         </dependency>
 
         <!-- 添加 thymeleaf 属性 -->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+            <version>3.0.4.RELEASE</version>
         </dependency>
 
         <!-- 下面的依赖是为了能够使用到 JPA Hibernate -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>2.6.6</version>
         </dependency>
 
         <!-- MySQL 驱动 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.28</version>
         </dependency>
 
         <!-- 简化实体类代码，省略 get() set() -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
         </dependency>
 
         <!-- 没有 spring-boot-starter-jdbc 似乎也可以正常运作 -->

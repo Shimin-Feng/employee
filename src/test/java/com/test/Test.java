@@ -1,5 +1,7 @@
 package com.test;
 
+import java.util.Date;
+
 public class Test {
     public static void main(String[] args) {
 
@@ -18,7 +20,9 @@ public class Test {
 //        System.out.println(e2);
 //        String e3 = BCrypt.hashpw("Bg2nbRM*n7LyDD$LmSX", BCrypt.gensalt());
 //        System.out.println(e3);
+        Date date = new Date();
+        System.out.println(date);
+        System.out.println("ÎÒ¶ö");
 
     }
-
 }

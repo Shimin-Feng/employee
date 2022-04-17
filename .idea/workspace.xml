@@ -4,11 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="">
+    <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="优化类 SecurityConfig">
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/img/01-man.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/img/02-man.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/img/03-man.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/img/04-man.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/img/1.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/img/2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/img/showcase.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/test-bootstrap.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/test-bootstrap.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/test2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/tttt.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/employee.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/employee.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/findById.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/findById.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/update.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/update.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,8 +36,9 @@
         <option value="JavaScript File" />
         <option value="Thymeleaf" />
         <option value="Class" />
-        <option value="HTML File" />
         <option value="Record" />
+        <option value="CSS File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -30,15 +46,18 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$PROJECT_DIR$/../../../../Program Files/bellsoft-jdk18+37-windows-amd64-full/jdk-18-full/lib/src.zip!/java.base/java/lang/Integer.java" root0="SKIP_INSPECTION" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/consoles/db/aafea0f0-8eaa-4de7-a4b7-2500cc5f6da9/console.sql" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/pom.xml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/example/Application.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/com/example/config/SecurityConfig.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/example/controller/HTTPStatusCodeErrorController.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/com/example/entity/Employee.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/static/js/employee.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/templates/employee.html" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/templates/login.html" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/test/java/com/test/admin.html" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/test/java/com/test/verificationTest.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/test/java/com/test/Test.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="JpbToolWindowState">
     <option name="myId2FirstActivated">
@@ -55,6 +74,10 @@
         <entry key="com.haulmont.jpb.jpaStructure" value="false" />
       </map>
     </option>
+  </component>
+  <component name="JsBowerSettings">
+    <bower-package value="" />
+    <bower.json value="" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -74,42 +97,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "full.screen.before.presentation.mode": "false",
-    "last_opened_file_path": "C:/Users/g1672/IdeaProjects/security-master/nrsc-security-demo",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "模块",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "http.certificates",
-    "spring.configuration.checksum": "fa5473530e4d1a5a1e1eb53d2fedb10c"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/g1672/IdeaProjects/spring-boot-learn-master&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;File.Encoding&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;fa5473530e4d1a5a1e1eb53d2fedb10c&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\g1672\IdeaProjects\employee" />
       <recent name="C:\Users\g1672\IdeaProjects\employee\src\main\resources\templates" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\g1672\IdeaProjects\employee\src\test\java\com\test\img" />
       <recent name="C:\Users\g1672\IdeaProjects\employee\src\test\java\com\test" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -119,7 +146,20 @@
       <recent name="com.example.entity" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.Application">
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.test.Test" />
+      <module name="employee" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <option name="ACTIVE_PROFILES" />
       <module name="employee" />
@@ -137,6 +177,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.Application" />
+        <item itemvalue="应用程序.Test" />
       </list>
     </recent_temporary>
   </component>
@@ -169,7 +210,12 @@
       <workItem from="1649373114807" duration="22710000" />
       <workItem from="1649417214475" duration="99000" />
       <workItem from="1649417431566" duration="96248000" />
-      <workItem from="1649568306962" duration="44920000" />
+      <workItem from="1649568306962" duration="67655000" />
+      <workItem from="1649912500105" duration="30694000" />
+      <workItem from="1650001127950" duration="15497000" />
+      <workItem from="1650023936645" duration="59101000" />
+      <workItem from="1650168712455" duration="22885000" />
+      <workItem from="1650216412163" duration="4791000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1648665299036</created>
@@ -269,7 +315,84 @@
       <option name="project" value="LOCAL" />
       <updated>1649610449847</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="优化增删改查、其他优化">
+      <created>1649660017695</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1649660017695</updated>
+    </task>
+    <task id="LOCAL-00016" summary="实体类 Date 类型改为 String&#10;优化添加功能">
+      <created>1649919997205</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1649919997205</updated>
+    </task>
+    <task id="LOCAL-00017" summary="优化页面&#10;增加 README.md">
+      <created>1649939330286</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1649939330286</updated>
+    </task>
+    <task id="LOCAL-00018" summary="优化页面">
+      <created>1650021908834</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1650021908834</updated>
+    </task>
+    <task id="LOCAL-00019" summary="优化页面代码">
+      <created>1650038922636</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1650038922636</updated>
+    </task>
+    <task id="LOCAL-00020" summary="代码优化">
+      <created>1650042546154</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1650042546154</updated>
+    </task>
+    <task id="LOCAL-00021" summary="代码优化">
+      <created>1650095626518</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1650095626518</updated>
+    </task>
+    <task id="LOCAL-00022" summary="代码优化">
+      <created>1650103487656</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1650103487656</updated>
+    </task>
+    <task id="LOCAL-00023" summary="简化代码">
+      <created>1650131596639</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1650131596639</updated>
+    </task>
+    <task id="LOCAL-00024" summary="优化类 SecurityConfig">
+      <created>1650215997258</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1650215997259</updated>
+    </task>
+    <task id="LOCAL-00025" summary="优化类 SecurityConfig">
+      <created>1650222043595</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1650222043595</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -286,7 +409,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="master" />
+                        <option value="github/master" />
                       </list>
                     </value>
                   </entry>
@@ -313,7 +436,18 @@
     <MESSAGE value="修复 spring security 配置&#10;其他优化" />
     <MESSAGE value="修复 spring security 配置&#10;优化页面&#10;其他优化" />
     <MESSAGE value="页面、其他优化" />
-    <option name="LAST_COMMIT_MESSAGE" value="页面、其他优化" />
+    <MESSAGE value="优化增删改查、其他优化" />
+    <MESSAGE value="实体类 Date 类型改为 String&#10;优化添加功能" />
+    <MESSAGE value="优化页面&#10;增加 README.md" />
+    <MESSAGE value="优化页面" />
+    <MESSAGE value="优化页面代码" />
+    <MESSAGE value="代码优化" />
+    <MESSAGE value="简化代码" />
+    <MESSAGE value="优化类 SecurityConfig" />
+    <option name="LAST_COMMIT_MESSAGE" value="优化类 SecurityConfig" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

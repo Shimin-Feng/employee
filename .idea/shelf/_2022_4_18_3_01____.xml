@@ -1,0 +1,24 @@
+<changelist name="在进行更新之前于_2022_4_18_3_01_取消提交了变更_[变更]" date="1650222112222" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/在进行更新之前于_2022_4_18_3_01_取消提交了变更_[变更]/shelved.patch" />
+  <option name="DESCRIPTION" value="在进行更新之前于 2022/4/18 3:01 取消提交了变更 [变更]" />
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="src/test/java/com/test/img/04-man.jpeg" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行更新之前于_2022_4_18_3_01_取消提交了变更_[变更]/04-man.jpeg" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="src/test/java/com/test/img/02-man.jpeg" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行更新之前于_2022_4_18_3_01_取消提交了变更_[变更]/02-man.jpeg" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="src/test/java/com/test/img/01-man.jpeg" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行更新之前于_2022_4_18_3_01_取消提交了变更_[变更]/01-man.jpeg" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="src/test/java/com/test/img/03-man.jpeg" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行更新之前于_2022_4_18_3_01_取消提交了变更_[变更]/03-man.jpeg" />
+  </binary>
+</changelist>
