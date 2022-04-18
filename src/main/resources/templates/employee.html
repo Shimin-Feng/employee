@@ -71,7 +71,7 @@
             <th>电话号码</th>
             <th>添加者</th>
             <th>添加时间</th>
-            <!--<th>最后操作时间</th>-->
+            <th>最后操作时间</th>
             <th>更改</th>
             <th>删除</th>
         </tr>
@@ -80,93 +80,19 @@
         <tr th:each="employee, stat: ${employees}">
             <th th:id="${employee.employeeId}"
                 th:text="${stat.count + employees.getPageable().getPageNumber() * 10}"></th>
-            <td>
-                <label>
-                    <input maxlength="25" th:value="${employee.employeeName}" type="text">
-                </label>
-            </td>
-            <td>
-                <label>
-                    <select>
-                        <option th:selected="${employee.employeeSex} == '男'">男</option>
-                        <option th:selected="${employee.employeeSex} == '女'">女</option>
-                    </select>
-                </label>
-            </td>
-            <td>
-                <label>
-                    <select>
-                        <option th:selected="${employee.employeeAge} == 18">18</option>
-                        <option th:selected="${employee.employeeAge} == 19">19</option>
-                        <option th:selected="${employee.employeeAge} == 20">20</option>
-                        <option th:selected="${employee.employeeAge} == 21">21</option>
-                        <option th:selected="${employee.employeeAge} == 22">22</option>
-                        <option th:selected="${employee.employeeAge} == 23">23</option>
-                        <option th:selected="${employee.employeeAge} == 24">24</option>
-                        <option th:selected="${employee.employeeAge} == 25">25</option>
-                        <option th:selected="${employee.employeeAge} == 26">26</option>
-                        <option th:selected="${employee.employeeAge} == 27">27</option>
-                        <option th:selected="${employee.employeeAge} == 28">28</option>
-                        <option th:selected="${employee.employeeAge} == 29">29</option>
-                        <option th:selected="${employee.employeeAge} == 30">30</option>
-                        <option th:selected="${employee.employeeAge} == 31">31</option>
-                        <option th:selected="${employee.employeeAge} == 32">32</option>
-                        <option th:selected="${employee.employeeAge} == 33">33</option>
-                        <option th:selected="${employee.employeeAge} == 34">34</option>
-                        <option th:selected="${employee.employeeAge} == 35">35</option>
-                        <option th:selected="${employee.employeeAge} == 36">36</option>
-                        <option th:selected="${employee.employeeAge} == 37">37</option>
-                        <option th:selected="${employee.employeeAge} == 38">38</option>
-                        <option th:selected="${employee.employeeAge} == 39">39</option>
-                        <option th:selected="${employee.employeeAge} == 40">40</option>
-                        <option th:selected="${employee.employeeAge} == 41">41</option>
-                        <option th:selected="${employee.employeeAge} == 42">42</option>
-                        <option th:selected="${employee.employeeAge} == 43">43</option>
-                        <option th:selected="${employee.employeeAge} == 44">44</option>
-                        <option th:selected="${employee.employeeAge} == 45">45</option>
-                        <option th:selected="${employee.employeeAge} == 46">46</option>
-                        <option th:selected="${employee.employeeAge} == 47">47</option>
-                        <option th:selected="${employee.employeeAge} == 48">48</option>
-                        <option th:selected="${employee.employeeAge} == 49">49</option>
-                        <option th:selected="${employee.employeeAge} == 50">50</option>
-                        <option th:selected="${employee.employeeAge} == 51">51</option>
-                        <option th:selected="${employee.employeeAge} == 52">52</option>
-                        <option th:selected="${employee.employeeAge} == 53">53</option>
-                        <option th:selected="${employee.employeeAge} == 54">54</option>
-                        <option th:selected="${employee.employeeAge} == 55">55</option>
-                        <option th:selected="${employee.employeeAge} == 56">56</option>
-                        <option th:selected="${employee.employeeAge} == 57">57</option>
-                        <option th:selected="${employee.employeeAge} == 58">58</option>
-                        <option th:selected="${employee.employeeAge} == 59">59</option>
-                        <option th:selected="${employee.employeeAge} == 60">60</option>
-                        <option th:selected="${employee.employeeAge} == 61">61</option>
-                        <option th:selected="${employee.employeeAge} == 62">62</option>
-                        <option th:selected="${employee.employeeAge} == 63">63</option>
-                        <option th:selected="${employee.employeeAge} == 64">64</option>
-                        <option th:selected="${employee.employeeAge} == 65">65</option>
-                    </select>
-                </label>
-            </td>
-            <td>
-                <label>
-                    <input maxlength="18" th:value="${employee.employeeIdCard}" type="text">
-                </label>
-            </td>
-            <td>
-                <label>
-                    <input maxlength="45" th:value="${employee.employeeAddress}" type="text">
-                </label>
-            </td>
-            <td>
-                <label>
-                    <input maxlength="11" th:value="${employee.employeePhoneNumber}" type="text">
-                </label>
-            </td>
+            <td th:text="${employee.employeeName}"></td>
+            <td th:text="${employee.employeeSex}"></td>
+            <td th:text="${employee.employeeAge}"></td>
+            <td th:text="${employee.employeeIdCard}"></td>
+            <td th:text="${employee.employeeAddress}"></td>
+            <td th:text="${employee.employeePhoneNumber}"></td>
             <td th:text="${employee.createdBy}"></td>
             <td th:text="${employee.createdDate}"></td>
-            <!--<td th:text="${employee.lastModifiedDate}"></td>-->
+            <td th:text="${employee.lastModifiedDate}"></td>
             <td>
-                <button class="btn btn-primary updateEmployee" type="button">更改</button>
+                <button class="btn btn-primary updateEmployee" data-bs-target="#exampleModal" data-bs-toggle="modal"
+                        type="button">更改
+                </button>
             </td>
             <td>
                 <button class="btn btn-danger deleteEmployee" type="button">删除</button>
@@ -175,11 +101,13 @@
         </tbody>
         <tfoot class="table-success">
         <tr>
-            <td colspan="11">
+            <td colspan="12">
                 <div class="modal-footer no-margin-top">
-                    <span>共</span>
-                    <span th:text="${employees.totalElements}"></span>
-                    <span>条数据</span>
+                    <span th:if="${employees.hasContent()}">
+                        <span>共</span>
+                        <span th:text="${employees.totalElements}"></span>
+                        <span>条数据</span>
+                    </span>
                     <ul class="pagination pull-right no-margin" th:if="${employees.totalPages} > 1">
                         <li>
                             <a class="page-link" th:name="0">首页</a>
@@ -218,90 +146,31 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">新员工信息</h5>
-                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                <h5 class="modal-title" id="exampleModalLabel">员工信息</h5>
+                <button aria-label="Close" class="btn-close close-employee-modal" data-bs-dismiss="modal"
+                        type="button"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-3">
                     <label class="col-form-label" for="recipient-name">姓名:</label>
-                    <input class="form-control" id="recipient-name" maxlength="25" required type="text">
-                </div>
-                <div class="mb-3">
-                    <label class="col-form-label" for="recipient-sxe">性别:</label>
-                    <select class="form-control" id="recipient-sxe">
-                        <option value="男">男</option>
-                        <option value="女">女</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="col-form-label" for="recipient-age">年龄:</label>
-                    <select class="form-control" id="recipient-age">
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                        <option value="23">23</option>
-                        <option value="24">24</option>
-                        <option value="25">25</option>
-                        <option value="26">26</option>
-                        <option value="27">27</option>
-                        <option value="28">28</option>
-                        <option value="29">29</option>
-                        <option value="30">30</option>
-                        <option value="31">31</option>
-                        <option value="32">32</option>
-                        <option value="33">33</option>
-                        <option value="34">34</option>
-                        <option value="35">35</option>
-                        <option value="36">36</option>
-                        <option value="37">37</option>
-                        <option value="38">38</option>
-                        <option value="39">39</option>
-                        <option value="40">40</option>
-                        <option value="41">41</option>
-                        <option value="42">42</option>
-                        <option value="43">43</option>
-                        <option value="44">44</option>
-                        <option value="45">45</option>
-                        <option value="46">46</option>
-                        <option value="47">47</option>
-                        <option value="48">48</option>
-                        <option value="49">49</option>
-                        <option value="50">50</option>
-                        <option value="51">51</option>
-                        <option value="52">52</option>
-                        <option value="53">53</option>
-                        <option value="54">54</option>
-                        <option value="55">55</option>
-                        <option value="56">56</option>
-                        <option value="57">57</option>
-                        <option value="58">58</option>
-                        <option value="59">59</option>
-                        <option value="60">60</option>
-                        <option value="61">61</option>
-                        <option value="62">62</option>
-                        <option value="63">63</option>
-                        <option value="64">64</option>
-                        <option value="65">65</option>
-                    </select>
+                    <input class="form-control" id="recipient-name" maxlength="25" type="text">
                 </div>
                 <div class="mb-3">
                     <label class="col-form-label" for="recipient-idCard">身份证号码:</label>
-                    <input class="form-control" id="recipient-idCard" maxlength="18" required type="text">
+                    <input class="form-control" id="recipient-idCard" maxlength="18" type="text">
                 </div>
                 <div class="mb-3">
                     <label class="col-form-label" for="recipient-address">住址:</label>
-                    <input class="form-control" id="recipient-address" maxlength="45" required type="text">
+                    <input class="form-control" id="recipient-address" maxlength="45" type="text">
                 </div>
                 <div class="mb-3">
                     <label class="col-form-label" for="recipient-phoneNumber">电话号码:</label>
-                    <input class="form-control" id="recipient-phoneNumber" maxlength="11" required type="text">
+                    <input class="form-control" id="recipient-phoneNumber" maxlength="11" type="text">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">关闭</button>
-                <button class="btn btn-success" data-bs-dismiss="modal" id="saveEmployee" type="button">确定添加
+                <button class="btn btn-secondary close-employee-modal" data-bs-dismiss="modal" type="button">关闭</button>
+                <button class="btn btn-success" data-bs-dismiss="modal" id="saveEmployee" type="button">确定
                 </button>
             </div>
         </div>
@@ -315,7 +184,7 @@
             <button aria-label="Close" class="btn-close" data-bs-dismiss="toast" type="button"></button>
         </div>
         <div class="toast-body">
-            添加失败，请检查后重试。
+            操作失败，请检查后重试。
         </div>
     </div>
 </div>

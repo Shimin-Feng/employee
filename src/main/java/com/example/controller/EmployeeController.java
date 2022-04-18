@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -27,7 +28,6 @@ public class EmployeeController {
     // TODO: 学习新一代 thymeleaf-extras-spring security6 的使用方法
     // TODO: 根据年龄排序
     // TODO: 统计图
-    // TODO: 可以根据身份证号码计算出年龄、性别
     @RequestMapping("login")
     public String login() {
         return "login";
@@ -64,7 +64,9 @@ public class EmployeeController {
 
     @RequestMapping("employee/saveEmployee")
     public String saveEmployee(@RequestBody @NotNull Employee employee, @NotNull Model model) {
-        employee.setEmployeeId(String.valueOf(UUID.randomUUID()));
+        if (employee.getEmployeeId() == null || Objects.equals(employee.getEmployeeId(), "")) {
+            employee.setEmployeeId(String.valueOf(UUID.randomUUID()));
+        }
         employeeRepository.save(employee);
         model.addAttribute("employees", employeeRepository.findAll(PageRequest.of(0, 10)));
         return "employee";
@@ -73,13 +75,6 @@ public class EmployeeController {
     @RequestMapping("employee/deleteEmployee")
     public String deleteEmployee(String employeeId, @NotNull Model model) {
         employeeRepository.deleteById(employeeId);
-        model.addAttribute("employees", employeeRepository.findAll(PageRequest.of(0, 10)));
-        return "employee";
-    }
-
-    @RequestMapping("employee/updateEmployee")
-    public String updateEmployee(@RequestBody Employee employee, @NotNull Model model) {
-        employeeRepository.save(employee);
         model.addAttribute("employees", employeeRepository.findAll(PageRequest.of(0, 10)));
         return "employee";
     }

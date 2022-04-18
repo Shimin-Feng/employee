@@ -5,6 +5,7 @@ $(function () {
 	const tbody = $($).find('tbody');
 	const tfoot = $($).find('tfoot');
 	const findInput = $($).find('#findInput');
+	const modalBody = $($).find('.modal-body');
 
 	// 根据所提供身份证的前 17 位算出最后一位
 	function calculateLastNumber(id17) {
@@ -42,8 +43,7 @@ $(function () {
 			$('.no-margin-top').html(ul2[0]);
 		} else {
 			tbody.children().remove();
-			tfoot.remove();
-			tbody.html('<tr><td colspan="12">无匹配结果</td></tr>');
+			tfoot.find('tr td div').children().remove();
 		}
 	}
 
@@ -128,8 +128,9 @@ $(function () {
 		}
 	}
 
-	// 添加员工
+	// 添加、修改员工信息
 	$('#saveEmployee').on('click', function () {
+		// 可能是因为唤出过 modal，而无法失焦
 		/*console.log($);
 		console.log($());
 		console.log($($));
@@ -144,20 +145,40 @@ $(function () {
 		// 删除第一个不需要的值
 		arr.shift();
 		// 验证值
-		if (regExp(arr[0], arr[3], arr[4], arr[5]) === false) {
+		if (regExp(arr[0], arr[1], arr[2], arr[3]) === false) {
 			return false;
 		}
 		const createdDate = new Date();
+		const birth = arr[1].substring(6, 14);
+		const birthYear = birth.substring(0, 4);
+		const birthMonth = birth.substring(4, 6);
+		const birthDay = birth.substring(6, 8);
+		const now = getDateTime(createdDate).substring(0, 10).replace(/-/g, '');
+		const nowYear = now.substring(0, 4);
+		const nowMonth = now.substring(4, 6);
+		const nowDay = now.substring(6, 8);
 
 		function Employee() {
 			this['employeeName'] = arr[0];
-			this['employeeSex'] = arr[1];
-			this['employeeAge'] = arr[2];
-			this['employeeIdCard'] = arr[3].toUpperCase();
-			this['employeeAddress'] = arr[4];
-			this['employeePhoneNumber'] = arr[5];
-			this['createdBy'] = $('#username').text();
-			this['lastModifiedDate'] = this['createdDate'] = getDateTime(createdDate);
+			// 取消人为操作性别和年龄
+			// 改为根据身份证判断性别和年龄
+			this['employeeSex'] = arr[1].substring(16, 17) % 2 === 0 ? '女' : '男';
+			this['employeeAge'] = nowDay - birthDay < 0 ? nowMonth - 1 - birthMonth < 0 ? nowYear - 1 - birthYear : nowYear - birthYear : nowMonth - birthMonth < 0 ? nowYear - 1 - birthYear : nowYear - birthYear;
+			this['employeeIdCard'] = arr[1].toUpperCase();
+			this['employeeAddress'] = arr[2];
+			this['employeePhoneNumber'] = arr[3];
+			this['lastModifiedDate'] = getDateTime(createdDate);
+			// 添加员工
+			if (modalBody.attr('id') === undefined || modalBody.attr('id') === '' || modalBody.attr('id') === null) {
+				this['createdBy'] = $('#username').text();
+				this['createdDate'] = getDateTime(createdDate);
+			} else {
+				// 修改员工
+				this['employeeId'] = tbody.find('tr:eq(' + modalBody.attr('id') + ') th').attr('id');
+				this['createdBy'] = tbody.find('tr:eq(' + modalBody.attr('id') + ') td:eq(6)').text();
+				this['createdDate'] = tbody.find('tr:eq(' + modalBody.attr('id') + ') td:eq(7)').text();
+				modalBody.removeAttr('id');
+			}
 		}
 
 		$.ajax({
@@ -223,61 +244,21 @@ $(function () {
 		}
 	})
 
-	// 更改
+	// 将需要更改的员工信息填充进 modal
 	tbody.on('click', '.updateEmployee', function () {
+		// 可能是因为唤出过 modal，而无法失焦
 		this.blur();
 		// 获取当前 tbody tr 下标
 		const index = this.parentNode.parentNode.firstElementChild.textContent % 10 - 1;
-		if (regExp(
-			tbody.find('tr:eq(' + index + ') td:eq(0) label input').val(),
-			tbody.find('tr:eq(' + index + ') td:eq(3) label input').val(),
-			tbody.find('tr:eq(' + index + ') td:eq(4) label input').val(),
-			tbody.find('tr:eq(' + index + ') td:eq(5) label input').val()
-		) === false) {
-			return false;
-		}
+		modalBody.attr('id', index);
+		$('#recipient-name').val(tbody.find('tr:eq(' + index + ') td:eq(0)').text());
+		$('#recipient-idCard').val(tbody.find('tr:eq(' + index + ') td:eq(3)').text());
+		$('#recipient-address').val(tbody.find('tr:eq(' + index + ') td:eq(4)').text());
+		$('#recipient-phoneNumber').val(tbody.find('tr:eq(' + index + ') td:eq(5)').text());
+	})
 
-		if (confirm('确定更改?')) {
-			let lastModifiedDate = new Date();
-			lastModifiedDate = getDateTime(lastModifiedDate);
-
-			function Employee() {
-				this['employeeId'] = tbody.find('tr:eq(' + index + ') th').attr('id');
-				this['employeeName'] = tbody.find('tr:eq(' + index + ') td:eq(0) label input').val();
-				this['employeeSex'] = tbody.find('tr:eq(' + index + ') td:eq(1) label select').val();
-				this['employeeAge'] = tbody.find('tr:eq(' + index + ') td:eq(2) label select').val();
-				this['employeeIdCard'] = tbody.find('tr:eq(' + index + ') td:eq(3) label input').val().toUpperCase();
-				this['employeeAddress'] = tbody.find('tr:eq(' + index + ') td:eq(4) label input').val();
-				this['employeePhoneNumber'] = tbody.find('tr:eq(' + index + ') td:eq(5) label input').val();
-				this['createdBy'] = tbody.find('tr:eq(' + index + ') td:eq(6)').text();
-				this['createdDate'] = tbody.find('tr:eq(' + index + ') td:eq(7)').text();
-				this['lastModifiedDate'] = lastModifiedDate;
-			}
-
-			$.ajax({
-				type: 'POST',
-				// 下面这行非常重要，没有会报错
-				// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
-				// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
-				contentType: 'application/json',
-				url: '/employee/updateEmployee',
-				data: JSON.stringify(new Employee()),
-				// 因为开启了 csrf，所以增加请求头
-				headers: {
-					'X-CSRF-Token': getToken()
-				},
-				success: function (data, success, state) {
-					if (state.status === 200 && state.readyState === 4) {
-						$('tbody tr:eq(' + index + ') td:eq(8)').html(lastModifiedDate);
-					}
-				},
-				error: function () {
-					$('.toast-body').text('更改失败，请检查后重试。');
-					new bootstrap.Toast($('#liveToast')).show();
-				}
-			})
-		}
-
+	$('.close-employee-modal').on('click', function () {
+		modalBody.removeAttr('id');
 	})
 
 	// 查找员工
@@ -371,8 +352,7 @@ $(function () {
 								})
 							} else {
 								tbody.children().remove();
-								tfoot.remove();
-								tbody.html('<tr><td colspan="12">无匹配结果</td></tr>');
+								tfoot.find('tr td div').children().remove();
 							}
 						}
 					}
@@ -445,8 +425,7 @@ $(function () {
 								})
 							} else {
 								tbody.children().remove();
-								tfoot.remove();
-								tbody.html('<tr><td colspan="12">无匹配结果</td></tr>');
+								tfoot.find('tr td div').children().remove();
 							}
 						}
 					}
