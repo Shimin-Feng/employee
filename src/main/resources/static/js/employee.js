@@ -60,19 +60,32 @@ $(function () {
 	// 验证信息
 	function regExp(employeeName, employeeIdCard, employeeAddress, employeePhoneNumber) {
 		// 验证姓名
+		if (employeeName === '') {
+			$('.toast-body').text('姓名不能为空。');
+			new bootstrap.Toast($('#liveToast')).show();
+			return false;
+		}
 		if (!/^[\u4e00-\u9fa5\w\s•]{1,25}$/.test(employeeName)) {
-			alert('姓名只支持由 1 - 25 个汉字、英文、数字、空格和•的组合。');
+			$('.toast-body').text('姓名只支持由 1 - 25 个汉字、英文、数字、空格和•的组合。');
+			new bootstrap.Toast($('#liveToast')).show();
 			return false;
 		}
 
-		// 验证身份证
+		// 验证身份证号码
+		if (employeeIdCard === '') {
+			$('.toast-body').text('身份证号码不能为空。');
+			new bootstrap.Toast($('#liveToast')).show();
+			return false;
+		}
 		if (employeeIdCard.length !== 15 && employeeIdCard.length !== 18) {
-			alert('请填写 15 或者 18 位身份证号码。');
+			$('.toast-body').text('请填写 15 或者 18 位身份证号码。');
+			new bootstrap.Toast($('#liveToast')).show();
 			return false;
 		}
 		// 15、18 位身份证号码第一重验证
 		if (!/^\d{15}|\d{18}|(\d{17}X|x)$/.test(employeeIdCard)) {
-			alert('身份证号码格式有误，请检查后重试。');
+			$('.toast-body').text('身份证号码有误，请检查后重试。');
+			new bootstrap.Toast($('#liveToast')).show();
 			return false;
 		}
 		// 18 位身份证号码第二重验证
@@ -84,20 +97,33 @@ $(function () {
 			const lastNumber = calculateLastNumber(id17);
 			employeeIdCard = employeeIdCard.toUpperCase();
 			if (lastNumber !== employeeIdCard.substring(17)) {
-				alert('身份证号码格式有误，请检查后重试。');
+				$('.toast-body').text('身份证号码有误，请检查后重试。');
+				new bootstrap.Toast($('#liveToast')).show();
 				return false;
 			}
 		}
 
 		// 验证住址
+		if (employeeAddress === '') {
+			$('.toast-body').text('住址不能为空。');
+			new bootstrap.Toast($('#liveToast')).show();
+			return false;
+		}
 		if (!/^[\u4e00-\u9fa5\w\s•,]{2,45}$/.test(employeeAddress)) {
-			alert('住址只支持由最多 45 个汉字、英文、空格、英文逗号和•的组合。');
+			$('.toast-body').text('住址只支持由最多 45 个汉字、英文、空格、英文逗号和•的组合。');
+			new bootstrap.Toast($('#liveToast')).show();
 			return false;
 		}
 
 		// 验证电话号码（暂时只验证在一般情况下的中国大陆移动手机号码）
+		if (employeePhoneNumber === '') {
+			$('.toast-body').text('电话号码不能为空。');
+			new bootstrap.Toast($('#liveToast')).show();
+			return false;
+		}
 		if (!/^1[3-9]\d{9}$/.test(employeePhoneNumber)) {
-			alert('电话号码格式有误，请检查后重试。');
+			$('.toast-body').text('电话号码格式有误，请检查后重试。');
+			new bootstrap.Toast($('#liveToast')).show();
 			return false;
 		}
 	}
@@ -156,7 +182,7 @@ $(function () {
 				}
 			},
 			error: function () {
-				alert('添加失败，请检查后重试。');
+				new bootstrap.Toast($('#liveToast')).show();
 			}
 		})
 	})
@@ -166,7 +192,8 @@ $(function () {
 		this.blur();
 		const employeeId = this.parentElement.parentElement.firstElementChild.id;
 		if (employeeId === '' || employeeId === null) {
-			alert('系统出现故障，请检查后重试。');
+			$('.toast-body').text('系统出现故障，请检查后重试。');
+			new bootstrap.Toast($('#liveToast')).show();
 			return false;
 		}
 		if (confirm('确定删除?')) {
@@ -189,9 +216,8 @@ $(function () {
 					}
 				},
 				error: function () {
-					tbody.children().remove();
-					tfoot.remove();
-					tbody.html('<tr><td colspan="12">删除失败，请检查后重试。</td></tr>');
+					$('.toast-body').text('删除失败，请检查后重试。');
+					new bootstrap.Toast($('#liveToast')).show();
 				}
 			})
 		}
@@ -246,9 +272,8 @@ $(function () {
 					}
 				},
 				error: function () {
-					tbody.children().remove();
-					tfoot.remove();
-					tbody.html('<tr><td colspan="12">更改失败，请检查后重试。</td></tr>');
+					$('.toast-body').text('更改失败，请检查后重试。');
+					new bootstrap.Toast($('#liveToast')).show();
 				}
 			})
 		}
@@ -298,9 +323,8 @@ $(function () {
 				}
 			},
 			error: function () {
-				tbody.children().remove();
-				tfoot.remove();
-				tbody.html('<tr><td colspan="12">查找失败，请检查后重试。</td></tr>');
+				$('.toast-body').text('查找失败，请检查后重试。');
+				new bootstrap.Toast($('#liveToast')).show();
 			}
 		})
 
@@ -355,9 +379,8 @@ $(function () {
 				}
 				,
 				error: function () {
-					tbody.children().remove();
-					tfoot.remove();
-					tbody.html('<tr><td colspan="12">页面加载失败，请检查后重试。</td></tr>');
+					$('.toast-body').text('页面加载失败，请检查后重试。');
+					new bootstrap.Toast($('#liveToast')).show();
 				}
 			})
 		} else {
@@ -416,9 +439,8 @@ $(function () {
 										}
 									},
 									error: function () {
-										tbody.children().remove();
-										tfoot.remove();
-										tbody.html('<tr><td colspan="12">页面加载失败，请检查后重试。</td></tr>');
+										$('.toast-body').text('页面加载失败，请检查后重试。');
+										new bootstrap.Toast($('#liveToast')).show();
 									}
 								})
 							} else {
@@ -430,9 +452,8 @@ $(function () {
 					}
 				},
 				error: function () {
-					tbody.children().remove();
-					tfoot.remove();
-					tbody.html('<tr><td colspan="12">页面加载失败，请检查后重试。</td></tr>');
+					$('.toast-body').text('页面加载失败，请检查后重试。');
+					new bootstrap.Toast($('#liveToast')).show();
 				}
 			})
 		} else {

@@ -36,8 +36,8 @@
         </div>
     </div>
 </nav>
-<section class="p-5">
-    <div class="container input-group mb-3">
+<section class="p-3">
+    <div class="container input-group mb-1">
         <select aria-label="Default select example" id="findSelect">
             <option value="employeeName">姓名</option>
             <option value="employeeSex">性别</option>
@@ -50,13 +50,13 @@
             <option value="lastModifiedDate">最后操作时间</option>
         </select>
         <input aria-label="Text input with dropdown button" class="form-control" id="findInput" type="search">
-        <button class="btn btn-primary" id="findButton" type="button">查找员工</button>
+        <button class="btn btn-secondary" id="findButton" type="button">查找员工</button>
         <!-- Button trigger modal -->
-        <button class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal" id="save"
+        <button class="btn btn-success" data-bs-target="#exampleModal" data-bs-toggle="modal" id="save"
                 type="button">添加员工
         </button>
     </div>
-    <table class="container table table-hover text-center table-striped table-bordered caption-top table-responsive-lg">
+    <table class="container table table-hover text-center table-bordered caption-top table-responsive-lg">
         <caption class="text-center">
             <h1>员工信息</h1>
         </caption>
@@ -71,7 +71,7 @@
             <th>电话号码</th>
             <th>添加者</th>
             <th>添加时间</th>
-            <th>最后操作时间</th>
+            <!--<th>最后操作时间</th>-->
             <th>更改</th>
             <th>删除</th>
         </tr>
@@ -164,19 +164,22 @@
             </td>
             <td th:text="${employee.createdBy}"></td>
             <td th:text="${employee.createdDate}"></td>
-            <td th:text="${employee.lastModifiedDate}"></td>
+            <!--<td th:text="${employee.lastModifiedDate}"></td>-->
             <td>
                 <button class="btn btn-primary updateEmployee" type="button">更改</button>
             </td>
             <td>
-                <button class="btn btn-primary deleteEmployee" type="button">删除</button>
+                <button class="btn btn-danger deleteEmployee" type="button">删除</button>
             </td>
         </tr>
         </tbody>
         <tfoot class="table-success">
         <tr>
-            <td colspan="12">
+            <td colspan="11">
                 <div class="modal-footer no-margin-top">
+                    <span>共</span>
+                    <span th:text="${employees.totalElements}"></span>
+                    <span>条数据</span>
                     <ul class="pagination pull-right no-margin" th:if="${employees.totalPages} > 1">
                         <li>
                             <a class="page-link" th:name="0">首页</a>
@@ -204,11 +207,11 @@
         </tfoot>
     </table>
 </section>
-<footer class="p-5 bg-dark text-white text-center">
+<!--<footer class="p-5 bg-dark text-white text-center">
     <div class="container">
         <p class="lead">Copyright &copy; 2022 $himinFXCVII All rights reserved.</p>
     </div>
-</footer>
+</footer>-->
 <!-- Modal -->
 <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" data-bs-backdrop="static"
      id="exampleModal" tabindex="-1">
@@ -219,90 +222,100 @@
                 <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
             </div>
             <div class="modal-body">
-                <form action="">
-                    <div class="mb-3">
-                        <label class="col-form-label" for="recipient-name">姓名:</label>
-                        <input class="form-control" id="recipient-name" maxlength="25" required type="text">
-                    </div>
-                    <div class="mb-3">
-                        <label class="col-form-label" for="recipient-sxe">性别:</label>
-                        <select class="form-control" id="recipient-sxe">
-                            <option value="男">男</option>
-                            <option value="女">女</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="col-form-label" for="recipient-age">年龄:</label>
-                        <select class="form-control" id="recipient-age">
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
-                            <option value="21">21</option>
-                            <option value="22">22</option>
-                            <option value="23">23</option>
-                            <option value="24">24</option>
-                            <option value="25">25</option>
-                            <option value="26">26</option>
-                            <option value="27">27</option>
-                            <option value="28">28</option>
-                            <option value="29">29</option>
-                            <option value="30">30</option>
-                            <option value="31">31</option>
-                            <option value="32">32</option>
-                            <option value="33">33</option>
-                            <option value="34">34</option>
-                            <option value="35">35</option>
-                            <option value="36">36</option>
-                            <option value="37">37</option>
-                            <option value="38">38</option>
-                            <option value="39">39</option>
-                            <option value="40">40</option>
-                            <option value="41">41</option>
-                            <option value="42">42</option>
-                            <option value="43">43</option>
-                            <option value="44">44</option>
-                            <option value="45">45</option>
-                            <option value="46">46</option>
-                            <option value="47">47</option>
-                            <option value="48">48</option>
-                            <option value="49">49</option>
-                            <option value="50">50</option>
-                            <option value="51">51</option>
-                            <option value="52">52</option>
-                            <option value="53">53</option>
-                            <option value="54">54</option>
-                            <option value="55">55</option>
-                            <option value="56">56</option>
-                            <option value="57">57</option>
-                            <option value="58">58</option>
-                            <option value="59">59</option>
-                            <option value="60">60</option>
-                            <option value="61">61</option>
-                            <option value="62">62</option>
-                            <option value="63">63</option>
-                            <option value="64">64</option>
-                            <option value="65">65</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="col-form-label" for="recipient-idCard">身份证号码:</label>
-                        <input class="form-control" id="recipient-idCard" maxlength="18" required type="text">
-                    </div>
-                    <div class="mb-3">
-                        <label class="col-form-label" for="recipient-address">住址:</label>
-                        <input class="form-control" id="recipient-address" maxlength="45" required type="text">
-                    </div>
-                    <div class="mb-3">
-                        <label class="col-form-label" for="recipient-phoneNumber">电话号码:</label>
-                        <input class="form-control" id="recipient-phoneNumber" maxlength="11" required type="text">
-                    </div>
-                </form>
+                <div class="mb-3">
+                    <label class="col-form-label" for="recipient-name">姓名:</label>
+                    <input class="form-control" id="recipient-name" maxlength="25" required type="text">
+                </div>
+                <div class="mb-3">
+                    <label class="col-form-label" for="recipient-sxe">性别:</label>
+                    <select class="form-control" id="recipient-sxe">
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="col-form-label" for="recipient-age">年龄:</label>
+                    <select class="form-control" id="recipient-age">
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                        <option value="31">31</option>
+                        <option value="32">32</option>
+                        <option value="33">33</option>
+                        <option value="34">34</option>
+                        <option value="35">35</option>
+                        <option value="36">36</option>
+                        <option value="37">37</option>
+                        <option value="38">38</option>
+                        <option value="39">39</option>
+                        <option value="40">40</option>
+                        <option value="41">41</option>
+                        <option value="42">42</option>
+                        <option value="43">43</option>
+                        <option value="44">44</option>
+                        <option value="45">45</option>
+                        <option value="46">46</option>
+                        <option value="47">47</option>
+                        <option value="48">48</option>
+                        <option value="49">49</option>
+                        <option value="50">50</option>
+                        <option value="51">51</option>
+                        <option value="52">52</option>
+                        <option value="53">53</option>
+                        <option value="54">54</option>
+                        <option value="55">55</option>
+                        <option value="56">56</option>
+                        <option value="57">57</option>
+                        <option value="58">58</option>
+                        <option value="59">59</option>
+                        <option value="60">60</option>
+                        <option value="61">61</option>
+                        <option value="62">62</option>
+                        <option value="63">63</option>
+                        <option value="64">64</option>
+                        <option value="65">65</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="col-form-label" for="recipient-idCard">身份证号码:</label>
+                    <input class="form-control" id="recipient-idCard" maxlength="18" required type="text">
+                </div>
+                <div class="mb-3">
+                    <label class="col-form-label" for="recipient-address">住址:</label>
+                    <input class="form-control" id="recipient-address" maxlength="45" required type="text">
+                </div>
+                <div class="mb-3">
+                    <label class="col-form-label" for="recipient-phoneNumber">电话号码:</label>
+                    <input class="form-control" id="recipient-phoneNumber" maxlength="11" required type="text">
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">关闭</button>
-                <button class="btn btn-primary" data-bs-dismiss="modal" id="saveEmployee" type="button">确定添加
+                <button class="btn btn-success" data-bs-dismiss="modal" id="saveEmployee" type="button">确定添加
                 </button>
             </div>
+        </div>
+    </div>
+</div>
+<div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 9999">
+    <div aria-atomic="true" aria-live="assertive" class="toast hide bg-warning" id="liveToast" role="alert">
+        <div class="toast-header">
+            <strong class="me-auto">提示消息</strong>
+            <small>现在</small>
+            <button aria-label="Close" class="btn-close" data-bs-dismiss="toast" type="button"></button>
+        </div>
+        <div class="toast-body">
+            添加失败，请检查后重试。
         </div>
     </div>
 </div>

@@ -25,6 +25,9 @@ public class EmployeeController {
     // TODO: jQuery 根据时间自动调节背景颜色！
     // TODO: <input> 如何解决在使用中文输入时的错误？
     // TODO: 学习新一代 thymeleaf-extras-spring security6 的使用方法
+    // TODO: 根据年龄排序
+    // TODO: 统计图
+    // TODO: 可以根据身份证号码计算出年龄、性别
     @RequestMapping("login")
     public String login() {
         return "login";
