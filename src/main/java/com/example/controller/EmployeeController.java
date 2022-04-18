@@ -35,10 +35,10 @@ public class EmployeeController {
         return "index";
     }
 
-    @RequestMapping("logout")
+    /*@RequestMapping("logout")
     public String logout() {
         return "logout";
-    }
+    }*/
 
     /*@RequestMapping("loginFailed")
     public String loginFailed() {
@@ -60,30 +60,24 @@ public class EmployeeController {
     }
 
     @RequestMapping("employee/saveEmployee")
-    public String saveEmployee(@RequestBody @NotNull Employee employee, @NotNull Model model, @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
-                               @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+    public String saveEmployee(@RequestBody @NotNull Employee employee, @NotNull Model model) {
         employee.setEmployeeId(String.valueOf(UUID.randomUUID()));
         employeeRepository.save(employee);
-        model.addAttribute("employees", employeeRepository.findAll(
-                PageRequest.of(pageNum, pageSize, Sort.by("createdDate"))));
+        model.addAttribute("employees", employeeRepository.findAll(PageRequest.of(0, 10)));
         return "employee";
     }
 
     @RequestMapping("employee/deleteEmployee")
-    public String deleteEmployee(String employeeId, @NotNull Model model, @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
-                                 @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+    public String deleteEmployee(String employeeId, @NotNull Model model) {
         employeeRepository.deleteById(employeeId);
-        model.addAttribute("employees", employeeRepository.findAll(
-                PageRequest.of(pageNum, pageSize, Sort.by("createdDate"))));
+        model.addAttribute("employees", employeeRepository.findAll(PageRequest.of(0, 10)));
         return "employee";
     }
 
     @RequestMapping("employee/updateEmployee")
-    public String updateEmployee(@RequestBody Employee employee, @NotNull Model model, @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
-                                 @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+    public String updateEmployee(@RequestBody Employee employee, @NotNull Model model) {
         employeeRepository.save(employee);
-        model.addAttribute("employees", employeeRepository.findAll(
-                PageRequest.of(pageNum, pageSize, Sort.by("createdDate"))));
+        model.addAttribute("employees", employeeRepository.findAll(PageRequest.of(0, 10)));
         return "employee";
     }
 

@@ -11,13 +11,13 @@
 <body>
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
     <div class="container">
+        <a class="navbar-brand">员工管理系统</a>
         <a class="navbar-brand">Welcome:</a>
         <a class="navbar-brand" id="username" sec:authentication="name"></a>
         <form action="/logout" method="post">
             <input name="_csrf" th:if="${_csrf}" th:value="${_csrf.token}" type="hidden">
             <button class="btn navbar-brand" type="submit">退出</button>
         </form>
-        <a class="navbar-brand centerrrr">员工管理系统</a>
         <button class="navbar-toggler" data-bs-target="#navmenu" data-bs-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -36,7 +36,6 @@
         </div>
     </div>
 </nav>
-
 <section class="p-5">
     <div class="container input-group mb-3">
         <select aria-label="Default select example" id="findSelect">
@@ -177,8 +176,8 @@
         <tfoot class="table-success">
         <tr>
             <td colspan="12">
-                <div class="modal-footer no-margin-top" th:if="${employees.hasContent()}">
-                    <ul class="pagination pull-right no-margin">
+                <div class="modal-footer no-margin-top">
+                    <ul class="pagination pull-right no-margin" th:if="${employees.totalPages} > 1">
                         <li>
                             <a class="page-link" th:name="0">首页</a>
                         </li>
@@ -205,13 +204,11 @@
         </tfoot>
     </table>
 </section>
-
 <footer class="p-5 bg-dark text-white text-center">
     <div class="container">
         <p class="lead">Copyright &copy; 2022 $himinFXCVII All rights reserved.</p>
     </div>
 </footer>
-
 <!-- Modal -->
 <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" data-bs-backdrop="static"
      id="exampleModal" tabindex="-1">
@@ -309,7 +306,6 @@
         </div>
     </div>
 </div>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- JavaScript Bundle with Popper -->
 <script crossorigin="anonymous"

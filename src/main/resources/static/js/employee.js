@@ -1,10 +1,6 @@
 'use strict';
 
-$($).ready(function () {
-
-});
-
-window.onload = function () {
+$(function () {
 
 	const tbody = $($).find('tbody');
 	const tfoot = $($).find('tfoot');
@@ -38,12 +34,12 @@ window.onload = function () {
 	function updatePage(data) {
 		if (/deleteEmployee/.test(data)) {
 			// 截取之后填充进页面
-			const array1 = data.split('<tbody class="table-secondary">');
-			const array2 = array1[1].split('</tbody>');
-			const array3 = array2[1].split('<div class="modal-footer no-margin-top">');
-			let array4 = array3[1].split('</div>');
-			tbody.html(array2[0]);
-			$('.no-margin-top').html(array4[0]);
+			const trs1 = data.split('<tbody class="table-secondary">');
+			const trs2 = trs1[1].split('</tbody>');
+			const ul1 = trs2[1].split('<div class="modal-footer no-margin-top">');
+			const ul2 = ul1[1].split('</div>');
+			tbody.html(trs2[0]);
+			$('.no-margin-top').html(ul2[0]);
 		} else {
 			tbody.children().remove();
 			tfoot.remove();
@@ -130,7 +126,7 @@ window.onload = function () {
 		function Employee() {
 			this['employeeName'] = arr[0];
 			this['employeeSex'] = arr[1];
-			this['employeeAge' ]= arr[2];
+			this['employeeAge'] = arr[2];
 			this['employeeIdCard'] = arr[3].toUpperCase();
 			this['employeeAddress'] = arr[4];
 			this['employeePhoneNumber'] = arr[5];
@@ -153,9 +149,9 @@ window.onload = function () {
 			success: function (data, success, state) {
 				if (state.status === 200 && state.readyState === 4) {
 					if (findInput.val() === '') {
-						ajaxRequest($('.currentPage').text() - 1);
+						ajaxRequest($('.currentPage').attr('name'));
 					} else {
-						ajaxRequestCondition($('.currentPage').text() - 1);
+						ajaxRequestCondition($('.currentPage').attr('name'));
 					}
 				}
 			},
@@ -167,7 +163,7 @@ window.onload = function () {
 
 	// 删除
 	tbody.on('click', '.deleteEmployee', function () {
-		$('.deleteEmployee').blur();
+		this.blur();
 		const employeeId = this.parentElement.parentElement.firstElementChild.id;
 		if (employeeId === '' || employeeId === null) {
 			alert('系统出现故障，请检查后重试。');
@@ -186,9 +182,9 @@ window.onload = function () {
 				success: function (data, success, state) {
 					if (state.status === 200 && state.readyState === 4) {
 						if (findInput.val() === '') {
-							ajaxRequest($('.currentPage').text() - 1);
+							ajaxRequest($('.currentPage').attr('name'));
 						} else {
-							ajaxRequestCondition($('.currentPage').text() - 1);
+							ajaxRequestCondition($('.currentPage').attr('name'));
 						}
 					}
 				},
@@ -203,7 +199,7 @@ window.onload = function () {
 
 	// 更改
 	tbody.on('click', '.updateEmployee', function () {
-		$('.updateEmployee').blur();
+		this.blur();
 		// 获取当前 tbody tr 下标
 		const index = this.parentNode.parentNode.firstElementChild.textContent % 10 - 1;
 		if (regExp(
@@ -298,21 +294,7 @@ window.onload = function () {
 			},
 			success: function (data, success, state) {
 				if (state.status === 200 && state.readyState === 4) {
-					if (/deleteEmployee/.test(data)) {
-						// 截取之后填充进页面
-						const array1 = data.split('<tbody class="table-secondary">');
-						const array2 = array1[1].split('</tbody>');
-						const array3 = array2[1].split('<div class="modal-footer no-margin-top">');
-						const array4 = array3[1].split('</div>');
-						const ul = array4[0].replace(/\?/, '/findEmployee?');
-						// 截取字符串之后不需要将其转换为 HTML
-						tbody.html(array2[0]);
-						$('.no-margin-top').html(ul);
-					} else {
-						tbody.children().remove();
-						tfoot.remove();
-						tbody.html('<tr><td colspan="12">无匹配结果</td></tr>');
-					}
+					updatePage(data);
 				}
 			},
 			error: function () {
@@ -378,6 +360,20 @@ window.onload = function () {
 					tbody.html('<tr><td colspan="12">页面加载失败，请检查后重试。</td></tr>');
 				}
 			})
+		} else {
+			$.ajax({
+				type: 'POST',
+				url: '/employee',
+				// 因为开启了 csrf，所以增加请求头
+				headers: {
+					'X-CSRF-Token': getToken()
+				},
+				success: function (data, success, state) {
+					if (state.status === 200 && state.readyState === 4) {
+						updatePage(data);
+					}
+				}
+			})
 		}
 	}
 
@@ -439,6 +435,28 @@ window.onload = function () {
 					tbody.html('<tr><td colspan="12">页面加载失败，请检查后重试。</td></tr>');
 				}
 			})
+		} else {
+			$.ajax({
+				type: 'POST',
+				// 下面这行非常重要，没有会报错
+				// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
+				// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
+				contentType: 'application/json',
+				url: '/employee/findEmployee',
+				data: JSON.stringify(new Employee()),
+				// 因为开启了 csrf，所以增加请求头
+				headers: {
+					'X-CSRF-Token': getToken()
+				},
+				success: function (data, success, state) {
+					if (state.status === 200 && state.readyState === 4) {
+						updatePage(data);
+					}
+				}
+			})
 		}
 	}
+});
+
+window.onload = function () {
 }
