@@ -1,6 +1,8 @@
 package com.test;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Test {
     public static void main(String[] args) {
@@ -20,9 +22,61 @@ public class Test {
 //        System.out.println(e2);
 //        String e3 = BCrypt.hashpw("Bg2nbRM*n7LyDD$LmSX", BCrypt.gensalt());
 //        System.out.println(e3);
-        Date date = new Date();
+
+
+        /*Date date = new Date();
         System.out.println(date);
-        System.out.println("�Ҷ�");
+        System.out.println("借记卡");*/
+
+
+        /*String str = "I love this world";
+        String[] splitWords = str.split("\s");
+        System.out.println(Arrays.toString(splitWords));
+        StringBuilder words = new StringBuilder();
+        for (int i = splitWords.length - 1; i > -1; i--) {
+            words.append(splitWords[i]).append(" ");
+        }
+        System.out.println(words.toString().trim());*/
+
+
+        /*String str = "I love this world, and I love my family.";
+        String regExp = "\\w+|[,.]";
+        Pattern pattern = Pattern.compile(regExp);
+        Matcher matcher = pattern.matcher(str);
+        ArrayList<Object> objects = new ArrayList<>();
+        StringBuilder str2 = new StringBuilder();
+        while (matcher.find()) {
+            objects.add(matcher.group());
+        }
+        System.out.println(objects);
+        for (int i = objects.size() - 1; i > -1; i--) {
+            if (objects.get(i).toString().matches("\\W")) {
+                str2.append(objects.get(i));
+            } else {
+                str2.append(objects.get(i)).append(" ");
+            }
+        }
+        System.out.println(str2.toString().trim());*/
+
+
+        String str = "I love this world, and I love my family.";
+        String regExp = "\\w+|[,.]";
+        Pattern pattern = Pattern.compile(regExp);
+        Matcher matcher = pattern.matcher(str);
+        ArrayList<Object> objects = new ArrayList<>();
+        StringBuilder str2 = new StringBuilder();
+        while (matcher.find()) {
+            objects.add(matcher.group());
+        }
+        System.out.println(objects);
+        for (int i = objects.size() - 1; i > -1; i--) {
+            if (objects.get(i).toString().matches("\\W")) {
+                str2.append(new StringBuilder(objects.get(i).toString()).reverse());
+            } else {
+                str2.append(new StringBuilder(objects.get(i).toString()).reverse()).append(" ");
+            }
+        }
+        System.out.println(str2.toString().trim());
 
     }
 }

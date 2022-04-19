@@ -26,8 +26,9 @@ public class EmployeeController {
     // TODO: jQuery 根据时间自动调节背景颜色！
     // TODO: <input> 如何解决在使用中文输入时的错误？
     // TODO: 学习新一代 thymeleaf-extras-spring security6 的使用方法
-    // TODO: 根据年龄排序
     // TODO: 统计图
+    // TODO: 数据库根据时间自动调整年龄
+    // TODO: 尽可能多地合并 ajax
     @RequestMapping("login")
     public String login() {
         return "login";
@@ -55,10 +56,13 @@ public class EmployeeController {
     }*/
 
     @RequestMapping("employee")
-    public String employee(@NotNull Model model, @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
-                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+    public String employee(@NotNull Model model,
+                           @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
+                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+                           @RequestParam(value = "direction", defaultValue = "ASC") Sort.Direction direction,
+                           @RequestParam(value = "property", defaultValue = "createdDate") String property) {
         model.addAttribute("employees", employeeRepository.findAll(
-                PageRequest.of(pageNum, pageSize, Sort.by("createdDate"))));
+                PageRequest.of(pageNum, pageSize, Sort.by(direction, property, "employeeId"))));
         return "employee";
     }
 
@@ -81,9 +85,12 @@ public class EmployeeController {
 
     @RequestMapping("employee/findEmployee")
     // 如果没有 @RequestBody，就接收不到 jQuery 传过来的值
-    public String findEmployee(@RequestBody Employee employee, @NotNull Model model, @RequestParam(value = "pageNum",
-            defaultValue = "0") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-
+    public String findEmployee(@RequestBody Employee employee,
+                               @NotNull Model model,
+                               @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
+                               @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+                               @RequestParam(value = "direction", defaultValue = "ASC") Sort.Direction direction,
+                               @RequestParam(value = "property", defaultValue = "createdDate") String property) {
         model.addAttribute("employees", employeeRepository.findAll(Example.of(employee,
                 /*
                   .matchingAll()                                返回一个匹配所有字段的 ExampleMatcher 对象
@@ -110,7 +117,7 @@ public class EmployeeController {
                         .withMatcher("createdDate", ExampleMatcher.GenericPropertyMatchers.contains())
                         .withMatcher("lastModifiedDate", ExampleMatcher.GenericPropertyMatchers.contains())
                         .withIgnorePaths("employeeId")
-        ), PageRequest.of(pageNum, pageSize, Sort.by("createdDate"))));
+        ), PageRequest.of(pageNum, pageSize, Sort.by(direction, property, "employeeId"))));
         return "employee";
     }
 }

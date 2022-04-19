@@ -1,153 +1,44 @@
-<!doctype html>
-
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="utf-8">
-
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-
-    <meta content="" name="keywords">
-
-    <meta content="" name="description">
-
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
-
-    <title>Popovers</title>
-
+    <meta charset="UTF-8">
+    <title>r</title>
 </head>
-
 <body>
-
-
-<button class="btn btn-primary" id="liveToastBtn" type="button">Show live toast</button>
-<div class="position-fixed top-0 start-50 translate-middle-x" style="z-index: 5">
-    <div aria-atomic="true" aria-live="assertive" class="toast hide" id="saveError" role="alert">
-        <div class="toast-header">
-            <strong class="me-auto">提示消息</strong>
-            <small>现在</small>
-            <button aria-label="Close" class="btn-close" data-bs-dismiss="toast" type="button"></button>
-        </div>
-        <div class="toast-body">
-            添加失败，请检查后重试。
-        </div>
-    </div>
-</div>
-
-
-<!-- Button trigger modal -->
-<button class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal" id="save"
-        type="button">添加员工
-</button>
-<!-- Modal -->
-<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" data-bs-backdrop="static"
-     id="exampleModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">新员工信息</h5>
-                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
-            </div>
-            <div class="modal-body">
-                <form class="row g-3">
-                    <div class="col-md-4">
-                        <label class="form-label" for="validationServer01">First name</label>
-                        <input class="form-control is-valid" id="validationServer01" required type="text" value="Mark">
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label" for="validationServer02">Last name</label>
-                        <input class="form-control is-valid" id="validationServer02" required type="text" value="Otto">
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label" for="validationServerUsername">Username</label>
-                        <div class="input-group has-validation">
-                            <span class="input-group-text" id="inputGroupPrepend3">@</span>
-                            <input aria-describedby="inputGroupPrepend3 validationServerUsernameFeedback"
-                                   class="form-control is-invalid" id="validationServerUsername" required type="text">
-                            <div class="invalid-feedback" id="validationServerUsernameFeedback">
-                                Please choose a username.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label" for="validationServer03">City</label>
-                        <input aria-describedby="validationServer03Feedback" class="form-control is-invalid"
-                               id="validationServer03" required type="text">
-                        <div class="invalid-feedback" id="validationServer03Feedback">
-                            Please provide a valid city.
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label" for="validationServer04">State</label>
-                        <select aria-describedby="validationServer04Feedback" class="form-select is-invalid"
-                                id="validationServer04" required>
-                            <option disabled selected value="">Choose...</option>
-                            <option>...</option>
-                        </select>
-                        <div class="invalid-feedback" id="validationServer04Feedback">
-                            Please select a valid state.
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label" for="validationServer05">Zip</label>
-                        <input aria-describedby="validationServer05Feedback" class="form-control is-invalid"
-                               id="validationServer05" required type="text">
-                        <div class="invalid-feedback" id="validationServer05Feedback">
-                            Please provide a valid zip.
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-check">
-                            <input aria-describedby="invalidCheck3Feedback" class="form-check-input is-invalid"
-                                   id="invalidCheck3" required type="checkbox" value="">
-                            <label class="form-check-label" for="invalidCheck3">
-                                Agree to terms and conditions
-                            </label>
-                            <div class="invalid-feedback" id="invalidCheck3Feedback">
-                                You must agree before submitting.
-                            </div>
-                        </div>
-                    </div>
-                    <!--<div class="col-12">
-                        <button class="btn btn-primary" type="submit">Submit form</button>
-                    </div>-->
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">关闭</button>
-                        <button class="btn btn-primary" data-bs-dismiss="modal" type="button">Submit form</button>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
+<button>请点击这里，来切换不同的背景颜色</button>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script crossorigin="anonymous"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		alert(/(ASC)|(DESC)/.test('DESc'));
 
-<script>
-	window.onload = function () {
+		$.ajax({
+			type: 'POST',
+			url: '/employee?direction' + direction + '&property' + property,
+			// 因为开启了 csrf，所以增加请求头
+			headers: {
+				'X-CSRF-Token': getToken()
+			},
+			success: function (data, success, state) {
+				if (state.status === 200 && state.readyState === 4) {
+					updatePage(data);
+				}
+			}
+		});
 
-		$("#liveToastBtn").on('click', function () {
-
-			new bootstrap.Toast($('#saveError')).show();
-
+		$.ajax({
+			type: 'POST',
+			url: '/employee?direction' + direction + '&property' + property,
+			// 因为开启了 csrf，所以增加请求头
+			headers: {
+				'X-CSRF-Token': getToken()
+			},
+			success: function (data, success, state) {
+				if (state.status === 200 && state.readyState === 4) {
+					updatePage(data);
+				}
+			}
 		})
-	}
-
+	});
 </script>
-
 </body>
-
 </html>

@@ -2,26 +2,35 @@
 
 $(function () {
 
-	const tbody = $($).find('tbody');
-	const tfoot = $($).find('tfoot');
-	const findInput = $($).find('#findInput');
-	const modalBody = $($).find('.modal-body');
+	const thead = $('thead');
+	const tbody = $('tbody');
+	const tfoot = $('tfoot');
+	const findInput = $('#findInput');
+	const modalBody = $('.modal-body');
+
+	// Get token
+	function getToken() {
+		return $("input:hidden[name='_csrf']").val();
+	}
+
+	// 根据传参判断对象属性
+	function Employee() {
+		this[$('#findSelect').val()] = findInput.val();
+	}
 
 	// 根据所提供身份证的前 17 位算出最后一位
-	function calculateLastNumber(id17) {
+	function getLastIdCardNumber(id17) {
 		const weight = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
 		const validate = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
 		let sum = 0;
-		let mode;
 		for (let i = 0; i < id17.length; i++) {
 			sum += id17[i] * weight[i];
 		}
-		mode = sum % 11;
-		return validate[mode];
+		return validate[sum % 11];
 	}
 
 	// 格式化时间
-	function getDateTime(dateTime) {
+	function formatDateTime(dateTime) {
 		const year = dateTime.getFullYear();
 		const month = dateTime.getMonth() + 1 < 10 ? '0' + (dateTime.getMonth() + 1) : dateTime.getMonth() + 1;
 		const date = dateTime.getDate() < 10 ? '0' + dateTime.getDate() : dateTime.getDate();
@@ -33,7 +42,7 @@ $(function () {
 
 	// 更新页面数据
 	function updatePage(data) {
-		if (/deleteEmployee/.test(data)) {
+		if (/updateEmployee/.test(data)) {
 			// 截取之后填充进页面
 			const trs1 = data.split('<tbody class="table-secondary">');
 			const trs2 = trs1[1].split('</tbody>');
@@ -45,16 +54,6 @@ $(function () {
 			tbody.children().remove();
 			tfoot.find('tr td div').children().remove();
 		}
-	}
-
-	// 根据传参判断对象属性
-	function Employee() {
-		this[$('#findSelect').val()] = findInput.val();
-	}
-
-	// Get token
-	function getToken() {
-		return $("input:hidden[name='_csrf']").val();
 	}
 
 	// 验证信息
@@ -94,7 +93,7 @@ $(function () {
 			for (let i = 0, j = 17; i < 17, j > 0; i++, j--) {
 				id17[i] = employeeIdCard.substring(i, 18 - j);
 			}
-			const lastNumber = calculateLastNumber(id17);
+			const lastNumber = getLastIdCardNumber(id17);
 			employeeIdCard = employeeIdCard.toUpperCase();
 			if (lastNumber !== employeeIdCard.substring(17)) {
 				$('.toast-body').text('身份证号码有误，请检查后重试。');
@@ -128,6 +127,46 @@ $(function () {
 		}
 	}
 
+	// 若有则获取上一次的排序规则
+	function getDirectionAndProperty() {
+		let direction = 'ASC';
+		let property = 'createdDate';
+		// 只选取支持排序功能的 th
+		for (let i = 1; i < 10; i++) {
+			if (/(ASC)|(DESC)/.test(thead.find('tr th:eq(' + i + ')').val())) {
+				direction = thead.find('tr th:eq(' + i + ')').val();
+				if (i === 1) {
+					property = 'employeeName';
+					break;
+				} else if (i === 2) {
+					property = 'employeeSex';
+					break;
+				} else if (i === 3) {
+					property = 'employeeAge';
+					break;
+				} else if (i === 4) {
+					property = 'employeeIdCard';
+					break;
+				} else if (i === 5) {
+					property = 'employeeAddress';
+					break;
+				} else if (i === 6) {
+					property = 'employeePhoneNumber';
+					break;
+				} else if (i === 7) {
+					property = 'createdBy';
+					break;
+				} else if (i === 8) {
+					break;
+				} else {
+					property = 'lastModifiedDate';
+					break;
+				}
+			}
+		}
+		return direction + ', ' + property;
+	}
+
 	// 添加、修改员工信息
 	$('#saveEmployee').on('click', function () {
 		// 可能是因为唤出过 modal，而无法失焦
@@ -153,7 +192,7 @@ $(function () {
 		const birthYear = birth.substring(0, 4);
 		const birthMonth = birth.substring(4, 6);
 		const birthDay = birth.substring(6, 8);
-		const now = getDateTime(createdDate).substring(0, 10).replace(/-/g, '');
+		const now = formatDateTime(createdDate).substring(0, 10).replace(/-/g, '');
 		const nowYear = now.substring(0, 4);
 		const nowMonth = now.substring(4, 6);
 		const nowDay = now.substring(6, 8);
@@ -161,23 +200,25 @@ $(function () {
 		function Employee() {
 			this['employeeName'] = arr[0];
 			// 取消人为操作性别和年龄
-			// 改为根据身份证判断性别和年龄
+			// 改为程序根据身份证判断性别和年龄
 			this['employeeSex'] = arr[1].substring(16, 17) % 2 === 0 ? '女' : '男';
-			this['employeeAge'] = nowDay - birthDay < 0 ? nowMonth - 1 - birthMonth < 0 ? nowYear - 1 - birthYear : nowYear - birthYear : nowMonth - birthMonth < 0 ? nowYear - 1 - birthYear : nowYear - birthYear;
+			this['employeeAge'] = nowDay - birthDay < 0
+				? nowMonth - 1 - birthMonth < 0 ? nowYear - 1 - birthYear : nowYear - birthYear
+				: nowMonth - birthMonth < 0 ? nowYear - 1 - birthYear : nowYear - birthYear;
 			this['employeeIdCard'] = arr[1].toUpperCase();
 			this['employeeAddress'] = arr[2];
 			this['employeePhoneNumber'] = arr[3];
-			this['lastModifiedDate'] = getDateTime(createdDate);
+			this['lastModifiedDate'] = formatDateTime(createdDate);
 			// 添加员工
-			if (modalBody.attr('id') === undefined || modalBody.attr('id') === '' || modalBody.attr('id') === null) {
+			if (modalBody.val() === undefined || modalBody.val() === '' || modalBody.val() === null) {
 				this['createdBy'] = $('#username').text();
-				this['createdDate'] = getDateTime(createdDate);
+				this['createdDate'] = formatDateTime(createdDate);
 			} else {
 				// 修改员工
-				this['employeeId'] = tbody.find('tr:eq(' + modalBody.attr('id') + ') th').attr('id');
-				this['createdBy'] = tbody.find('tr:eq(' + modalBody.attr('id') + ') td:eq(6)').text();
-				this['createdDate'] = tbody.find('tr:eq(' + modalBody.attr('id') + ') td:eq(7)').text();
-				modalBody.removeAttr('id');
+				this['employeeId'] = tbody.find('tr:eq(' + modalBody.val() + ') th').attr('id');
+				this['createdBy'] = tbody.find('tr:eq(' + modalBody.val() + ') td:eq(6)').text();
+				this['createdDate'] = tbody.find('tr:eq(' + modalBody.val() + ') td:eq(7)').text();
+				modalBody.val('');
 			}
 		}
 
@@ -195,11 +236,7 @@ $(function () {
 			},
 			success: function (data, success, state) {
 				if (state.status === 200 && state.readyState === 4) {
-					if (findInput.val() === '') {
-						ajaxRequest($('.currentPage').attr('name'));
-					} else {
-						ajaxRequestCondition($('.currentPage').attr('name'));
-					}
+					saveOrDelete();
 				}
 			},
 			error: function () {
@@ -212,15 +249,15 @@ $(function () {
 	tbody.on('click', '.deleteEmployee', function () {
 		this.blur();
 		const employeeId = this.parentElement.parentElement.firstElementChild.id;
-		if (employeeId === '' || employeeId === null) {
-			$('.toast-body').text('系统出现故障，请检查后重试。');
+		if (employeeId === undefined || employeeId === '' || employeeId === null) {
+			$('.toast-body').text('没有获取到员工 ID，请检查后重试。');
 			new bootstrap.Toast($('#liveToast')).show();
 			return false;
 		}
 		if (confirm('确定删除?')) {
 			$.ajax({
 				type: 'POST',
-				// 最前面必须要加斜杠/ '/employee/deleteEmployee/'
+				// 最前面必须要加斜杠/
 				url: '/employee/deleteEmployee',
 				data: {'employeeId': employeeId},
 				// 因为开启了 csrf，所以增加请求头
@@ -229,11 +266,7 @@ $(function () {
 				},
 				success: function (data, success, state) {
 					if (state.status === 200 && state.readyState === 4) {
-						if (findInput.val() === '') {
-							ajaxRequest($('.currentPage').attr('name'));
-						} else {
-							ajaxRequestCondition($('.currentPage').attr('name'));
-						}
+						saveOrDelete();
 					}
 				},
 				error: function () {
@@ -244,21 +277,31 @@ $(function () {
 		}
 	})
 
+	// 添加、修改或者删除操作最后的执行逻辑是一致的
+	function saveOrDelete() {
+		const strings = getDirectionAndProperty().split(', ');
+		if (findInput.val() === '') {
+			ajaxRequest($('.currentPage').attr('name'), strings[0], strings[1]);
+		} else {
+			ajaxRequestCondition($('.currentPage').attr('name'), strings[0], strings[1]);
+		}
+	}
+
 	// 将需要更改的员工信息填充进 modal
 	tbody.on('click', '.updateEmployee', function () {
 		// 可能是因为唤出过 modal，而无法失焦
 		this.blur();
 		// 获取当前 tbody tr 下标
 		const index = this.parentNode.parentNode.firstElementChild.textContent % 10 - 1;
-		modalBody.attr('id', index);
+		modalBody.val(index);
 		$('#recipient-name').val(tbody.find('tr:eq(' + index + ') td:eq(0)').text());
 		$('#recipient-idCard').val(tbody.find('tr:eq(' + index + ') td:eq(3)').text());
 		$('#recipient-address').val(tbody.find('tr:eq(' + index + ') td:eq(4)').text());
 		$('#recipient-phoneNumber').val(tbody.find('tr:eq(' + index + ') td:eq(5)').text());
 	})
-
+	// 避免点击更改弹出了 modal 更改后却并没有提交使 tbody tr 下标继续留在 .modal-body
 	$('.close-employee-modal').on('click', function () {
-		modalBody.removeAttr('id');
+		modalBody.val('');
 	})
 
 	// 查找员工
@@ -283,7 +326,19 @@ $(function () {
 
 	// 根据条件查找员工
 	function findEmployee() {
-
+		// 每次查找之前都重置数据
+		employeeName = 0;
+		employeeSex = 0;
+		employeeAge = 0;
+		employeeIdCard = 0;
+		employeeAddress = 0;
+		employeePhoneNumber = 0;
+		createdBy = 0;
+		createdDate = 0;
+		lastModifiedDate = 0;
+		for (let i = 1; i < 10; i++) {
+			$('thead tr th:eq(' + i + ')').val('');
+		}
 		$.ajax({
 			type: 'POST',
 			// 下面这行非常重要，没有会报错
@@ -308,24 +363,276 @@ $(function () {
 				new bootstrap.Toast($('#liveToast')).show();
 			}
 		})
+	}
 
+	// 根据排序条件查询
+	// 写在这里方便查看
+	let employeeName = 0;
+	let employeeSex = 0;
+	let employeeAge = 0;
+	let employeeIdCard = 0;
+	let employeeAddress = 0;
+	let employeePhoneNumber = 0;
+	let createdBy = 0;
+	let createdDate = 0;
+	let lastModifiedDate = 0;
+	thead.on('click', 'tr th', function () {
+		if (this.cellIndex === 1) {
+			if (employeeName === 0) {
+				if (findInput.val() === '') {
+					sortDirection('ASC', 'employeeName');
+				} else {
+					sortDirectionCondition('ASC', 'employeeName');
+				}
+				$(this).val('ASC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				employeeName = 1;
+			} else {
+				if (findInput.val() === '') {
+					sortDirection('DESC', 'employeeName');
+				} else {
+					sortDirectionCondition('DESC', 'employeeName');
+				}
+				$(this).val('DESC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				employeeName = 0;
+			}
+		} else if (this.cellIndex === 2) {
+			if (employeeSex === 0) {
+				if (findInput.val() === '') {
+					sortDirection('ASC', 'employeeSex');
+				} else {
+					sortDirectionCondition('ASC', 'employeeSex');
+				}
+				$(this).val('ASC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				employeeSex = 1;
+			} else {
+				if (findInput.val() === '') {
+					sortDirection('DESC', 'employeeSex');
+				} else {
+					sortDirectionCondition('DESC', 'employeeSex');
+				}
+				$(this).val('DESC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				employeeSex = 0;
+			}
+		} else if (this.cellIndex === 3) {
+			if (employeeAge === 0) {
+				if (findInput.val() === '') {
+					sortDirection('ASC', 'employeeAge');
+				} else {
+					sortDirectionCondition('ASC', 'employeeAge');
+				}
+				$(this).val('ASC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				employeeAge = 1;
+			} else {
+				if (findInput.val() === '') {
+					sortDirection('DESC', 'employeeAge');
+				} else {
+					sortDirectionCondition('DESC', 'employeeAge');
+				}
+				$(this).val('DESC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				employeeAge = 0;
+			}
+		} else if (this.cellIndex === 4) {
+			if (employeeIdCard === 0) {
+				if (findInput.val() === '') {
+					sortDirection('ASC', 'employeeIdCard');
+				} else {
+					sortDirectionCondition('ASC', 'employeeIdCard');
+				}
+				$(this).val('ASC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				employeeIdCard = 1;
+			} else {
+				if (findInput.val() === '') {
+					sortDirection('DESC', 'employeeIdCard');
+				} else {
+					sortDirectionCondition('DESC', 'employeeIdCard');
+				}
+				$(this).val('DESC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				employeeIdCard = 0;
+			}
+		} else if (this.cellIndex === 5) {
+			if (employeeAddress === 0) {
+				if (findInput.val() === '') {
+					sortDirection('ASC', 'employeeAddress');
+				} else {
+					sortDirectionCondition('ASC', 'employeeAddress');
+				}
+				$(this).val('ASC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				employeeAddress = 1;
+			} else {
+				if (findInput.val() === '') {
+					sortDirection('DESC', 'employeeAddress');
+				} else {
+					sortDirectionCondition('DESC', 'employeeAddress');
+				}
+				$(this).val('DESC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				employeeAddress = 0;
+			}
+		} else if (this.cellIndex === 6) {
+			if (employeePhoneNumber === 0) {
+				if (findInput.val() === '') {
+					sortDirection('ASC', 'employeePhoneNumber');
+				} else {
+					sortDirectionCondition('ASC', 'employeePhoneNumber');
+				}
+				$(this).val('ASC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				employeePhoneNumber = 1;
+			} else {
+				if (findInput.val() === '') {
+					sortDirection('DESC', 'employeePhoneNumber');
+				} else {
+					sortDirectionCondition('DESC', 'employeePhoneNumber');
+				}
+				$(this).val('DESC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				employeePhoneNumber = 0;
+			}
+		} else if (this.cellIndex === 7) {
+			if (createdBy === 0) {
+				if (findInput.val() === '') {
+					sortDirection('ASC', 'createdBy');
+				} else {
+					sortDirectionCondition('ASC', 'createdBy');
+				}
+				$(this).val('ASC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				createdBy = 1;
+			} else {
+				if (findInput.val() === '') {
+					sortDirection('DESC', 'createdBy');
+				} else {
+					sortDirectionCondition('DESC', 'createdBy');
+				}
+				$(this).val('DESC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				createdBy = 0;
+			}
+		} else if (this.cellIndex === 8) {
+			if (createdDate === 0) {
+				if (findInput.val() === '') {
+					sortDirection('ASC', 'createdDate');
+				} else {
+					sortDirectionCondition('ASC', 'createdDate');
+				}
+				$(this).val('ASC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				createdDate = 1;
+			} else {
+				if (findInput.val() === '') {
+					sortDirection('DESC', 'createdDate');
+				} else {
+					sortDirectionCondition('DESC', 'createdDate');
+				}
+				$(this).val('DESC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				createdDate = 0;
+			}
+		} else if (this.cellIndex === 9) {
+			if (lastModifiedDate === 0) {
+				if (findInput.val() === '') {
+					sortDirection('ASC', 'lastModifiedDate');
+				} else {
+					sortDirectionCondition('ASC', 'lastModifiedDate');
+				}
+				$(this).val('ASC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				lastModifiedDate = 1;
+			} else {
+				if (findInput.val() === '') {
+					sortDirection('DESC', 'lastModifiedDate');
+				} else {
+					sortDirectionCondition('DESC', 'lastModifiedDate');
+				}
+				$(this).val('DESC');
+				deleteOtherTheadTrThVal(this.cellIndex);
+				lastModifiedDate = 0;
+			}
+		}
+	})
+
+	// 执行指定的排序查询————无查询条件
+	function sortDirection(direction, property) {
+		$.ajax({
+			type: 'POST',
+			url: '/employee?direction' + direction + '&property' + property,
+			// 因为开启了 csrf，所以增加请求头
+			headers: {
+				'X-CSRF-Token': getToken()
+			},
+			success: function (data, success, state) {
+				if (state.status === 200 && state.readyState === 4) {
+					updatePage(data);
+				}
+			}
+		});
+	}
+
+	// 执行指定的排序查询————有查询条件
+	function sortDirectionCondition(direction, property) {
+		$.ajax({
+			type: 'POST',
+			// 下面这行非常重要，没有会报错
+			// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
+			// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
+			contentType: 'application/json',
+			url: '/employee/findEmployee?direction=' + direction + '&property=' + property,
+			data: JSON.stringify(new Employee()),
+			// 因为开启了 csrf，所以增加请求头
+			headers: {
+				'X-CSRF-Token': getToken()
+			},
+			success: function (data, success, state) {
+				if (state.status === 200 && state.readyState === 4) {
+					updatePage(data);
+				}
+			}
+		});
+	}
+
+	// 删除其他 thead tr th 的 val()
+	function deleteOtherTheadTrThVal(cellIndex) {
+		let ths = [];
+		// 只选取支持排序功能的 th
+		for (let i = 1; i < 10; i++) {
+			ths.push($('thead tr th:eq(' + i + ')'));
+		}
+		// 不包括自身 this.cellIndex - 1
+		ths = ths.splice(cellIndex - 1, 1);
+		// 另外一种写法
+		/*ths = $.grep(ths, function (n, i) {
+			return i !== cellIndex - 1;
+		})*/
+		for (let i = 0; i < ths.length; i++) {
+			ths[i].val('');
+		}
 	}
 
 	// 首页、上一页、中间页、下一页、尾页
 	tfoot.on('click', '.page-link', function () {
+		const strings = getDirectionAndProperty().split(', ');
 		if (findInput.val() === '') {
-			ajaxRequest(this.name);
+			ajaxRequest(this.name, strings[0], strings[1]);
 		} else {
-			ajaxRequestCondition(this.name);
+			ajaxRequestCondition(this.name, strings[0], strings[1]);
 		}
 	})
 
 	// ajax - 无查询条件
-	function ajaxRequest(pageNum) {
+	function ajaxRequest(pageNum, direction, property) {
 		if (pageNum > -1) {
 			$.ajax({
 				type: 'POST',
-				url: '/employee?pageNum=' + pageNum,
+				url: '/employee?pageNum=' + pageNum + '&direction' + direction + '&property' + property,
 				// 因为开启了 csrf，所以增加请求头
 				headers: {
 					'X-CSRF-Token': getToken()
@@ -333,13 +640,13 @@ $(function () {
 				success: function (data, success, state) {
 					if (state.status === 200 && state.readyState === 4) {
 						// 如果当前页还有数据
-						if (/deleteEmployee/.test(data)) {
+						if (/updateEmployee/.test(data)) {
 							updatePage(data);
 						} else {
 							if (pageNum > 0) {
 								$.ajax({
 									type: 'POST',
-									url: '/employee?pageNum=' + (pageNum - 1),
+									url: '/employee?pageNum=' + (pageNum - 1) + '&direction' + direction + '&property' + property,
 									// 因为开启了 csrf，所以增加请求头
 									headers: {
 										'X-CSRF-Token': getToken()
@@ -364,24 +671,12 @@ $(function () {
 				}
 			})
 		} else {
-			$.ajax({
-				type: 'POST',
-				url: '/employee',
-				// 因为开启了 csrf，所以增加请求头
-				headers: {
-					'X-CSRF-Token': getToken()
-				},
-				success: function (data, success, state) {
-					if (state.status === 200 && state.readyState === 4) {
-						updatePage(data);
-					}
-				}
-			})
+			sortDirection(direction, property);
 		}
 	}
 
 	// ajax - 有查询条件
-	function ajaxRequestCondition(pageNum) {
+	function ajaxRequestCondition(pageNum, direction, property) {
 		if (pageNum > -1) {
 			$.ajax({
 				type: 'POST',
@@ -389,7 +684,7 @@ $(function () {
 				// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
 				// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
 				contentType: 'application/json',
-				url: '/employee/findEmployee?pageNum=' + pageNum,
+				url: '/employee/findEmployee?pageNum=' + pageNum + '&direction=' + direction + '&property=' + property,
 				data: JSON.stringify(new Employee()),
 				// 因为开启了 csrf，所以增加请求头
 				headers: {
@@ -397,7 +692,7 @@ $(function () {
 				},
 				success: function (data, success, state) {
 					if (state.status === 200 && state.readyState === 4) {
-						if (/deleteEmployee/.test(data)) {
+						if (/updateEmployee/.test(data)) {
 							updatePage(data);
 						} else {
 							if (pageNum > 0) {
@@ -407,7 +702,7 @@ $(function () {
 									// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
 									// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
 									contentType: 'application/json',
-									url: '/employee/findEmployee?pageNum=' + (pageNum - 1),
+									url: '/employee/findEmployee?pageNum=' + pageNum + '&direction=' + direction + '&property=' + property,
 									data: JSON.stringify(new Employee()),
 									// 因为开启了 csrf，所以增加请求头
 									headers: {
@@ -436,24 +731,7 @@ $(function () {
 				}
 			})
 		} else {
-			$.ajax({
-				type: 'POST',
-				// 下面这行非常重要，没有会报错
-				// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
-				// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
-				contentType: 'application/json',
-				url: '/employee/findEmployee',
-				data: JSON.stringify(new Employee()),
-				// 因为开启了 csrf，所以增加请求头
-				headers: {
-					'X-CSRF-Token': getToken()
-				},
-				success: function (data, success, state) {
-					if (state.status === 200 && state.readyState === 4) {
-						updatePage(data);
-					}
-				}
-			})
+			sortDirectionCondition(direction, property);
 		}
 	}
 });
