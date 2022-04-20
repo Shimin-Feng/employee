@@ -277,7 +277,7 @@ $(function () {
 		}
 	})
 
-	// 添加、修改或者删除操作最后的执行逻辑是一致的
+	// 添加、修改或者删除操作之后的查询是一致的
 	function saveOrDelete() {
 		const strings = getDirectionAndProperty().split(', ');
 		if (findInput.val() === '') {

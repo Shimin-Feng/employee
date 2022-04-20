@@ -1,21 +1,13 @@
 body::before {
     display: block;
     content: '';
-    height: 58px;
+    height: 60px;
 }
 
 li a {
     cursor: pointer;
 }
 
-td:first-of-type label input {
-    width: 72px;
-}
-
-td:nth-of-type(6) label input {
-    width: 111px;
-}
-
 #findButton {
-    margin-right: 10px;
+    margin-right: 20px;
 }

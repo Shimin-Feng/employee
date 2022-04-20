@@ -32,10 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //                // 把账号密码存储在内存中的方法
 //                .inMemoryAuthentication()
-//                .passwordEncoder(new MyPasswordEncoder())
+//                .passwordEncoder(new BCryptPasswordEncoder())
 //                // 在登录成功后不退出就直接登录其他账号是会被挤下线的
 //                .withUser("admin")
-//                .password(new MyPasswordEncoder().encode("hKJB$$%8ffFpGnLWE"))
+//                .password(new BCryptPasswordEncoder().encode("hKJB$$%8ffFpGnLWE"))
 //                // 比 hasRole() 更加通用
 //                .authorities("ADMIN");
     }
