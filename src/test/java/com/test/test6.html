@@ -6,39 +6,230 @@
 </head>
 <body>
 <button>请点击这里，来切换不同的背景颜色</button>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script type="text/javascript">
-	$(document).ready(function () {
-		alert(/(ASC)|(DESC)/.test('DESc'));
+	'use strict';
+	$(function () {
 
-		$.ajax({
-			type: 'POST',
-			url: '/employee?direction' + direction + '&property' + property,
-			// 因为开启了 csrf，所以增加请求头
-			headers: {
-				'X-CSRF-Token': getToken()
-			},
-			success: function (data, success, state) {
-				if (state.status === 200 && state.readyState === 4) {
-					updatePage(data);
-				}
-			}
-		});
 
-		$.ajax({
-			type: 'POST',
-			url: '/employee?direction' + direction + '&property' + property,
-			// 因为开启了 csrf，所以增加请求头
-			headers: {
-				'X-CSRF-Token': getToken()
-			},
-			success: function (data, success, state) {
-				if (state.status === 200 && state.readyState === 4) {
-					updatePage(data);
-				}
+		let now = new Date();
+// 'PRC'(People Republic of China): 不区分大小写.
+// '2-digit': 如果为 10 以下则在前面加 0. 只有 month, day 需为 '2-digit'
+		const options = {
+			timeZone: 'PRC',
+			year: 'numeric', month: '2-digit', day: '2-digit',
+			hour: 'numeric', minute: 'numeric', second: 'numeric'
+		};
+// locales: 'zh-CN' 不区分大小写.
+		now = now.toLocaleString('zh-CN', options);
+		console.log(now);
+// 2022/04/21 17:16:03
+// 2022/04/21 17:16:03
+		return false;
+
+
+		const event = new Date();
+		// const now = event.toLocaleDateString('en-GB', {timeZone: 'PRC'});
+		// const now = formatDateTime(createdDate).substring(0, 10).replace(/-/g, '');
+		// const nowYear = now.substring(0, 4);
+		// const nowMonth = now.substring(4, 6);
+		// const nowDay = now.substring(6, 8);
+		// 21/04/2022
+		/*const nowYear = now.substring(0, 4);
+		const nowMonth = now.substring(5, 7);
+		const nowDay = now.substring(8, 10);
+		console.log(nowYear);
+		console.log(nowMonth);
+		console.log(nowMonth - 1);
+		console.log(nowDay);*/
+
+// British English uses day-month-year order and 24-hour time without AM/PM
+// 		console.log(event.getTimezoneOffset());
+// 		console.log(event.toLocaleString('en-GB', {timeZone: 'UTC'}));
+// 		console.log(event.toLocaleString('en-GB', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('zh-GB', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('zh-US', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('zh-CN', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('zgfnfsg', {timeZone: 'prc'}));
+		console.log('-------------------------');
+		console.log(event.toDateString());
+		console.log(event.toLocaleString('zh', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('cn-GB', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('CN-GB', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('cn', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('cny', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('cnz', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('cnz', {timeZone: 'PRC'}));
+		console.log(event.toLocaleDateString('en-GB', {timeZone: 'UTC'}));
+		console.log(event.toLocaleDateString('en-GB', {timeZone: 'PRC'}));
+		console.log(event.toLocaleDateString('en-US', {timeZone: 'UTC'}));
+		console.log(event.toLocaleDateString('zh-GB', {timeZone: 'UTC'}));
+		console.log(event.toLocaleDateString('cn-GB', {timeZone: 'UTC'}));
+		console.log(event.toLocaleTimeString('en-GB', {timeZone: 'UTC'}));
+// expected output: 20/12/2012, 03:00:00
+
+// Korean uses year-month-day order and 12-hour time with AM/PM
+		console.log(event.toLocaleString('ko-KR', {timeZone: 'UTC'}));
+// expected output: 2012. 12. 20. 오전 3:00:00
+
+
+		debugger;
+		const str = '51152919970104501x';
+		const array = str.split('');
+		console.log(array);
+		array.pop();
+		console.log(array);
+		for (let j = 0; j < array.length; j++) {
+			console.log(array[j] * 2);
+
+		}
+		const myAsyncIterable = {};
+		myAsyncIterable[Symbol.asyncIterator] = async function* () {
+			yield "hello";
+			yield "async";
+			yield "iteration!";
+		};
+		const test = {
+			const: "hello"
+		};
+		console.log(test);
+
+		for (let i = 0; i < 3; i++) {
+			console.log(myAsyncIterable[i]);
+		}
+
+		for (const myAsyncIterableElement of myAsyncIterable) {
+			console.log(myAsyncIterableElement);
+		}
+
+		for (const myAsyncIterableKey in myAsyncIterable) {
+			console.log(myAsyncIterableKey);
+		}
+
+		(async () => {
+			for await (const x of myAsyncIterable) {
+				console.log(x);
+				// expected output:
+				//    "hello"
+				//    "async"
+				//    "iteration!"
 			}
-		})
+		})();
+
+
+		let i = 0;
+		console.log(i++);
+		console.log(i);
+		console.log(++i);
+		console.log(i);
+
+
+		debugger;
+		const LIMIT = 3;
+		const asyncIterable = {
+			[Symbol.asyncIterator]() {
+				let i = 0;
+				return {
+					next() {
+						const done = i === LIMIT;
+						const value = done ? undefined : i++;
+						return Promise.resolve({value, done});
+					},
+					return() {
+						// This will be reached if the consumer called 'break' or 'return' early in the loop.
+						return {done: true};
+					}
+				};
+			}
+		};
+
+		(async () => {
+			for await (const num of asyncIterable) {
+				console.log(num);
+			}
+		})();
+// 0
+// 1
+// 2
+
+
+		/*const symbol1 = Symbol();
+		const symbol2 = Symbol(42);
+		const symbol3 = Symbol('foo');
+
+		const oo = Object('foo');
+
+		console.log(typeof symbol1);
+		console.log(typeof oo);
+		console.log(symbol1);
+// expected output: "symbol"
+
+		console.log(symbol2);
+// expected output: false
+
+		console.log(symbol3);
+// expected output: "Symbol(foo)"
+
+		console.log(Symbol() === Symbol());
+// expected output: false
+		console.log(Symbol());
+		console.log(Symbol(325643));
+		console.log(Symbol('325643'));
+		console.log(Symbol('brgrbg'));
+		console.log(Symbol.prototype);
+		console.log(Symbol.prototype.constructor);
+		console.log(Symbol.constructor);
+		console.log(Symbol.prototype._csrf);
+		console.log(Symbol.prototype.viewport);
+		console.log(Symbol.prototype.author);
+		console.log(Symbol.prototype.password);
+		console.log(Symbol.prototype.username);
+		console.log(Document.author);
+		console.log(Document.username);
+		console.log(Document.password);
+		console.log(Symbol.prototype.isPrototypeOf(Object));
+		console.log(Symbol.length);
+		console.log(Symbol.name);*/
+		// alert(SymbolConstructor.Symbol);
+		// alert(symbol());
+		// alert(Symbol.prototype);
+
 	});
 </script>
 </body>
 </html>
+<script>
+	(function () {
+		var ws = new WebSocket('ws://' + window.location.host +
+			'/jb-server-page?reloadMode=RELOAD_ON_SAVE&' +
+			'referrer=' + encodeURIComponent(window.location.pathname));
+		ws.onmessage = function (msg) {
+			if (msg.data === 'reload') {
+				window.location.reload();
+			}
+			if (msg.data.startsWith('update-css ')) {
+				var messageId = msg.data.substring(11);
+				var links = document.getElementsByTagName('link');
+				for (var i = 0; i < links.length; i++) {
+					var link = links[i];
+					if (link.rel !== 'stylesheet') continue;
+					var clonedLink = link.cloneNode(true);
+					var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+					if (newHref !== link.href) {
+						clonedLink.href = newHref;
+					} else {
+						var indexOfQuest = newHref.indexOf('?');
+						if (indexOfQuest >= 0) {
+							// to support ?foo#hash
+							clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' +
+								newHref.substring(indexOfQuest + 1);
+						} else {
+							clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+						}
+					}
+					link.replaceWith(clonedLink);
+				}
+			}
+		};
+	})();
+</script>

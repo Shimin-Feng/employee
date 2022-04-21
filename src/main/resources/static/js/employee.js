@@ -10,11 +10,41 @@ $(function () {
 
 	// Get token
 	function getToken() {
+		/*console.log(Symbol());
+		console.log(Symbol.prototype);
+		console.log(Symbol.prototype.Symbol(Symbol.toStringTag));
+		console.log(Symbol.prototype.constructor);
+		console.log(Symbol.constructor);
+		console.log(Symbol.prototype._csrf);
+		console.log(Symbol.prototype.viewport);
+		console.log(Symbol.prototype.author);
+		console.log(Symbol.prototype.password);
+		console.log(Symbol.prototype.username);
+		// console.log(Symbol.prototype.description);
+		console.log(Symbol.prototype.url);
+		console.log(Symbol.prototype.headers);
+		console.log(Symbol.prototype.createdBy);
+		console.log(Symbol.prototype.type);
+		console.log(Symbol.prototype.employeeId);
+		console.log(Symbol.prototype.data);
+		// console.log(Symbol.prototype.onload());
+		console.log(Symbol.prototype.employeeId);
+		console.log(Document.viewport);
+		console.log(Document.author);
+		console.log(Document.username);
+		console.log(Document.password);
+		console.log(Document.prototype);
+		console.log(Document.description);
+		console.log(Document.password);
+		console.log(Symbol.prototype.isPrototypeOf(Object));
+		console.log(Symbol.length);
+		console.log(Symbol.name);*/
 		return $("input:hidden[name='_csrf']").val();
 	}
 
 	// 根据传参判断对象属性
 	function Employee() {
+		// MySQL 查询默认忽略大小写，所以 findInput.val() 不用转大写
 		this[$('#findSelect').val()] = findInput.val();
 	}
 
@@ -27,17 +57,6 @@ $(function () {
 			sum += id17[i] * weight[i];
 		}
 		return validate[sum % 11];
-	}
-
-	// 格式化时间
-	function formatDateTime(dateTime) {
-		const year = dateTime.getFullYear();
-		const month = dateTime.getMonth() + 1 < 10 ? '0' + (dateTime.getMonth() + 1) : dateTime.getMonth() + 1;
-		const date = dateTime.getDate() < 10 ? '0' + dateTime.getDate() : dateTime.getDate();
-		const hours = dateTime.getHours() < 10 ? '0' + dateTime.getHours() : dateTime.getHours();
-		const minutes = dateTime.getMinutes() < 10 ? '0' + dateTime.getMinutes() : dateTime.getMinutes();
-		const seconds = dateTime.getSeconds() < 10 ? '0' + dateTime.getSeconds() : dateTime.getSeconds();
-		return (year + '-' + month + '-' + date + ' ' + hours + ':' + minutes + ':' + seconds);
 	}
 
 	// 更新页面数据
@@ -89,13 +108,9 @@ $(function () {
 		}
 		// 18 位身份证号码第二重验证
 		if (employeeIdCard.length === 18) {
-			let id17 = [];
-			for (let i = 0, j = 17; i < 17, j > 0; i++, j--) {
-				id17[i] = employeeIdCard.substring(i, 18 - j);
-			}
-			const lastNumber = getLastIdCardNumber(id17);
-			employeeIdCard = employeeIdCard.toUpperCase();
-			if (lastNumber !== employeeIdCard.substring(17)) {
+			const idCard = employeeIdCard.split('');
+			idCard.pop();
+			if (employeeIdCard.toUpperCase().substring(17) !== getLastIdCardNumber(idCard)) {
 				$('.toast-body').text('身份证号码有误，请检查后重试。');
 				new bootstrap.Toast($('#liveToast')).show();
 				return false;
@@ -168,7 +183,7 @@ $(function () {
 	}
 
 	// 添加、修改员工信息
-	$('#saveEmployee').on('click', function () {
+	$(document).on('click', '#saveEmployee', function () {
 		// 可能是因为唤出过 modal，而无法失焦
 		/*console.log($);
 		console.log($());
@@ -187,15 +202,23 @@ $(function () {
 		if (regExp(arr[0], arr[1], arr[2], arr[3]) === false) {
 			return false;
 		}
-		const createdDate = new Date();
 		const birth = arr[1].substring(6, 14);
 		const birthYear = birth.substring(0, 4);
 		const birthMonth = birth.substring(4, 6);
 		const birthDay = birth.substring(6, 8);
-		const now = formatDateTime(createdDate).substring(0, 10).replace(/-/g, '');
+		const createdDate = new Date();
+		// 'PRC'(People Republic of China): 不区分大小写. '2-digit': 如果为 10 以下则在前面加 0. 只有 month, day 需为 '2-digit'
+		const options = {
+			timeZone: 'PRC',
+			year: 'numeric', month: '2-digit', day: '2-digit',
+			hour: 'numeric', minute: 'numeric', second: 'numeric'
+		};
+		// locales: 不区分大小写.
+		const now = createdDate.toLocaleString('zh-CN', options);
+		// 2012/02/01 01:01:01
 		const nowYear = now.substring(0, 4);
-		const nowMonth = now.substring(4, 6);
-		const nowDay = now.substring(6, 8);
+		const nowMonth = now.substring(5, 7);
+		const nowDay = now.substring(8, 10);
 
 		function Employee() {
 			this['employeeName'] = arr[0];
@@ -208,11 +231,11 @@ $(function () {
 			this['employeeIdCard'] = arr[1].toUpperCase();
 			this['employeeAddress'] = arr[2];
 			this['employeePhoneNumber'] = arr[3];
-			this['lastModifiedDate'] = formatDateTime(createdDate);
+			this['lastModifiedDate'] = createdDate.toLocaleString('zh-CN', options);
 			// 添加员工
 			if (modalBody.val() === undefined || modalBody.val() === '' || modalBody.val() === null) {
 				this['createdBy'] = $('#username').text();
-				this['createdDate'] = formatDateTime(createdDate);
+				this['createdDate'] = createdDate.toLocaleString('zh-CN', options);
 			} else {
 				// 修改员工
 				this['employeeId'] = tbody.find('tr:eq(' + modalBody.val() + ') th').attr('id');
@@ -246,7 +269,8 @@ $(function () {
 	})
 
 	// 删除
-	tbody.on('click', '.deleteEmployee', function () {
+	// 在这里, $(document) 不可简写
+	$(document).on('click', '.deleteEmployee', function () {
 		this.blur();
 		const employeeId = this.parentElement.parentElement.firstElementChild.id;
 		if (employeeId === undefined || employeeId === '' || employeeId === null) {
@@ -258,8 +282,7 @@ $(function () {
 			$.ajax({
 				type: 'POST',
 				// 最前面必须要加斜杠/
-				url: '/employee/deleteEmployee',
-				data: {'employeeId': employeeId},
+				url: '/employee/deleteEmployee?employeeId=' + employeeId,
 				// 因为开启了 csrf，所以增加请求头
 				headers: {
 					'X-CSRF-Token': getToken()
@@ -288,7 +311,7 @@ $(function () {
 	}
 
 	// 将需要更改的员工信息填充进 modal
-	tbody.on('click', '.updateEmployee', function () {
+	$(document).on('click', '.updateEmployee', function () {
 		// 可能是因为唤出过 modal，而无法失焦
 		this.blur();
 		// 获取当前 tbody tr 下标
@@ -300,21 +323,21 @@ $(function () {
 		$('#recipient-phoneNumber').val(tbody.find('tr:eq(' + index + ') td:eq(5)').text());
 	})
 	// 避免点击更改弹出了 modal 更改后却并没有提交使 tbody tr 下标继续留在 .modal-body
-	$('.close-employee-modal').on('click', function () {
+	$(document).on('click', '.close-employee-modal', function () {
 		modalBody.val('');
 	})
 
 	// 查找员工
 	// 尝试过把下面两个方法写进一个方法里，但不理想
 	// 点击事件
-	$('#findButton').on('click', function () {
+	$(document).on('click', '#findButton', function () {
 		if (this.previousElementSibling.value !== '') {
 			this.blur();
 			findEmployee();
 		}
 	})
 	// 输入完搜索内容后的回车事件
-	findInput.on('keydown', function (e) {
+	$(document).on('keydown', '#findInput', function (e) {
 		if (this.value !== '') {
 			const keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
 			if (keyCode === 13) {
@@ -376,7 +399,7 @@ $(function () {
 	let createdBy = 0;
 	let createdDate = 0;
 	let lastModifiedDate = 0;
-	thead.on('click', 'tr th', function () {
+	$(document).on('click', 'thead tr th', function () {
 		if (this.cellIndex === 1) {
 			if (employeeName === 0) {
 				if (findInput.val() === '') {
@@ -384,8 +407,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('ASC', 'employeeName');
 				}
-				$(this).val('ASC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('ASC');
 				employeeName = 1;
 			} else {
 				if (findInput.val() === '') {
@@ -393,8 +416,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('DESC', 'employeeName');
 				}
-				$(this).val('DESC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('DESC');
 				employeeName = 0;
 			}
 		} else if (this.cellIndex === 2) {
@@ -404,8 +427,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('ASC', 'employeeSex');
 				}
-				$(this).val('ASC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('ASC');
 				employeeSex = 1;
 			} else {
 				if (findInput.val() === '') {
@@ -413,8 +436,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('DESC', 'employeeSex');
 				}
-				$(this).val('DESC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('DESC');
 				employeeSex = 0;
 			}
 		} else if (this.cellIndex === 3) {
@@ -424,8 +447,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('ASC', 'employeeAge');
 				}
-				$(this).val('ASC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('ASC');
 				employeeAge = 1;
 			} else {
 				if (findInput.val() === '') {
@@ -433,8 +456,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('DESC', 'employeeAge');
 				}
-				$(this).val('DESC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('DESC');
 				employeeAge = 0;
 			}
 		} else if (this.cellIndex === 4) {
@@ -444,8 +467,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('ASC', 'employeeIdCard');
 				}
-				$(this).val('ASC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('ASC');
 				employeeIdCard = 1;
 			} else {
 				if (findInput.val() === '') {
@@ -453,8 +476,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('DESC', 'employeeIdCard');
 				}
-				$(this).val('DESC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('DESC');
 				employeeIdCard = 0;
 			}
 		} else if (this.cellIndex === 5) {
@@ -464,8 +487,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('ASC', 'employeeAddress');
 				}
-				$(this).val('ASC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('ASC');
 				employeeAddress = 1;
 			} else {
 				if (findInput.val() === '') {
@@ -473,8 +496,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('DESC', 'employeeAddress');
 				}
-				$(this).val('DESC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('DESC');
 				employeeAddress = 0;
 			}
 		} else if (this.cellIndex === 6) {
@@ -484,8 +507,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('ASC', 'employeePhoneNumber');
 				}
-				$(this).val('ASC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('ASC');
 				employeePhoneNumber = 1;
 			} else {
 				if (findInput.val() === '') {
@@ -493,8 +516,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('DESC', 'employeePhoneNumber');
 				}
-				$(this).val('DESC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('DESC');
 				employeePhoneNumber = 0;
 			}
 		} else if (this.cellIndex === 7) {
@@ -504,8 +527,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('ASC', 'createdBy');
 				}
-				$(this).val('ASC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('ASC');
 				createdBy = 1;
 			} else {
 				if (findInput.val() === '') {
@@ -513,8 +536,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('DESC', 'createdBy');
 				}
-				$(this).val('DESC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('DESC');
 				createdBy = 0;
 			}
 		} else if (this.cellIndex === 8) {
@@ -524,8 +547,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('ASC', 'createdDate');
 				}
-				$(this).val('ASC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('ASC');
 				createdDate = 1;
 			} else {
 				if (findInput.val() === '') {
@@ -533,8 +556,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('DESC', 'createdDate');
 				}
-				$(this).val('DESC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('DESC');
 				createdDate = 0;
 			}
 		} else if (this.cellIndex === 9) {
@@ -544,8 +567,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('ASC', 'lastModifiedDate');
 				}
-				$(this).val('ASC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('ASC');
 				lastModifiedDate = 1;
 			} else {
 				if (findInput.val() === '') {
@@ -553,8 +576,8 @@ $(function () {
 				} else {
 					sortDirectionCondition('DESC', 'lastModifiedDate');
 				}
-				$(this).val('DESC');
 				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).val('DESC');
 				lastModifiedDate = 0;
 			}
 		}
@@ -564,7 +587,8 @@ $(function () {
 	function sortDirection(direction, property) {
 		$.ajax({
 			type: 'POST',
-			url: '/employee?direction' + direction + '&property' + property,
+			// 一定要记得 `=` 符号!
+			url: '/employee?direction=' + direction + '&property=' + property,
 			// 因为开启了 csrf，所以增加请求头
 			headers: {
 				'X-CSRF-Token': getToken()
@@ -577,7 +601,7 @@ $(function () {
 		});
 	}
 
-	// 执行指定的排序查询————有查询条件
+	// 执行指定的排序查询————有查询条件，或者当只有一页数据并添加数据时会通过这里查询
 	function sortDirectionCondition(direction, property) {
 		$.ajax({
 			type: 'POST',
@@ -618,7 +642,7 @@ $(function () {
 	}
 
 	// 首页、上一页、中间页、下一页、尾页
-	tfoot.on('click', '.page-link', function () {
+	$(document).on('click', '.page-link', function () {
 		const strings = getDirectionAndProperty().split(', ');
 		if (findInput.val() === '') {
 			ajaxRequest(this.name, strings[0], strings[1]);
@@ -632,7 +656,7 @@ $(function () {
 		if (pageNum > -1) {
 			$.ajax({
 				type: 'POST',
-				url: '/employee?pageNum=' + pageNum + '&direction' + direction + '&property' + property,
+				url: '/employee?pageNum=' + pageNum + '&direction=' + direction + '&property=' + property,
 				// 因为开启了 csrf，所以增加请求头
 				headers: {
 					'X-CSRF-Token': getToken()
@@ -646,7 +670,7 @@ $(function () {
 							if (pageNum > 0) {
 								$.ajax({
 									type: 'POST',
-									url: '/employee?pageNum=' + (pageNum - 1) + '&direction' + direction + '&property' + property,
+									url: '/employee?pageNum=' + (pageNum - 1) + '&direction=' + direction + '&property=' + property,
 									// 因为开启了 csrf，所以增加请求头
 									headers: {
 										'X-CSRF-Token': getToken()
@@ -663,8 +687,7 @@ $(function () {
 							}
 						}
 					}
-				}
-				,
+				},
 				error: function () {
 					$('.toast-body').text('页面加载失败，请检查后重试。');
 					new bootstrap.Toast($('#liveToast')).show();
@@ -702,7 +725,7 @@ $(function () {
 									// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
 									// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
 									contentType: 'application/json',
-									url: '/employee/findEmployee?pageNum=' + pageNum + '&direction=' + direction + '&property=' + property,
+									url: '/employee/findEmployee?pageNum=' + (pageNum - 1) + '&direction=' + direction + '&property=' + property,
 									data: JSON.stringify(new Employee()),
 									// 因为开启了 csrf，所以增加请求头
 									headers: {
@@ -737,4 +760,4 @@ $(function () {
 });
 
 window.onload = function () {
-}
+};

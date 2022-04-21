@@ -72,14 +72,14 @@ public class EmployeeController {
             employee.setEmployeeId(String.valueOf(UUID.randomUUID()));
         }
         employeeRepository.save(employee);
-        model.addAttribute("employees", employeeRepository.findAll(PageRequest.of(0, 10)));
+        model.addAttribute("employees", employeeRepository.findAll(PageRequest.ofSize(10)));
         return "employee";
     }
 
     @RequestMapping("employee/deleteEmployee")
     public String deleteEmployee(String employeeId, @NotNull Model model) {
         employeeRepository.deleteById(employeeId);
-        model.addAttribute("employees", employeeRepository.findAll(PageRequest.of(0, 10)));
+        model.addAttribute("employees", employeeRepository.findAll(PageRequest.ofSize(10)));
         return "employee";
     }
 
