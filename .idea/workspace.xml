@@ -5,25 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/test7.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/yhntntdygsn.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/src/jqConfirm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/test10.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/test11.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/test8.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/test9.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/employee.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/employee.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/employee.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/employee.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/config/JdbcCheckTableExit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/config/JdbcCheckTableExit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/test7.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/test7.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/yhntntdygsn.ico" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -134,11 +127,11 @@
       <recent name="C:\Users\g1672\IdeaProjects\employee\src\main\resources\templates" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\g1672\IdeaProjects\employee\src\test\java\com\test" />
+      <recent name="C:\Users\g1672\IdeaProjects\employee\src\test\java" />
       <recent name="C:\Users\g1672\IdeaProjects\employee\src\main\resources" />
       <recent name="C:\Users\g1672\IdeaProjects\employee\src\main\resources\templates" />
-      <recent name="C:\Users\g1672\IdeaProjects\employee\src\test\java\com\test" />
       <recent name="C:\Users\g1672\IdeaProjects\employee\src\main\resources\static\ico" />
-      <recent name="C:\Users\g1672\IdeaProjects\employee\src\test\java\com\test\img" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.example.config" />
@@ -242,7 +235,7 @@
       <workItem from="1650168712455" duration="22885000" />
       <workItem from="1650216412163" duration="63494000" />
       <workItem from="1650350320959" duration="93572000" />
-      <workItem from="1650534499575" duration="44465000" />
+      <workItem from="1650534499575" duration="51025000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1648665299036</created>
@@ -468,7 +461,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650536545132</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="根据系统主题自动调节背景颜色">
+      <created>1650632654935</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1650632654935</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -524,7 +524,8 @@
     <MESSAGE value="增加对员工属性的排序————页面点击，代码优化" />
     <MESSAGE value="其他优化" />
     <MESSAGE value="简化 jQuery 格式化时间&#10;错误修复&#10;其他优化" />
-    <option name="LAST_COMMIT_MESSAGE" value="简化 jQuery 格式化时间&#10;错误修复&#10;其他优化" />
+    <MESSAGE value="根据系统主题自动调节背景颜色" />
+    <option name="LAST_COMMIT_MESSAGE" value="根据系统主题自动调节背景颜色" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

@@ -9,10 +9,10 @@ import java.sql.*;
  */
 public class JdbcCheckTableExit {
 
+    private static final String driver = "com.mysql.cj.jdbc.Driver";
     private static final String url = "jdbc:mysql://localhost:3306/test_database";
     private static final String user = "root";
     private static final String password = "MySQL1672943850";
-    private static final String driver = "com.mysql.cj.jdbc.Driver";
 
     public static boolean isExist() {
         var isExist = false;
