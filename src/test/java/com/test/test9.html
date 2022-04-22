@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	let prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+	console.log(prefersDarkMode);
+	if (prefersDarkMode) {
+		// 搞事情
+	}
+	(function () {
+
+		/*let prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (prefersDarkMode) {
+            // 搞事情
+            $("body").css("background", '#1B1B1B');
+        } else {
+            $("body").css("background", '#FFFFFF');
+        }*/
+
+		/*debugger;
+        let media = window.matchMedia('(prefers-color-scheme: dark)');
+        console.log(media);
+        let callback = (e) => {
+            console.log(e);
+            let prefersDarkMode = e.matches;
+            console.log(prefersDarkMode);
+            if (prefersDarkMode) {
+                // 搞事情
+                debugger;
+                $("body").css("background", '#1B1B1B');
+            }
+        };
+        if (typeof media.addEventListener === 'function') {
+            media.addEventListener('change', callback);
+        } else if (typeof media.addListener === 'function') {
+            media.addListener(callback);
+        }*/
+		// changeBackground();
+	})();
+	/*function changeBackground() {
+
+	let prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+	if (prefersDarkMode) {
+		// 搞事情
+		$("body").css("background", '#1B1B1B');
+	}
+
+	/!*const date = new Date();
+	if (date.getHours() > 6 && date.getHours() < 18) {
+		$("body").css("background", '#FFFFFF');
+	} else {
+		$("body").css("background", '#1B1B1B');
+	}*!/
+	window.setTimeout("changeBackground()", 1000);
+}*/
+	window.onload = function () {
+		changeBackground();
+	}
+
+	function changeBackground() {
+		const date = new Date();
+		if (date.getHours() > 6 && date.getHours() < 18) {
+			$("body").css("background", '#FFFFFF');
+		} else {
+			$("body").css("background", '#1B1B1B');
+		}
+		window.setTimeout("changeBackground()", 1000);
+	}
+</script>
+</body>
+</html>

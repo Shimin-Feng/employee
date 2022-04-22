@@ -1,6 +1,6 @@
 'use strict';
 
-$(function () {
+(function () {
 
 	const thead = $('thead');
 	const tbody = $('tbody');
@@ -10,35 +10,6 @@ $(function () {
 
 	// Get token
 	function getToken() {
-		/*console.log(Symbol());
-		console.log(Symbol.prototype);
-		console.log(Symbol.prototype.Symbol(Symbol.toStringTag));
-		console.log(Symbol.prototype.constructor);
-		console.log(Symbol.constructor);
-		console.log(Symbol.prototype._csrf);
-		console.log(Symbol.prototype.viewport);
-		console.log(Symbol.prototype.author);
-		console.log(Symbol.prototype.password);
-		console.log(Symbol.prototype.username);
-		// console.log(Symbol.prototype.description);
-		console.log(Symbol.prototype.url);
-		console.log(Symbol.prototype.headers);
-		console.log(Symbol.prototype.createdBy);
-		console.log(Symbol.prototype.type);
-		console.log(Symbol.prototype.employeeId);
-		console.log(Symbol.prototype.data);
-		// console.log(Symbol.prototype.onload());
-		console.log(Symbol.prototype.employeeId);
-		console.log(Document.viewport);
-		console.log(Document.author);
-		console.log(Document.username);
-		console.log(Document.password);
-		console.log(Document.prototype);
-		console.log(Document.description);
-		console.log(Document.password);
-		console.log(Symbol.prototype.isPrototypeOf(Object));
-		console.log(Symbol.length);
-		console.log(Symbol.name);*/
 		return $("input:hidden[name='_csrf']").val();
 	}
 
@@ -148,7 +119,7 @@ $(function () {
 		let property = 'createdDate';
 		// 只选取支持排序功能的 th
 		for (let i = 1; i < 10; i++) {
-			if (/(ASC)|(DESC)/.test(thead.find('tr th:eq(' + i + ')').val())) {
+			if (/^(ASC|DESC)$/.test(thead.find('tr th:eq(' + i + ')').val())) {
 				direction = thead.find('tr th:eq(' + i + ')').val();
 				if (i === 1) {
 					property = 'employeeName';
@@ -184,13 +155,6 @@ $(function () {
 
 	// 添加、修改员工信息
 	$(document).on('click', '#saveEmployee', function () {
-		// 可能是因为唤出过 modal，而无法失焦
-		/*console.log($);
-		console.log($());
-		console.log($($));
-		console.log($(document));
-		$(document).blur();*/
-		$('#save').blur();
 		// 获取表单数据
 		let arr = [];
 		$('.form-control').each(function () {
@@ -271,7 +235,6 @@ $(function () {
 	// 删除
 	// 在这里, $(document) 不可简写
 	$(document).on('click', '.deleteEmployee', function () {
-		this.blur();
 		const employeeId = this.parentElement.parentElement.firstElementChild.id;
 		if (employeeId === undefined || employeeId === '' || employeeId === null) {
 			$('.toast-body').text('没有获取到员工 ID，请检查后重试。');
@@ -312,8 +275,6 @@ $(function () {
 
 	// 将需要更改的员工信息填充进 modal
 	$(document).on('click', '.updateEmployee', function () {
-		// 可能是因为唤出过 modal，而无法失焦
-		this.blur();
 		// 获取当前 tbody tr 下标
 		const index = this.parentNode.parentNode.firstElementChild.textContent % 10 - 1;
 		modalBody.val(index);
@@ -330,9 +291,8 @@ $(function () {
 	// 查找员工
 	// 尝试过把下面两个方法写进一个方法里，但不理想
 	// 点击事件
-	$(document).on('click', '#findButton', function () {
+	$(document).on('click', '#findA', function () {
 		if (this.previousElementSibling.value !== '') {
-			this.blur();
 			findEmployee();
 		}
 	})
@@ -636,9 +596,12 @@ $(function () {
 		/*ths = $.grep(ths, function (n, i) {
 			return i !== cellIndex - 1;
 		})*/
-		for (let i = 0; i < ths.length; i++) {
-			ths[i].val('');
+		for (let th of ths) {
+			th.val('');
 		}
+		/*for (let i = 0; i < ths.length; i++) {
+			ths[i].val('');
+		}*/
 	}
 
 	// 首页、上一页、中间页、下一页、尾页
@@ -757,7 +720,24 @@ $(function () {
 			sortDirectionCondition(direction, property);
 		}
 	}
-});
+})();
 
 window.onload = function () {
+	/*let listeners = {
+		dark: (mediaQueryList) => {
+			if (mediaQueryList.matches) {
+				$("body").css("background", '#1B1B1B');
+				// document.body.bgColor = '#1B1B1B';
+			}
+		},
+		light: (mediaQueryList) => {
+			if (mediaQueryList.matches) {
+				$("body").css("background", '#FFFFFF');
+				// document.body.bgColor = '#FFFFFF';
+			}
+		}
+	};
+
+	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', listeners.dark);
+	window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', listeners.light);*/
 };

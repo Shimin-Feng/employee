@@ -91,6 +91,7 @@
         </dependency>
 
         <!-- 添加 thymeleaf 属性 -->
+        <!-- 获取登录用户名 -->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
@@ -118,13 +119,6 @@
             <version>1.18.22</version>
         </dependency>
 
-        <!-- 没有 spring-boot-starter-jdbc 似乎也可以正常运作 -->
-        <!-- 那么到底有什么作用呢 -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.boot</groupId>-->
-        <!--            <artifactId>spring-boot-starter-jdbc</artifactId>-->
-        <!--        </dependency>-->
-
         <!-- 不知道有什么作用，是有一次编写代码使提示添加的 -->
         <!-- 知道了，是为了导入下面的包 -->
         <!-- import org.jetbrains.annotations.NotNull; -->
@@ -133,6 +127,13 @@
             <artifactId>annotations</artifactId>
             <version>23.0.0</version>
             <scope>compile</scope>
+        </dependency>
+
+        <!-- junit5 单元测试依赖 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

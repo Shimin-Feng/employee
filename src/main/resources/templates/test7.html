@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <link href="https://www.runoob.com/images/tryitimg.gif" rel="shortcut icon" type="image/x-icon">
+    <title>JavaScript实现背景颜色随时间变化</title>
+
+</head>
+<body>
+<p th:text="sss"></p>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	//加载函数
+	window.onload = function () {
+		/*const date = new Date();
+		console.log(1);
+		console.log(date.getHours());
+		if (date.getHours() > 6 && date.getHours() < 18) {
+			$("body").css("background", '#FFFFFF');
+			// document.body.bgColor = '#FFFFFF';
+			alert(0);
+		} else {
+			$("body").css("background", '#1B1B1B');
+			// document.body.bgColor = '#1B1B1B';
+			alert(1);
+		}*/
+		const arr = [];
+		for (let i = 0; i < 999; i++) {
+			arr.push(i);
+			i++;
+		}
+		for (const index in arr) {
+			console.log(arr[index]);
+			// console.log(index);
+			// console.log(Number(index) + 34);
+		}
+		/*const myArray = [];
+		for (let i = 1; i < 999; i++) {
+			myArray.push(i);
+			i++;
+		}
+		myArray.name = "数组";
+		myArray.getName = function () {
+			return this.name;
+		}
+		for (const value of myArray) {
+			console.log(value);
+		}*/
+
+
+		const isWindows = function () {
+			return /windows|win32/i.test(navigator.userAgent);
+		}();
+		console.log(isWindows);
+		console.log(navigator.userAgent);
+
+		const isMac = function () {
+			return /macintosh|mac os x/i.test(navigator.userAgent);
+		}();
+		console.log(isMac);
+
+		console.log(navigator.geolocation);
+		console.log(navigator.clipboard);
+		console.log(navigator.credentials);
+		console.log(navigator.doNotTrack);
+		console.log(navigator.maxTouchPoints);
+		console.log(navigator.getGamepads());
+		console.log(navigator.mediaCapabilities);
+		console.log(navigator.mediaDevices);
+		console.log(navigator.mediaSession);
+		console.log(navigator.permissions);
+		console.log(navigator.prototype);
+		// console.log(navigator.canShare());
+		console.log(navigator.serviceWorker);
+		console.log(navigator.language);
+		console.log(navigator.connection);
+		console.log(navigator.cookieEnabled);
+		console.log(navigator.hardwareConcurrency);
+		console.log(navigator.onLine);
+		console.log(navigator.storage);
+		console.log(navigator.userAgent);
+		console.log(navigator.vendor);
+		console.log(navigator.webdriver);
+		console.log('-------------------------------------------------');
+		console.log(navigator.platform);
+		console.log(navigator.appCodeName);
+		console.log(navigator.appName);
+		console.log(navigator.systemLanguage);
+		console.log(navigator.userLanguage);
+		console.log(navigator.appVersion);
+		console.log(navigator.javaEnabled());
+		console.log(navigator.mimeTypes);
+		console.log(navigator.plugins);
+		console.log(navigator.product);
+		console.log(navigator.productSub);
+		console.log(navigator.vendorSub);
+		console.log(navigator.constructor);
+		console.log(navigator.toLocaleString());
+		console.log(navigator.toString());
+		console.log(navigator);
+		console.log(navigator.valueOf());
+		console.log(navigator.share());
+
+	};
+
+	(function () {
+		console.log(navigator.share());
+	})()
+
+	//颜色变化函数
+	/*function changeColor() {
+        //产生rgb的值
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        var rgb = r.toString(16) + g.toString(16) + b.toString(16);
+        //toString(radix) 把数字转化为radix（取值范围2~36）进制值表示的字符串
+        document.body.bgColor = "#" + rgb;
+        window.setTimeout("changeColor()", 1000);
+        //setTimeout() 方法用于在指定的毫秒数后调用函数或计算表达式。
+    }*/
+</script>
+</body>
+</html>

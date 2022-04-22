@@ -23,7 +23,6 @@ public class EmployeeController {
     @Resource
     private EmployeeRepository employeeRepository;
 
-    // TODO: jQuery 根据时间自动调节背景颜色！
     // TODO: <input> 如何解决在使用中文输入时的错误？
     // TODO: 学习新一代 thymeleaf-extras-spring security6 的使用方法
     // TODO: 统计图
