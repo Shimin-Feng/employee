@@ -12,6 +12,18 @@
 <script type="text/javascript">
 	//加载函数
 	window.onload = function () {
+
+
+		let lll = [1, 2, 3, 4, 5, 6];
+		// lll.splice(1, 1);
+		// console.log(lll);
+		lll = $.grep(lll, function (n, i) {
+			return i !== 1;
+		})
+		console.log(lll);
+		return false;
+
+
 		/*const date = new Date();
 		console.log(1);
 		console.log(date.getHours());

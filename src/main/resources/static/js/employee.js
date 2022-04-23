@@ -310,17 +310,10 @@
 	// 根据条件查找员工
 	function findEmployee() {
 		// 每次查找之前都重置数据
-		employeeName = 0;
-		employeeSex = 0;
-		employeeAge = 0;
-		employeeIdCard = 0;
-		employeeAddress = 0;
-		employeePhoneNumber = 0;
-		createdBy = 0;
-		createdDate = 0;
-		lastModifiedDate = 0;
+		init();
 		for (let i = 1; i < 10; i++) {
-			$('thead tr th:eq(' + i + ')').val('');
+			thead.find('tr th:eq(' + i + ')').val('');
+			thead.find('tr th:eq(' + i + ') i').attr('class', 'bi bi-chevron-expand');
 		}
 		$.ajax({
 			type: 'POST',
@@ -359,6 +352,19 @@
 	let createdBy = 0;
 	let createdDate = 0;
 	let lastModifiedDate = 0;
+
+	function init() {
+		employeeName = 0;
+		employeeSex = 0;
+		employeeAge = 0;
+		employeeIdCard = 0;
+		employeeAddress = 0;
+		employeePhoneNumber = 0;
+		createdBy = 0;
+		createdDate = 0;
+		lastModifiedDate = 0;
+	}
+
 	$(document).on('click', 'thead tr th', function () {
 		if (this.cellIndex === 1) {
 			if (employeeName === 0) {
@@ -367,18 +373,23 @@
 				} else {
 					sortDirectionCondition('ASC', 'employeeName');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-up');
 				$(this).val('ASC');
+				init();
 				employeeName = 1;
-			} else {
+			} else if (employeeName === 1) {
 				if (findInput.val() === '') {
 					sortDirection('DESC', 'employeeName');
 				} else {
 					sortDirectionCondition('DESC', 'employeeName');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-down');
 				$(this).val('DESC');
-				employeeName = 0;
+				init();
+				employeeName = 2;
+			} else {
+				reset(this);
+				init();
 			}
 		} else if (this.cellIndex === 2) {
 			if (employeeSex === 0) {
@@ -387,18 +398,23 @@
 				} else {
 					sortDirectionCondition('ASC', 'employeeSex');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-up');
 				$(this).val('ASC');
+				init();
 				employeeSex = 1;
-			} else {
+			} else if (employeeSex === 1) {
 				if (findInput.val() === '') {
 					sortDirection('DESC', 'employeeSex');
 				} else {
 					sortDirectionCondition('DESC', 'employeeSex');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-down');
 				$(this).val('DESC');
-				employeeSex = 0;
+				init();
+				employeeSex = 2;
+			} else {
+				reset(this);
+				init();
 			}
 		} else if (this.cellIndex === 3) {
 			if (employeeAge === 0) {
@@ -407,18 +423,23 @@
 				} else {
 					sortDirectionCondition('ASC', 'employeeAge');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-up');
 				$(this).val('ASC');
+				init();
 				employeeAge = 1;
-			} else {
+			} else if (employeeAge === 1) {
 				if (findInput.val() === '') {
 					sortDirection('DESC', 'employeeAge');
 				} else {
 					sortDirectionCondition('DESC', 'employeeAge');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-down');
 				$(this).val('DESC');
-				employeeAge = 0;
+				init();
+				employeeAge = 2;
+			} else {
+				reset(this);
+				init();
 			}
 		} else if (this.cellIndex === 4) {
 			if (employeeIdCard === 0) {
@@ -427,18 +448,23 @@
 				} else {
 					sortDirectionCondition('ASC', 'employeeIdCard');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-up');
 				$(this).val('ASC');
+				init();
 				employeeIdCard = 1;
-			} else {
+			} else if (employeeIdCard === 1) {
 				if (findInput.val() === '') {
 					sortDirection('DESC', 'employeeIdCard');
 				} else {
 					sortDirectionCondition('DESC', 'employeeIdCard');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-down');
 				$(this).val('DESC');
-				employeeIdCard = 0;
+				init();
+				employeeIdCard = 2;
+			} else {
+				reset(this);
+				init();
 			}
 		} else if (this.cellIndex === 5) {
 			if (employeeAddress === 0) {
@@ -447,18 +473,23 @@
 				} else {
 					sortDirectionCondition('ASC', 'employeeAddress');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-up');
 				$(this).val('ASC');
+				init();
 				employeeAddress = 1;
-			} else {
+			} else if (employeeAddress === 1) {
 				if (findInput.val() === '') {
 					sortDirection('DESC', 'employeeAddress');
 				} else {
 					sortDirectionCondition('DESC', 'employeeAddress');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-down');
 				$(this).val('DESC');
-				employeeAddress = 0;
+				init();
+				employeeAddress = 2;
+			} else {
+				reset(this);
+				init();
 			}
 		} else if (this.cellIndex === 6) {
 			if (employeePhoneNumber === 0) {
@@ -467,18 +498,23 @@
 				} else {
 					sortDirectionCondition('ASC', 'employeePhoneNumber');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-up');
 				$(this).val('ASC');
+				init();
 				employeePhoneNumber = 1;
-			} else {
+			} else if (employeePhoneNumber === 1) {
 				if (findInput.val() === '') {
 					sortDirection('DESC', 'employeePhoneNumber');
 				} else {
 					sortDirectionCondition('DESC', 'employeePhoneNumber');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-down');
 				$(this).val('DESC');
-				employeePhoneNumber = 0;
+				init();
+				employeePhoneNumber = 2;
+			} else {
+				reset(this);
+				init();
 			}
 		} else if (this.cellIndex === 7) {
 			if (createdBy === 0) {
@@ -487,18 +523,23 @@
 				} else {
 					sortDirectionCondition('ASC', 'createdBy');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-up');
 				$(this).val('ASC');
+				init();
 				createdBy = 1;
-			} else {
+			} else if (createdBy === 1) {
 				if (findInput.val() === '') {
 					sortDirection('DESC', 'createdBy');
 				} else {
 					sortDirectionCondition('DESC', 'createdBy');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-down');
 				$(this).val('DESC');
-				createdBy = 0;
+				init();
+				createdBy = 2;
+			} else {
+				reset(this);
+				init();
 			}
 		} else if (this.cellIndex === 8) {
 			if (createdDate === 0) {
@@ -507,18 +548,23 @@
 				} else {
 					sortDirectionCondition('ASC', 'createdDate');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-up');
 				$(this).val('ASC');
+				init();
 				createdDate = 1;
-			} else {
+			} else if (createdDate === 1) {
 				if (findInput.val() === '') {
 					sortDirection('DESC', 'createdDate');
 				} else {
 					sortDirectionCondition('DESC', 'createdDate');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-down');
 				$(this).val('DESC');
-				createdDate = 0;
+				init();
+				createdDate = 2;
+			} else {
+				reset(this);
+				init();
 			}
 		} else if (this.cellIndex === 9) {
 			if (lastModifiedDate === 0) {
@@ -527,20 +573,56 @@
 				} else {
 					sortDirectionCondition('ASC', 'lastModifiedDate');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-up');
 				$(this).val('ASC');
+				init();
 				lastModifiedDate = 1;
-			} else {
+			} else if (lastModifiedDate === 1) {
 				if (findInput.val() === '') {
 					sortDirection('DESC', 'lastModifiedDate');
 				} else {
 					sortDirectionCondition('DESC', 'lastModifiedDate');
 				}
-				deleteOtherTheadTrThVal(this.cellIndex);
+				$(this).find('i').attr('class', 'bi bi-chevron-down');
 				$(this).val('DESC');
-				lastModifiedDate = 0;
+				init();
+				lastModifiedDate = 2;
+			} else {
+				reset(this);
+				init();
 			}
 		}
+
+		function reset($this) {
+			if (findInput.val() === '') {
+				sortDirection('ASC', 'createdDate');
+			} else {
+				sortDirectionCondition('ASC', 'createdDate');
+			}
+			$($this).find('i').attr('class', 'bi bi-chevron-expand');
+			$($this).val('');
+		}
+
+		// 删除其他 thead tr th 的 val()
+		let ths = [];
+		// 只选取支持排序功能的 th
+		for (let i = 1; i < 10; i++) {
+			ths.push($('thead tr th:eq(' + i + ')'));
+		}
+		// 不包括自身 this.cellIndex - 1
+		ths.splice(this.cellIndex - 1, 1);
+		// 另外一种写法
+		/*ths = $.grep(ths, function (n, i) {
+			return i !== cellIndex - 1;
+		})*/
+		// Delete th's val() & change i's class
+		for (let th of ths) {
+			th.find('i').attr('class', 'bi bi-chevron-expand');
+			th.val('');
+		}
+		/*for (let i = 0; i < ths.length; i++) {
+			ths[i].val('');
+		}*/
 	})
 
 	// 执行指定的排序查询————无查询条件
@@ -581,27 +663,6 @@
 				}
 			}
 		});
-	}
-
-	// 删除其他 thead tr th 的 val()
-	function deleteOtherTheadTrThVal(cellIndex) {
-		let ths = [];
-		// 只选取支持排序功能的 th
-		for (let i = 1; i < 10; i++) {
-			ths.push($('thead tr th:eq(' + i + ')'));
-		}
-		// 不包括自身 this.cellIndex - 1
-		ths = ths.splice(cellIndex - 1, 1);
-		// 另外一种写法
-		/*ths = $.grep(ths, function (n, i) {
-			return i !== cellIndex - 1;
-		})*/
-		for (let th of ths) {
-			th.val('');
-		}
-		/*for (let i = 0; i < ths.length; i++) {
-			ths[i].val('');
-		}*/
 	}
 
 	// 首页、上一页、中间页、下一页、尾页
