@@ -1,6 +1,6 @@
 package com.example.config;
 
-import com.example.service.UserService;
+import com.example.service.UserDetailsServiceImpl;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,7 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
-    private UserService userService;
+    private UserDetailsServiceImpl userDetailsServiceImpl;
     @Resource
     private DataSource dataSource;
 
@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(@NotNull AuthenticationManagerBuilder auth) throws Exception {
         auth
                 // passwordEncoder(new BCryptPasswordEncoder()) 密码加密方式
-                .userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
+                .userDetailsService(userDetailsServiceImpl).passwordEncoder(new BCryptPasswordEncoder());
 
 //                // 把账号密码存储在内存中的方法
 //                .inMemoryAuthentication()

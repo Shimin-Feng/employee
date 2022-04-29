@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  */
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Resource
     private UserRepository userRepository;

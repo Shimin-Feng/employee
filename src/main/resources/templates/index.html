@@ -1,15 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>index</title>
 </head>
 <body>
 <p>
-    <a>欢迎:&nbsp;</a>
-    <a id="username" sec:authentication="name"></a>
+    <a>Welcome:</a>
+    <a th:text="${#authentication.name}"></a>
 </p>
 <a href="/employee">员工管理</a>
+<!--<a th:href="@{/employee(username=${#authentication.name})}">员工管理</a>-->
+<!--<form action="/employee" method="post">
+    <input name="_csrf" th:if="${_csrf}" th:value="${_csrf.token}" type="hidden">
+    <input name="username" th:value="${#authentication.name}" type="hidden">
+    <button type="submit">员工管理</button>
+</form>-->
 <form action="/logout" method="post">
     <input name="_csrf" th:if="${_csrf}" th:value="${_csrf.token}" type="hidden">
     <button type="submit">退出</button>

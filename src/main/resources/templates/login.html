@@ -39,14 +39,15 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-	$(document).ready(function () {
-		$('.btn-primary').on('click', function () {
+	!function () {
+		$(document).on('click', '.btn-primary', function () {
 			if ($('#username').val() === '' || $('#password').val() === '') {
 				alert('Please enter username and password.');
+				// 如果不 return false, 表单还是会提交!
 				return false;
 			}
 		})
-	})
+	}()
 </script>
 </body>
 </html>

@@ -28,7 +28,7 @@ public class Employee {
     @Column
     private String employeeSex;
     @Column
-    private Byte employeeAge;
+    private String employeeAge;
     @Column
     private String employeeIdCard;
     @Column
