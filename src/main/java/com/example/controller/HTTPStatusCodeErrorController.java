@@ -25,7 +25,7 @@ public class HTTPStatusCodeErrorController implements ErrorController {
         if (request.getAttribute("javax.servlet.error.status_code") != null) {
             Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
             if (statusCode == 400) {
-                if (user != null) {
+                if (null != user) {
                     model.addObject("msg", "Hi " + user.getName()
                             + ", 由于明显的客户端错误（例如，格式错误的请求语法，太大的大小，无效的请求消息或欺骗性路由请求），服务器不能或不会处理该请求。");
                 } else {
@@ -33,7 +33,7 @@ public class HTTPStatusCodeErrorController implements ErrorController {
                 }
                 model.setViewName("400");
             } else if (statusCode == 403) {
-                if (user != null) {
+                if (null != user) {
                     model.addObject("msg", "Hi " + user.getName()
                             + ", you do not have permission to access this page.");
                 } else {
@@ -41,7 +41,7 @@ public class HTTPStatusCodeErrorController implements ErrorController {
                 }
                 model.setViewName("403");
             } else if (statusCode == 404) {
-                if (user != null) {
+                if (null != user) {
                     model.addObject("msg", "Hi " + user.getName()
                             + ", the requested resource could not be found but may be available in the future." +
                             " Subsequent requests by the client are permissible.");
@@ -51,7 +51,7 @@ public class HTTPStatusCodeErrorController implements ErrorController {
                 }
                 model.setViewName("404");
             } else if (statusCode == 440) {
-                if (user != null) {
+                if (null != user) {
                     model.addObject("msg", "Hi " + user.getName()
                             + ", the client's session has expired and must log in again.");
                 } else {

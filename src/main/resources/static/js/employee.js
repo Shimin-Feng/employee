@@ -121,33 +121,32 @@
 		for (let i = 1; i < 10; i++) {
 			if (/^(ASC|DESC)$/.test(thead.find('tr th:eq(' + i + ')').val())) {
 				direction = thead.find('tr th:eq(' + i + ')').val()
-				if (i === 1) {
-					property = 'employeeName'
-					break
-				} else if (i === 2) {
-					property = 'employeeSex'
-					break
-				} else if (i === 3) {
-					property = 'employeeAge'
-					break
-				} else if (i === 4) {
-					property = 'employeeIdCard'
-					break
-				} else if (i === 5) {
-					property = 'employeeAddress'
-					break
-				} else if (i === 6) {
-					property = 'employeePhoneNumber'
-					break
-				} else if (i === 7) {
-					property = 'createdBy'
-					break
-				} else if (i === 8) {
-					break
-				} else {
-					property = 'lastModifiedDate'
-					break
+				switch (i) {
+					case 1:
+						property = 'employeeName'
+						break
+					case 2:
+						property = 'employeeSex'
+						break
+					case 3:
+						property = 'employeeAge'
+						break
+					case 4:
+						property = 'employeeIdCard'
+						break
+					case 5:
+						property = 'employeeAddress'
+						break
+					case 6:
+						property = 'employeePhoneNumber'
+						break
+					case 7:
+						property = 'createdBy'
+						break
+					case 9:
+						property = 'lastModifiedDate'
 				}
+				break
 			}
 		}
 		return direction + ', ' + property
@@ -164,7 +163,7 @@
 		arr.shift()
 		// 验证值
 		if (regExp(arr[0], arr[1], arr[2], arr[3]) === false) {
-			return false
+			return
 		}
 		const birth = arr[1].substring(6, 14)
 		const birthYear = birth.substring(0, 4)
@@ -185,27 +184,27 @@
 		const nowDay = now.substring(8, 10)
 
 		function Employee() {
-			this['employeeName'] = arr[0]
+			this.employeeName = arr[0]
 			// 取消人为操作性别和年龄
 			// 改为程序根据身份证判断性别和年龄
-			this['employeeSex'] = arr[1].substring(16, 17) % 2 === 0 ? '女' : '男'
-			this['employeeAge'] = nowDay - birthDay < 0
+			this.employeeSex = arr[1].substring(16, 17) % 2 === 0 ? '女' : '男'
+			this.employeeAge = nowDay - birthDay < 0
 				? nowMonth - 1 - birthMonth < 0 ? nowYear - 1 - birthYear : nowYear - birthYear
 				: nowMonth - birthMonth < 0 ? nowYear - 1 - birthYear : nowYear - birthYear
-			this['employeeIdCard'] = arr[1].toUpperCase()
-			this['employeeAddress'] = arr[2]
-			this['employeePhoneNumber'] = arr[3]
-			this['lastModifiedDate'] = createdDate.toLocaleString('zh-CN', options)
-			// 添加员工
-			if (modalBody.val() === undefined || modalBody.val() === '' || modalBody.val() === null) {
-				this['createdBy'] = username.text()
-				this['createdDate'] = createdDate.toLocaleString('zh-CN', options)
-			} else {
+			this.employeeIdCard = arr[1].toUpperCase()
+			this.employeeAddress = arr[2]
+			this.employeePhoneNumber = arr[3]
+			this.lastModifiedDate = createdDate.toLocaleString('zh-CN', options)
+			if (/\d/.test(modalBody.val())) {
 				// 修改员工
 				this['employeeId'] = tbody.find('tr:eq(' + modalBody.val() + ') th').attr('id')
-				this['createdBy'] = tbody.find('tr:eq(' + modalBody.val() + ') td:eq(6)').text()
-				this['createdDate'] = tbody.find('tr:eq(' + modalBody.val() + ') td:eq(7)').text()
+				this.createdBy = tbody.find('tr:eq(' + modalBody.val() + ') td:eq(6)').text()
+				this.createdDate = tbody.find('tr:eq(' + modalBody.val() + ') td:eq(7)').text()
 				modalBody.val('')
+			} else {
+				// 添加员工
+				this.createdBy = username.text()
+				this.createdDate = createdDate.toLocaleString('zh-CN', options)
 			}
 		}
 
@@ -213,7 +212,7 @@
 			type: 'POST',
 			// 下面这行非常重要，没有会报错
 			// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
-			// Content type 'application/x-www-form-urlencodedcharset=UTF-8' not supported]
+			// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
 			contentType: 'application/json',
 			url: '/employee/saveOrUpdateEmployee',
 			data: JSON.stringify(new Employee()),
@@ -242,10 +241,10 @@
 	// 在这里, $(document) 不可简写
 	$(document).on('click', '.deleteEmployeeById', function () {
 		const employeeId = this.parentElement.parentElement.firstElementChild.id
-		if (employeeId === undefined || employeeId === '' || employeeId === null) {
+		if (!/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(employeeId)) {
 			toastBody.text('没有获取到员工 ID，请检查后重试。')
 			new bootstrap.Toast(liveToast).show()
-			return false
+			return
 		}
 		if (confirm('确定删除?')) {
 			$.ajax({
@@ -302,7 +301,7 @@
 	// jQuery UI autocomplete 动态提示搜索建议
 	findInput.autocomplete({
 		minLength: 0,
-		source: function (request, response) {
+		'source': function (request, response) {
 			$.ajax({
 				type: 'POST',
 				url: '/findRecordNamesBy',
@@ -319,8 +318,8 @@
 				success: function (data, success, state) {
 					if (state.readyState === 4 && state.status === 200) {
 						response(data)
-						$('#ui-id-2').prepend('<div class="delete-record-nane" style="background-color: #ff3300">test-before</div>')
-							.append('<div class="delete-record-nane" style="background-color: #ff3300">test-after</div>')
+						/*$('#ui-id-2').prepend('<div class="delete-record-nane" style="background-color: #ff3300">test-before</div>')
+							.append('<div class="delete-record-nane" style="background-color: #ff3300">test-after</div>')*/
 					}
 				},
 				error: function (state, error, data) {
@@ -329,97 +328,39 @@
 					console.log(state.status)
 					console.log(error)
 					console.log(data)
-					findInput.autocomplete("close")
+					findInput.autocomplete('close')
 				}
 			})
 		},
-		select: function (event, ui) {
+		'select': function (event, ui) {
 			$(this).val(ui.item.label)
 			this.blur()
 			findEmployee()
+			// 如果不 return，jQuery UI 会继续执行自己的 select 方法
 			return false
 		}
 	}).focus(function () {
-		$(this).autocomplete("search", $(this).val())
+		$(this).autocomplete('search', $(this).val())
 	})
 
 	// 查找员工
 	// 尝试过把下面两个方法写进一个方法里，但不理想
 	// 键盘回车事件
-	$(document).on({
-		/*focus: function () {
-			console.log('focus ------------------------')
-			$.ajax({
-				data: {
-					'username': username.text(),
-					'searchGroupBy': findSelect.val(),
-				},
-				dataType: 'json',
-				headers: {
-					'X-CSRF-Token': token
-				},
-				type: 'POST',
-				url: '/findRecordNamesBy',
-				success: function (data, success, state) {
-					if (state.readyState === 4 && state.status === 200) {
-						console.log(data)
-						findInput.autocomplete({
-							minLength: 0,
-							source: data,
-							create: function (event, ui) {
-								console.log('create--------------------')
-								console.log(event)
-								console.log(ui)
-								$(this).autocomplete({minLength: 0, source: data}).focus(function () {
-									console.log(222)
-									$(this).autocomplete("search", $(this).val())
-								})
-							}
-						}).focus(function () {
-							console.log(1111)
-							$(this).autocomplete("search", $(this).val())
-						})
-						return
-						const suggestWrap = $('#search_suggest')
-						if (data.length < 1) {
-							suggestWrap.hide()
-							return
-						}
-						let li
-						const tmpFrag = document.createDocumentFragment()
-						suggestWrap.find('ul').html('')
-						for (let i = 0 i < data.length i++) {
-							li = document.createElement('li')
-							li.innerHTML = data[i]
-							tmpFrag.appendChild(li)
-						}
-						suggestWrap.find('ul').append(tmpFrag)
-						suggestWrap.show()
-					}
-				},
-				error: function (state, error, data) {
-					console.log(state)
-					console.log(state.readyState)
-					console.log(state.status)
-					console.log(error)
-					console.log(data)
-				}
-			})
-		},*/
-		keyup: function (e) {
-			if (this.value !== '') {
-				const keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode
-				if (keyCode === 13) {
-					this.blur()
-					findEmployee()
-				}
+	$(document).on('keypress', '#findInput', function (e) {
+		// keypress 相对于 keydown 与 keyup，只有按下 Enter 键会触发此事件。
+		// 而 keydown 与 keyup，按下 Shift、Ctrl、Caps 都会触发，所以这里选择 keypress
+		if ('' !== this.value) {
+			const keyCode = e.keyCode || e.which
+			if (13 === keyCode || 'Enter' === e.key) {
+				this.blur()
+				findEmployee()
 			}
 		}
-	}, '#findInput')
+	})
 
 	// 搜索按钮点击事件
 	$(document).on('click', '#findA', function () {
-		if (this.previousElementSibling.value !== '') {
+		if ('' !== this.previousElementSibling.value) {
 			findEmployee()
 		}
 	})
@@ -436,7 +377,7 @@
 			type: 'POST',
 			// 下面这行非常重要，没有会报错
 			// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
-			// Content type 'application/x-www-form-urlencodedcharset=UTF-8' not supported]
+			// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
 			contentType: 'application/json',
 			// 存储搜索记录并把搜索者传到后台
 			url: '/employee/findEmployeesBy?username=' + username.text(),
@@ -484,231 +425,267 @@
 	}
 
 	$(document).on('click', 'thead tr th', function () {
-		if (this.cellIndex === 1) {
-			if (employeeName === 0) {
-				if (findInput.val() === '') {
-					sortDirection('ASC', 'employeeName')
-				} else {
-					sortDirectionCondition('ASC', 'employeeName')
+		switch (this.cellIndex) {
+			case 1:
+				switch (employeeName) {
+					case 0:
+						if (findInput.val() === '') {
+							sortDirection('ASC', 'employeeName')
+						} else {
+							sortDirectionCondition('ASC', 'employeeName')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-up')
+						$(this).val('ASC')
+						init()
+						employeeName = 1
+						break
+					case 1:
+						if (findInput.val() === '') {
+							sortDirection('DESC', 'employeeName')
+						} else {
+							sortDirectionCondition('DESC', 'employeeName')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-down')
+						$(this).val('DESC')
+						init()
+						employeeName = 2
+						break
+					case 2:
+						reset(this)
+						init()
 				}
-				$(this).find('i').attr('class', 'bi bi-chevron-up')
-				$(this).val('ASC')
-				init()
-				employeeName = 1
-			} else if (employeeName === 1) {
-				if (findInput.val() === '') {
-					sortDirection('DESC', 'employeeName')
-				} else {
-					sortDirectionCondition('DESC', 'employeeName')
+				break
+			case 2:
+				switch (employeeSex) {
+					case 0:
+						if (findInput.val() === '') {
+							sortDirection('ASC', 'employeeSex')
+						} else {
+							sortDirectionCondition('ASC', 'employeeSex')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-up')
+						$(this).val('ASC')
+						init()
+						employeeSex = 1
+						break
+					case 1:
+						if (findInput.val() === '') {
+							sortDirection('DESC', 'employeeSex')
+						} else {
+							sortDirectionCondition('DESC', 'employeeSex')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-down')
+						$(this).val('DESC')
+						init()
+						employeeSex = 2
+						break
+					case 2:
+						reset(this)
+						init()
 				}
-				$(this).find('i').attr('class', 'bi bi-chevron-down')
-				$(this).val('DESC')
-				init()
-				employeeName = 2
-			} else {
-				reset(this)
-				init()
-			}
-		} else if (this.cellIndex === 2) {
-			if (employeeSex === 0) {
-				if (findInput.val() === '') {
-					sortDirection('ASC', 'employeeSex')
-				} else {
-					sortDirectionCondition('ASC', 'employeeSex')
+				break
+			case 3:
+				switch (employeeAge) {
+					case 0:
+						if (findInput.val() === '') {
+							sortDirection('ASC', 'employeeAge')
+						} else {
+							sortDirectionCondition('ASC', 'employeeAge')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-up')
+						$(this).val('ASC')
+						init()
+						employeeAge = 1
+						break
+					case 1:
+						if (findInput.val() === '') {
+							sortDirection('DESC', 'employeeAge')
+						} else {
+							sortDirectionCondition('DESC', 'employeeAge')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-down')
+						$(this).val('DESC')
+						init()
+						employeeAge = 2
+						break
+					case 2:
+						reset(this)
+						init()
 				}
-				$(this).find('i').attr('class', 'bi bi-chevron-up')
-				$(this).val('ASC')
-				init()
-				employeeSex = 1
-			} else if (employeeSex === 1) {
-				if (findInput.val() === '') {
-					sortDirection('DESC', 'employeeSex')
-				} else {
-					sortDirectionCondition('DESC', 'employeeSex')
+				break
+			case 4:
+				switch (employeeIdCard) {
+					case 0:
+						if (findInput.val() === '') {
+							sortDirection('ASC', 'employeeIdCard')
+						} else {
+							sortDirectionCondition('ASC', 'employeeIdCard')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-up')
+						$(this).val('ASC')
+						init()
+						employeeIdCard = 1
+						break
+					case 1:
+						if (findInput.val() === '') {
+							sortDirection('DESC', 'employeeIdCard')
+						} else {
+							sortDirectionCondition('DESC', 'employeeIdCard')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-down')
+						$(this).val('DESC')
+						init()
+						employeeIdCard = 2
+						break
+					case 2:
+						reset(this)
+						init()
 				}
-				$(this).find('i').attr('class', 'bi bi-chevron-down')
-				$(this).val('DESC')
-				init()
-				employeeSex = 2
-			} else {
-				reset(this)
-				init()
-			}
-		} else if (this.cellIndex === 3) {
-			if (employeeAge === 0) {
-				if (findInput.val() === '') {
-					sortDirection('ASC', 'employeeAge')
-				} else {
-					sortDirectionCondition('ASC', 'employeeAge')
+				break
+			case 5:
+				switch (employeeAddress) {
+					case 0:
+						if (findInput.val() === '') {
+							sortDirection('ASC', 'employeeAddress')
+						} else {
+							sortDirectionCondition('ASC', 'employeeAddress')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-up')
+						$(this).val('ASC')
+						init()
+						employeeAddress = 1
+						break
+					case 1:
+						if (findInput.val() === '') {
+							sortDirection('DESC', 'employeeAddress')
+						} else {
+							sortDirectionCondition('DESC', 'employeeAddress')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-down')
+						$(this).val('DESC')
+						init()
+						employeeAddress = 2
+						break
+					case 2:
+						reset(this)
+						init()
 				}
-				$(this).find('i').attr('class', 'bi bi-chevron-up')
-				$(this).val('ASC')
-				init()
-				employeeAge = 1
-			} else if (employeeAge === 1) {
-				if (findInput.val() === '') {
-					sortDirection('DESC', 'employeeAge')
-				} else {
-					sortDirectionCondition('DESC', 'employeeAge')
+				break
+			case 6:
+				switch (employeePhoneNumber) {
+					case 0:
+						if (findInput.val() === '') {
+							sortDirection('ASC', 'employeePhoneNumber')
+						} else {
+							sortDirectionCondition('ASC', 'employeePhoneNumber')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-up')
+						$(this).val('ASC')
+						init()
+						employeePhoneNumber = 1
+						break
+					case 1:
+						if (findInput.val() === '') {
+							sortDirection('DESC', 'employeePhoneNumber')
+						} else {
+							sortDirectionCondition('DESC', 'employeePhoneNumber')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-down')
+						$(this).val('DESC')
+						init()
+						employeePhoneNumber = 2
+						break
+					case 2:
+						reset(this)
+						init()
 				}
-				$(this).find('i').attr('class', 'bi bi-chevron-down')
-				$(this).val('DESC')
-				init()
-				employeeAge = 2
-			} else {
-				reset(this)
-				init()
-			}
-		} else if (this.cellIndex === 4) {
-			if (employeeIdCard === 0) {
-				if (findInput.val() === '') {
-					sortDirection('ASC', 'employeeIdCard')
-				} else {
-					sortDirectionCondition('ASC', 'employeeIdCard')
+				break
+			case 7:
+				switch (createdBy) {
+					case 0:
+						if (findInput.val() === '') {
+							sortDirection('ASC', 'createdBy')
+						} else {
+							sortDirectionCondition('ASC', 'createdBy')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-up')
+						$(this).val('ASC')
+						init()
+						createdBy = 1
+						break
+					case 1:
+						if (findInput.val() === '') {
+							sortDirection('DESC', 'createdBy')
+						} else {
+							sortDirectionCondition('DESC', 'createdBy')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-down')
+						$(this).val('DESC')
+						init()
+						createdBy = 2
+						break
+					case 2:
+						reset(this)
+						init()
 				}
-				$(this).find('i').attr('class', 'bi bi-chevron-up')
-				$(this).val('ASC')
-				init()
-				employeeIdCard = 1
-			} else if (employeeIdCard === 1) {
-				if (findInput.val() === '') {
-					sortDirection('DESC', 'employeeIdCard')
-				} else {
-					sortDirectionCondition('DESC', 'employeeIdCard')
+				break
+			case 8:
+				switch (createdDate) {
+					case 0:
+						if (findInput.val() === '') {
+							sortDirection('ASC', 'createdDate')
+						} else {
+							sortDirectionCondition('ASC', 'createdDate')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-up')
+						$(this).val('ASC')
+						init()
+						createdDate = 1
+						break
+					case 1:
+						if (findInput.val() === '') {
+							sortDirection('DESC', 'createdDate')
+						} else {
+							sortDirectionCondition('DESC', 'createdDate')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-down')
+						$(this).val('DESC')
+						init()
+						createdDate = 2
+						break
+					case 2:
+						reset(this)
+						init()
 				}
-				$(this).find('i').attr('class', 'bi bi-chevron-down')
-				$(this).val('DESC')
-				init()
-				employeeIdCard = 2
-			} else {
-				reset(this)
-				init()
-			}
-		} else if (this.cellIndex === 5) {
-			if (employeeAddress === 0) {
-				if (findInput.val() === '') {
-					sortDirection('ASC', 'employeeAddress')
-				} else {
-					sortDirectionCondition('ASC', 'employeeAddress')
+				break
+			case 9:
+				switch (lastModifiedDate) {
+					case 0:
+						if (findInput.val() === '') {
+							sortDirection('ASC', 'lastModifiedDate')
+						} else {
+							sortDirectionCondition('ASC', 'lastModifiedDate')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-up')
+						$(this).val('ASC')
+						init()
+						lastModifiedDate = 1
+						break
+					case 1:
+						if (findInput.val() === '') {
+							sortDirection('DESC', 'lastModifiedDate')
+						} else {
+							sortDirectionCondition('DESC', 'lastModifiedDate')
+						}
+						$(this).find('i').attr('class', 'bi bi-chevron-down')
+						$(this).val('DESC')
+						init()
+						lastModifiedDate = 2
+						break
+					case 2:
+						reset(this)
+						init()
 				}
-				$(this).find('i').attr('class', 'bi bi-chevron-up')
-				$(this).val('ASC')
-				init()
-				employeeAddress = 1
-			} else if (employeeAddress === 1) {
-				if (findInput.val() === '') {
-					sortDirection('DESC', 'employeeAddress')
-				} else {
-					sortDirectionCondition('DESC', 'employeeAddress')
-				}
-				$(this).find('i').attr('class', 'bi bi-chevron-down')
-				$(this).val('DESC')
-				init()
-				employeeAddress = 2
-			} else {
-				reset(this)
-				init()
-			}
-		} else if (this.cellIndex === 6) {
-			if (employeePhoneNumber === 0) {
-				if (findInput.val() === '') {
-					sortDirection('ASC', 'employeePhoneNumber')
-				} else {
-					sortDirectionCondition('ASC', 'employeePhoneNumber')
-				}
-				$(this).find('i').attr('class', 'bi bi-chevron-up')
-				$(this).val('ASC')
-				init()
-				employeePhoneNumber = 1
-			} else if (employeePhoneNumber === 1) {
-				if (findInput.val() === '') {
-					sortDirection('DESC', 'employeePhoneNumber')
-				} else {
-					sortDirectionCondition('DESC', 'employeePhoneNumber')
-				}
-				$(this).find('i').attr('class', 'bi bi-chevron-down')
-				$(this).val('DESC')
-				init()
-				employeePhoneNumber = 2
-			} else {
-				reset(this)
-				init()
-			}
-		} else if (this.cellIndex === 7) {
-			if (createdBy === 0) {
-				if (findInput.val() === '') {
-					sortDirection('ASC', 'createdBy')
-				} else {
-					sortDirectionCondition('ASC', 'createdBy')
-				}
-				$(this).find('i').attr('class', 'bi bi-chevron-up')
-				$(this).val('ASC')
-				init()
-				createdBy = 1
-			} else if (createdBy === 1) {
-				if (findInput.val() === '') {
-					sortDirection('DESC', 'createdBy')
-				} else {
-					sortDirectionCondition('DESC', 'createdBy')
-				}
-				$(this).find('i').attr('class', 'bi bi-chevron-down')
-				$(this).val('DESC')
-				init()
-				createdBy = 2
-			} else {
-				reset(this)
-				init()
-			}
-		} else if (this.cellIndex === 8) {
-			if (createdDate === 0) {
-				if (findInput.val() === '') {
-					sortDirection('ASC', 'createdDate')
-				} else {
-					sortDirectionCondition('ASC', 'createdDate')
-				}
-				$(this).find('i').attr('class', 'bi bi-chevron-up')
-				$(this).val('ASC')
-				init()
-				createdDate = 1
-			} else if (createdDate === 1) {
-				if (findInput.val() === '') {
-					sortDirection('DESC', 'createdDate')
-				} else {
-					sortDirectionCondition('DESC', 'createdDate')
-				}
-				$(this).find('i').attr('class', 'bi bi-chevron-down')
-				$(this).val('DESC')
-				init()
-				createdDate = 2
-			} else {
-				reset(this)
-				init()
-			}
-		} else if (this.cellIndex === 9) {
-			if (lastModifiedDate === 0) {
-				if (findInput.val() === '') {
-					sortDirection('ASC', 'lastModifiedDate')
-				} else {
-					sortDirectionCondition('ASC', 'lastModifiedDate')
-				}
-				$(this).find('i').attr('class', 'bi bi-chevron-up')
-				$(this).val('ASC')
-				init()
-				lastModifiedDate = 1
-			} else if (lastModifiedDate === 1) {
-				if (findInput.val() === '') {
-					sortDirection('DESC', 'lastModifiedDate')
-				} else {
-					sortDirectionCondition('DESC', 'lastModifiedDate')
-				}
-				$(this).find('i').attr('class', 'bi bi-chevron-down')
-				$(this).val('DESC')
-				init()
-				lastModifiedDate = 2
-			} else {
-				reset(this)
-				init()
-			}
 		}
 
 		function reset($this) {
@@ -767,7 +744,7 @@
 			type: 'POST',
 			// 下面这行非常重要，没有会报错
 			// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
-			// Content type 'application/x-www-form-urlencodedcharset=UTF-8' not supported]
+			// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
 			contentType: 'application/json',
 			url: '/employee/findEmployeesBy?direction=' + direction + '&property=' + property,
 			data: JSON.stringify(new Employee()),
@@ -847,7 +824,7 @@
 				type: 'POST',
 				// 下面这行非常重要，没有会报错
 				// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
-				// Content type 'application/x-www-form-urlencodedcharset=UTF-8' not supported]
+				// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
 				contentType: 'application/json',
 				url: '/employee/findEmployeesBy?pageNum=' + pageNum + '&direction=' + direction + '&property=' + property,
 				data: JSON.stringify(new Employee()),
@@ -865,7 +842,7 @@
 									type: 'POST',
 									// 下面这行非常重要，没有会报错
 									// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
-									// Content type 'application/x-www-form-urlencodedcharset=UTF-8' not supported]
+									// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
 									contentType: 'application/json',
 									url: '/employee/findEmployeesBy?pageNum=' + (pageNum - 1) + '&direction=' + direction + '&property=' + property,
 									data: JSON.stringify(new Employee()),
@@ -904,26 +881,6 @@
 window.onload = function () {
 
 	'use strict'
-
-	/*debugger
-	// const availableTags = []
-	$.ajax({
-		type: 'POST',
-		url: '/employee/findAllSearchRecords',
-		headers: {
-			'X-CSRF-Token': $("input:hidden[name='_csrf']").val()
-		},
-		success: function (data, success, state) {
-			if (state.readyState === 4 && state.status === 200) {
-				console.log(data)
-				console.log(success)
-				console.log(state)
-			}
-		},
-		error: function () {
-			new bootstrap.Toast(liveToast).show()
-		}
-	})*/
 
 	/*let listeners = {
 		dark: (mediaQueryList) => {

@@ -26,7 +26,7 @@ public class CustomMethods {
                         break;
                     }
                 }
-                if (i == 0) {
+                if (0 == i) {
                     list4.add(t1);
                 }
             }

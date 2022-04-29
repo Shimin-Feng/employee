@@ -37,12 +37,29 @@ public class EmployeeController {
     // TODO: 数据库根据时间自动调整年龄
     // TODO: 尽可能多地合并 ajax
     // TODO: js 中可能有一个判断语句存在错误，记得本来应该判断是否为 -1，结果没比较，因为编译没出错
-    // TODO: 在编写 saveOrUpdateEmployee doc 时有件需要做的事情忘记了
+    // TODO: 实现使用拼音也能搜索
+
+    /**
+     * 在登录之前访问任何资源都将跳转到登录界面
+     *
+     * @return "login" login 页面
+     * @method login
+     * @author $himin F
+     * @created 2022/4/29 16:46
+     */
     @RequestMapping("login")
     public String login() {
         return "login";
     }
 
+    /**
+     * 接受请求跳转到 index 页面
+     *
+     * @return "index" index 页面
+     * @method index
+     * @author $himin F
+     * @created 2022/4/29 16:33
+     */
     @RequestMapping("index")
     public String index() {
         return "index";
@@ -83,13 +100,13 @@ public class EmployeeController {
      *                   <li>createdDate              添加时间</li>
      *                   <li>lastModifiedDate         最后操作时间</li>
      *                  </ul>
-     * @return String "employee" 返回查询后的整个页面
+     * @return "employee" 返回查询后的整个页面
      * @method employee
      * @author $himin F
      * @created 2022/4/29 10:32
      */
     @RequestMapping("employee")
-    public String employee(Model model,
+    public String employee(@NotNull Model model,
                            @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
                            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
                            @RequestParam(value = "direction", defaultValue = "ASC") Sort.Direction direction,
@@ -101,6 +118,10 @@ public class EmployeeController {
 
     /**
      * 该方法有两个作用，添加和修改员工信息
+     * 在这里使用的是 saveAndFlush() r而不是 save()，因为保存或者修改之后会立即查询数据库中该条数据
+     * 如果使用 save() 可能会出现保存或者修改方法执行之后，立即查询数据库中该记录可能会出现不存在的情况
+     * save()           将数据保存在内存中
+     * saveAndFlush()   保存在内存中的同时同步到数据库
      *
      * @param employee Employee 前台传过来的需要添加或者修改的员工信息，根据是否存在 employeeId 判断该请求为添加还是修改
      *                 <ul>
@@ -121,24 +142,21 @@ public class EmployeeController {
      */
     @RequestMapping("employee/saveOrUpdateEmployee")
     public void saveOrUpdateEmployee(@RequestBody @NotNull Employee employee, HttpServletResponse response) {
-        if (employee.getEmployeeId() == null || Objects.equals(employee.getEmployeeId(), "")) {
+        String encode = "UTF-8";
+        int status;
+        String message;
+        if (null == employee.getEmployeeId() || Objects.equals(employee.getEmployeeId(), "")) {
             // save
             employee.setEmployeeId(UUID.randomUUID().toString());
             employeeRepository.saveAndFlush(employee);
             // 检查是否成功保存到数据库
             Optional<Employee> employee1 = employeeRepository.findById(employee.getEmployeeId());
-            try {
-                if (employee1.isPresent()) {
-                    response.setCharacterEncoding("UTF-8");
-                    response.setStatus(200);
-                    response.getWriter().write("添加成功。");
-                } else {
-                    response.setCharacterEncoding("UTF-8");
-                    response.setStatus(500);
-                    response.getWriter().write("添加失败，员工信息未保存。");
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            if (employee1.isPresent()) {
+                status = 200;
+                message = "添加成功。";
+            } else {
+                status = 500;
+                message = "添加失败，员工信息未保存。";
             }
         } else {
             // update
@@ -156,37 +174,35 @@ public class EmployeeController {
                     Optional<Employee> employee3 = employeeRepository.findById(employee.getEmployeeId());
                     if (employee3.isPresent()) {
                         // 如果数据存在则获取对象
-                        Employee employee4 = employee1.get();
+                        Employee employee4 = employee3.get();
                         // 修改之后比较被修改对象的值与前台传递过来的值是否相同，判断该数据是否成功修改
                         boolean isSame1 = CustomMethods.isSame(employee, employee4);
                         if (isSame1) {
-                            try {
-                                response.setCharacterEncoding("UTF-8");
-                                response.setStatus(200);
-                                response.getWriter().write("修改成功。");
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
+                            status = 200;
+                            message = "修改成功。";
                         } else {
-                            try {
-                                response.setCharacterEncoding("UTF-8");
-                                response.setStatus(500);
-                                response.getWriter().write("服务器出现故障，修改失败，员工信息未被成功修改到数据库。");
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
+                            status = 500;
+                            message = "服务器出现故障，修改失败，员工信息未被成功修改到数据库。";
                         }
+                    } else {
+                        status = 500;
+                        message = "服务器出现故障，修改失败，员工信息未被成功修改到数据库。";
                     }
                 } else {
-                    try {
-                        response.setCharacterEncoding("UTF-8");
-                        response.setStatus(400);
-                        response.getWriter().write("修改失败，因为员工信息没有任何改变！");
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    status = 400;
+                    message = "修改失败，因为员工信息没有任何改变。";
                 }
+            } else {
+                status = 400;
+                message = "修改失败，该员工不存在。";
             }
+        }
+        try {
+            response.setCharacterEncoding(encode);
+            response.setStatus(status);
+            response.getWriter().write(message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -205,41 +221,35 @@ public class EmployeeController {
      */
     @RequestMapping("employee/deleteEmployeeById")
     public void deleteEmployeeById(String employeeId, HttpServletResponse response) {
+        String encode = "UTF-8";
+        int status;
+        String message;
         if (Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", employeeId)) {
             Optional<Employee> employee1 = employeeRepository.findById(employeeId);
             if (employee1.isPresent()) {
                 employeeRepository.deleteById(employeeId);
                 Optional<Employee> employee2 = employeeRepository.findById(employeeId);
-                try {
-                    if (employee2.isEmpty()) {
-                        response.setCharacterEncoding("UTF-8");
-                        response.setStatus(200);
-                        response.getWriter().write("删除成功。");
-                    } else {
-                        response.setCharacterEncoding("UTF-8");
-                        response.setStatus(500);
-                        response.getWriter().write("服务器出现故障，删除失败，员工信息还存在。");
-                    }
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                if (employee2.isEmpty()) {
+                    status = 200;
+                    message = "删除成功。";
+                } else {
+                    status = 500;
+                    message = "服务器出现故障，删除失败，员工信息还存在。";
                 }
             } else {
-                try {
-                    response.setCharacterEncoding("UTF-8");
-                    response.setStatus(400);
-                    response.getWriter().write("删除失败，该员工信息不存在于数据库！");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                status = 400;
+                message = "删除失败，该员工信息不存在于数据库。";
             }
         } else {
-            try {
-                response.setCharacterEncoding("UTF-8");
-                response.setStatus(400);
-                response.getWriter().write("删除失败，非法 ID！");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            status = 400;
+            message = "删除失败，ID 格式不正确。";
+        }
+        try {
+            response.setCharacterEncoding(encode);
+            response.setStatus(status);
+            response.getWriter().write(message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -320,7 +330,7 @@ public class EmployeeController {
      *                   <li>lastModifiedDate         最后操作时间</li>
      *                  </ul>
      * @param username  登录用户的用户名
-     * @return String "employee" 返回查询后的整个页面
+     * @return "employee" 返回查询后的整个页面
      * @method findEmployeesBy
      * @author $himin F
      * @created 2022/4/29 11:50
@@ -328,7 +338,7 @@ public class EmployeeController {
     @RequestMapping("employee/findEmployeesBy")
     // 如果没有 @RequestBody，就接收不到 jQuery 传过来的值
     public String findEmployeesBy(@RequestBody Employee employee,
-                                  Model model,
+                                  @NotNull Model model,
                                   @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
                                   @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
                                   @RequestParam(value = "direction", defaultValue = "ASC") Sort.Direction direction,
@@ -341,7 +351,7 @@ public class EmployeeController {
                        "employeeName",                          propertyPath "employeeName" 需要匹配的字段名
                        ExampleMatcher
                            .GenericPropertyMatchers
-                           .contains()                          匹配规则，表示 like %？%，主要用于模糊查询，匹配任意位置
+                           .contains()                          匹配规则，表示 like %?%，主要用于模糊查询，匹配任意位置
                   )
                   .withIgnoreCase("employeeName")               忽略数据库该字段的大小写，也可以多个字段参数
                   .withIgnoreCase(true)                         默认忽略大小写，所以不需要设置
@@ -364,31 +374,31 @@ public class EmployeeController {
         if (!Objects.equals(username, "")) {
             String searchGroupBy = "";
             String recordName = "";
-            if (employee.getEmployeeName() != null && !Objects.equals(employee.getEmployeeName(), "")) {
+            if (null != employee.getEmployeeName() && !Objects.equals(employee.getEmployeeName(), "")) {
                 searchGroupBy = "employeeName";
                 recordName = employee.getEmployeeName();
-            } else if (employee.getEmployeeSex() != null && !Objects.equals(employee.getEmployeeSex(), "")) {
+            } else if (null != employee.getEmployeeSex() && !Objects.equals(employee.getEmployeeSex(), "")) {
                 searchGroupBy = "employeeSex";
                 recordName = employee.getEmployeeSex();
-            } else if (employee.getEmployeeAge() != null && !Objects.equals(employee.getEmployeeAge(), "")) {
+            } else if (null != employee.getEmployeeAge() && !Objects.equals(employee.getEmployeeAge(), "")) {
                 searchGroupBy = "employeeAge";
                 recordName = employee.getEmployeeAge();
-            } else if (employee.getEmployeeIdCard() != null && !Objects.equals(employee.getEmployeeIdCard(), "")) {
+            } else if (null != employee.getEmployeeIdCard() && !Objects.equals(employee.getEmployeeIdCard(), "")) {
                 searchGroupBy = "employeeIdCard";
                 recordName = employee.getEmployeeIdCard();
-            } else if (employee.getEmployeeAddress() != null && !Objects.equals(employee.getEmployeeAddress(), "")) {
+            } else if (null != employee.getEmployeeAddress() && !Objects.equals(employee.getEmployeeAddress(), "")) {
                 searchGroupBy = "employeeAddress";
                 recordName = employee.getEmployeeAddress();
-            } else if (employee.getEmployeePhoneNumber() != null && !Objects.equals(employee.getEmployeePhoneNumber(), "")) {
+            } else if (null != employee.getEmployeePhoneNumber() && !Objects.equals(employee.getEmployeePhoneNumber(), "")) {
                 searchGroupBy = "employeePhoneNumber";
                 recordName = employee.getEmployeePhoneNumber();
-            } else if (employee.getCreatedBy() != null && !Objects.equals(employee.getCreatedBy(), "")) {
+            } else if (null != employee.getCreatedBy() && !Objects.equals(employee.getCreatedBy(), "")) {
                 searchGroupBy = "createdBy";
                 recordName = employee.getCreatedBy();
-            } else if (employee.getCreatedDate() != null && !Objects.equals(employee.getCreatedDate(), "")) {
+            } else if (null != employee.getCreatedDate() && !Objects.equals(employee.getCreatedDate(), "")) {
                 searchGroupBy = "createdDate";
                 recordName = employee.getCreatedDate();
-            } else if (employee.getLastModifiedDate() != null && !Objects.equals(employee.getLastModifiedDate(), "")) {
+            } else if (null != employee.getLastModifiedDate() && !Objects.equals(employee.getLastModifiedDate(), "")) {
                 searchGroupBy = "lastModifiedDate";
                 recordName = employee.getLastModifiedDate();
             }

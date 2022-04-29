@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="https://www.gstatic.com/jsaction/contract.js"></script>
+<script src="https://www.gstatic.com/jsaction/dispatcher.js"></script>
+
+<div id="container">
+    <div id="foo"
+         jsaction="leftNav.clickAction;dblclick:leftNav.doubleClickAction">
+        click this content
+    </div>
+</div>
+<script>
+	const eventContract = new jsaction.EventContract();
+
+	// Events will be handled for all elements under this container.
+	eventContract.addContainer(document.getElementById('container'));
+
+	// Register the event types we care about.
+	eventContract.addEvent('click');
+	eventContract.addEvent('dblclick');
+
+	// Create the dispatcher and connect it to the event contract. The event contract queues events
+	// while the dispatcher takes events and dispatches them to the correct handler.
+	const dispatcher = new jsaction.Dispatcher();
+	eventContract.dispatchTo(dispatcher.dispatch.bind(dispatcher));
+
+	const doStuff = function (flow) {
+		console.log(flow);
+		console.log('doStuff called!');
+	};
+
+	dispatcher.registerHandlers(
+		'leftNav',                       // the namespace
+		null,                            // handler object
+		{                                // action map
+			'clickAction': doStuff,
+			'doubleClickAction': doStuff
+		});
+</script>
+</body>
+</html>

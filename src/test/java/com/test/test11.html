@@ -6,6 +6,23 @@
 </head>
 <body>
 <script>
+	window.addEventListener("keydown", function (event) {
+		console.log('keydown ------------------------------------------- ');
+		console.log(event);
+		console.log(event.key);
+	}, true);
+	window.addEventListener("keypress", function (event) {
+		console.log('keypress ------------------------------------------- ');
+		console.log(event);
+		console.log(event.key);
+	}, true);
+	window.addEventListener("keyup", function (event) {
+		console.log('keyup ------------------------------------------- ');
+		console.log(event);
+		console.log(event.key);
+	}, true);
+
+	// console.log(/\d/.test('1'))
 	let listeners = {
 		dark: (mediaQueryList) => {
 			if (mediaQueryList.matches) {
