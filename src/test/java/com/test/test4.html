@@ -8,39 +8,26 @@
 <body>
 <p>这是一个段落。</p>
 <p>这是另一个段落。</p>
-<table>
-    <thead>
-    <tr>
-        <th>1</th>
-        <th>1</th>
-        <th>1</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <th>1</th>
-        <th>1</th>
-        <th>1</th>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-    </tr>
-    </tbody>
-    <tfoot>
-    <tr>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-    </tr>
-    </tfoot>
-</table>
-<button>删除所有 p 元素</button>
+<label for="input"></label><input id="input" type="text" value="default"/>
+<script>
+	let str = '51152919970104501X';
+	console.log(str.charAt(16));
+	console.log(str.substring(16));
+	var input = document.getElementById('input');
+	input.onkeydown = function () {
+		return false;
+		console.log('onkeydown ' + this.value);
+	}
+	input.onkeypress = function () {
+		return false;
+		console.log('onkeypress ' + this.value);
+	}
+	input.onkeyup = function () {
+		return false;
+		console.log('onkeyup ' + this.value);
+	}
+</script>
+//结果为keydown、keypress事件中return false文本框无法输入文字
+//在keyup事件中return false文本框可以输入文字
 </body>
 </html>

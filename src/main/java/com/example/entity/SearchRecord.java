@@ -55,9 +55,9 @@ public class SearchRecord {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (null == o || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         SearchRecord that = (SearchRecord) o;
-        return recordId != null && Objects.equals(recordId, that.recordId);
+        return null != recordId && Objects.equals(recordId, that.recordId);
     }
 
     @Override

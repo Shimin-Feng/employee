@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -83,36 +86,18 @@ public class EmployeeController {
 
     /**
      * 当进入员工管理页面之前会立即执行一次查询所有员工，默认按照添加时间升序排列，每页十条数据
+     * 设置两个排序字段是为了防止在翻页时出现数据重复
      *
-     * @param model     Model 页面模型
-     * @param pageNum   Integer 显示该参数值页，默认显示第一页
-     * @param pageSize  Integer 页数大小，每页显示多少条数据
-     * @param direction Sort.Direction 排序策略，默认升序，ASC 升序，DESC 降序
-     * @param property  String 根据该字段排序，默认 createdDate 添加时间
-     *                  <ul>可用字段
-     *                   <li>employeeName             员工姓名</li>
-     *                   <li>employeeSex              性别</li>
-     *                   <li>employeeAge              年龄</li>
-     *                   <li>employeeIdCard           身份证号码</li>
-     *                   <li>employeeAddress          住址</li>
-     *                   <li>employeePhoneNumber      电话号码</li>
-     *                   <li>createdBy                添加者</li>
-     *                   <li>createdDate              添加时间</li>
-     *                   <li>lastModifiedDate         最后操作时间</li>
-     *                  </ul>
+     * @param model Model 页面模型
      * @return "employee" 返回查询后的整个页面
      * @method employee
      * @author $himin F
      * @created 2022/4/29 10:32
      */
     @RequestMapping("employee")
-    public String employee(@NotNull Model model,
-                           @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
-                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
-                           @RequestParam(value = "direction", defaultValue = "ASC") Sort.Direction direction,
-                           @RequestParam(value = "property", defaultValue = "createdDate") String property) {
+    public String employee(@NotNull Model model) {
         model.addAttribute("employees", employeeRepository.findAll(
-                PageRequest.of(pageNum, pageSize, Sort.by(direction, property, "employeeId"))));
+                PageRequest.of(0, 10, Sort.by("createdDate", "employeeId"))));
         return "employee";
     }
 
@@ -123,6 +108,7 @@ public class EmployeeController {
      * save()           将数据保存在内存中
      * saveAndFlush()   保存在内存中的同时同步到数据库
      *
+     * @param user     Principal 登录用户
      * @param employee Employee 前台传过来的需要添加或者修改的员工信息，根据是否存在 employeeId 判断该请求为添加还是修改
      *                 <ul>
      *                  <li>
@@ -141,13 +127,47 @@ public class EmployeeController {
      * @created 2022/4/29 10:59
      */
     @RequestMapping("employee/saveOrUpdateEmployee")
-    public void saveOrUpdateEmployee(@RequestBody @NotNull Employee employee, HttpServletResponse response) {
-        String encode = "UTF-8";
+    public void saveOrUpdateEmployee(@NotNull Principal user, @RequestBody @NotNull Employee employee, HttpServletResponse response) {
+        // response
         int status;
-        String message;
+        String encode = "UTF-8", message;
+
+        // Get dateTime now
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        String dateTime = now.format(dateTimeFormatter);
+
+        // Get sex
+        String sex = Integer.parseInt(String.valueOf(employee.getEmployeeIdCard().charAt(16))) % 2 == 0 ? "女" : "男";
+
+        // Get age
+        // now
+        int yearNow = now.getYear();
+        int monthNow = now.getMonthValue();
+        int dayNow = now.getDayOfMonth();
+        // birth
+        int yearBirth = Integer.parseInt(employee.getEmployeeIdCard().substring(6, 10));
+        int monthBirth = Integer.parseInt(employee.getEmployeeIdCard().substring(10, 12));
+        int dayBirth = Integer.parseInt(employee.getEmployeeIdCard().substring(12, 14));
+        // age
+        String age = String.valueOf(dayNow - dayBirth < 0
+                ? monthNow - 1 - monthBirth < 0 ? yearNow - 1 - yearBirth : yearNow - yearBirth
+                : monthNow - monthBirth < 0 ? yearNow - 1 - yearBirth : yearNow - yearBirth);
+
+        // idCard
+        String idCard = employee.getEmployeeIdCard().toUpperCase();
+
         if (null == employee.getEmployeeId() || Objects.equals(employee.getEmployeeId(), "")) {
             // save
+            // 设置值
             employee.setEmployeeId(UUID.randomUUID().toString());
+            employee.setEmployeeSex(sex);
+            employee.setEmployeeAge(age);
+            employee.setEmployeeIdCard(idCard);
+            employee.setCreatedBy(user.getName());
+            employee.setCreatedDate(dateTime);
+            employee.setLastModifiedDate(dateTime);
+            // 保存到数据库
             employeeRepository.saveAndFlush(employee);
             // 检查是否成功保存到数据库
             Optional<Employee> employee1 = employeeRepository.findById(employee.getEmployeeId());
@@ -165,9 +185,18 @@ public class EmployeeController {
             if (employee1.isPresent()) {
                 // 获取对象
                 Employee employee2 = employee1.get();
+                String createdBy = employee2.getCreatedBy();
+                String createdDate = employee2.getCreatedDate();
                 // 修改之前比较被修改对象的值与前台传递过来的值是否相同，不相同则执行修改操作
                 boolean isSame = CustomMethods.isSame(employee, employee2);
                 if (!isSame) {
+                    // 设置值
+                    employee.setEmployeeSex(sex);
+                    employee.setEmployeeAge(age);
+                    employee.setEmployeeIdCard(idCard);
+                    employee.setCreatedBy(createdBy);
+                    employee.setCreatedDate(createdDate);
+                    employee.setLastModifiedDate(dateTime);
                     // 执行修改操作
                     employeeRepository.saveAndFlush(employee);
                     // 执行修改之后再次查询该员工属性
@@ -254,66 +283,12 @@ public class EmployeeController {
     }
 
     /**
-     * 根据条件和关键字查找搜索记录，用于前台搜索框的 autocomplete，自动完成提示
-     *
-     * @param username      String 登录用户的用户名
-     * @param searchGroupBy String 搜索依据
-     *                      <ul>可用字段
-     *                       <li>employeeName             员工姓名</li>
-     *                       <li>employeeSex              性别</li>
-     *                       <li>employeeAge              年龄</li>
-     *                       <li>employeeIdCard           身份证号码</li>
-     *                       <li>employeeAddress          住址</li>
-     *                       <li>employeePhoneNumber      电话号码</li>
-     *                       <li>createdBy                添加者</li>
-     *                       <li>createdDate              添加时间</li>
-     *                       <li>lastModifiedDate         最后操作时间</li>
-     *                      </ul>
-     * @param recordName    String 搜索关键字
-     *                      将会根据该关键字执行 4 次查询，每两次搜索结果去重后整合为一个结果，最终返回给前台
-     * @param response      HttpServletResponse 将要返回的状态和信息
-     * @method findRecordNamesBy
-     * @author $himin F
-     * @created 2022/4/29 11:34
-     */
-    @RequestMapping("findRecordNamesBy")
-    public void findRecordNamesBy(String username, String searchGroupBy, String recordName, HttpServletResponse response) {
-        // this
-        List<String> thisRecordNamesOne = searchRecordRepository.findThisRecordNamesOne(username, searchGroupBy, recordName);
-        List<String> thisRecordNamesTwo = searchRecordRepository.findThisRecordNamesTwo(username, searchGroupBy, recordName);
-        List<String> thisRecordNamesThree = CustomMethods.mergeLists(thisRecordNamesOne, thisRecordNamesTwo);
-        // 只取前面十条数据
-        List<String> thisRecordNamesFour = CustomMethods.getTenSearchRecords(thisRecordNamesThree);
-        // all
-        List<String> allRecordNamesFour = new ArrayList<>();
-        if (recordName != null && !Objects.equals(recordName, "")) {
-            List<String> allRecordNamesOne = searchRecordRepository.findAllRecordNamesOne(searchGroupBy, recordName);
-            List<String> allRecordNamesTwo = searchRecordRepository.findAllRecordNamesTwo(searchGroupBy, recordName);
-            List<String> allRecordNamesThree = CustomMethods.mergeLists(allRecordNamesOne, allRecordNamesTwo);
-            // 只取前面十条数据，如果有的话
-            allRecordNamesFour = CustomMethods.getTenSearchRecords(allRecordNamesThree);
-        }
-        List<String> thisAndAllRecordNamesOne = CustomMethods.mergeLists(thisRecordNamesFour, allRecordNamesFour);
-        // 只取前面十条数据
-        List<String> thisAndAllRecordNamesTwo = CustomMethods.getTenSearchRecords(thisAndAllRecordNamesOne);
-        // 最后判断是否有值，没有值就什么也不用返回
-        if (thisAndAllRecordNamesTwo.size() > 0) {
-            String thisAndAllRecordNamesThree = JSONArray.toJSONString(thisAndAllRecordNamesTwo);
-            try {
-                // 不设置编码前台就无法解析汉字
-                response.setCharacterEncoding("UTF-8");
-                response.getWriter().write(thisAndAllRecordNamesThree);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    /**
      * 根据条件和关键字搜索员工信息
+     * 除了首次进入员工管理页面前调用 employee()
+     * 其他查询请求全部改为进入该方法
+     * 就算前台不传值过来，@RequestBody Employee employee 也不会为空
+     * null == employee //false
      *
-     * @param employee  Employee 根据员工的某一个字段和值进行搜索
-     * @param model     Model 页面模型
      * @param pageNum   Integer 返回该值所有页数数据，默认第 1 页
      * @param pageSize  Integer 该页数据显示条数，默认 10 条数据
      * @param direction Sort.Direction 排序规则，ASC 升序，DESC 降序
@@ -329,7 +304,9 @@ public class EmployeeController {
      *                   <li>createdDate              添加时间</li>
      *                   <li>lastModifiedDate         最后操作时间</li>
      *                  </ul>
-     * @param username  登录用户的用户名
+     * @param employee  Employee 根据员工的某一个字段和值进行搜索
+     * @param user      Principal 登录用户
+     * @param model     Model 页面模型
      * @return "employee" 返回查询后的整个页面
      * @method findEmployeesBy
      * @author $himin F
@@ -337,13 +314,16 @@ public class EmployeeController {
      */
     @RequestMapping("employee/findEmployeesBy")
     // 如果没有 @RequestBody，就接收不到 jQuery 传过来的值
-    public String findEmployeesBy(@RequestBody Employee employee,
-                                  @NotNull Model model,
-                                  @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
-                                  @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
-                                  @RequestParam(value = "direction", defaultValue = "ASC") Sort.Direction direction,
-                                  @RequestParam(value = "property", defaultValue = "createdDate") String property,
-                                  @RequestParam(value = "username", defaultValue = "") String username) {
+    public String findEmployeesBy(
+            // name ==(等效) value
+            @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
+            @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
+            @RequestParam(name = "direction", defaultValue = "ASC") Sort.Direction direction,
+            @RequestParam(name = "property", defaultValue = "createdDate") String property,
+            @RequestBody Employee employee,
+            @NotNull Principal user,
+            @NotNull Model model
+    ) {
         model.addAttribute("employees", employeeRepository.findAll(Example.of(employee,
                 /*
                   .matchingAll()                                返回一个匹配所有字段的 ExampleMatcher 对象
@@ -371,7 +351,23 @@ public class EmployeeController {
                         .withMatcher("lastModifiedDate", ExampleMatcher.GenericPropertyMatchers.contains())
                         .withIgnorePaths("employeeId")
         ), PageRequest.of(pageNum, pageSize, Sort.by(direction, property, "employeeId"))));
-        if (!Objects.equals(username, "")) {
+        // 保存搜索记录
+        saveRecordNames(user, employee);
+        return "employee";
+    }
+
+    /**
+     * 保存用户的搜索记录，数据由查找员工信息时一并传到后台，由 findEmployeesBy() 方法调用
+     *
+     * @param user     String 登录用户
+     * @param employee Employee 实体类某单一字段和属性
+     * @method saveRecordNames
+     * @author $himin F
+     * @created 2022/4/30 11:11
+     * @see com.example.controller.EmployeeController#findEmployeesBy(Integer, Integer, Sort.Direction, String, Employee, Principal, Model)
+     */
+    public void saveRecordNames(Principal user, Employee employee) {
+        if (null != user) {
             String searchGroupBy = "";
             String recordName = "";
             if (null != employee.getEmployeeName() && !Objects.equals(employee.getEmployeeName(), "")) {
@@ -404,9 +400,64 @@ public class EmployeeController {
             }
             // 最后验证该搜索是否有值 (有一次数据库存入了两条空值记录!)
             if (!Objects.equals(recordName, "")) {
-                searchRecordRepository.save(new SearchRecord(UUID.randomUUID().toString(), searchGroupBy, recordName, username, new Date()));
+                searchRecordRepository.save(new SearchRecord(UUID.randomUUID().toString(), searchGroupBy, recordName, user.getName(), new Date()));
             }
         }
-        return "employee";
+    }
+
+    /**
+     * 根据条件和关键字查找搜索记录，用于前台搜索框的 autocomplete，自动完成提示
+     *
+     * @param user          Principal 登录用户
+     * @param searchGroupBy String 搜索依据
+     *                      <ul>可用字段
+     *                       <li>employeeName             员工姓名</li>
+     *                       <li>employeeSex              性别</li>
+     *                       <li>employeeAge              年龄</li>
+     *                       <li>employeeIdCard           身份证号码</li>
+     *                       <li>employeeAddress          住址</li>
+     *                       <li>employeePhoneNumber      电话号码</li>
+     *                       <li>createdBy                添加者</li>
+     *                       <li>createdDate              添加时间</li>
+     *                       <li>lastModifiedDate         最后操作时间</li>
+     *                      </ul>
+     * @param recordName    String 搜索关键字
+     *                      将会根据该关键字执行 4 次查询，每两次搜索结果去重后整合为一个结果，最终返回给前台
+     * @param response      HttpServletResponse 将要返回的状态和信息
+     * @method findRecordNamesBy
+     * @author $himin F
+     * @created 2022/4/29 11:34
+     */
+    @RequestMapping("findRecordNamesBy")
+    public void findRecordNamesBy(@NotNull Principal user, String searchGroupBy, String recordName, HttpServletResponse response) {
+        // this
+        List<String> thisRecordNamesOne = searchRecordRepository.findThisRecordNamesOne(user.getName(), searchGroupBy, recordName);
+        List<String> thisRecordNamesTwo = searchRecordRepository.findThisRecordNamesTwo(user.getName(), searchGroupBy, recordName);
+        List<String> thisRecordNamesThree = CustomMethods.mergeLists(thisRecordNamesOne, thisRecordNamesTwo);
+        // 只取前面十条数据
+        List<String> thisRecordNamesFour = CustomMethods.getTenSearchRecords(thisRecordNamesThree);
+        // all
+        List<String> allRecordNamesFour = new ArrayList<>();
+        if (null != recordName && !Objects.equals(recordName, "")) {
+            List<String> allRecordNamesOne = searchRecordRepository.findAllRecordNamesOne(searchGroupBy, recordName);
+            List<String> allRecordNamesTwo = searchRecordRepository.findAllRecordNamesTwo(searchGroupBy, recordName);
+            List<String> allRecordNamesThree = CustomMethods.mergeLists(allRecordNamesOne, allRecordNamesTwo);
+            // 只取前面十条数据，如果有的话
+            allRecordNamesFour = CustomMethods.getTenSearchRecords(allRecordNamesThree);
+        }
+        List<String> thisAndAllRecordNamesOne = CustomMethods.mergeLists(thisRecordNamesFour, allRecordNamesFour);
+        // 只取前面十条数据
+        List<String> thisAndAllRecordNamesTwo = CustomMethods.getTenSearchRecords(thisAndAllRecordNamesOne);
+        // 最后判断是否有值，没有值就什么也不用返回
+        if (thisAndAllRecordNamesTwo.size() > 0) {
+            String thisAndAllRecordNamesThree = JSONArray.toJSONString(thisAndAllRecordNamesTwo);
+            try {
+                // 不设置编码前台就无法解析汉字
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(thisAndAllRecordNamesThree);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,52 +20,58 @@ import java.security.Principal;
 public class HTTPStatusCodeErrorController implements ErrorController {
 
     @RequestMapping("/error")
-    public ModelAndView handleError(HttpServletRequest request, Principal user) {
-        ModelAndView model = new ModelAndView();
+    public ModelAndView handleError(@NotNull HttpServletRequest request, Principal user) {
+        ModelAndView modelAndView = new ModelAndView();
         // Get HTTP status code
-        if (request.getAttribute("javax.servlet.error.status_code") != null) {
+        if (null != request.getAttribute("javax.servlet.error.status_code")) {
             Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-            if (statusCode == 400) {
-                if (null != user) {
-                    model.addObject("msg", "Hi " + user.getName()
-                            + ", 由于明显的客户端错误（例如，格式错误的请求语法，太大的大小，无效的请求消息或欺骗性路由请求），服务器不能或不会处理该请求。");
-                } else {
-                    model.addObject("msg", "由于明显的客户端错误（例如，格式错误的请求语法，太大的大小，无效的请求消息或欺骗性路由请求），服务器不能或不会处理该请求。");
+            switch (statusCode) {
+                case 400 -> {
+                    if (null != user) {
+                        modelAndView.addObject("msg", "Hi " + user.getName()
+                                + ", 由于明显的客户端错误（例如，格式错误的请求语法，太大的大小，无效的请求消息或欺骗性路由请求），服务器不能或不会处理该请求。");
+                    } else {
+                        modelAndView.addObject("msg", "由于明显的客户端错误（例如，格式错误的请求语法，太大的大小，无效的请求消息或欺骗性路由请求），服务器不能或不会处理该请求。");
+                    }
+                    modelAndView.setViewName("400");
                 }
-                model.setViewName("400");
-            } else if (statusCode == 403) {
-                if (null != user) {
-                    model.addObject("msg", "Hi " + user.getName()
-                            + ", you do not have permission to access this page.");
-                } else {
-                    model.addObject("msg", "You do not have permission to access this page.");
+                case 403 -> {
+                    if (null != user) {
+                        modelAndView.addObject("msg", "Hi " + user.getName()
+                                + ", you do not have permission to access this page.");
+                    } else {
+                        modelAndView.addObject("msg", "You do not have permission to access this page.");
+                    }
+                    modelAndView.setViewName("403");
                 }
-                model.setViewName("403");
-            } else if (statusCode == 404) {
-                if (null != user) {
-                    model.addObject("msg", "Hi " + user.getName()
-                            + ", the requested resource could not be found but may be available in the future." +
-                            " Subsequent requests by the client are permissible.");
-                } else {
-                    model.addObject("msg", "The requested resource could not be found but" +
-                            " may be available in the future. Subsequent requests by the client are permissible.");
+                case 404 -> {
+                    if (null != user) {
+                        modelAndView.addObject("msg", "Hi " + user.getName()
+                                + ", the requested resource could not be found but may be available in the future." +
+                                " Subsequent requests by the client are permissible.");
+                    } else {
+                        modelAndView.addObject("msg", "The requested resource could not be found but" +
+                                " may be available in the future. Subsequent requests by the client are permissible.");
+                    }
+                    modelAndView.setViewName("404");
                 }
-                model.setViewName("404");
-            } else if (statusCode == 440) {
-                if (null != user) {
-                    model.addObject("msg", "Hi " + user.getName()
-                            + ", the client's session has expired and must log in again.");
-                } else {
-                    model.addObject("msg",
-                            "The client's session has expired and must log in again.");
+                case 440 -> {
+                    if (null != user) {
+                        modelAndView.addObject("msg", "Hi " + user.getName()
+                                + ", the client's session has expired and must log in again.");
+                    } else {
+                        modelAndView.addObject("msg",
+                                "The client's session has expired and must log in again.");
+                    }
+                    modelAndView.setViewName("440");
                 }
-                model.setViewName("440");
-            } else {
-                model.addObject("msg", statusCode);
-                model.setViewName("unknownError");
+                default -> {
+                    modelAndView.addObject("msg", statusCode);
+                    modelAndView.setViewName("unknownError");
+                }
             }
         }
-        return model;
+        return modelAndView;
     }
 
 }

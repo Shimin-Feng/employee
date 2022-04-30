@@ -48,9 +48,9 @@ public class Employee {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (null == o || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Employee employee = (Employee) o;
-        return employeeId != null && Objects.equals(employeeId, employee.employeeId);
+        return null != employeeId && Objects.equals(employeeId, employee.employeeId);
     }
 
     @Override

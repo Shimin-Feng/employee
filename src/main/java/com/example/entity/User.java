@@ -29,9 +29,9 @@ public class User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (null == o || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         User user = (User) o;
-        return userId != null && Objects.equals(userId, user.userId);
+        return null != userId && Objects.equals(userId, user.userId);
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.test;
 import com.example.entity.Employee;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,6 +13,51 @@ import java.util.stream.Stream;
 import static java.lang.System.out;
 
 public class TestClass {
+
+
+    @Test
+    public void testIDCard() {
+        String idCard = "51152919970104501X";
+        String i = Integer.parseInt(String.valueOf(idCard.charAt(16))) % 2 == 0 ? "女" : "男";
+        out.println(i);
+    }
+
+    @Test
+    public void test9() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        String format = now.format(dateTimeFormatter);
+        out.println(format);
+
+        out.println(now.getYear());
+        out.println(now.getMonthValue());
+        out.println(now.getDayOfMonth());
+        int yearNow = now.getYear();
+        int monthNow = now.getMonthValue();
+        int dayNow = now.getDayOfMonth();
+
+
+        String idCard = "51152919970104501x";
+        out.println(Integer.parseInt(idCard.substring(6, 10)));
+        out.println(Integer.parseInt(idCard.substring(10, 12)));
+        out.println(Integer.parseInt(idCard.substring(12, 14)));
+
+        int yearBirth = Integer.parseInt(idCard.substring(6, 10));
+        int monthBirth = Integer.parseInt(idCard.substring(10, 12));
+        int dayBirth = Integer.parseInt(idCard.substring(12, 14));
+
+
+        String age = String.valueOf(dayNow - dayBirth < 0
+                ? monthNow - 1 - monthBirth < 0 ? yearNow - 1 - yearBirth : yearNow - yearBirth
+                : monthNow - monthBirth < 0 ? yearNow - 1 - yearBirth : yearNow - yearBirth);
+        out.println(age);
+
+        int iii = 343;
+        Integer uuu = iii;
+
+        out.println(idCard.toUpperCase());
+    }
+
 
     @Test
     public void test8() {
