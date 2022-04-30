@@ -16,6 +16,13 @@ public class TestClass {
 
 
     @Test
+    public void testEquals() {
+        int a = 10;
+        int b = 11;
+        out.println((a++ == b) && (++a == b));
+    }
+
+    @Test
     public void testIDCard() {
         String idCard = "51152919970104501X";
         String i = Integer.parseInt(String.valueOf(idCard.charAt(16))) % 2 == 0 ? "女" : "男";

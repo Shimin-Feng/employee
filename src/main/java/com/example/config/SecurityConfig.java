@@ -20,9 +20,9 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
-    private UserDetailsServiceImpl userDetailsServiceImpl;
-    @Resource
     private DataSource dataSource;
+    @Resource
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 
     @Override
     protected void configure(@NotNull AuthenticationManagerBuilder auth) throws Exception {
@@ -95,6 +95,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenValiditySeconds(86400)
                 // 并存储进数据库
                 .tokenRepository(persistentTokenRepository())
+                /*
+                    不加下面这行代码 `有时候` 会报以下异常
+                    POST http://localhost:8080/login 403
+                    Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
+                    Invalid remember-me token (Series/token) mismatch. Implies previous cookie theft attack.
+                    加了也会报错
+                    如果登陆时勾选了````记住我````，那么在登录状态下重启服务器后再点击退出就会出现这个问题
+                 */
+                .userDetailsService(userDetailsServiceImpl)
                 /*.and()
                 // 已在 HTTPStatusCodeErrorController class 中处理
                 // 开启异常处理

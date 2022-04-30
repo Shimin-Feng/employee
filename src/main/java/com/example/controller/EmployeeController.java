@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 @Controller
 public class EmployeeController {
 
+    private static final String ENCODE = "UTF-8";
     @Resource
     private EmployeeRepository employeeRepository;
     @Resource
@@ -41,6 +42,7 @@ public class EmployeeController {
     // TODO: 尽可能多地合并 ajax
     // TODO: js 中可能有一个判断语句存在错误，记得本来应该判断是否为 -1，结果没比较，因为编译没出错
     // TODO: 实现使用拼音也能搜索
+    // TODO: ExampleMatcher 匹配 SearchRecord 搜索
 
     /**
      * 在登录之前访问任何资源都将跳转到登录界面
@@ -130,7 +132,7 @@ public class EmployeeController {
     public void saveOrUpdateEmployee(@NotNull Principal user, @RequestBody @NotNull Employee employee, HttpServletResponse response) {
         // response
         int status;
-        String encode = "UTF-8", message;
+        String message;
 
         // Get dateTime now
         LocalDateTime now = LocalDateTime.now();
@@ -227,7 +229,7 @@ public class EmployeeController {
             }
         }
         try {
-            response.setCharacterEncoding(encode);
+            response.setCharacterEncoding(ENCODE);
             response.setStatus(status);
             response.getWriter().write(message);
         } catch (IOException e) {
@@ -250,7 +252,6 @@ public class EmployeeController {
      */
     @RequestMapping("employee/deleteEmployeeById")
     public void deleteEmployeeById(String employeeId, HttpServletResponse response) {
-        String encode = "UTF-8";
         int status;
         String message;
         if (Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", employeeId)) {
@@ -274,7 +275,7 @@ public class EmployeeController {
             message = "删除失败，ID 格式不正确。";
         }
         try {
-            response.setCharacterEncoding(encode);
+            response.setCharacterEncoding(ENCODE);
             response.setStatus(status);
             response.getWriter().write(message);
         } catch (IOException e) {
@@ -313,7 +314,7 @@ public class EmployeeController {
      * @created 2022/4/29 11:50
      */
     @RequestMapping("employee/findEmployeesBy")
-    // 如果没有 @RequestBody，就接收不到 jQuery 传过来的值
+    // 如果没有 @RequestBody，就接收不到 Ajax 传过来的值
     public String findEmployeesBy(
             // name ==(等效) value
             @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
@@ -324,35 +325,18 @@ public class EmployeeController {
             @NotNull Principal user,
             @NotNull Model model
     ) {
-        model.addAttribute("employees", employeeRepository.findAll(Example.of(employee,
-                /*
-                  .matchingAll()                                返回一个匹配所有字段的 ExampleMatcher 对象
-                  .withMatcher(                                 规则匹配器
-                       "employeeName",                          propertyPath "employeeName" 需要匹配的字段名
-                       ExampleMatcher
-                           .GenericPropertyMatchers
-                           .contains()                          匹配规则，表示 like %?%，主要用于模糊查询，匹配任意位置
-                  )
-                  .withIgnoreCase("employeeName")               忽略数据库该字段的大小写，也可以多个字段参数
-                  .withIgnoreCase(true)                         默认忽略大小写，所以不需要设置
-                  .withIgnorePaths("employeeId")                需要忽略匹配的数据库字段。不对 "employeeId" 字段进行任何处理
-                 */
-                ExampleMatcher
-                        .matchingAll()
-                        // TODO: 每个字段都需要单独设置规则匹配器。如何简化？
-                        .withMatcher("employeeName", ExampleMatcher.GenericPropertyMatchers.contains())
-                        .withMatcher("employeeSex", ExampleMatcher.GenericPropertyMatchers.contains())
-                        .withMatcher("employeeAge", ExampleMatcher.GenericPropertyMatchers.contains())
-                        .withMatcher("employeeIdCard", ExampleMatcher.GenericPropertyMatchers.contains())
-                        .withMatcher("employeeAddress", ExampleMatcher.GenericPropertyMatchers.contains())
-                        .withMatcher("employeePhoneNumber", ExampleMatcher.GenericPropertyMatchers.contains())
-                        .withMatcher("createdBy", ExampleMatcher.GenericPropertyMatchers.contains())
-                        .withMatcher("createdDate", ExampleMatcher.GenericPropertyMatchers.contains())
-                        .withMatcher("lastModifiedDate", ExampleMatcher.GenericPropertyMatchers.contains())
-                        .withIgnorePaths("employeeId")
-        ), PageRequest.of(pageNum, pageSize, Sort.by(direction, property, "employeeId"))));
+        model.addAttribute(
+                "employees",
+                employeeRepository.findAll(
+                        Example.of(
+                                employee,
+                                // 匹配所有字段的模糊查询并且忽略大小写
+                                ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                        ), PageRequest.of(pageNum, pageSize, Sort.by(direction, property, "employeeId"))
+                )
+        );
         // 保存搜索记录
-        saveRecordNames(user, employee);
+        saveRecordNames(employee, user);
         return "employee";
     }
 
@@ -366,7 +350,7 @@ public class EmployeeController {
      * @created 2022/4/30 11:11
      * @see com.example.controller.EmployeeController#findEmployeesBy(Integer, Integer, Sort.Direction, String, Employee, Principal, Model)
      */
-    public void saveRecordNames(Principal user, Employee employee) {
+    public void saveRecordNames(Employee employee, Principal user) {
         if (null != user) {
             String searchGroupBy = "";
             String recordName = "";
@@ -430,13 +414,13 @@ public class EmployeeController {
      */
     @RequestMapping("findRecordNamesBy")
     public void findRecordNamesBy(@NotNull Principal user, String searchGroupBy, String recordName, HttpServletResponse response) {
-        // this
+        // 此用户的所有搜索记录
         List<String> thisRecordNamesOne = searchRecordRepository.findThisRecordNamesOne(user.getName(), searchGroupBy, recordName);
         List<String> thisRecordNamesTwo = searchRecordRepository.findThisRecordNamesTwo(user.getName(), searchGroupBy, recordName);
         List<String> thisRecordNamesThree = CustomMethods.mergeLists(thisRecordNamesOne, thisRecordNamesTwo);
         // 只取前面十条数据
         List<String> thisRecordNamesFour = CustomMethods.getTenSearchRecords(thisRecordNamesThree);
-        // all
+        // 所有用户的相关搜索记录
         List<String> allRecordNamesFour = new ArrayList<>();
         if (null != recordName && !Objects.equals(recordName, "")) {
             List<String> allRecordNamesOne = searchRecordRepository.findAllRecordNamesOne(searchGroupBy, recordName);
@@ -453,7 +437,7 @@ public class EmployeeController {
             String thisAndAllRecordNamesThree = JSONArray.toJSONString(thisAndAllRecordNamesTwo);
             try {
                 // 不设置编码前台就无法解析汉字
-                response.setCharacterEncoding("UTF-8");
+                response.setCharacterEncoding(ENCODE);
                 response.getWriter().write(thisAndAllRecordNamesThree);
             } catch (IOException e) {
                 throw new RuntimeException(e);

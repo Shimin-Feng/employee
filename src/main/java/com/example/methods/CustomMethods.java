@@ -1,6 +1,7 @@
 package com.example.methods;
 
 import com.example.entity.Employee;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.Objects;
  * @description: 合并两个 Lists
  */
 public class CustomMethods {
-    public static <T> List<T> mergeLists(List<T> list1, List<T> list2) {
+    public static <T> List<T> mergeLists(@NotNull List<T> list1, List<T> list2) {
         if (list1.size() > 0 && list2.size() > 0) {
             List<T> list3 = new ArrayList<>(list1);
             List<T> list4 = new ArrayList<>();
@@ -39,7 +40,7 @@ public class CustomMethods {
         }
     }
 
-    public static <T> List<T> getTenSearchRecords(List<T> recordNames) {
+    public static <T> @NotNull List<T> getTenSearchRecords(@NotNull List<T> recordNames) {
         List<T> newRecordNames = new ArrayList<>();
         if (recordNames.size() > 0) {
             int i = 0;
@@ -55,7 +56,7 @@ public class CustomMethods {
         return newRecordNames;
     }
 
-    public static boolean isSame(Employee o, Employee t) {
+    public static boolean isSame(@NotNull Employee o, @NotNull Employee t) {
         return Objects.equals(o.getEmployeeName(), t.getEmployeeName())
                 && Objects.equals(o.getEmployeeIdCard(), t.getEmployeeIdCard())
                 && Objects.equals(o.getEmployeeAddress(), t.getEmployeeAddress())

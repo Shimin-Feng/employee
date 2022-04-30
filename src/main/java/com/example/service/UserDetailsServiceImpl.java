@@ -25,12 +25,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UserRepository userRepository;
 
     /**
-     * 有时候会报以下错误：<br/>
-     * An internal error occurred while trying to authenticate the user.
-     * org.springframework.security.authentication.InternalAuthenticationServiceException:
-     * UserDetailsService returned null, which is an interface contract violation<br/>
-     * 已解决!在提交登录信息时在前台验证是否有数据
-     * 有时候还是会报错
+     * TODO<br>
+     * 登录时勾选了 remember me —— 不退出 —— 重启服务器 —— 再点击退出 —— 就会报 403 错误<br>
+     * 后台没有错误报告，前台和页面会报错 POST <a href="http://localhost:8080/logout">http://localhost:8080/logout</a> 403<br>
+     * <br>
+     * TODO<br>
+     * 有时候第一次点击登录只是刷新了一下页面，第二次点击才会登录成功
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

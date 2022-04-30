@@ -24,8 +24,7 @@ public class JdbcCheckTableExit {
             c = DriverManager.getConnection(url, user, password);
             c.setAutoCommit(false);
             d = c.getMetaData();
-            r = d.getTables("test_database", null, "persistent_logins",
-                    new String[]{"TABLE"});
+            r = d.getTables("test_database", null, "persistent_logins", new String[]{"TABLE"});
             isExist = r.next();
             r.close();
         } catch (Exception e) {

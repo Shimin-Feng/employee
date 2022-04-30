@@ -165,7 +165,7 @@
 			return
 		}
 
-		// 部分数据改为后台操作
+		// 部分操作转到后台
 		function Employee() {
 			this.employeeName = arr[0]
 			this.employeeIdCard = arr[1]

@@ -4,16 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-client.cookies" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-client.cookies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
+    <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="解决了一个 TODO: 简化查询员工的规则匹配器">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/config/JdbcCheckTableExit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/config/JdbcCheckTableExit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/controller/HTTPStatusCodeErrorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/controller/HTTPStatusCodeErrorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/entity/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/entity/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/entity/SearchRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/entity/SearchRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/methods/CustomMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/methods/CustomMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/service/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/service/UserDetailsServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/test/TestClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/TestClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test4.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/test4.html" afterDir="false" />
@@ -157,7 +155,7 @@
       <recent name="com.example.entity" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.Application">
+  <component name="RunManager" selected="JUnit.TestClass.testEquals">
     <configuration name="generated-requests | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" requestIdentifier="#1" runType="运行单个请求">
       <method v="2" />
     </configuration>
@@ -175,6 +173,22 @@
       <option name="PACKAGE_NAME" value="com.test" />
       <option name="MAIN_CLASS_NAME" value="com.test.TestClass" />
       <option name="METHOD_NAME" value="test9" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestClass.testEquals" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="employee" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.test" />
+      <option name="MAIN_CLASS_NAME" value="com.test.TestClass" />
+      <option name="METHOD_NAME" value="testEquals" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -215,12 +229,14 @@
     <list>
       <item itemvalue="HTTP 请求.generated-requests | #1" />
       <item itemvalue="HTTP 请求.generated-requests | #3" />
+      <item itemvalue="JUnit.TestClass.testEquals" />
       <item itemvalue="JUnit.TestClass.testIDCard" />
       <item itemvalue="JUnit.TestClass.test9" />
       <item itemvalue="Spring Boot.Application" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TestClass.testEquals" />
         <item itemvalue="JUnit.TestClass.test9" />
         <item itemvalue="JUnit.TestClass.testIDCard" />
         <item itemvalue="HTTP 请求.generated-requests | #3" />
@@ -269,7 +285,7 @@
       <workItem from="1650350320959" duration="93572000" />
       <workItem from="1650534499575" duration="74855000" />
       <workItem from="1651226683668" duration="45856000" />
-      <workItem from="1651308781778" duration="8908000" />
+      <workItem from="1651308781778" duration="24253000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1648665299036</created>
@@ -523,7 +539,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651248461578</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="优化 EmployeeController、js&#10;将计算性别和年龄转到后台&#10;将获取用户信息由前台转到后台&#10;将部分 if 判断改为 switch&#10;其他优化">
+      <created>1651318427931</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1651318427931</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -561,7 +584,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="增加分页、其他优化" />
     <MESSAGE value="完善添加功能&#10;简化代码&#10;其他优化" />
     <MESSAGE value="完善添加功能&#10;其他优化" />
     <MESSAGE value="改进登录验证中。。。&#10;其他优化" />
@@ -586,7 +608,8 @@
     <MESSAGE value="添加&#10;1.搜索框 autocomplete&#10;2.搜索记录类&#10;3.搜索记录仓库接口&#10;4.根据条件搜索记录方法&#10;5.自定义方法类&#10;6.在 findEmployeesBy (原：findEmployee)方法中添加插入搜索记录方法&#10;7.employee.html 添加 jQuery UI 插件&#10;修改&#10;1.添加和修改方法、删除方法————取消返回 Model&#10;2.UserService 类名改为 UserDetailsServiceImpl&#10;3.Employee 实体类 employeeAge 类型由 Byte 改为 String，便于搜索操作&#10;删除&#10;employee.js 中非必要分号;&#10;其他优化" />
     <MESSAGE value="小变动" />
     <MESSAGE value="优化：EmployeeController、js" />
-    <option name="LAST_COMMIT_MESSAGE" value="优化：EmployeeController、js" />
+    <MESSAGE value="优化 EmployeeController、js&#10;将计算性别和年龄转到后台&#10;将获取用户信息由前台转到后台&#10;将部分 if 判断改为 switch&#10;其他优化" />
+    <option name="LAST_COMMIT_MESSAGE" value="优化 EmployeeController、js&#10;将计算性别和年龄转到后台&#10;将获取用户信息由前台转到后台&#10;将部分 if 判断改为 switch&#10;其他优化" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
