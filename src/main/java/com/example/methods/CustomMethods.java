@@ -12,51 +12,84 @@ import java.util.Objects;
  * @Author $himin F
  * @Date 2022/4/25 23:10 周一
  * @Version 1.0
- * @description: 合并两个 Lists
+ * @description: 自定义方法类
  */
 public class CustomMethods {
-    public static <T> List<T> mergeLists(@NotNull List<T> list1, List<T> list2) {
-        if (list1.size() > 0 && list2.size() > 0) {
-            List<T> list3 = new ArrayList<>(list1);
-            List<T> list4 = new ArrayList<>();
-            for (T t1 : list2) {
+
+    /**
+     * 合并两个 List
+     *
+     * @param o1 List<E>
+     * @param o2 List<E>
+     * @return 返回一个新 List，如果其中一个为空则返回另外一个
+     * @method mergeTwoLists
+     * @author $himin F
+     * @created 2022/5/1 2:24
+     * @see java.util.List
+     */
+    public static <E> List<E> mergeTwoLists(@NotNull List<E> o1, List<E> o2) {
+        if (o1.size() > 0 && o2.size() > 0) {
+            List<E> n1 = new ArrayList<>(o1);
+            List<E> n2 = new ArrayList<>();
+            for (E e1 : o2) {
                 int i = 0;
-                for (T t2 : list3) {
-                    if (t1.equals(t2)) {
+                for (E e2 : n1) {
+                    if (e1.equals(e2)) {
                         i = 1;
                         break;
                     }
                 }
                 if (0 == i) {
-                    list4.add(t1);
+                    n2.add(e1);
                 }
             }
-            list3.addAll(list4);
-            return list3;
-        } else if (list1.size() > 0) {
-            return list1;
+            n1.addAll(n2);
+            return n1;
+        } else if (o1.size() > 0) {
+            return o1;
         } else {
-            return list2;
+            return o2;
         }
     }
 
-    public static <T> @NotNull List<T> getTenSearchRecords(@NotNull List<T> recordNames) {
-        List<T> newRecordNames = new ArrayList<>();
-        if (recordNames.size() > 0) {
+    /**
+     * 取 List 数组前十条数据
+     *
+     * @param o List<E>
+     * @return 返回一个新 List
+     * @method getListTopTenData
+     * @author $himin F
+     * @created 2022/5/1 2:27
+     * @see java.util.List
+     */
+    public static <E> @NotNull List<E> getListTopTenData(@NotNull List<E> o) {
+        List<E> n = new ArrayList<>();
+        if (o.size() > 0) {
             int i = 0;
-            for (T t : recordNames) {
+            for (E t : o) {
                 if (i < 10) {
-                    newRecordNames.add(t);
+                    n.add(t);
                     i++;
                 } else {
                     break;
                 }
             }
         }
-        return newRecordNames;
+        return n;
     }
 
-    public static boolean isSame(@NotNull Employee o, @NotNull Employee t) {
+    /**
+     * 比较两个对象的属性值是否相同
+     *
+     * @param o Employee
+     * @param t Employee
+     * @return true 如果所有属性值都相同
+     * @method equals
+     * @author $himin F
+     * @created 2022/5/1 2:33
+     * @see com.example.entity.Employee
+     */
+    public static boolean equals(@NotNull Employee o, @NotNull Employee t) {
         return Objects.equals(o.getEmployeeName(), t.getEmployeeName())
                 && Objects.equals(o.getEmployeeIdCard(), t.getEmployeeIdCard())
                 && Objects.equals(o.getEmployeeAddress(), t.getEmployeeAddress())

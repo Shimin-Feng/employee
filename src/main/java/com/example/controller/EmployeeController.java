@@ -20,15 +20,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static java.lang.System.out;
+
+/**
+ * @Name EmployeeController
+ * @Author $himin F
+ * @Date 2022/5/1 5:24 周日
+ * @Version 1.0
+ * @description: 操作员工信息 ———— CRUD，对搜索记录的保存与查询
+ */
 @Controller
 public class EmployeeController {
 
+    // 不设置编码前台就无法解析汉字
     private static final String ENCODE = "UTF-8";
     @Resource
     private EmployeeRepository employeeRepository;
@@ -172,13 +183,12 @@ public class EmployeeController {
             // 保存到数据库
             employeeRepository.saveAndFlush(employee);
             // 检查是否成功保存到数据库
-            Optional<Employee> employee1 = employeeRepository.findById(employee.getEmployeeId());
-            if (employee1.isPresent()) {
+            if (employeeRepository.findById(employee.getEmployeeId()).isPresent()) {
                 status = 200;
                 message = "添加成功。";
             } else {
                 status = 500;
-                message = "添加失败，员工信息未保存。";
+                message = "添加失败，服务器错误，员工信息未保存。";
             }
         } else {
             // update
@@ -187,17 +197,14 @@ public class EmployeeController {
             if (employee1.isPresent()) {
                 // 获取对象
                 Employee employee2 = employee1.get();
-                String createdBy = employee2.getCreatedBy();
-                String createdDate = employee2.getCreatedDate();
                 // 修改之前比较被修改对象的值与前台传递过来的值是否相同，不相同则执行修改操作
-                boolean isSame = CustomMethods.isSame(employee, employee2);
-                if (!isSame) {
+                if (!CustomMethods.equals(employee, employee2)) {
                     // 设置值
                     employee.setEmployeeSex(sex);
                     employee.setEmployeeAge(age);
                     employee.setEmployeeIdCard(idCard);
-                    employee.setCreatedBy(createdBy);
-                    employee.setCreatedDate(createdDate);
+                    employee.setCreatedBy(employee2.getCreatedBy());
+                    employee.setCreatedDate(employee2.getCreatedDate());
                     employee.setLastModifiedDate(dateTime);
                     // 执行修改操作
                     employeeRepository.saveAndFlush(employee);
@@ -207,8 +214,7 @@ public class EmployeeController {
                         // 如果数据存在则获取对象
                         Employee employee4 = employee3.get();
                         // 修改之后比较被修改对象的值与前台传递过来的值是否相同，判断该数据是否成功修改
-                        boolean isSame1 = CustomMethods.isSame(employee, employee4);
-                        if (isSame1) {
+                        if (CustomMethods.equals(employee, employee4)) {
                             status = 200;
                             message = "修改成功。";
                         } else {
@@ -255,11 +261,9 @@ public class EmployeeController {
         int status;
         String message;
         if (Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", employeeId)) {
-            Optional<Employee> employee1 = employeeRepository.findById(employeeId);
-            if (employee1.isPresent()) {
+            if (employeeRepository.findById(employeeId).isPresent()) {
                 employeeRepository.deleteById(employeeId);
-                Optional<Employee> employee2 = employeeRepository.findById(employeeId);
-                if (employee2.isEmpty()) {
+                if (employeeRepository.findById(employeeId).isEmpty()) {
                     status = 200;
                     message = "删除成功。";
                 } else {
@@ -336,7 +340,7 @@ public class EmployeeController {
                 )
         );
         // 保存搜索记录
-        saveRecordNames(employee, user);
+        saveRecordName(employee, user);
         return "employee";
     }
 
@@ -345,46 +349,27 @@ public class EmployeeController {
      *
      * @param user     String 登录用户
      * @param employee Employee 实体类某单一字段和属性
-     * @method saveRecordNames
+     * @method saveRecordName
      * @author $himin F
      * @created 2022/4/30 11:11
      * @see com.example.controller.EmployeeController#findEmployeesBy(Integer, Integer, Sort.Direction, String, Employee, Principal, Model)
      */
-    public void saveRecordNames(Employee employee, Principal user) {
+    public void saveRecordName(Employee employee, Principal user) {
         if (null != user) {
-            String searchGroupBy = "";
-            String recordName = "";
-            if (null != employee.getEmployeeName() && !Objects.equals(employee.getEmployeeName(), "")) {
-                searchGroupBy = "employeeName";
-                recordName = employee.getEmployeeName();
-            } else if (null != employee.getEmployeeSex() && !Objects.equals(employee.getEmployeeSex(), "")) {
-                searchGroupBy = "employeeSex";
-                recordName = employee.getEmployeeSex();
-            } else if (null != employee.getEmployeeAge() && !Objects.equals(employee.getEmployeeAge(), "")) {
-                searchGroupBy = "employeeAge";
-                recordName = employee.getEmployeeAge();
-            } else if (null != employee.getEmployeeIdCard() && !Objects.equals(employee.getEmployeeIdCard(), "")) {
-                searchGroupBy = "employeeIdCard";
-                recordName = employee.getEmployeeIdCard();
-            } else if (null != employee.getEmployeeAddress() && !Objects.equals(employee.getEmployeeAddress(), "")) {
-                searchGroupBy = "employeeAddress";
-                recordName = employee.getEmployeeAddress();
-            } else if (null != employee.getEmployeePhoneNumber() && !Objects.equals(employee.getEmployeePhoneNumber(), "")) {
-                searchGroupBy = "employeePhoneNumber";
-                recordName = employee.getEmployeePhoneNumber();
-            } else if (null != employee.getCreatedBy() && !Objects.equals(employee.getCreatedBy(), "")) {
-                searchGroupBy = "createdBy";
-                recordName = employee.getCreatedBy();
-            } else if (null != employee.getCreatedDate() && !Objects.equals(employee.getCreatedDate(), "")) {
-                searchGroupBy = "createdDate";
-                recordName = employee.getCreatedDate();
-            } else if (null != employee.getLastModifiedDate() && !Objects.equals(employee.getLastModifiedDate(), "")) {
-                searchGroupBy = "lastModifiedDate";
-                recordName = employee.getLastModifiedDate();
-            }
-            // 最后验证该搜索是否有值 (有一次数据库存入了两条空值记录!)
-            if (!Objects.equals(recordName, "")) {
-                searchRecordRepository.save(new SearchRecord(UUID.randomUUID().toString(), searchGroupBy, recordName, user.getName(), new Date()));
+            // 获取这个类的所有属性
+            // 循环遍历所有的 fields
+            for (Field field : employee.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+                try {
+                    if (null != field.get(employee) && !Objects.equals(field.get(employee).toString(), "")) {
+                        out.println(field.getName() + ": " + field.get(employee));
+                        searchRecordRepository.save(new SearchRecord(UUID.randomUUID().toString(), field.getName(),
+                                field.get(employee).toString(), user.getName(), new Date()));
+                        break;
+                    }
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
@@ -414,34 +399,52 @@ public class EmployeeController {
      */
     @RequestMapping("findRecordNamesBy")
     public void findRecordNamesBy(@NotNull Principal user, String searchGroupBy, String recordName, HttpServletResponse response) {
-        // 此用户的所有搜索记录
+        String recordNames;
+        // 查找此用户的搜索记录 ?%
         List<String> thisRecordNamesOne = searchRecordRepository.findThisRecordNamesOne(user.getName(), searchGroupBy, recordName);
-        List<String> thisRecordNamesTwo = searchRecordRepository.findThisRecordNamesTwo(user.getName(), searchGroupBy, recordName);
-        List<String> thisRecordNamesThree = CustomMethods.mergeLists(thisRecordNamesOne, thisRecordNamesTwo);
-        // 只取前面十条数据
-        List<String> thisRecordNamesFour = CustomMethods.getTenSearchRecords(thisRecordNamesThree);
-        // 所有用户的相关搜索记录
-        List<String> allRecordNamesFour = new ArrayList<>();
-        if (null != recordName && !Objects.equals(recordName, "")) {
-            List<String> allRecordNamesOne = searchRecordRepository.findAllRecordNamesOne(searchGroupBy, recordName);
-            List<String> allRecordNamesTwo = searchRecordRepository.findAllRecordNamesTwo(searchGroupBy, recordName);
-            List<String> allRecordNamesThree = CustomMethods.mergeLists(allRecordNamesOne, allRecordNamesTwo);
-            // 只取前面十条数据，如果有的话
-            allRecordNamesFour = CustomMethods.getTenSearchRecords(allRecordNamesThree);
-        }
-        List<String> thisAndAllRecordNamesOne = CustomMethods.mergeLists(thisRecordNamesFour, allRecordNamesFour);
-        // 只取前面十条数据
-        List<String> thisAndAllRecordNamesTwo = CustomMethods.getTenSearchRecords(thisAndAllRecordNamesOne);
-        // 最后判断是否有值，没有值就什么也不用返回
-        if (thisAndAllRecordNamesTwo.size() > 0) {
-            String thisAndAllRecordNamesThree = JSONArray.toJSONString(thisAndAllRecordNamesTwo);
-            try {
-                // 不设置编码前台就无法解析汉字
-                response.setCharacterEncoding(ENCODE);
-                response.getWriter().write(thisAndAllRecordNamesThree);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        // 如果有十条则返回，否则继续查找
+        if (10 == thisRecordNamesOne.size()) {
+            recordNames = JSONArray.toJSONString(thisRecordNamesOne);
+        } else {
+            // 继续查找此用户的搜索记录 %?%
+            List<String> thisRecordNamesTwo = searchRecordRepository.findThisRecordNamesTwo(user.getName(), searchGroupBy, recordName);
+            // 合并并去重，前 ?% ———— %?% 后
+            List<String> thisRecordNamesThree = CustomMethods.mergeTwoLists(thisRecordNamesOne, thisRecordNamesTwo);
+            if (10 == thisRecordNamesThree.size()) {
+                recordNames = JSONArray.toJSONString(thisRecordNamesThree);
+            } else if (10 < thisRecordNamesThree.size()) {
+                // 如果多于十条则只取前面十条数据
+                recordNames = JSONArray.toJSONString(CustomMethods.getListTopTenData(thisRecordNamesThree));
+            } else {
+                // 所有用户的相关搜索记录，需要输入框有内容
+                if (null != recordName && !Objects.equals(recordName, "")) {
+                    List<String> allRecordNamesOne = searchRecordRepository.findAllRecordNamesOne(searchGroupBy, recordName);
+                    List<String> thisAndAllRecordNamesOne = CustomMethods.mergeTwoLists(thisRecordNamesThree, allRecordNamesOne);
+                    if (10 == thisAndAllRecordNamesOne.size()) {
+                        recordNames = JSONArray.toJSONString(thisAndAllRecordNamesOne);
+                    } else if (10 < thisAndAllRecordNamesOne.size()) {
+                        // 如果多于十条则只取前面十条数据
+                        recordNames = JSONArray.toJSONString(CustomMethods.getListTopTenData(thisAndAllRecordNamesOne));
+                    } else {
+                        List<String> allRecordNamesTwo = searchRecordRepository.findAllRecordNamesTwo(searchGroupBy, recordName);
+                        List<String> thisAndAllRecordNamesTwo = CustomMethods.mergeTwoLists(thisAndAllRecordNamesOne, allRecordNamesTwo);
+                        if (10 >= thisAndAllRecordNamesTwo.size()) {
+                            recordNames = JSONArray.toJSONString(thisAndAllRecordNamesTwo);
+                        } else {
+                            // 如果多于十条则只取前面十条数据
+                            recordNames = JSONArray.toJSONString(CustomMethods.getListTopTenData(thisAndAllRecordNamesTwo));
+                        }
+                    }
+                } else {
+                    recordNames = JSONArray.toJSONString(thisRecordNamesThree);
+                }
             }
+        }
+        try {
+            response.setCharacterEncoding(ENCODE);
+            response.getWriter().write(recordNames);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

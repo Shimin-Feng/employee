@@ -2,6 +2,7 @@ package com.test;
 
 import com.example.entity.Employee;
 import org.junit.jupiter.api.Test;
+import org.thymeleaf.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,6 +15,25 @@ import static java.lang.System.out;
 
 public class TestClass {
 
+
+    @Test
+    public void testStringUtils() {
+        String str = "";
+        String str1 = "1";
+        out.println(StringUtils.isEmpty(str));
+        out.println(StringUtils.isEmpty(str1));
+        out.println(org.junit.platform.commons.util.StringUtils.isNotBlank(""));
+        out.println(org.junit.platform.commons.util.StringUtils.isNotBlank("j"));
+    }
+
+    @Test
+    public void testBoolean() {
+        boolean flag = Boolean.parseBoolean(null);
+        Comparator<String> caseInsensitiveOrder = String.CASE_INSENSITIVE_ORDER;
+        out.println(caseInsensitiveOrder);
+        String s = String.CASE_INSENSITIVE_ORDER.toString();
+        out.println(s);
+    }
 
     @Test
     public void testEquals() {

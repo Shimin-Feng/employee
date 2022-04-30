@@ -31,6 +31,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      * <br>
      * TODO<br>
      * 有时候第一次点击登录只是刷新了一下页面，第二次点击才会登录成功
+     * <br>
+     * TODO<br>
+     * 有时会报错
+     * Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
+     * Invalid remember-me token (Series/token) mismatch. Implies previous cookie theft attack.
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
