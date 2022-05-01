@@ -19,8 +19,12 @@ public class TestClass {
     @Test
     public void testStringUtils() {
         String str = "";
-        String str1 = "1";
+        String str1 = "你好";
+        String str2 = str1;
         out.println(StringUtils.isEmpty(str));
+        out.println("简化.isEmpty(str)");
+        out.println(str1);
+        out.println(str2);
         out.println(StringUtils.isEmpty(str1));
         out.println(org.junit.platform.commons.util.StringUtils.isNotBlank(""));
         out.println(org.junit.platform.commons.util.StringUtils.isNotBlank("j"));

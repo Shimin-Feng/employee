@@ -8,11 +8,11 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 /**
- * @Name SearchRecordRepository
- * @Author $himin F
- * @Date 2022/4/24 0:23 周日
- * @Version 1.0
- * @description: 查询搜索记录，用于前台 autocomplete
+ * @author $himin F
+ * @version 1.0
+ * @class SearchRecordRepository
+ * @created 2022/4/24 0:23 周日
+ * @description 查询搜索记录，用于前台 autocomplete
  */
 public interface SearchRecordRepository extends JpaRepository<SearchRecord, String> {
     @Query(value = "SELECT record_name FROM (SELECT record_name, MAX(created_date) cd FROM search_record WHERE username = ?1 AND search_group_by = ?2 AND IF(?3 != '', record_name LIKE CONCAT(?3, '%'), TRUE) GROUP BY record_name) AS rncd ORDER BY cd DESC LIMIT 0, 10;", nativeQuery = true)

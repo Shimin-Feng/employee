@@ -14,7 +14,20 @@ public class JdbcCheckTableExit {
     private static final String user = "root";
     private static final String password = "MySQL1672943850";
 
-    public static boolean isExist() {
+    /**
+     * 判断表 "persistent_logins" 是否存在于数据库
+     *
+     * @return true 存在，false 不存在
+     * @method isTableExist
+     * @author $himin F
+     * @created 2022/5/1 15:22
+     * @see java.lang.Class
+     * @see java.sql.DriverManager
+     * @see java.sql.Connection
+     * @see java.sql.DatabaseMetaData
+     * @see java.sql.ResultSet
+     */
+    public static boolean isTableExist(String catalog, String tableNamePattern) {
         var isExist = false;
         Connection c = null;
         DatabaseMetaData d;
@@ -24,7 +37,7 @@ public class JdbcCheckTableExit {
             c = DriverManager.getConnection(url, user, password);
             c.setAutoCommit(false);
             d = c.getMetaData();
-            r = d.getTables("test_database", null, "persistent_logins", new String[]{"TABLE"});
+            r = d.getTables(catalog, null, tableNamePattern, new String[]{"TABLE"});
             isExist = r.next();
             r.close();
         } catch (Exception e) {

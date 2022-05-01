@@ -10,15 +10,28 @@ import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 /**
- * @Name HTTPStatusCodeErrorController
- * @Author $himin F
- * @Date 2022/4/9 12:56 周六
- * @Version 1.0
- * @description: 处理 HTTP status code
+ * @author $himin F
+ * @version 1.0
+ * @class HTTPStatusCodeErrorController
+ * @created 2022/4/9 12:56 周六
+ * @description 处理 HTTP status code
  */
 @Controller
 public class HTTPStatusCodeErrorController implements ErrorController {
 
+    /**
+     * 接受 http 错误状态码设置并返回内容
+     *
+     * @param request HttpServletRequest 请求
+     * @param user    Principal 包含登录用户信息
+     * @return modelAndView 根据错误状态码设置并返回内容
+     * @method handleError
+     * @author $himin F
+     * @created 2022/5/1 15:25
+     * @see org.springframework.web.servlet.ModelAndView
+     * @see javax.servlet.http.HttpServletRequest
+     * @see java.security.Principal
+     */
     @RequestMapping("/error")
     public ModelAndView handleError(@NotNull HttpServletRequest request, Principal user) {
         ModelAndView modelAndView = new ModelAndView();

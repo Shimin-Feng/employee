@@ -15,6 +15,14 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+/**
+ * @author $himin F
+ * @version 1.0
+ * @description Spring Boot Security 用于用户的登录验证
+ * @class SecurityConfig
+ * @created 2022/5/1 14:45
+ * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -24,24 +32,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private UserDetailsServiceImpl userDetailsServiceImpl;
 
+    /**
+     * 对用户账号、密码、权限的管理
+     *
+     * @param auth AuthenticationManagerBuilder
+     * @throws Exception 未知异常
+     * @method configure
+     */
     @Override
     protected void configure(@NotNull AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                // passwordEncoder(new BCryptPasswordEncoder()) 密码加密方式
-                .userDetailsService(userDetailsServiceImpl).passwordEncoder(new BCryptPasswordEncoder());
-
-//                // 把账号密码存储在内存中的方法
-//                .inMemoryAuthentication()
-//                .passwordEncoder(new BCryptPasswordEncoder())
-//                // 在登录成功后不退出就直接登录其他账号是会被挤下线的
-//                .withUser("admin")
-//                .password(new BCryptPasswordEncoder().encode("hKJB$$%8ffFpGnLWE"))
-//                // 比 hasRole() 更加通用
-//                .authorities("ADMIN");
+        // 密码加密方式 new BCryptPasswordEncoder()
+        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(new BCryptPasswordEncoder());
     }
 
-
-    // TOTO: 后续可以添加用户管理界面，管理请假界面
+    /**
+     * 对登录、退出、页面的访问权限、静态资源的管理
+     *
+     * @param http HttpSecurity
+     * @throws Exception 未知异常
+     * @method configure
+     */
     @Override
     protected void configure(@NotNull HttpSecurity http) throws Exception {
         http
@@ -128,15 +138,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         ;
     }
 
+    /**
+     * 将 remember me token 信息存储进数据库
+     *
+     * @return {@code tokenRepository} 由该 token 仓库创建一个 token 并返回
+     * @method persistentTokenRepository
+     * @author $himin F
+     * @created 2022/5/1 15:15
+     * @see org.springframework.security.web.authentication.rememberme.PersistentTokenRepository
+     */
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
-        // 反射尝试失败
-        // Class<JdbcTokenRepositoryImpl> jdbcTokenRepositoryClass = JdbcTokenRepositoryImpl.class;
+        // 获取工厂实例
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
         // 设置数据源
         tokenRepository.setDataSource(dataSource);
         // 如果表不存在则创建
-        if (!JdbcCheckTableExit.isExist()) {
+        if (!JdbcCheckTableExit.isTableExist("test_database", "persistent_logins")) {
             tokenRepository.setCreateTableOnStartup(true);
         }
         return tokenRepository;

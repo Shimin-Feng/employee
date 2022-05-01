@@ -2,17 +2,17 @@
 
 	'use strict'
 
-	const thead = $('thead')
-	const tbody = $('tbody')
-	const tfoot = $('tfoot')
-	const modalBody = $('.modal-body')
-	const findSelect = $('#findSelect')
-	const findInput = $('#findInput')
-	const toastBody = $('.toast-body')
-	const liveToast = $('#liveToast')
+	const thead = $('thead'),
+		tbody = $('tbody'),
+		tfoot = $('tfoot'),
+		modalBody = $('.modal-body'),
+		findSelect = $('#findSelect'),
+		findInput = $('#findInput'),
+		toastBody = $('.toast-body'),
+		liveToast = $('#liveToast'),
 
-	// Get token
-	const token = $("input:hidden[name='_csrf']").val()
+		// Get token
+		token = $('input:hidden[name="_csrf"]').val()
 
 	// 根据传参判断对象属性
 	function Employee() {
@@ -22,8 +22,8 @@
 
 	// 根据所提供身份证的前 17 位算出最后一位
 	function getLastIdCardNumber(id17) {
-		const weight = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]
-		const validate = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2']
+		const weight = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2],
+			validate = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2']
 		let sum = 0
 		for (let i = 0; i < id17.length; i++) {
 			sum += id17[i] * weight[i]
@@ -35,8 +35,8 @@
 	function updatePage(data) {
 		if (/updateEmployee/.test(data)) {
 			// 截取之后填充进页面
-			const trs = data.split('<tbody class="table-secondary">')[1].split('</tbody>')
-			const ul = trs[1].split('<div class="modal-footer no-margin-top">')[1].split('</div>')
+			const trs = data.split('<tbody class="table-secondary">')[1].split('</tbody>'),
+				ul = trs[1].split('<div class="modal-footer no-margin-top">')[1].split('</div>')
 			tbody.html(trs[0])
 			$('.no-margin-top').html(ul[0])
 		} else {
@@ -47,75 +47,74 @@
 
 	// 验证信息
 	function regExp(employeeName, employeeIdCard, employeeAddress, employeePhoneNumber) {
-		// 验证姓名
-		if (employeeName === '') {
-			toastBody.text('姓名不能为空。')
-			new bootstrap.Toast(liveToast).show()
-			return false
-		}
-		if (!/^[\u4e00-\u9fa5\w\s•]{1,25}$/.test(employeeName)) {
-			toastBody.text('姓名只支持由 1 - 25 个汉字、英文、数字、空格和•的组合。')
-			new bootstrap.Toast(liveToast).show()
-			return false
-		}
+		// 首先验证是否存在空值
+		// 获取表单数据
+		const arr = []
+		$('.form-control').each(function () {
+			arr.push($(this).val())
+		})
+		// 删除第一个不需要的值
+		arr.shift()
 
-		// 验证身份证号码
-		if (employeeIdCard === '') {
-			toastBody.text('身份证号码不能为空。')
-			new bootstrap.Toast(liveToast).show()
-			return false
-		}
-		if (employeeIdCard.length !== 15 && employeeIdCard.length !== 18) {
-			toastBody.text('请填写 15 或者 18 位身份证号码。')
-			new bootstrap.Toast(liveToast).show()
-			return false
-		}
-		// 15、18 位身份证号码第一重验证
-		if (!/^\d{15}|\d{18}|(\d{17}X|x)$/.test(employeeIdCard)) {
-			toastBody.text('身份证号码有误，请检查后重试。')
-			new bootstrap.Toast(liveToast).show()
-			return false
-		}
-		// 18 位身份证号码第二重验证
-		if (employeeIdCard.length === 18) {
-			const idCard = employeeIdCard.split('')
-			idCard.pop()
-			if (employeeIdCard.charAt(17).toUpperCase() !== getLastIdCardNumber(idCard)) {
-				toastBody.text('身份证号码有误，请检查后重试。')
-				new bootstrap.Toast(liveToast).show()
-				return false
+		let msg = ''
+		for (let i in arr) {
+			if ('' === arr[i]) {
+				switch (i) {
+					case '0':
+						msg = '姓名不能为空。'
+						break
+					case '1':
+						msg = '身份证号码不能为空。'
+						break
+					case '2':
+						msg = '住址不能为空。'
+						break
+					case '3':
+						msg = '电话号码不能为空。'
+				}
+				break
 			}
 		}
+		if ('' === msg) {
+			// 验证姓名
+			if (!/^[\u4e00-\u9fa5\w\s•]{1,25}$/.test(employeeName)) {
+				msg = '姓名只支持由 1 - 25 个汉字、英文、数字、空格和•的组合。'
+			}
 
-		// 验证住址
-		if (employeeAddress === '') {
-			toastBody.text('住址不能为空。')
-			new bootstrap.Toast(liveToast).show()
-			return false
-		}
-		if (!/^[\u4e00-\u9fa5\w\s•,]{2,45}$/.test(employeeAddress)) {
-			toastBody.text('住址只支持由最多 45 个汉字、英文、空格、英文逗号和•的组合。')
-			new bootstrap.Toast(liveToast).show()
-			return false
-		}
+			// 验证身份证号码，15、18 位身份证号码第一重验证
+			else if (employeeIdCard.length !== 15 && employeeIdCard.length !== 18) {
+				msg = '请填写 15 或者 18 位身份证号码。'
+			}
+			// 15、18 位身份证号码第二重验证
+			else if (!/^\d{15}|\d{18}|(\d{17}X|x)$/.test(employeeIdCard)) {
+				msg = '身份证号码有误，请检查后重试。'
+			}
+			// 18 位身份证号码第三重验证
+			else if (employeeIdCard.length === 18 && employeeIdCard.charAt(17).toUpperCase() !== getLastIdCardNumber(employeeIdCard.substring(0, 17).split(''))) {
+				msg = '身份证号码有误，请检查后重试。'
+			}
 
-		// 验证电话号码（暂时只验证在一般情况下的中国大陆移动手机号码）
-		if (employeePhoneNumber === '') {
-			toastBody.text('电话号码不能为空。')
-			new bootstrap.Toast(liveToast).show()
-			return false
+			// 验证住址
+			else if (!/^[\u4e00-\u9fa5\w\s•,]{2,45}$/.test(employeeAddress)) {
+				msg = '住址只支持由最多 45 个汉字、英文、空格、英文逗号和•的组合。'
+			}
+
+			// 验证电话号码（暂时只验证在一般情况下的中国大陆移动手机号码）
+			else if (!/^1[3-9]\d{9}$/.test(employeePhoneNumber)) {
+				msg = '电话号码格式有误，请检查后重试。'
+			}
 		}
-		if (!/^1[3-9]\d{9}$/.test(employeePhoneNumber)) {
-			toastBody.text('电话号码格式有误，请检查后重试。')
-			new bootstrap.Toast(liveToast).show()
-			return false
+		if ('' !== msg) {
+			toastBody.text(msg);
+			new bootstrap.Toast(liveToast).show();
+			return false;
 		}
 	}
 
 	// 若有则获取上一次的排序规则
 	function getDirectionAndProperty() {
-		let direction = 'ASC'
-		let property = 'createdDate'
+		let direction = 'ASC',
+			property = 'createdDate'
 		// 只选取支持排序功能的 th
 		for (let i = 1; i < 10; i++) {
 			if (/^(ASC|DESC)$/.test(thead.find('tr th:eq(' + i + ')').val())) {
@@ -154,7 +153,7 @@
 	// 添加、修改员工信息
 	$(document).on('click', '#saveOrUpdateEmployee', function () {
 		// 获取表单数据
-		let arr = []
+		const arr = []
 		$('.form-control').each(function () {
 			arr.push($(this).val())
 		})
@@ -276,7 +275,7 @@
 					'searchGroupBy': findSelect.val(),
 					'recordName': request.term
 				},
-				dataType: "json",
+				dataType: 'json',
 				headers: {
 					// 不区分大小写
 					'X-CSRF-Token': token
@@ -375,45 +374,49 @@
 
 	// 根据排序条件查询
 	// 写在这里方便查看
-	let employeeName = 0
-	let employeeSex = 0
-	let employeeAge = 0
-	let employeeIdCard = 0
-	let employeeAddress = 0
-	let employeePhoneNumber = 0
-	let createdBy = 0
-	let createdDate = 0
-	let lastModifiedDate = 0
+	let e = {
+		name: 0,
+		sex: 0,
+		age: 0,
+		idCard: 0,
+		address: 0,
+		phoneNumber: 0,
+		createdBy: 0,
+		createdDate: 0,
+		lastModifiedDate: 0
+	}
 
 	function init() {
-		employeeName = 0
-		employeeSex = 0
-		employeeAge = 0
-		employeeIdCard = 0
-		employeeAddress = 0
-		employeePhoneNumber = 0
-		createdBy = 0
-		createdDate = 0
-		lastModifiedDate = 0
+		e = {
+			name: 0,
+			sex: 0,
+			age: 0,
+			idCard: 0,
+			address: 0,
+			phoneNumber: 0,
+			createdBy: 0,
+			createdDate: 0,
+			lastModifiedDate: 0
+		}
 	}
 
 	$(document).on('click', 'thead tr th', function () {
 		switch (this.cellIndex) {
 			case 1:
-				switch (employeeName) {
+				switch (e.name) {
 					case 0:
 						sortDirectionCondition('ASC', 'employeeName')
 						$(this).find('i').attr('class', 'bi bi-chevron-up')
 						$(this).val('ASC')
 						init()
-						employeeName = 1
+						e.name = 1
 						break
 					case 1:
 						sortDirectionCondition('DESC', 'employeeName')
 						$(this).find('i').attr('class', 'bi bi-chevron-down')
 						$(this).val('DESC')
 						init()
-						employeeName = 2
+						e.name = 2
 						break
 					case 2:
 						reset(this)
@@ -421,20 +424,20 @@
 				}
 				break
 			case 2:
-				switch (employeeSex) {
+				switch (e.sex) {
 					case 0:
 						sortDirectionCondition('ASC', 'employeeSex')
 						$(this).find('i').attr('class', 'bi bi-chevron-up')
 						$(this).val('ASC')
 						init()
-						employeeSex = 1
+						e.sex = 1
 						break
 					case 1:
 						sortDirectionCondition('DESC', 'employeeSex')
 						$(this).find('i').attr('class', 'bi bi-chevron-down')
 						$(this).val('DESC')
 						init()
-						employeeSex = 2
+						e.sex = 2
 						break
 					case 2:
 						reset(this)
@@ -442,20 +445,20 @@
 				}
 				break
 			case 3:
-				switch (employeeAge) {
+				switch (e.age) {
 					case 0:
 						sortDirectionCondition('ASC', 'employeeAge')
 						$(this).find('i').attr('class', 'bi bi-chevron-up')
 						$(this).val('ASC')
 						init()
-						employeeAge = 1
+						e.age = 1
 						break
 					case 1:
 						sortDirectionCondition('DESC', 'employeeAge')
 						$(this).find('i').attr('class', 'bi bi-chevron-down')
 						$(this).val('DESC')
 						init()
-						employeeAge = 2
+						e.age = 2
 						break
 					case 2:
 						reset(this)
@@ -463,20 +466,20 @@
 				}
 				break
 			case 4:
-				switch (employeeIdCard) {
+				switch (e.idCard) {
 					case 0:
 						sortDirectionCondition('ASC', 'employeeIdCard')
 						$(this).find('i').attr('class', 'bi bi-chevron-up')
 						$(this).val('ASC')
 						init()
-						employeeIdCard = 1
+						e.idCard = 1
 						break
 					case 1:
 						sortDirectionCondition('DESC', 'employeeIdCard')
 						$(this).find('i').attr('class', 'bi bi-chevron-down')
 						$(this).val('DESC')
 						init()
-						employeeIdCard = 2
+						e.idCard = 2
 						break
 					case 2:
 						reset(this)
@@ -484,20 +487,20 @@
 				}
 				break
 			case 5:
-				switch (employeeAddress) {
+				switch (e.address) {
 					case 0:
 						sortDirectionCondition('ASC', 'employeeAddress')
 						$(this).find('i').attr('class', 'bi bi-chevron-up')
 						$(this).val('ASC')
 						init()
-						employeeAddress = 1
+						e.address = 1
 						break
 					case 1:
 						sortDirectionCondition('DESC', 'employeeAddress')
 						$(this).find('i').attr('class', 'bi bi-chevron-down')
 						$(this).val('DESC')
 						init()
-						employeeAddress = 2
+						e.address = 2
 						break
 					case 2:
 						reset(this)
@@ -505,20 +508,20 @@
 				}
 				break
 			case 6:
-				switch (employeePhoneNumber) {
+				switch (e.phoneNumber) {
 					case 0:
 						sortDirectionCondition('ASC', 'employeePhoneNumber')
 						$(this).find('i').attr('class', 'bi bi-chevron-up')
 						$(this).val('ASC')
 						init()
-						employeePhoneNumber = 1
+						e.phoneNumber = 1
 						break
 					case 1:
 						sortDirectionCondition('DESC', 'employeePhoneNumber')
 						$(this).find('i').attr('class', 'bi bi-chevron-down')
 						$(this).val('DESC')
 						init()
-						employeePhoneNumber = 2
+						e.phoneNumber = 2
 						break
 					case 2:
 						reset(this)
@@ -526,20 +529,20 @@
 				}
 				break
 			case 7:
-				switch (createdBy) {
+				switch (e.createdBy) {
 					case 0:
 						sortDirectionCondition('ASC', 'createdBy')
 						$(this).find('i').attr('class', 'bi bi-chevron-up')
 						$(this).val('ASC')
 						init()
-						createdBy = 1
+						e.createdBy = 1
 						break
 					case 1:
 						sortDirectionCondition('DESC', 'createdBy')
 						$(this).find('i').attr('class', 'bi bi-chevron-down')
 						$(this).val('DESC')
 						init()
-						createdBy = 2
+						e.createdBy = 2
 						break
 					case 2:
 						reset(this)
@@ -547,20 +550,20 @@
 				}
 				break
 			case 8:
-				switch (createdDate) {
+				switch (e.createdDate) {
 					case 0:
 						sortDirectionCondition('ASC', 'createdDate')
 						$(this).find('i').attr('class', 'bi bi-chevron-up')
 						$(this).val('ASC')
 						init()
-						createdDate = 1
+						e.createdDate = 1
 						break
 					case 1:
 						sortDirectionCondition('DESC', 'createdDate')
 						$(this).find('i').attr('class', 'bi bi-chevron-down')
 						$(this).val('DESC')
 						init()
-						createdDate = 2
+						e.createdDate = 2
 						break
 					case 2:
 						reset(this)
@@ -568,20 +571,20 @@
 				}
 				break
 			case 9:
-				switch (lastModifiedDate) {
+				switch (e.lastModifiedDate) {
 					case 0:
 						sortDirectionCondition('ASC', 'lastModifiedDate')
 						$(this).find('i').attr('class', 'bi bi-chevron-up')
 						$(this).val('ASC')
 						init()
-						lastModifiedDate = 1
+						e.lastModifiedDate = 1
 						break
 					case 1:
 						sortDirectionCondition('DESC', 'lastModifiedDate')
 						$(this).find('i').attr('class', 'bi bi-chevron-down')
 						$(this).val('DESC')
 						init()
-						lastModifiedDate = 2
+						e.lastModifiedDate = 2
 						break
 					case 2:
 						reset(this)
@@ -597,7 +600,7 @@
 		}
 
 		// 删除其他 thead tr th 的 val()
-		let ths = []
+		const ths = []
 		// 只选取支持排序功能的 th
 		for (let i = 1; i < 10; i++) {
 			ths.push(thead.find('tr th:eq(' + i + ')'))
@@ -712,7 +715,7 @@ window.onload = function () {
 
 	'use strict'
 
-	/*let listeners = {
+	/*const listeners = {
 		dark: (mediaQueryList) => {
 			if (mediaQueryList.matches) {
 				$("body").css("background", '#1B1B1B')

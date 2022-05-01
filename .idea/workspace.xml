@@ -4,15 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="简化方法 saveRecordName">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/TestEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/TestObject.java" afterDir="false" />
+    <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/controller/SearchRecordController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/config/JdbcCheckTableExit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/config/JdbcCheckTableExit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/controller/HTTPStatusCodeErrorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/controller/HTTPStatusCodeErrorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/entity/SearchRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/entity/SearchRecord.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/methods/CustomMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/methods/CustomMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/repository/SearchRecordRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/repository/SearchRecordRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/service/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/service/UserDetailsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/test/TestClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/TestClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test4.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/test4.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -306,7 +314,7 @@
       <workItem from="1650350320959" duration="93572000" />
       <workItem from="1650534499575" duration="74855000" />
       <workItem from="1651226683668" duration="45856000" />
-      <workItem from="1651308781778" duration="39340000" />
+      <workItem from="1651308781778" duration="64958000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1648665299036</created>
@@ -574,7 +582,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651337882558</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="简化方法 saveRecordName">
+      <created>1651354106043</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1651354106043</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -612,7 +627,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="完善添加功能&#10;其他优化" />
     <MESSAGE value="改进登录验证中。。。&#10;其他优化" />
     <MESSAGE value="修复 spring security 配置&#10;其他优化" />
     <MESSAGE value="修复 spring security 配置&#10;优化页面&#10;其他优化" />
@@ -637,7 +651,8 @@
     <MESSAGE value="优化：EmployeeController、js" />
     <MESSAGE value="优化 EmployeeController、js&#10;将计算性别和年龄转到后台&#10;将获取用户信息由前台转到后台&#10;将部分 if 判断改为 switch&#10;其他优化" />
     <MESSAGE value="解决了一个 TODO: 简化查询员工的规则匹配器————优化 findEmployeesBy 方法&#10;其他优化" />
-    <option name="LAST_COMMIT_MESSAGE" value="解决了一个 TODO: 简化查询员工的规则匹配器————优化 findEmployeesBy 方法&#10;其他优化" />
+    <MESSAGE value="简化方法 saveRecordName" />
+    <option name="LAST_COMMIT_MESSAGE" value="简化方法 saveRecordName" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -649,6 +664,11 @@
           <properties class="org.springframework.beans.factory.BeanCreationException" package="org.springframework.beans.factory" />
           <option name="timeStamp" value="8" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java</url>
+          <line>154</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

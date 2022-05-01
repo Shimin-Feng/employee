@@ -14,11 +14,11 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * @Name SearchRecord
- * @Author $himin F
- * @Date 2022/4/24 0:11 周日
- * @Version 1.0
- * @description: 记录 user 每一次的搜索内容，并与 username 关联，username 唯一
+ * @author $himin F
+ * @version 1.0
+ * @class SearchRecord
+ * @created 2022/4/24 0:11 周日
+ * @description 记录 user 每一次的搜索内容，并与 username 关联，username 唯一
  * 无法改用为 record 记录类
  * 因为
  * 实体类必须是非 final

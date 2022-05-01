@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 /**
- * @Name UserService
- * @Author $himin F
- * @Date
- * @Version 1.0
- * @description: 该类用于验证在有账号登录时是否与数据库账号匹配
+ * @author $himin F
+ * @version 1.0
+ * @class UserService
+ * @created 2022/5/1 15:31
+ * @description 该类用于验证在有账号登录时是否与数据库账号匹配
  */
 
 @Service

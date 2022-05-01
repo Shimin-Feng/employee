@@ -8,19 +8,20 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @Name CustomMethods
- * @Author $himin F
- * @Date 2022/4/25 23:10 周一
- * @Version 1.0
- * @description: 自定义方法类
+ * @author $himin F
+ * @version 1.0
+ * @class CustomMethods
+ * @created 2022/4/25 23:10 周一
+ * @description 自定义方法类
  */
 public class CustomMethods {
 
     /**
      * 合并两个 List
      *
-     * @param o1 List<E>
-     * @param o2 List<E>
+     * @param <E> {@code List} 的元素类型
+     * @param o1  List<E>
+     * @param o2  List<E>
      * @return 返回一个新 List，如果其中一个为空则返回另外一个
      * @method mergeTwoLists
      * @author $himin F
@@ -55,7 +56,8 @@ public class CustomMethods {
     /**
      * 取 List 数组前十条数据
      *
-     * @param o List<E>
+     * @param <E> {@code List} 的元素类型
+     * @param o   List<E>
      * @return 返回一个新 List
      * @method getListTopTenData
      * @author $himin F
