@@ -4,32 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="1.添加功能 保存用户操作记录 (dml)&#10;相关三个新类&#10;OperationLog.java&#10;OperationLogRepository.java&#10;OperationLogController.java&#10;2.完善实体类信息&#10;3.Delete the method ———— equals(@NotNull Employee o, @NotNull Employee t) of the class CustomMethods.java">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/controller/OperationLogController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/entity/OperationLog.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/repository/OperationLogRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/controller/OperationLogControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/test/TestStatic.java" afterDir="false" />
+    <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/aafea0f0-8eaa-4de7-a4b7-2500cc5f6da9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/aafea0f0-8eaa-4de7-a4b7-2500cc5f6da9.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/config/JdbcCheckTableExit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/util/JdbcCheckTableExit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/controller/SearchRecordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/controller/SearchRecordController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/entity/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/entity/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/entity/SearchRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/entity/SearchRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/methods/CustomMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/util/CustomMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/repository/SearchRecordRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/repository/SearchRecordRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/EmployeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/controller/HTTPStatusCodeErrorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/HTTPStatusCodeErrorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/controller/OperationLogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/OperationLogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/controller/SearchRecordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/SearchRecordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/entity/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/entity/OperationLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/OperationLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/entity/SearchRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/SearchRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/repository/EmployeeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/EmployeeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/repository/OperationLogRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/OperationLogRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/repository/SearchRecordRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/SearchRecordRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/service/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/UserDetailsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/util/CustomMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/util/CustomMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/util/JdbcCheckTableExit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/util/JdbcCheckTableExit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/controller/OperationLogControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/controller/OperationLogControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/test/TestClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/TestClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/TestEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/TestObject.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test2.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/test-menu.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,11 +64,11 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_code.jquery.com_ui_1.13.1_jquery-ui.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_www.gstatic.com_jsaction_contract.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/pom.xml" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/com/example/Application.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/com/example/config/SecurityConfig.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/com/example/controller/EmployeeController.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/com/example/controller/HTTPStatusCodeErrorController.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/com/example/entity/Employee.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/Application.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/config/SecurityConfig.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/EmployeeController.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/HTTPStatusCodeErrorController.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/Employee.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/static/css/employee.css" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/static/js/employee.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/templates/employee.html" root0="FORCE_HIGHLIGHTING" />
@@ -142,7 +138,8 @@
     "project.structure.last.edited": "模块",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "actions.on.save",
+    "rearrange.code.on.save": "true",
+    "settings.editor.selected.configurable": "project.propVCSSupport.Mappings",
     "spring.configuration.checksum": "fa5473530e4d1a5a1e1eb53d2fedb10c"
   },
   "keyToStringList": {
@@ -182,7 +179,7 @@
   <component name="RunManager" selected="Spring Boot.Application">
     <configuration name="Other" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.test.Other" />
-      <module name="employee" />
+      <module name="employee-management" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.test.*" />
@@ -195,7 +192,7 @@
     </configuration>
     <configuration name="StaticTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.test.StaticTest" />
-      <module name="employee" />
+      <module name="employee-management" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.test.*" />
@@ -207,15 +204,15 @@
       </method>
     </configuration>
     <configuration name="OperationLogControllerTest.saveOperationLog" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="employee" />
+      <module name="employee-management" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.controller.*" />
+          <option name="PATTERN" value="com.shiminfxcvii.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.example.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.example.controller.OperationLogControllerTest" />
+      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.controller.OperationLogControllerTest" />
       <option name="METHOD_NAME" value="saveOperationLog" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
@@ -223,7 +220,7 @@
       </method>
     </configuration>
     <configuration name="TestClass" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="employee" />
+      <module name="employee-management" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.test.*" />
@@ -238,7 +235,7 @@
       </method>
     </configuration>
     <configuration name="TestClass.testStatic" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="employee" />
+      <module name="employee-management" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.test.*" />
@@ -253,15 +250,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="employee-management" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="employee-management" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="ACTIVE_PROFILES" />
       <option name="ALTERNATIVE_JRE_PATH" value="liberica-18" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <module name="employee" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.Application" />
+      <module name="employee-management" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.shiminfxcvii.Application" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.*" />
+          <option name="PATTERN" value="com.shiminfxcvii.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -328,7 +338,7 @@
       <workItem from="1650350320959" duration="93572000" />
       <workItem from="1650534499575" duration="74855000" />
       <workItem from="1651226683668" duration="45856000" />
-      <workItem from="1651308781778" duration="105315000" />
+      <workItem from="1651308781778" duration="107063000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1648665299036</created>
@@ -610,7 +620,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651409911513</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="1.添加功能 ———— 保存用户操作记录 (dml)&#10;相关三个新类&#10;OperationLog.java&#10;OperationLogRepository.java&#10;OperationLogController.java&#10;2.完善实体类信息&#10;3.Delete the method ———— equals(@NotNull Employee o, @NotNull Employee t) of the class CustomMethods.java&#10;4.数据迁移到 new database employee_management&#10;5.其他优化">
+      <created>1651483579505</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1651483579505</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -648,7 +665,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="修复 spring security 配置&#10;其他优化" />
     <MESSAGE value="修复 spring security 配置&#10;优化页面&#10;其他优化" />
     <MESSAGE value="页面、其他优化" />
     <MESSAGE value="优化增删改查、其他优化" />
@@ -673,7 +689,8 @@
     <MESSAGE value="解决了一个 TODO: 简化查询员工的规则匹配器————优化 findEmployeesBy 方法&#10;其他优化" />
     <MESSAGE value="简化方法 saveRecordName" />
     <MESSAGE value="将对实体类 SearchRecord 添加和查询的方法迁移到一个新类 SearchRecordController.java&#10;完善 Java Doc&#10;js 代码优化" />
-    <option name="LAST_COMMIT_MESSAGE" value="将对实体类 SearchRecord 添加和查询的方法迁移到一个新类 SearchRecordController.java&#10;完善 Java Doc&#10;js 代码优化" />
+    <MESSAGE value="1.添加功能 ———— 保存用户操作记录 (dml)&#10;相关三个新类&#10;OperationLog.java&#10;OperationLogRepository.java&#10;OperationLogController.java&#10;2.完善实体类信息&#10;3.Delete the method ———— equals(@NotNull Employee o, @NotNull Employee t) of the class CustomMethods.java&#10;4.数据迁移到 new database employee_management&#10;5.其他优化" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.添加功能 ———— 保存用户操作记录 (dml)&#10;相关三个新类&#10;OperationLog.java&#10;OperationLogRepository.java&#10;OperationLogController.java&#10;2.完善实体类信息&#10;3.Delete the method ———— equals(@NotNull Employee o, @NotNull Employee t) of the class CustomMethods.java&#10;4.数据迁移到 new database employee_management&#10;5.其他优化" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

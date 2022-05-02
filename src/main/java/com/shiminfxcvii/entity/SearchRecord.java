@@ -1,4 +1,4 @@
-package com.example.entity;
+package com.shiminfxcvii.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * @author $himin F
+ * @author shiminfxcvii
  * @version 1.0
  * @class SearchRecord
  * @created 2022/4/24 0:11 周日

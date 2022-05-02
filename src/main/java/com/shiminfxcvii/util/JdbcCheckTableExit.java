@@ -1,4 +1,4 @@
-package com.example.util;
+package com.shiminfxcvii.util;
 
 import java.sql.*;
 
@@ -19,7 +19,7 @@ public class JdbcCheckTableExit {
      *
      * @return true 存在，false 不存在
      * @method isTableExist
-     * @author $himin F
+     * @author shiminfxcvii
      * @created 2022/5/1 15:22
      * @see java.lang.Class
      * @see java.sql.DriverManager

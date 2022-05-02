@@ -1,10 +1,10 @@
-package com.example.repository;
+package com.shiminfxcvii.repository;
 
-import com.example.entity.OperationLog;
+import com.shiminfxcvii.entity.OperationLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * @author $himin F
+ * @author shiminfxcvii
  * @version 1.0
  * @description 员工管理操作日志工厂接口
  * @class OperationLogRepository

@@ -1,8 +1,8 @@
-package com.example.controller;
+package com.shiminfxcvii.controller;
 
-import com.example.entity.Employee;
-import com.example.entity.OperationLog;
-import com.example.repository.OperationLogRepository;
+import com.shiminfxcvii.entity.Employee;
+import com.shiminfxcvii.entity.OperationLog;
+import com.shiminfxcvii.repository.OperationLogRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Controller;
 
@@ -14,7 +14,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 /**
- * @author $himin F
+ * @author shiminfxcvii
  * @version 1.0
  * @description
  * @class OperationLogController

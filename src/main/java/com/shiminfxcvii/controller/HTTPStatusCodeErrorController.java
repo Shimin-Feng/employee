@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.shiminfxcvii.controller;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 /**
- * @author $himin F
+ * @author shiminfxcvii
  * @version 1.0
  * @class HTTPStatusCodeErrorController
  * @created 2022/4/9 12:56 周六
@@ -26,7 +26,7 @@ public class HTTPStatusCodeErrorController implements ErrorController {
      * @param user    Principal 包含登录用户信息
      * @return modelAndView 根据错误状态码设置并返回内容
      * @method handleError
-     * @author $himin F
+     * @author shiminfxcvii
      * @created 2022/5/1 15:25
      * @see org.springframework.web.servlet.ModelAndView
      * @see javax.servlet.http.HttpServletRequest

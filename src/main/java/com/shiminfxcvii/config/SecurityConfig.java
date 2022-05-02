@@ -1,7 +1,7 @@
-package com.example.config;
+package com.shiminfxcvii.config;
 
-import com.example.service.UserDetailsServiceImpl;
-import com.example.util.JdbcCheckTableExit;
+import com.shiminfxcvii.service.UserDetailsServiceImpl;
+import com.shiminfxcvii.util.JdbcCheckTableExit;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 /**
- * @author $himin F
+ * @author shiminfxcvii
  * @version 1.0
  * @description Spring Boot Security 用于用户的登录验证
  * @class SecurityConfig
@@ -144,7 +144,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      *
      * @return {@code tokenRepository} 由该 token 仓库创建一个 token 并返回
      * @method persistentTokenRepository
-     * @author $himin F
+     * @author shiminfxcvii
      * @created 2022/5/1 15:15
      * @see org.springframework.security.web.authentication.rememberme.PersistentTokenRepository
      */

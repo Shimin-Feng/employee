@@ -1,7 +1,7 @@
-package com.example.service;
+package com.shiminfxcvii.service;
 
-import com.example.entity.User;
-import com.example.repository.UserRepository;
+import com.shiminfxcvii.entity.User;
+import com.shiminfxcvii.repository.UserRepository;
 import org.springframework.data.domain.Example;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 /**
- * @author $himin F
+ * @author shiminfxcvii
  * @version 1.0
  * @class UserService
  * @created 2022/5/1 15:31

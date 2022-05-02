@@ -1,6 +1,6 @@
-package com.example.repository;
+package com.shiminfxcvii.repository;
 
-import com.example.entity.SearchRecord;
+import com.shiminfxcvii.entity.SearchRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 /**
- * @author $himin F
+ * @author shiminfxcvii
  * @version 1.0
  * @class SearchRecordRepository
  * @created 2022/4/24 0:23 周日

@@ -1,4 +1,4 @@
-package com.example.entity;
+package com.shiminfxcvii.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

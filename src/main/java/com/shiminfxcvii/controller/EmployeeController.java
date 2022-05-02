@@ -1,7 +1,7 @@
-package com.example.controller;
+package com.shiminfxcvii.controller;
 
-import com.example.entity.Employee;
-import com.example.repository.EmployeeRepository;
+import com.shiminfxcvii.entity.Employee;
+import com.shiminfxcvii.repository.EmployeeRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -25,7 +25,7 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 /**
- * @author $himin F
+ * @author shiminfxcvii
  * @version 1.0
  * @description 操作员工信息 ———— CRUD
  * @class EmployeeController
@@ -66,7 +66,7 @@ public class EmployeeController {
      *
      * @return "login" login 页面
      * @method login
-     * @author $himin F
+     * @author shiminfxcvii
      * @created 2022/4/29 16:46
      */
     @RequestMapping("login")
@@ -79,7 +79,7 @@ public class EmployeeController {
      *
      * @return "index" index 页面
      * @method index
-     * @author $himin F
+     * @author shiminfxcvii
      * @created 2022/4/29 16:33
      */
     @RequestMapping("index")
@@ -110,7 +110,7 @@ public class EmployeeController {
      * @param model Model 页面模型
      * @return "employee" 返回查询后的整个页面
      * @method employee
-     * @author $himin F
+     * @author shiminfxcvii
      * @created 2022/4/29 10:32
      */
     @RequestMapping("employee")
@@ -142,7 +142,7 @@ public class EmployeeController {
      *                 </ul>
      * @param response HttpServletResponse 需要返回的状态和信息
      * @method saveOrUpdateEmployee
-     * @author $himin F
+     * @author shiminfxcvii
      * @created 2022/4/29 10:59
      */
     @RequestMapping("employee/saveOrUpdateEmployee")
@@ -259,7 +259,7 @@ public class EmployeeController {
      *                   删除之后再次查询该数据是否成功删除
      *                   成功则返回 200 "删除成功。"，否则返回 500 "服务器出现故障，删除失败，员工信息还存在。"
      * @method deleteEmployeeById
-     * @author $himin F
+     * @author shiminfxcvii
      * @created 2022/4/29 11:20
      */
     @RequestMapping("employee/deleteEmployeeById")
@@ -321,7 +321,7 @@ public class EmployeeController {
      * @param model     Model 页面模型
      * @return "employee" 返回查询后的整个页面
      * @method findEmployeesBy
-     * @author $himin F
+     * @author shiminfxcvii
      * @created 2022/4/29 11:50
      */
     @RequestMapping("employee/findEmployeesBy")

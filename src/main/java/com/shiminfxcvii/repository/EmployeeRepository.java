@@ -1,6 +1,6 @@
-package com.example.repository;
+package com.shiminfxcvii.repository;
 
-import com.example.entity.Employee;
+import com.shiminfxcvii.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EmployeeRepository extends JpaRepository<Employee, String> {

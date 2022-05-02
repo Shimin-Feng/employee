@@ -1,4 +1,4 @@
-package com.example.entity;
+package com.shiminfxcvii.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * @author $himin F
+ * @author shiminfxcvii
  * @version 1.0
  * @description 员工管理操作日志实体类
  * @class OperationLog

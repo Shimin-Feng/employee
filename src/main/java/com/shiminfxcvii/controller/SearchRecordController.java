@@ -1,9 +1,9 @@
-package com.example.controller;
+package com.shiminfxcvii.controller;
 
-import com.example.entity.Employee;
-import com.example.entity.SearchRecord;
-import com.example.repository.SearchRecordRepository;
-import com.example.util.CustomMethods;
+import com.shiminfxcvii.entity.Employee;
+import com.shiminfxcvii.entity.SearchRecord;
+import com.shiminfxcvii.repository.SearchRecordRepository;
+import com.shiminfxcvii.util.CustomMethods;
 import net.minidev.json.JSONArray;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Sort;
@@ -23,7 +23,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 /**
- * @author $himin F
+ * @author shiminfxcvii
  * @version 1.0
  * @description 对搜索记录的保存与查询
  * @class SearchRecordController
@@ -44,9 +44,9 @@ public class SearchRecordController {
      * @param user     String 登录用户
      * @param employee Employee 实体类某单一字段和属性
      * @method saveRecordName
-     * @author $himin F
+     * @author shiminfxcvii
      * @created 2022/4/30 11:11
-     * @see com.example.controller.EmployeeController#findEmployeesBy(Integer, Integer, Sort.Direction, String, Employee, Principal, Model)
+     * @see com.shiminfxcvii.controller.EmployeeController#findEmployeesBy(Integer, Integer, Sort.Direction, String, Employee, Principal, Model)
      */
     public void saveRecordName(Employee employee, Principal user) {
         if (null != user) {
@@ -93,7 +93,7 @@ public class SearchRecordController {
      *                      将会根据该关键字执行 4 次查询，每两次搜索结果去重后整合为一个结果，最终返回给前台
      * @param response      HttpServletResponse 将要返回的状态和信息
      * @method findRecordNamesBy
-     * @author $himin F
+     * @author shiminfxcvii
      * @created 2022/4/29 11:34
      */
     @RequestMapping("findRecordNamesBy")

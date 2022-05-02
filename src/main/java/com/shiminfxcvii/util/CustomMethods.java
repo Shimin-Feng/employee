@@ -1,4 +1,4 @@
-package com.example.util;
+package com.shiminfxcvii.util;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author $himin F
+ * @author shiminfxcvii
  * @version 1.0
  * @class CustomMethods
  * @created 2022/4/25 23:10 周一
@@ -22,7 +22,7 @@ public class CustomMethods {
      * @param o2  List<E>
      * @return 返回一个新 List，如果其中一个为空则返回另外一个
      * @method mergeTwoLists
-     * @author $himin F
+     * @author shiminfxcvii
      * @created 2022/5/1 2:24
      * @see java.util.List
      */
@@ -58,7 +58,7 @@ public class CustomMethods {
      * @param o   List<E>
      * @return 返回一个新 List
      * @method getListTopTenData
-     * @author $himin F
+     * @author shiminfxcvii
      * @created 2022/5/1 2:27
      * @see java.util.List
      */

@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.shiminfxcvii.controller;
 
 import org.junit.jupiter.api.Test;
 

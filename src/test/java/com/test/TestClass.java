@@ -1,8 +1,8 @@
 package com.test;
 
-import com.example.controller.EmployeeController;
-import com.example.entity.Employee;
-import com.example.entity.SearchRecord;
+import com.shiminfxcvii.controller.EmployeeController;
+import com.shiminfxcvii.entity.Employee;
+import com.shiminfxcvii.entity.SearchRecord;
 import org.junit.jupiter.api.Test;
 import org.thymeleaf.util.StringUtils;
 
