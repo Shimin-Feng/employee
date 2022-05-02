@@ -1,6 +1,8 @@
 package com.test;
 
+import com.example.controller.EmployeeController;
 import com.example.entity.Employee;
+import com.example.entity.SearchRecord;
 import org.junit.jupiter.api.Test;
 import org.thymeleaf.util.StringUtils;
 
@@ -15,6 +17,28 @@ import static java.lang.System.out;
 
 public class TestClass {
 
+    static {
+        out.println("static");
+    }
+
+    {
+        out.println("not static");
+    }
+
+    @Test
+    public void testStatic() {
+        EmployeeController employeeController = new EmployeeController();
+        out.println(TestStatic.ENCODE);
+        out.println(TestStatic.STATUS);
+    }
+
+    @Test
+    public void testEntity() {
+        SearchRecord searchRecord = new SearchRecord();
+        SearchRecord searchRecord2 = searchRecord;
+        out.println(searchRecord.hashCode());
+        out.println(searchRecord2.hashCode());
+    }
 
     @Test
     public void testStringUtils() {

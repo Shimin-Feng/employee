@@ -30,7 +30,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "search_record", schema = "test_database")
+@Table(name = "search_record", schema = "employee_management")
 public class SearchRecord {
     @Id
     @Column(name = "record_id", unique = true, nullable = false, updatable = false, columnDefinition = "varchar", length = 36)
@@ -62,6 +62,6 @@ public class SearchRecord {
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return System.identityHashCode(this);
     }
 }

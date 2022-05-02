@@ -9,6 +9,7 @@ import org.hibernate.Hibernate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
@@ -16,14 +17,16 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@Table(name = "user", schema = "employee_management")
 public class User {
     @Id
+    @Column(name = "user_id", unique = true, nullable = false, updatable = false, columnDefinition = "varchar", length = 36)
     private String userId;
-    @Column
+    @Column(name = "username", nullable = false, columnDefinition = "varchar", length = 45)
     private String username;
-    @Column
+    @Column(name = "password", nullable = false, columnDefinition = "varchar", length = 60)
     private String password;
-    @Column
+    @Column(name = "authorities", nullable = false, columnDefinition = "varchar", length = 45)
     private String authorities;
 
     @Override
@@ -36,6 +39,6 @@ public class User {
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return System.identityHashCode(this);
     }
 }

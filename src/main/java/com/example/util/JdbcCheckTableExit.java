@@ -1,16 +1,16 @@
-package com.example.config;
+package com.example.util;
 
 import java.sql.*;
 
 /**
  * TODO: Intellij IDEA 已经提示过可以不使用下面的方式连接 MySQL，那么如何简化此类的代码？
  * JdbcTemplate template = new JdbcTemplate(dataSource);
- * template.query("SHOW TABLES FROM test_database LIKE 'persistent_logins';", new BeanPropertyRowMapper<>());
+ * template.query("SHOW TABLES FROM employee_management LIKE 'persistent_logins';", new BeanPropertyRowMapper<>());
  */
 public class JdbcCheckTableExit {
 
     private static final String driver = "com.mysql.cj.jdbc.Driver";
-    private static final String url = "jdbc:mysql://localhost:3306/test_database";
+    private static final String url = "jdbc:mysql://localhost:3306/employee_management";
     private static final String user = "root";
     private static final String password = "MySQL1672943850";
 
@@ -27,7 +27,7 @@ public class JdbcCheckTableExit {
      * @see java.sql.DatabaseMetaData
      * @see java.sql.ResultSet
      */
-    public static boolean isTableExist(String catalog, String tableNamePattern) {
+    public static boolean isTableExist(String schemaPattern, String tableNamePattern) {
         var isExist = false;
         Connection c = null;
         DatabaseMetaData d;
@@ -37,7 +37,7 @@ public class JdbcCheckTableExit {
             c = DriverManager.getConnection(url, user, password);
             c.setAutoCommit(false);
             d = c.getMetaData();
-            r = d.getTables(catalog, null, tableNamePattern, new String[]{"TABLE"});
+            r = d.getTables(null, schemaPattern, tableNamePattern, new String[]{"TABLE"});
             isExist = r.next();
             r.close();
         } catch (Exception e) {

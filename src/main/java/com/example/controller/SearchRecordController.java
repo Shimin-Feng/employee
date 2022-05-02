@@ -2,8 +2,8 @@ package com.example.controller;
 
 import com.example.entity.Employee;
 import com.example.entity.SearchRecord;
-import com.example.methods.CustomMethods;
 import com.example.repository.SearchRecordRepository;
+import com.example.util.CustomMethods;
 import net.minidev.json.JSONArray;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Sort;
@@ -20,8 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
-import static java.lang.System.out;
+import java.util.logging.Logger;
 
 /**
  * @author $himin F
@@ -33,13 +32,14 @@ import static java.lang.System.out;
 @Controller
 public class SearchRecordController {
 
-    // 不设置编码前台就无法解析汉字
+    private static final Logger LOGGER = Logger.getGlobal();
     private static final String ENCODE = "UTF-8";
     @Resource
     private SearchRecordRepository searchRecordRepository;
 
     /**
-     * 保存用户的搜索记录，数据由查找员工信息时一并传到后台，由 EmployeeController.findEmployeesBy() 方法调用
+     * 保存用户的搜索记录，数据由查找员工信息时一并传到后台，由 EmployeeController.findEmployeesBy() 方法调用<br>
+     * 使用的是 saveAndFlush()
      *
      * @param user     String 登录用户
      * @param employee Employee 实体类某单一字段和属性
@@ -56,9 +56,14 @@ public class SearchRecordController {
                 field.setAccessible(true);
                 try {
                     if (null != field.get(employee) && !Objects.equals(field.get(employee).toString(), "")) {
-                        out.println(field.getName() + ": " + field.get(employee));
-                        searchRecordRepository.save(new SearchRecord(UUID.randomUUID().toString(), field.getName(),
+                        String recordId = UUID.randomUUID().toString();
+                        searchRecordRepository.saveAndFlush(new SearchRecord(recordId, field.getName(),
                                 field.get(employee).toString(), user.getName(), new Date()));
+                        if (searchRecordRepository.findById(recordId).isPresent()) {
+                            LOGGER.info("搜索记录保存成功。");
+                        } else {
+                            LOGGER.warning("搜索记录保存失败。");
+                        }
                         break;
                     }
                 } catch (IllegalAccessException e) {

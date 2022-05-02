@@ -1,16 +1,18 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/test_database?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/employee_management?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: MySQL1672943850
+
   jpa:
+    # Silent
+    # open-in-view: true
+    show-sql: true
     properties:
       hibernate:
         format_sql: true
-    # Silent
-    #    open-in-view: true
-    show-sql: true
+
   thymeleaf:
     # Turn off caching while developing
     cache: false
@@ -18,5 +20,4 @@ spring:
 server:
   servlet:
     session:
-      # 1800 秒无操作后再操作需要重新登录账号
       timeout: 1800

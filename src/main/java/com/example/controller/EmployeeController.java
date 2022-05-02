@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import com.example.entity.Employee;
-import com.example.methods.CustomMethods;
 import com.example.repository.EmployeeRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Example;
@@ -35,12 +34,19 @@ import java.util.regex.Pattern;
 @Controller
 public class EmployeeController {
 
-    // 不设置编码前台就无法解析汉字
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    // 编码格式，不设置编码前台就无法解析汉字
     private static final String ENCODE = "UTF-8";
+    // 状态码
+    private int status;
+    // 返回信息
+    private String message;
     @Resource
     private EmployeeRepository employeeRepository;
     @Resource
     private SearchRecordController searchRecordController;
+    @Resource
+    private OperationLogController operationLogController;
 
     // TODO: <input> 如何解决在使用中文输入时的错误？
     // TODO: 学习新一代 thymeleaf-extras-spring security6 的使用方法
@@ -51,6 +57,9 @@ public class EmployeeController {
     // TODO: 实现使用拼音也能搜索
     // TODO: ExampleMatcher 匹配 SearchRecord 搜索
     // TODO: 后续可以添加用户管理界面，管理请假界面
+    // TODO: 迁移数据库之后 employee_management employee 编码为 utf8mb4
+    // TODO: jstl?
+    // TODO: 完善 js if else 判断，success 没有 error
 
     /**
      * 在登录之前访问任何资源都将跳转到登录界面
@@ -138,14 +147,9 @@ public class EmployeeController {
      */
     @RequestMapping("employee/saveOrUpdateEmployee")
     public void saveOrUpdateEmployee(@NotNull Principal user, @RequestBody @NotNull Employee employee, HttpServletResponse response) {
-        // response
-        int status;
-        String message;
-
         // Get dateTime now
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        String dateTime = now.format(dateTimeFormatter);
+        String dateTime = now.format(DATE_TIME_FORMATTER);
 
         // Get sex
         String sex = Integer.parseInt(String.valueOf(employee.getEmployeeIdCard().charAt(16))) % 2 == 0 ? "女" : "男";
@@ -181,6 +185,8 @@ public class EmployeeController {
             employeeRepository.saveAndFlush(employee);
             // 检查是否成功保存到数据库
             if (employeeRepository.findById(employee.getEmployeeId()).isPresent()) {
+                // 保存操作日志
+                operationLogController.saveOperationLog("INSERT", employee, user);
                 status = 200;
                 message = "添加成功。";
             } else {
@@ -195,7 +201,7 @@ public class EmployeeController {
                 // 获取对象
                 Employee employee2 = employee1.get();
                 // 修改之前比较被修改对象的值与前台传递过来的值是否相同，不相同则执行修改操作
-                if (!CustomMethods.equals(employee, employee2)) {
+                if (!employee.equals(employee2)) {
                     // 设置值
                     employee.setEmployeeSex(sex);
                     employee.setEmployeeAge(age);
@@ -211,7 +217,9 @@ public class EmployeeController {
                         // 如果数据存在则获取对象
                         Employee employee4 = employee3.get();
                         // 修改之后比较被修改对象的值与前台传递过来的值是否相同，判断该数据是否成功修改
-                        if (CustomMethods.equals(employee, employee4)) {
+                        if (employee.equals(employee4)) {
+                            // 保存操作日志
+                            operationLogController.saveOperationLog("UPDATE", employee, user);
                             status = 200;
                             message = "修改成功。";
                         } else {
@@ -243,6 +251,7 @@ public class EmployeeController {
     /**
      * 根据员工 ID 删除员工信息
      *
+     * @param user       Principal 获取登录用户信息
      * @param employeeId String 前台传过来的 employeeId
      *                   执行shan
      * @param response   HttpServletResponse 将要返回的状态和信息
@@ -254,13 +263,14 @@ public class EmployeeController {
      * @created 2022/4/29 11:20
      */
     @RequestMapping("employee/deleteEmployeeById")
-    public void deleteEmployeeById(String employeeId, HttpServletResponse response) {
-        int status;
-        String message;
+    public void deleteEmployeeById(@NotNull Principal user, String employeeId, HttpServletResponse response) {
         if (Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", employeeId)) {
-            if (employeeRepository.findById(employeeId).isPresent()) {
+            Optional<Employee> employee = employeeRepository.findById(employeeId);
+            if (employee.isPresent()) {
                 employeeRepository.deleteById(employeeId);
                 if (employeeRepository.findById(employeeId).isEmpty()) {
+                    // 保存操作日志
+                    operationLogController.saveOperationLog("DELETE", employee.get(), user);
                     status = 200;
                     message = "删除成功。";
                 } else {
@@ -285,10 +295,10 @@ public class EmployeeController {
     }
 
     /**
-     * 根据条件和关键字搜索员工信息
-     * 除了首次进入员工管理页面前调用 employee()
-     * 其他查询请求全部改为进入该方法
-     * 就算前台不传值过来，@RequestBody Employee employee 也不会为空
+     * 根据条件和关键字搜索员工信息<br>
+     * 除了首次进入员工管理页面前调用 employee()<br>
+     * 其他查询请求全部改为进入该方法<br>
+     * 就算前台不传值过来，@RequestBody Employee employee 也不会为空<br>
      * null == employee //false
      *
      * @param pageNum   Integer 返回该值所有页数数据，默认第 1 页

@@ -1,6 +1,7 @@
 package com.example.config;
 
 import com.example.service.UserDetailsServiceImpl;
+import com.example.util.JdbcCheckTableExit;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -154,7 +155,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 设置数据源
         tokenRepository.setDataSource(dataSource);
         // 如果表不存在则创建
-        if (!JdbcCheckTableExit.isTableExist("test_database", "persistent_logins")) {
+        if (!JdbcCheckTableExit.isTableExist("employee_management", "persistent_logins")) {
             tokenRepository.setCreateTableOnStartup(true);
         }
         return tokenRepository;

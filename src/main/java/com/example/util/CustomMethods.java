@@ -1,11 +1,9 @@
-package com.example.methods;
+package com.example.util;
 
-import com.example.entity.Employee;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author $himin F
@@ -78,23 +76,5 @@ public class CustomMethods {
             }
         }
         return n;
-    }
-
-    /**
-     * 比较两个对象的属性值是否相同
-     *
-     * @param o Employee
-     * @param t Employee
-     * @return true 如果所有属性值都相同
-     * @method equals
-     * @author $himin F
-     * @created 2022/5/1 2:33
-     * @see com.example.entity.Employee
-     */
-    public static boolean equals(@NotNull Employee o, @NotNull Employee t) {
-        return Objects.equals(o.getEmployeeName(), t.getEmployeeName())
-                && Objects.equals(o.getEmployeeIdCard(), t.getEmployeeIdCard())
-                && Objects.equals(o.getEmployeeAddress(), t.getEmployeeAddress())
-                && Objects.equals(o.getEmployeePhoneNumber(), t.getEmployeePhoneNumber());
     }
 }
