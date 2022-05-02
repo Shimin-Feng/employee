@@ -4,23 +4,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="1.终于可以把 class JdbcCheckTableExit.java 安全删除!仅用一行代码就可代替&#10;2.将整个项目中的 Exception 的捕获方式由 try cash 改到方法签名&#10;原因：网上介绍说往上抛可以到最后统一处理异常">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/util/BaseDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/aafea0f0-8eaa-4de7-a4b7-2500cc5f6da9.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/aafea0f0-8eaa-4de7-a4b7-2500cc5f6da9/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/aafea0f0-8eaa-4de7-a4b7-2500cc5f6da9/storage_v2/_src_/schema/mysql.osA4Bg.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/aafea0f0-8eaa-4de7-a4b7-2500cc5f6da9/storage_v2/_src_/schema/performance_schema.kIw0nw.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/aafea0f0-8eaa-4de7-a4b7-2500cc5f6da9/storage_v2/_src_/schema/sys.zb4BAA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="优化 test library">
+      <change afterPath="$PROJECT_DIR$/src/test/resources/templates/test-js-date-toLocaleString.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/templates/test-js-symbol.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/SearchRecordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/SearchRecordController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/util/JdbcCheckTableExit.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/employee.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/employee.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/util/BaseDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/config/DataSourceUtilsTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/TestClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/TestStatic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestStatic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/img/01-man.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/static/img/01-man.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/img/02-man.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/static/img/02-man.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/img/03-man.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/static/img/03-man.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/img/04-man.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/static/img/04-man.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/img/1.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/static/img/1.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/img/2.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/static/img/2.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/img/showcase.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/static/img/showcase.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/src/jqConfirm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test-bootstrap.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/static/css/test-bootstrap.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test-bootstrap.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/templates/test-bootstrap.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test-jsaction.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/templates/test-jsaction.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test-menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/templates/test-menu.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test1.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/templates/test-css-position-1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test10.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test11.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test3.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/templates/test-css-position-2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test4.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test5.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test6.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test7.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/templates/test-js-navigator.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test8.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/test/test9.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/templates/test-js-prefers-color-scheme.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,10 +50,10 @@
         <option value="Record" />
         <option value="CSS File" />
         <option value="JavaScript File" />
-        <option value="HTML File" />
         <option value="Interface" />
         <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -68,7 +81,7 @@
     <setting file="file://$PROJECT_DIR$/src/main/resources/static/js/employee.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/templates/employee.html" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/templates/login.html" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/test/java/com/test/TestClass.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="JpbToolWindowState">
     <option name="myId2FirstActivated">
@@ -108,57 +121,62 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/g1672/IdeaProjects/employee/src/test/java/com/test&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.Mappings&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;89daeefeb373ccbfaf54ce642222d999&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "full.screen.before.presentation.mode": "false",
+    "ignore.preview.features.used": "true",
+    "last_opened_file_path": "C:/Users/g1672/IdeaProjects/untitled",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "rearrange.code.on.save": "true",
+    "settings.editor.selected.configurable": "preferences.general",
+    "spring.configuration.checksum": "89daeefeb373ccbfaf54ce642222d999"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\g1672\IdeaProjects\employee-management\src\test\resources\static\img" />
       <recent name="C:\Users\g1672\IdeaProjects\employee\src\test\java\com\test" />
       <recent name="C:\Users\g1672\IdeaProjects\employee\src\main\resources\static\ico" />
       <recent name="C:\Users\g1672\IdeaProjects\employee" />
       <recent name="C:\Users\g1672\IdeaProjects\employee\src\main\resources\templates" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\g1672\IdeaProjects\employee\src\test\java\com\test" />
-      <recent name="C:\Users\g1672\IdeaProjects\employee\src\test\java" />
-      <recent name="C:\Users\g1672\IdeaProjects\employee\src\main\resources" />
-      <recent name="C:\Users\g1672\IdeaProjects\employee\src\main\resources\templates" />
-      <recent name="C:\Users\g1672\IdeaProjects\employee\src\main\resources\static\ico" />
+      <recent name="C:\Users\g1672\IdeaProjects\employee-management\src\test\resources\static\img" />
+      <recent name="C:\Users\g1672\IdeaProjects\employee-management\src\test\resources\static\css" />
+      <recent name="C:\Users\g1672\IdeaProjects\employee-management\src\test\java\com\test\src" />
+      <recent name="C:\Users\g1672\IdeaProjects\employee-management\src\test\resources\templates" />
+      <recent name="C:\Users\g1672\IdeaProjects\employee-management\src\test\resources\static" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.shiminfxcvii.config" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="com.example.controller" />
@@ -172,48 +190,48 @@
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.Application">
-    <configuration name="BaseDao.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DataSourceUtilsTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="employee-management" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.shiminfxcvii.util.*" />
+          <option name="PATTERN" value="com.shiminfxcvii.config.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.shiminfxcvii.util" />
-      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.util.BaseDao" />
+      <option name="PACKAGE_NAME" value="com.shiminfxcvii.config" />
+      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.config.DataSourceUtilsTest" />
       <option name="METHOD_NAME" value="test" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BaseDao.test1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DataSourceUtilsTest.test1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="employee-management" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.shiminfxcvii.util.*" />
+          <option name="PATTERN" value="com.shiminfxcvii.config.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.shiminfxcvii.util" />
-      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.util.BaseDao" />
+      <option name="PACKAGE_NAME" value="com.shiminfxcvii.config" />
+      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.config.DataSourceUtilsTest" />
       <option name="METHOD_NAME" value="test1" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BaseDao.test3" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DataSourceUtilsTest.test3" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="employee-management" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.shiminfxcvii.util.*" />
+          <option name="PATTERN" value="com.shiminfxcvii.config.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.shiminfxcvii.util" />
-      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.util.BaseDao" />
+      <option name="PACKAGE_NAME" value="com.shiminfxcvii.config" />
+      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.config.DataSourceUtilsTest" />
       <option name="METHOD_NAME" value="test3" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
@@ -224,7 +242,7 @@
       <module name="employee-management" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.shiminfxcvii.util.*" />
+          <option name="PATTERN" value="com.shiminfxcvii.config.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -269,18 +287,18 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.BaseDao.test" />
-      <item itemvalue="JUnit.BaseDao.test1" />
-      <item itemvalue="JUnit.BaseDao.test3" />
+      <item itemvalue="JUnit.DataSourceUtilsTest.test" />
+      <item itemvalue="JUnit.DataSourceUtilsTest.test1" />
+      <item itemvalue="JUnit.DataSourceUtilsTest.test3" />
       <item itemvalue="JUnit.DepartmentDaoImpl.findCount" />
       <item itemvalue="JUnit.SecurityConfig.test" />
       <item itemvalue="Spring Boot.Application" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.BaseDao.test" />
-        <item itemvalue="JUnit.BaseDao.test1" />
-        <item itemvalue="JUnit.BaseDao.test3" />
+        <item itemvalue="JUnit.DataSourceUtilsTest.test" />
+        <item itemvalue="JUnit.DataSourceUtilsTest.test1" />
+        <item itemvalue="JUnit.DataSourceUtilsTest.test3" />
         <item itemvalue="JUnit.SecurityConfig.test" />
         <item itemvalue="JUnit.DepartmentDaoImpl.findCount" />
       </list>
@@ -329,7 +347,8 @@
       <workItem from="1651226683668" duration="45856000" />
       <workItem from="1651308781778" duration="107271000" />
       <workItem from="1651485498861" duration="228000" />
-      <workItem from="1651485793503" duration="14472000" />
+      <workItem from="1651485793503" duration="14678000" />
+      <workItem from="1651504902842" duration="5244000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1648665299036</created>
@@ -625,7 +644,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651485420057</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="1.终于可以把 class JdbcCheckTableExit.java 安全删除!仅用一行代码就可代替&#10;2.将整个项目中的 Exception 的捕获方式由 try cash 改到方法签名&#10;原因：网上介绍说往上抛可以到最后统一处理异常">
+      <created>1651504730048</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1651504730048</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -663,7 +689,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="页面、其他优化" />
     <MESSAGE value="优化增删改查、其他优化" />
     <MESSAGE value="实体类 Date 类型改为 String&#10;优化添加功能" />
     <MESSAGE value="优化页面&#10;增加 README.md" />
@@ -688,7 +713,8 @@
     <MESSAGE value="将对实体类 SearchRecord 添加和查询的方法迁移到一个新类 SearchRecordController.java&#10;完善 Java Doc&#10;js 代码优化" />
     <MESSAGE value="1.添加功能 ———— 保存用户操作记录 (dml)&#10;相关三个新类&#10;OperationLog.java&#10;OperationLogRepository.java&#10;OperationLogController.java&#10;2.完善实体类信息&#10;3.Delete the method ———— equals(@NotNull Employee o, @NotNull Employee t) of the class CustomMethods.java&#10;4.数据迁移到 new database employee_management&#10;5.其他优化" />
     <MESSAGE value="change the package name, com.example -&gt; com.shiminfxcvii" />
-    <option name="LAST_COMMIT_MESSAGE" value="change the package name, com.example -&gt; com.shiminfxcvii" />
+    <MESSAGE value="1.终于可以把 class JdbcCheckTableExit.java 安全删除!仅用一行代码就可代替&#10;2.将整个项目中的 Exception 的捕获方式由 try cash 改到方法签名&#10;原因：网上介绍说往上抛可以到最后统一处理异常" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.终于可以把 class JdbcCheckTableExit.java 安全删除!仅用一行代码就可代替&#10;2.将整个项目中的 Exception 的捕获方式由 try cash 改到方法签名&#10;原因：网上介绍说往上抛可以到最后统一处理异常" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

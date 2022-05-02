@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>r</title>
+</head>
+<body>
+<button>请点击这里，来切换不同的背景颜色</button>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	'use strict';
+	$(function () {
+
+
+		let now = new Date();
+// 'PRC'(People Republic of China): 不区分大小写.
+// '2-digit': 如果为 10 以下则在前面加 0. 只有 month, day 需为 '2-digit'
+		const options = {
+			timeZone: 'PRC',
+			year: 'numeric', month: '2-digit', day: '2-digit',
+			hour: 'numeric', minute: 'numeric', second: 'numeric'
+		};
+// locales: 'zh-CN' 不区分大小写.
+		now = now.toLocaleString('zh-CN', options);
+		console.log(now);
+// 2022/04/21 17:16:03
+// 2022/04/21 17:16:03
+		return false;
+
+
+		const event = new Date();
+		// const now = event.toLocaleDateString('en-GB', {timeZone: 'PRC'});
+		// const now = formatDateTime(createdDate).substring(0, 10).replace(/-/g, '');
+		// const nowYear = now.substring(0, 4);
+		// const nowMonth = now.substring(4, 6);
+		// const nowDay = now.substring(6, 8);
+		// 21/04/2022
+		/*const nowYear = now.substring(0, 4);
+		const nowMonth = now.substring(5, 7);
+		const nowDay = now.substring(8, 10);
+		console.log(nowYear);
+		console.log(nowMonth);
+		console.log(nowMonth - 1);
+		console.log(nowDay);*/
+
+// British English uses day-month-year order and 24-hour time without AM/PM
+// 		console.log(event.getTimezoneOffset());
+// 		console.log(event.toLocaleString('en-GB', {timeZone: 'UTC'}));
+// 		console.log(event.toLocaleString('en-GB', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('zh-GB', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('zh-US', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('zh-CN', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('zgfnfsg', {timeZone: 'prc'}));
+		console.log('-------------------------');
+		console.log(event.toDateString());
+		console.log(event.toLocaleString('zh', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('cn-GB', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('CN-GB', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('cn', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('cny', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('cnz', {timeZone: 'PRC'}));
+		console.log(event.toLocaleString('cnz', {timeZone: 'PRC'}));
+		console.log(event.toLocaleDateString('en-GB', {timeZone: 'UTC'}));
+		console.log(event.toLocaleDateString('en-GB', {timeZone: 'PRC'}));
+		console.log(event.toLocaleDateString('en-US', {timeZone: 'UTC'}));
+		console.log(event.toLocaleDateString('zh-GB', {timeZone: 'UTC'}));
+		console.log(event.toLocaleDateString('cn-GB', {timeZone: 'UTC'}));
+		console.log(event.toLocaleTimeString('en-GB', {timeZone: 'UTC'}));
+// expected output: 20/12/2012, 03:00:00
+
+// Korean uses year-month-day order and 12-hour time with AM/PM
+		console.log(event.toLocaleString('ko-KR', {timeZone: 'UTC'}));
+// expected output: 2012. 12. 20. 오전 3:00:00
+
+
+		debugger;
+		const str = '51152919970104501x';
+		const array = str.split('');
+		console.log(array);
+		array.pop();
+		console.log(array);
+		for (let j = 0; j < array.length; j++) {
+			console.log(array[j] * 2);
+
+		}
+
+
+	});
+</script>
+</body>
+</html>

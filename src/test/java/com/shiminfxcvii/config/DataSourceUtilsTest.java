@@ -1,4 +1,4 @@
-package com.shiminfxcvii.util;
+package com.shiminfxcvii.config;
 
 import com.shiminfxcvii.entity.SearchRecord;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Properties;
 
 @SpringBootTest
-public class BaseDao {
+public class DataSourceUtilsTest {
 
     @Resource
     private DataSource dataSource;

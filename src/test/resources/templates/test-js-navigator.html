@@ -1,64 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <link href="https://www.runoob.com/images/tryitimg.gif" rel="shortcut icon" type="image/x-icon">
-    <title>JavaScript实现背景颜色随时间变化</title>
-
+    <title></title>
 </head>
 <body>
-<p th:text="sss"></p>
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script type="text/javascript">
-	//加载函数
+<script>
 	window.onload = function () {
-
-
-		let lll = [1, 2, 3, 4, 5, 6];
-		// lll.splice(1, 1);
-		// console.log(lll);
-		lll = $.grep(lll, function (n, i) {
-			return i !== 1;
-		})
-		console.log(lll);
-		return false;
-
-
-		/*const date = new Date();
-		console.log(1);
-		console.log(date.getHours());
-		if (date.getHours() > 6 && date.getHours() < 18) {
-			$("body").css("background", '#FFFFFF');
-			// document.body.bgColor = '#FFFFFF';
-			alert(0);
-		} else {
-			$("body").css("background", '#1B1B1B');
-			// document.body.bgColor = '#1B1B1B';
-			alert(1);
-		}*/
-		const arr = [];
-		for (let i = 0; i < 999; i++) {
-			arr.push(i);
-			i++;
-		}
-		for (const index in arr) {
-			console.log(arr[index]);
-			// console.log(index);
-			// console.log(Number(index) + 34);
-		}
-		/*const myArray = [];
-		for (let i = 1; i < 999; i++) {
-			myArray.push(i);
-			i++;
-		}
-		myArray.name = "数组";
-		myArray.getName = function () {
-			return this.name;
-		}
-		for (const value of myArray) {
-			console.log(value);
-		}*/
-
 
 		const isWindows = function () {
 			return /windows|win32/i.test(navigator.userAgent);
@@ -118,19 +66,6 @@
 	(function () {
 		console.log(navigator.share());
 	})()
-
-	//颜色变化函数
-	/*function changeColor() {
-        //产生rgb的值
-        var r = Math.floor(Math.random() * 255);
-        var g = Math.floor(Math.random() * 255);
-        var b = Math.floor(Math.random() * 255);
-        var rgb = r.toString(16) + g.toString(16) + b.toString(16);
-        //toString(radix) 把数字转化为radix（取值范围2~36）进制值表示的字符串
-        document.body.bgColor = "#" + rgb;
-        window.setTimeout("changeColor()", 1000);
-        //setTimeout() 方法用于在指定的毫秒数后调用函数或计算表达式。
-    }*/
 </script>
 </body>
 </html>

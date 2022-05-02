@@ -44,9 +44,9 @@ public class EmployeeController {
     @Resource
     private EmployeeRepository employeeRepository;
     @Resource
-    private SearchRecordController searchRecordController;
-    @Resource
     private OperationLogController operationLogController;
+    @Resource
+    private SearchRecordController searchRecordController;
 
     // TODO: <input> 如何解决在使用中文输入时的错误？
     // TODO: 学习新一代 thymeleaf-extras-spring security6 的使用方法
@@ -60,7 +60,7 @@ public class EmployeeController {
     // TODO: 迁移数据库之后 employee_management employee 编码为 utf8mb4，所以某些查询会出现问题
 
     /**
-     * 在登录之前访问任何资源都将跳转到登录界面
+     * 在登录之前访问任何资源都将跳转到自定义登录界面
      *
      * @return "login" login 页面
      * @method login

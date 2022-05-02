@@ -1,4 +1,4 @@
-package com.test;
+package com.shiminfxcvii.other;
 
 import com.shiminfxcvii.controller.EmployeeController;
 import com.shiminfxcvii.entity.Employee;

@@ -71,6 +71,24 @@
 		}
 		window.setTimeout("changeBackground()", 1000);
 	}
+
+	!function () {
+		let listeners = {
+			dark: (mediaQueryList) => {
+				if (mediaQueryList.matches) {
+					alert('您切换到深色模式了！')
+				}
+			},
+			light: (mediaQueryList) => {
+				if (mediaQueryList.matches) {
+					alert('您切换到浅色模式了！')
+				}
+			}
+		}
+
+		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', listeners.dark)
+		window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', listeners.light)
+	}()
 </script>
 </body>
 </html>
