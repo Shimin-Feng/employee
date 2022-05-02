@@ -55,11 +55,9 @@ public class EmployeeController {
     // TODO: 尽可能多地合并 ajax
     // TODO: js 中可能有一个判断语句存在错误，记得本来应该判断是否为 -1，结果没比较，因为编译没出错
     // TODO: 实现使用拼音也能搜索
-    // TODO: ExampleMatcher 匹配 SearchRecord 搜索
+    // TODO: ExampleMatcher 匹配 SearchRecord 搜索（考虑）
     // TODO: 后续可以添加用户管理界面，管理请假界面
-    // TODO: 迁移数据库之后 employee_management employee 编码为 utf8mb4
-    // TODO: jstl?
-    // TODO: 完善 js if else 判断，success 没有 error
+    // TODO: 迁移数据库之后 employee_management employee 编码为 utf8mb4，所以某些查询会出现问题
 
     /**
      * 在登录之前访问任何资源都将跳转到登录界面
@@ -146,7 +144,7 @@ public class EmployeeController {
      * @created 2022/4/29 10:59
      */
     @RequestMapping("employee/saveOrUpdateEmployee")
-    public void saveOrUpdateEmployee(@NotNull Principal user, @RequestBody @NotNull Employee employee, HttpServletResponse response) {
+    public void saveOrUpdateEmployee(@NotNull Principal user, @RequestBody @NotNull Employee employee, HttpServletResponse response) throws IOException {
         // Get dateTime now
         LocalDateTime now = LocalDateTime.now();
         String dateTime = now.format(DATE_TIME_FORMATTER);
@@ -191,7 +189,7 @@ public class EmployeeController {
                 message = "添加成功。";
             } else {
                 status = 500;
-                message = "添加失败，服务器错误，员工信息未保存。";
+                message = "添加失败，服务器错误，员工信息未保存进数据库。";
             }
         } else {
             // update
@@ -224,11 +222,11 @@ public class EmployeeController {
                             message = "修改成功。";
                         } else {
                             status = 500;
-                            message = "服务器出现故障，修改失败，员工信息未被成功修改到数据库。";
+                            message = "服务器出现故障，修改失败，员工信息未被成功修改进数据库。";
                         }
                     } else {
                         status = 500;
-                        message = "服务器出现故障，修改失败，员工信息未被成功修改到数据库。";
+                        message = "服务器出现故障，修改失败，员工信息未被成功修改进数据库。";
                     }
                 } else {
                     status = 400;
@@ -239,13 +237,9 @@ public class EmployeeController {
                 message = "修改失败，该员工不存在。";
             }
         }
-        try {
-            response.setCharacterEncoding(ENCODE);
-            response.setStatus(status);
-            response.getWriter().write(message);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        response.setCharacterEncoding(ENCODE);
+        response.setStatus(status);
+        response.getWriter().write(message);
     }
 
     /**
@@ -263,7 +257,7 @@ public class EmployeeController {
      * @created 2022/4/29 11:20
      */
     @RequestMapping("employee/deleteEmployeeById")
-    public void deleteEmployeeById(@NotNull Principal user, String employeeId, HttpServletResponse response) {
+    public void deleteEmployeeById(@NotNull Principal user, String employeeId, HttpServletResponse response) throws IOException {
         if (Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", employeeId)) {
             Optional<Employee> employee = employeeRepository.findById(employeeId);
             if (employee.isPresent()) {
@@ -275,23 +269,19 @@ public class EmployeeController {
                     message = "删除成功。";
                 } else {
                     status = 500;
-                    message = "服务器出现故障，删除失败，员工信息还存在。";
+                    message = "服务器出现故障，删除失败，员工信息还存在于数据库。";
                 }
             } else {
                 status = 400;
-                message = "删除失败，该员工信息不存在于数据库。";
+                message = "删除失败，因为数据库没有该员工信息。";
             }
         } else {
             status = 400;
             message = "删除失败，ID 格式不正确。";
         }
-        try {
-            response.setCharacterEncoding(ENCODE);
-            response.setStatus(status);
-            response.getWriter().write(message);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        response.setCharacterEncoding(ENCODE);
+        response.setStatus(status);
+        response.getWriter().write(message);
     }
 
     /**
@@ -335,7 +325,7 @@ public class EmployeeController {
             @RequestBody Employee employee,
             @NotNull Principal user,
             @NotNull Model model
-    ) {
+    ) throws IllegalAccessException {
         model.addAttribute(
                 "employees",
                 employeeRepository.findAll(

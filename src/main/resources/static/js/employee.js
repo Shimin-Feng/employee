@@ -639,6 +639,10 @@
 				if (state.readyState === 4 && state.status === 200) {
 					updatePage(data)
 				}
+			},
+			error: function () {
+				toastBody.text('页面加载失败，请检查后重试。')
+				new bootstrap.Toast(liveToast).show()
 			}
 		})
 	}

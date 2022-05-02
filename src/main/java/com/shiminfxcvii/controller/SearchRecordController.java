@@ -48,26 +48,22 @@ public class SearchRecordController {
      * @created 2022/4/30 11:11
      * @see com.shiminfxcvii.controller.EmployeeController#findEmployeesBy(Integer, Integer, Sort.Direction, String, Employee, Principal, Model)
      */
-    public void saveRecordName(Employee employee, Principal user) {
+    public void saveRecordName(Employee employee, Principal user) throws IllegalAccessException {
         if (null != user) {
             // 获取这个类的所有属性
             // 循环遍历所有的 fields
             for (Field field : employee.getClass().getDeclaredFields()) {
                 field.setAccessible(true);
-                try {
-                    if (null != field.get(employee) && !Objects.equals(field.get(employee).toString(), "")) {
-                        String recordId = UUID.randomUUID().toString();
-                        searchRecordRepository.saveAndFlush(new SearchRecord(recordId, field.getName(),
-                                field.get(employee).toString(), user.getName(), new Date()));
-                        if (searchRecordRepository.findById(recordId).isPresent()) {
-                            LOGGER.info("搜索记录保存成功。");
-                        } else {
-                            LOGGER.warning("搜索记录保存失败。");
-                        }
-                        break;
+                if (null != field.get(employee) && !Objects.equals(field.get(employee).toString(), "")) {
+                    String recordId = UUID.randomUUID().toString();
+                    searchRecordRepository.saveAndFlush(new SearchRecord(recordId, field.getName(),
+                            field.get(employee).toString(), user.getName(), new Date()));
+                    if (searchRecordRepository.findById(recordId).isPresent()) {
+                        LOGGER.info("搜索记录保存成功。");
+                    } else {
+                        LOGGER.warning("搜索记录保存失败。");
                     }
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException(e);
+                    break;
                 }
             }
         }
@@ -97,54 +93,50 @@ public class SearchRecordController {
      * @created 2022/4/29 11:34
      */
     @RequestMapping("findRecordNamesBy")
-    public void findRecordNamesBy(@NotNull Principal user, String searchGroupBy, String recordName, HttpServletResponse response) {
-        String recordNames;
+    public void findRecordNamesBy(@NotNull Principal user, String searchGroupBy, String recordName, HttpServletResponse response) throws IOException {
+        List<String> recordNames;
         // 查找此用户的搜索记录 ?%
         List<String> thisRecordNamesOne = searchRecordRepository.findThisRecordNamesOne(user.getName(), searchGroupBy, recordName);
         // 如果有十条则返回，否则继续查找
         if (10 == thisRecordNamesOne.size()) {
-            recordNames = JSONArray.toJSONString(thisRecordNamesOne);
+            recordNames = thisRecordNamesOne;
         } else {
             // 继续查找此用户的搜索记录 %?%
             List<String> thisRecordNamesTwo = searchRecordRepository.findThisRecordNamesTwo(user.getName(), searchGroupBy, recordName);
             // 合并并去重，前 ?% ———— %?% 后
             List<String> thisRecordNamesThree = CustomMethods.mergeTwoLists(thisRecordNamesOne, thisRecordNamesTwo);
             if (10 == thisRecordNamesThree.size()) {
-                recordNames = JSONArray.toJSONString(thisRecordNamesThree);
+                recordNames = thisRecordNamesThree;
             } else if (10 < thisRecordNamesThree.size()) {
                 // 如果多于十条则只取前面十条数据
-                recordNames = JSONArray.toJSONString(CustomMethods.getListTopTenData(thisRecordNamesThree));
+                recordNames = CustomMethods.getListTopTenData(thisRecordNamesThree);
             } else {
                 // 所有用户的相关搜索记录，需要输入框有内容
                 if (null != recordName && !Objects.equals(recordName, "")) {
                     List<String> allRecordNamesOne = searchRecordRepository.findAllRecordNamesOne(searchGroupBy, recordName);
                     List<String> thisAndAllRecordNamesOne = CustomMethods.mergeTwoLists(thisRecordNamesThree, allRecordNamesOne);
                     if (10 == thisAndAllRecordNamesOne.size()) {
-                        recordNames = JSONArray.toJSONString(thisAndAllRecordNamesOne);
+                        recordNames = thisAndAllRecordNamesOne;
                     } else if (10 < thisAndAllRecordNamesOne.size()) {
                         // 如果多于十条则只取前面十条数据
-                        recordNames = JSONArray.toJSONString(CustomMethods.getListTopTenData(thisAndAllRecordNamesOne));
+                        recordNames = CustomMethods.getListTopTenData(thisAndAllRecordNamesOne);
                     } else {
                         List<String> allRecordNamesTwo = searchRecordRepository.findAllRecordNamesTwo(searchGroupBy, recordName);
                         List<String> thisAndAllRecordNamesTwo = CustomMethods.mergeTwoLists(thisAndAllRecordNamesOne, allRecordNamesTwo);
                         if (10 >= thisAndAllRecordNamesTwo.size()) {
-                            recordNames = JSONArray.toJSONString(thisAndAllRecordNamesTwo);
+                            recordNames = thisAndAllRecordNamesTwo;
                         } else {
                             // 如果多于十条则只取前面十条数据
-                            recordNames = JSONArray.toJSONString(CustomMethods.getListTopTenData(thisAndAllRecordNamesTwo));
+                            recordNames = CustomMethods.getListTopTenData(thisAndAllRecordNamesTwo);
                         }
                     }
                 } else {
-                    recordNames = JSONArray.toJSONString(thisRecordNamesThree);
+                    recordNames = thisRecordNamesThree;
                 }
             }
         }
-        try {
-            response.setCharacterEncoding(ENCODE);
-            response.getWriter().write(recordNames);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        response.setCharacterEncoding(ENCODE);
+        response.getWriter().write(JSONArray.toJSONString(recordNames));
     }
 
 }

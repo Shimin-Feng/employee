@@ -1,4 +1,4 @@
-/* 操作系统及浏览器支持且用户开启了 Dark Mode */
+/* Auto Dark Mode */
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #1B1B1B;

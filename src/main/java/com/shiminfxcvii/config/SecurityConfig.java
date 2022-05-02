@@ -1,10 +1,10 @@
 package com.shiminfxcvii.config;
 
 import com.shiminfxcvii.service.UserDetailsServiceImpl;
-import com.shiminfxcvii.util.JdbcCheckTableExit;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 /**
  * @author shiminfxcvii
@@ -149,13 +150,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @see org.springframework.security.web.authentication.rememberme.PersistentTokenRepository
      */
     @Bean
-    public PersistentTokenRepository persistentTokenRepository() {
+    public PersistentTokenRepository persistentTokenRepository() throws SQLException {
         // 获取工厂实例
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
         // 设置数据源
         tokenRepository.setDataSource(dataSource);
         // 如果表不存在则创建
-        if (!JdbcCheckTableExit.isTableExist("employee_management", "persistent_logins")) {
+        // 下面判断已替换掉 class JdbcCheckTableExit.java
+        if (!DataSourceUtils.getConnection(dataSource).getMetaData().getTables(null, "employee_management", "persistent_logins", new String[]{"TABLE"}).next()) {
             tokenRepository.setCreateTableOnStartup(true);
         }
         return tokenRepository;
