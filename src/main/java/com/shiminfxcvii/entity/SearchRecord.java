@@ -1,9 +1,6 @@
 package com.shiminfxcvii.entity;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.Column;
@@ -30,27 +27,20 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Table(name = "search_record", schema = "employee_management")
 public class SearchRecord {
     @Id
     @Column(name = "record_id", unique = true, nullable = false, updatable = false, columnDefinition = "varchar", length = 36)
-    String recordId;
+    private String recordId;
     @Column(name = "search_group_by", nullable = false, updatable = false, columnDefinition = "varchar", length = 45)
-    String searchGroupBy;
+    private String searchGroupBy;
     @Column(name = "record_name", nullable = false, updatable = false, columnDefinition = "varchar", length = 45)
-    String recordName;
+    private String recordName;
     @Column(name = "username", nullable = false, updatable = false, columnDefinition = "varchar", length = 45)
-    String username;
+    private String username;
     @Column(name = "created_date", nullable = false, updatable = false, columnDefinition = "datetime")
-    Date createdDate;
-
-    public SearchRecord(String recordId, String searchGroupBy, String recordName, String username, Date createdDate) {
-        this.recordId = recordId;
-        this.searchGroupBy = searchGroupBy;
-        this.recordName = recordName;
-        this.username = username;
-        this.createdDate = createdDate;
-    }
+    private Date createdDate;
 
     @Override
     public boolean equals(Object o) {
@@ -62,6 +52,6 @@ public class SearchRecord {
 
     @Override
     public int hashCode() {
-        return System.identityHashCode(this);
+        return getClass().hashCode();
     }
 }

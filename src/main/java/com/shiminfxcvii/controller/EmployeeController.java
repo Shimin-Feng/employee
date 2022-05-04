@@ -52,12 +52,13 @@ public class EmployeeController {
     // TODO: 学习新一代 thymeleaf-extras-spring security6 的使用方法
     // TODO: 统计图
     // TODO: 数据库根据时间自动调整年龄
-    // TODO: 尽可能多地合并 ajax
-    // TODO: js 中可能有一个判断语句存在错误，记得本来应该判断是否为 -1，结果没比较，因为编译没出错
     // TODO: 实现使用拼音也能搜索
     // TODO: ExampleMatcher 匹配 SearchRecord 搜索（考虑）
     // TODO: 后续可以添加用户管理界面，管理请假界面
     // TODO: 迁移数据库之后 employee_management employee 编码为 utf8mb4，所以某些查询会出现问题
+    // TODO: js // 默认就是 'ASC' 和 'createdDate' 能省略的一定省略
+    // TODO: 操作日志的图表
+    // TODO: 如此频繁地查询数据库是否真的有必要？
 
     /**
      * 在登录之前访问任何资源都将跳转到自定义登录界面
@@ -90,9 +91,9 @@ public class EmployeeController {
         return "logout";
     }*/
 
-    /*@RequestMapping("loginFailed")
+    /*@RequestMapping("login-failed")
     public String loginFailed() {
-        return "loginFailed";
+        return "login-failed";
     }*/
 
     // TODO: 为什么点退出会来的 timeout 页面？
@@ -247,7 +248,6 @@ public class EmployeeController {
      *
      * @param user       Principal 获取登录用户信息
      * @param employeeId String 前台传过来的 employeeId
-     *                   执行shan
      * @param response   HttpServletResponse 将要返回的状态和信息
      *                   删除之前根据该 employeeId 查询该数据是否存在
      *                   删除之后再次查询该数据是否成功删除

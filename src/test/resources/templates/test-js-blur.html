@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<label>
+    <input id="btn" type="text">
+</label>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+	window.onload = function () {
+		$(document).on('blur', '#btn', function (e) {
+			const btn = document.getElementById("btn");
+
+			console.log(e)
+			console.log(this)
+			console.log(btn)
+
+			console.log(document.hasFocus())  //true
+
+
+			// Does the element have focus:
+			const hasFocus = $('input').is(':focus');
+			console.log(hasFocus)
+
+			// Does the element have focus:
+			const hasFocus2 = $(this).is(':focus');
+			console.log(hasFocus2)
+			console.log(!hasFocus2)
+
+			const elem = btn.ownerDocument.activeElement;
+			console.log(elem);
+		})
+	};
+</script>
+</body>
+</html>

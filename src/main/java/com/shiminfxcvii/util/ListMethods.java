@@ -8,23 +8,23 @@ import java.util.List;
 /**
  * @author shiminfxcvii
  * @version 1.0
- * @class CustomMethods
+ * @class ListMethods
  * @created 2022/4/25 23:10 周一
  * @description 自定义方法类
+ * @see java.util.List
  */
-public class CustomMethods {
+public class ListMethods {
 
     /**
      * 合并两个 List
      *
-     * @param <E> {@code List} 的元素类型
+     * @param <E> {@code List} 元素类型
      * @param o1  List<E>
      * @param o2  List<E>
-     * @return 返回一个新 List，如果其中一个为空则返回另外一个
+     * @return 去重以后返回一个新 List，如果其中一个为空则返回另外一个
      * @method mergeTwoLists
      * @author shiminfxcvii
      * @created 2022/5/1 2:24
-     * @see java.util.List
      */
     public static <E> List<E> mergeTwoLists(@NotNull List<E> o1, List<E> o2) {
         if (o1.size() > 0 && o2.size() > 0) {
@@ -54,13 +54,12 @@ public class CustomMethods {
     /**
      * 取 List 数组前十条数据
      *
-     * @param <E> {@code List} 的元素类型
+     * @param <E> {@code List} 元素类型
      * @param o   List<E>
-     * @return 返回一个新 List
+     * @return 最多只取前面十条 List 数据，返回一个新 List
      * @method getListTopTenData
      * @author shiminfxcvii
      * @created 2022/5/1 2:27
-     * @see java.util.List
      */
     public static <E> @NotNull List<E> getListTopTenData(@NotNull List<E> o) {
         List<E> n = new ArrayList<>();

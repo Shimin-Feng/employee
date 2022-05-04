@@ -5,9 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,11 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 
+@Entity
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Entity
 @Table(name = "employee", schema = "employee_management")
 public class Employee {
 
@@ -38,13 +35,10 @@ public class Employee {
     private String employeeAddress;
     @Column(name = "employee_phone_number", nullable = false, columnDefinition = "varchar", length = 11)
     private String employeePhoneNumber;
-    @CreatedBy
     @Column(name = "created_by", nullable = false, updatable = false, columnDefinition = "varchar", length = 45)
     private String createdBy;
-    @CreatedDate
     @Column(name = "created_date", nullable = false, updatable = false, columnDefinition = "varchar", length = 19)
     private String createdDate;
-    @LastModifiedDate
     @Column(name = "last_modified_date", nullable = false, columnDefinition = "varchar", length = 19)
     private String lastModifiedDate;
 
@@ -61,6 +55,6 @@ public class Employee {
 
     @Override
     public int hashCode() {
-        return System.identityHashCode(this);
+        return getClass().hashCode();
     }
 }

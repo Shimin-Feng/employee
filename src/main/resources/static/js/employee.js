@@ -6,8 +6,8 @@
 		tbody = $('tbody'),
 		tfoot = $('tfoot'),
 		modalBody = $('.modal-body'),
-		findSelect = $('#findSelect'),
-		findInput = $('#findInput'),
+		findSelect = $('section div select'),
+		findInput = $('section div input[type="search"]'),
 		toastBody = $('.toast-body'),
 		liveToast = $('#liveToast'),
 
@@ -33,7 +33,7 @@
 
 	// 更新页面数据
 	function updatePage(data) {
-		if (/updateEmployee/.test(data)) {
+		if (/btn-primary/.test(data)) {
 			// 截取之后填充进页面
 			const trs = data.split('<tbody class="table-secondary">')[1].split('</tbody>'),
 				ul = trs[1].split('<div class="modal-footer no-margin-top">')[1].split('</div>')
@@ -113,9 +113,9 @@
 
 	// 若有则获取上一次的排序规则
 	function getDirectionAndProperty() {
-		let direction = 'ASC',
-			property = 'createdDate'
-		// 只选取支持排序功能的 th
+		let direction = '',
+			property = ''
+		// 只寻找支持排序功能的 9 个 th 之一的值
 		for (let i = 1; i < 10; i++) {
 			if (/^(ASC|DESC)$/.test(thead.find('tr th:eq(' + i + ')').val())) {
 				direction = thead.find('tr th:eq(' + i + ')').val()
@@ -151,7 +151,7 @@
 	}
 
 	// 添加、修改员工信息
-	$(document).on('click', '#saveOrUpdateEmployee', function () {
+	$(document).on('click', 'div[class="modal-footer"] a:eq(1)', function () {
 		// 获取表单数据
 		const arr = []
 		$('.form-control').each(function () {
@@ -206,9 +206,25 @@
 		})
 	})
 
+	// 将需要更改的员工信息填充进 modal
+	$(document).on('click', '.btn-primary', function () {
+		// 获取当前 tbody tr 下标
+		console.log(this);
+		const index = this.parentNode.parentNode.firstElementChild.textContent % 10 - 1
+		modalBody.val(index)
+		$('#recipient-name').val(tbody.find('tr:eq(' + index + ') td:eq(0)').text())
+		$('#recipient-idCard').val(tbody.find('tr:eq(' + index + ') td:eq(3)').text())
+		$('#recipient-address').val(tbody.find('tr:eq(' + index + ') td:eq(4)').text())
+		$('#recipient-phoneNumber').val(tbody.find('tr:eq(' + index + ') td:eq(5)').text())
+	})
+	// 避免点击更改弹出了 modal 更改后却并没有提交使 tbody tr 下标继续留在 .modal-body
+	$(document).on('click', 'div[class="modal-header"] a, div[class="modal-footer"] a:eq(0)', function () {
+		modalBody.val('')
+	})
+
 	// 删除
 	// 在这里, $(document) 不可简写
-	$(document).on('click', '.deleteEmployeeById', function () {
+	$(document).on('click', '.btn-danger', function () {
 		const employeeId = this.parentElement.parentElement.firstElementChild.id
 		if (!/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(employeeId)) {
 			toastBody.text('没有获取到员工 ID，请检查后重试。')
@@ -244,24 +260,9 @@
 
 	// 添加、修改或者删除操作之后的查询是一致的
 	function saveOrDelete() {
-		const strings = getDirectionAndProperty().split(', ')
-		ajaxRequestCondition($('.currentPage').attr('name'), strings[0], strings[1])
+		const list = getDirectionAndProperty().split(', ')
+		ajaxRequestBy($('.currentPage').attr('name'), list[0], list[1])
 	}
-
-	// 将需要更改的员工信息填充进 modal
-	$(document).on('click', '.updateEmployee', function () {
-		// 获取当前 tbody tr 下标
-		const index = this.parentNode.parentNode.firstElementChild.textContent % 10 - 1
-		modalBody.val(index)
-		$('#recipient-name').val(tbody.find('tr:eq(' + index + ') td:eq(0)').text())
-		$('#recipient-idCard').val(tbody.find('tr:eq(' + index + ') td:eq(3)').text())
-		$('#recipient-address').val(tbody.find('tr:eq(' + index + ') td:eq(4)').text())
-		$('#recipient-phoneNumber').val(tbody.find('tr:eq(' + index + ') td:eq(5)').text())
-	})
-	// 避免点击更改弹出了 modal 更改后却并没有提交使 tbody tr 下标继续留在 .modal-body
-	$(document).on('click', '.close-employee-modal', function () {
-		modalBody.val('')
-	})
 
 	// jQuery UI autocomplete 动态提示搜索建议
 	findInput.autocomplete({
@@ -303,7 +304,8 @@
 			// ui.item.value
 			$(this).val(ui.item.value)
 			this.blur()
-			findEmployeesBy()
+			reset()
+			ajaxRequestBy(0, '', '')
 			// 如果不 return，jQuery UI 会继续执行自己的 select 方法
 			return false
 		}
@@ -315,7 +317,7 @@
 	// 查找员工
 	// 尝试过把下面两个方法写进一个方法里，但不理想
 	// 键盘回车事件
-	$(document).on('keypress', '#findInput', function (e) {
+	$(document).on('keypress', 'section div input[type="search"]', function (e) {
 		// keypress 相对于 keydown 与 keyup，只有按下 Enter 键会触发此事件。
 		// 而 keydown 与 keyup，按下 Shift、Ctrl、Caps 都会触发，所以这里选择 keypress
 		if ('' !== this.value) {
@@ -325,52 +327,19 @@
 			const keyCode = e.keyCode || e.which || e.charCode
 			if ('Enter' === e.key || 13 === keyCode) {
 				this.blur()
-				findEmployeesBy()
+				reset()
+				ajaxRequestBy(0, '', '')
 			}
 		}
 	})
 
-	// 搜索按钮点击事件
-	$(document).on('click', '#findA', function () {
+	// 搜索员工按钮点击事件
+	$(document).on('click', 'section div a:eq(0)[class="btn btn-secondary"]', function () {
 		if ('' !== this.previousElementSibling.value) {
-			findEmployeesBy()
+			reset()
+			ajaxRequestBy(0, '', '')
 		}
 	})
-
-	// 根据搜索条件查找员工
-	function findEmployeesBy() {
-		// 每次查找之前都初始化数据
-		init()
-		for (let i = 1; i < 10; i++) {
-			thead.find('tr th:eq(' + i + ')').val('')
-			thead.find('tr th:eq(' + i + ') i').attr('class', 'bi bi-chevron-expand')
-		}
-		$.ajax({
-			type: 'POST',
-			// 下面这行非常重要，没有会报错
-			// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
-			// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
-			contentType: 'application/json',
-			// 存储搜索记录并把搜索者传到后台
-			url: '/employee/findEmployeesBy',
-			data: JSON.stringify(new Employee()),
-			// 因为开启了 csrf，所以增加请求头
-			// 终于成功了！！！
-			headers: {
-				// 不区分大小写
-				'X-CSRF-Token': token
-			},
-			success: function (data, success, state) {
-				if (state.readyState === 4 && state.status === 200) {
-					updatePage(data)
-				}
-			},
-			error: function () {
-				toastBody.text('查找失败，请检查后重试。')
-				new bootstrap.Toast(liveToast).show()
-			}
-		})
-	}
 
 	// 根据排序条件查询
 	// 写在这里方便查看
@@ -400,206 +369,154 @@
 		}
 	}
 
+	function reset() {
+		init()
+		for (let i = 1; i < 10; i++) {
+			thead.find('tr th:eq(' + i + ')').val('')
+			thead.find('tr th:eq(' + i + ') i').attr('class', 'bi bi-chevron-expand')
+		}
+	}
+
 	$(document).on('click', 'thead tr th', function () {
 		switch (this.cellIndex) {
 			case 1:
 				switch (e.name) {
 					case 0:
-						sortDirectionCondition('ASC', 'employeeName')
-						$(this).find('i').attr('class', 'bi bi-chevron-up')
-						$(this).val('ASC')
-						init()
+						// 后台 direction 默认就是 ASC
+						sortDirection(this, '', 'employeeName', 'bi bi-chevron-up', 'ASC')
 						e.name = 1
 						break
 					case 1:
-						sortDirectionCondition('DESC', 'employeeName')
-						$(this).find('i').attr('class', 'bi bi-chevron-down')
-						$(this).val('DESC')
-						init()
+						sortDirection(this, 'DESC', 'employeeName', 'bi bi-chevron-down', 'DESC')
 						e.name = 2
 						break
 					case 2:
-						reset(this)
-						init()
+						// 使第三次点击回到初始状态
+						sortDirection(this, '', '', 'bi bi-chevron-expand', '')
 				}
 				break
 			case 2:
 				switch (e.sex) {
 					case 0:
-						sortDirectionCondition('ASC', 'employeeSex')
-						$(this).find('i').attr('class', 'bi bi-chevron-up')
-						$(this).val('ASC')
-						init()
+						sortDirection(this, '', 'employeeSex', 'bi bi-chevron-up', 'ASC')
 						e.sex = 1
 						break
 					case 1:
-						sortDirectionCondition('DESC', 'employeeSex')
-						$(this).find('i').attr('class', 'bi bi-chevron-down')
-						$(this).val('DESC')
-						init()
+						sortDirection(this, 'DESC', 'employeeSex', 'bi bi-chevron-down', 'DESC')
 						e.sex = 2
 						break
 					case 2:
-						reset(this)
-						init()
+						sortDirection(this, '', '', 'bi bi-chevron-expand', '')
 				}
 				break
 			case 3:
 				switch (e.age) {
 					case 0:
-						sortDirectionCondition('ASC', 'employeeAge')
-						$(this).find('i').attr('class', 'bi bi-chevron-up')
-						$(this).val('ASC')
-						init()
+						sortDirection(this, '', 'employeeAge', 'bi bi-chevron-up', 'ASC')
 						e.age = 1
 						break
 					case 1:
-						sortDirectionCondition('DESC', 'employeeAge')
-						$(this).find('i').attr('class', 'bi bi-chevron-down')
-						$(this).val('DESC')
-						init()
+						sortDirection(this, 'DESC', 'employeeAge', 'bi bi-chevron-down', 'DESC')
 						e.age = 2
 						break
 					case 2:
-						reset(this)
-						init()
+						sortDirection(this, '', '', 'bi bi-chevron-expand', '')
 				}
 				break
 			case 4:
 				switch (e.idCard) {
 					case 0:
-						sortDirectionCondition('ASC', 'employeeIdCard')
-						$(this).find('i').attr('class', 'bi bi-chevron-up')
-						$(this).val('ASC')
-						init()
+						sortDirection(this, '', 'employeeIdCard', 'bi bi-chevron-up', 'ASC')
 						e.idCard = 1
 						break
 					case 1:
-						sortDirectionCondition('DESC', 'employeeIdCard')
-						$(this).find('i').attr('class', 'bi bi-chevron-down')
-						$(this).val('DESC')
-						init()
+						sortDirection(this, 'DESC', 'employeeIdCard', 'bi bi-chevron-down', 'DESC')
 						e.idCard = 2
 						break
 					case 2:
-						reset(this)
-						init()
+						sortDirection(this, '', '', 'bi bi-chevron-expand', '')
 				}
 				break
 			case 5:
 				switch (e.address) {
 					case 0:
-						sortDirectionCondition('ASC', 'employeeAddress')
-						$(this).find('i').attr('class', 'bi bi-chevron-up')
-						$(this).val('ASC')
-						init()
+						sortDirection(this, '', 'employeeAddress', 'bi bi-chevron-up', 'ASC')
 						e.address = 1
 						break
 					case 1:
-						sortDirectionCondition('DESC', 'employeeAddress')
-						$(this).find('i').attr('class', 'bi bi-chevron-down')
-						$(this).val('DESC')
-						init()
+						sortDirection(this, 'DESC', 'employeeAddress', 'bi bi-chevron-down', 'DESC')
 						e.address = 2
 						break
 					case 2:
-						reset(this)
-						init()
+						sortDirection(this, '', '', 'bi bi-chevron-expand', '')
 				}
 				break
 			case 6:
 				switch (e.phoneNumber) {
 					case 0:
-						sortDirectionCondition('ASC', 'employeePhoneNumber')
-						$(this).find('i').attr('class', 'bi bi-chevron-up')
-						$(this).val('ASC')
-						init()
+						sortDirection(this, '', 'employeePhoneNumber', 'bi bi-chevron-up', 'ASC')
 						e.phoneNumber = 1
 						break
 					case 1:
-						sortDirectionCondition('DESC', 'employeePhoneNumber')
-						$(this).find('i').attr('class', 'bi bi-chevron-down')
-						$(this).val('DESC')
-						init()
+						sortDirection(this, 'DESC', 'employeePhoneNumber', 'bi bi-chevron-down', 'DESC')
 						e.phoneNumber = 2
 						break
 					case 2:
-						reset(this)
-						init()
+						sortDirection(this, '', '', 'bi bi-chevron-expand', '')
 				}
 				break
 			case 7:
 				switch (e.createdBy) {
 					case 0:
-						sortDirectionCondition('ASC', 'createdBy')
-						$(this).find('i').attr('class', 'bi bi-chevron-up')
-						$(this).val('ASC')
-						init()
+						sortDirection(this, '', 'createdBy', 'bi bi-chevron-up', 'ASC')
 						e.createdBy = 1
 						break
 					case 1:
-						sortDirectionCondition('DESC', 'createdBy')
-						$(this).find('i').attr('class', 'bi bi-chevron-down')
-						$(this).val('DESC')
-						init()
+						sortDirection(this, 'DESC', 'createdBy', 'bi bi-chevron-down', 'DESC')
 						e.createdBy = 2
 						break
 					case 2:
-						reset(this)
-						init()
+						sortDirection(this, '', '', 'bi bi-chevron-expand', '')
 				}
 				break
 			case 8:
 				switch (e.createdDate) {
 					case 0:
-						sortDirectionCondition('ASC', 'createdDate')
-						$(this).find('i').attr('class', 'bi bi-chevron-up')
-						$(this).val('ASC')
-						init()
+						// 后台 property 默认就是 createdDate
+						sortDirection(this, '', '', 'bi bi-chevron-up', 'ASC')
 						e.createdDate = 1
 						break
 					case 1:
-						sortDirectionCondition('DESC', 'createdDate')
-						$(this).find('i').attr('class', 'bi bi-chevron-down')
-						$(this).val('DESC')
-						init()
+						sortDirection(this, 'DESC', '', 'bi bi-chevron-down', 'DESC')
 						e.createdDate = 2
 						break
 					case 2:
-						reset(this)
-						init()
+						sortDirection(this, '', '', 'bi bi-chevron-expand', '')
 				}
 				break
 			case 9:
 				switch (e.lastModifiedDate) {
 					case 0:
-						sortDirectionCondition('ASC', 'lastModifiedDate')
-						$(this).find('i').attr('class', 'bi bi-chevron-up')
-						$(this).val('ASC')
-						init()
+						sortDirection(this, '', 'lastModifiedDate', 'bi bi-chevron-up', 'ASC')
 						e.lastModifiedDate = 1
 						break
 					case 1:
-						sortDirectionCondition('DESC', 'lastModifiedDate')
-						$(this).find('i').attr('class', 'bi bi-chevron-down')
-						$(this).val('DESC')
-						init()
+						sortDirection(this, 'DESC', 'lastModifiedDate', 'bi bi-chevron-down', 'DESC')
 						e.lastModifiedDate = 2
 						break
 					case 2:
-						reset(this)
-						init()
+						sortDirection(this, '', '', 'bi bi-chevron-expand', '')
 				}
 		}
 
-		// 使第三次点击回到初始状态
-		function reset($this) {
-			sortDirectionCondition('ASC', 'createdDate')
-			$($this).find('i').attr('class', 'bi bi-chevron-expand')
-			$($this).val('')
+		function sortDirection($this, direction, property, value, val) {
+			ajaxRequestBy(0, direction, property)
+			$($this).find('i').attr('class', value)
+			$($this).val(val)
+			init()
 		}
 
-		// 删除其他 thead tr th 的 val()
+		// 选中并删除其他 thead tr th 的 val()
 		const ths = []
 		// 只选取支持排序功能的 th
 		for (let i = 1; i < 10; i++) {
@@ -621,40 +538,38 @@
 		}*/
 	})
 
-	// 执行指定的排序查询————有查询条件，或者当只有一页数据并添加数据时会通过这里查询
-	function sortDirectionCondition(direction, property) {
-		$.ajax({
-			type: 'POST',
-			// 下面这行非常重要，没有会报错
-			// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
-			// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
-			contentType: 'application/json',
-			url: '/employee/findEmployeesBy?direction=' + direction + '&property=' + property,
-			data: JSON.stringify(new Employee()),
-			// 因为开启了 csrf，所以增加请求头
-			headers: {
-				'X-CSRF-Token': token
-			},
-			success: function (data, success, state) {
-				if (state.readyState === 4 && state.status === 200) {
-					updatePage(data)
+	// 通过输入框翻页的 enter 和 blur event
+	$(document).on('keypress blur', 'span label input', function (e) {
+		// keypress 相对于 keydown 与 keyup，只有按下 Enter 键会触发此事件。
+		// 而 keydown 与 keyup，按下 Shift、Ctrl、Caps 都会触发，所以这里选择 keypress
+		if ('' !== this.value) {
+			// Yes. 只有 keypress 能正确获取到 e.charCode 的值
+			// No. keydown、keyup 获取为 0
+			// Yes. keydown、keypress、keyup 都能正确获取到 key
+			const keyCode = e.keyCode || e.which || e.charCode
+			if ('Enter' === e.key || 13 === keyCode || !$(this).is(':focus')) {
+				// 有效页数: 1.必须为整数 2.大于零 3.不大于总页数
+				if (0 === this.value % 1 && 0 < this.value && parseInt($('.page-link:last')[0].name) + 2 > this.value) {
+					const list = getDirectionAndProperty().split(', ')
+					ajaxRequestBy(this.value - 1, list[0], list[1])
+					// 发送请求后将 this.value 的值设为 ''，以避免失焦后再次发送请求
+					this.value = ''
+				} else {
+					$('.toast-body').text('请输入正确的页数。')
+					new bootstrap.Toast($('#liveToast')).show()
 				}
-			},
-			error: function () {
-				toastBody.text('页面加载失败，请检查后重试。')
-				new bootstrap.Toast(liveToast).show()
 			}
-		})
-	}
+		}
+	})
 
 	// 首页、上一页、中间页、下一页、尾页
 	$(document).on('click', '.page-link', function () {
-		const strings = getDirectionAndProperty().split(', ')
-		ajaxRequestCondition(this.name, strings[0], strings[1])
+		const list = getDirectionAndProperty().split(', ')
+		ajaxRequestBy(this.name, list[0], list[1])
 	})
 
-	// ajax - 有查询条件
-	function ajaxRequestCondition(pageNum, direction, property) {
+	// 发送增删改之后的页面数据更新和翻页的请求
+	function ajaxRequestBy(pageNum, direction, property) {
 		if (pageNum > -1) {
 			$.ajax({
 				type: 'POST',
@@ -670,47 +585,23 @@
 				},
 				success: function (data, success, state) {
 					if (state.readyState === 4 && state.status === 200) {
-						if (/updateEmployee/.test(data)) {
+						if (/btn-primary/.test(data)) {
 							updatePage(data)
+						} else if (pageNum > 0) {
+							// 如果该页没有数据，将会向前面一页查询数据
+							ajaxRequestBy(pageNum - 1, direction, property)
 						} else {
-							// 如果该页（最后一页）没有数据时，将会向前面一页查询数据
-							if (pageNum > 0) {
-								$.ajax({
-									type: 'POST',
-									// 下面这行非常重要，没有会报错
-									// Resolved [org.springframework.web.HttpMediaTypeNotSupportedException:
-									// Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
-									contentType: 'application/json',
-									url: '/employee/findEmployeesBy?pageNum=' + (pageNum - 1) + '&direction=' + direction + '&property=' + property,
-									data: JSON.stringify(new Employee()),
-									// 因为开启了 csrf，所以增加请求头
-									headers: {
-										'X-CSRF-Token': token
-									},
-									success: function (data, success, state) {
-										if (state.readyState === 4 && state.status === 200) {
-											updatePage(data)
-										}
-									},
-									error: function () {
-										toastBody.text('页面加载失败，请检查后重试。')
-										new bootstrap.Toast(liveToast).show()
-									}
-								})
-							} else {
-								tbody.children().remove()
-								tfoot.find('tr td div').children().remove()
-							}
+							tbody.children().remove()
+							tfoot.find('tr td div').children().remove()
 						}
 					}
 				},
 				error: function () {
-					toastBody.text('页面加载失败，请检查后重试。')
 					new bootstrap.Toast(liveToast).show()
 				}
 			})
 		} else {
-			sortDirectionCondition(direction, property)
+			ajaxRequestBy(0, direction, property)
 		}
 	}
 }()

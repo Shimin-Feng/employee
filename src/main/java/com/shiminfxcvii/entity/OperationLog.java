@@ -4,12 +4,12 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Objects;
 
 /**
  * @author shiminfxcvii
@@ -53,50 +53,20 @@ public class OperationLog {
     private String lastModifiedDate;
     @Column(name = "username", nullable = false, updatable = false, columnDefinition = "varchar", length = 45)
     private String username;
-    @CreatedDate
     @Column(name = "date_time", nullable = false, updatable = false, columnDefinition = "varchar", length = 19)
     private String dateTime;
 
-    // IntelliJ Default Version
+    // Java Util Objects 7+ Version
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
-        OperationLog that = (OperationLog) o;
-
-        if (!logId.equals(that.logId)) return false;
-        if (!dml.equals(that.dml)) return false;
-        if (!employeeId.equals(that.employeeId)) return false;
-        if (!employeeName.equals(that.employeeName)) return false;
-        if (!employeeSex.equals(that.employeeSex)) return false;
-        if (!employeeAge.equals(that.employeeAge)) return false;
-        if (!employeeIdCard.equals(that.employeeIdCard)) return false;
-        if (!employeeAddress.equals(that.employeeAddress)) return false;
-        if (!employeePhoneNumber.equals(that.employeePhoneNumber)) return false;
-        if (!createdBy.equals(that.createdBy)) return false;
-        if (!createdDate.equals(that.createdDate)) return false;
-        if (!lastModifiedDate.equals(that.lastModifiedDate)) return false;
-        if (!username.equals(that.username)) return false;
-        return dateTime.equals(that.dateTime);
+        OperationLog log = (OperationLog) o;
+        return logId.equals(log.logId) && dml.equals(log.dml) && employeeId.equals(log.employeeId) && employeeName.equals(log.employeeName) && employeeSex.equals(log.employeeSex) && employeeAge.equals(log.employeeAge) && employeeIdCard.equals(log.employeeIdCard) && employeeAddress.equals(log.employeeAddress) && employeePhoneNumber.equals(log.employeePhoneNumber) && createdBy.equals(log.createdBy) && createdDate.equals(log.createdDate) && lastModifiedDate.equals(log.lastModifiedDate) && username.equals(log.username) && dateTime.equals(log.dateTime);
     }
 
     @Override
     public int hashCode() {
-        int result = logId.hashCode();
-        result = 31 * result + dml.hashCode();
-        result = 31 * result + employeeId.hashCode();
-        result = 31 * result + employeeName.hashCode();
-        result = 31 * result + employeeSex.hashCode();
-        result = 31 * result + employeeAge.hashCode();
-        result = 31 * result + employeeIdCard.hashCode();
-        result = 31 * result + employeeAddress.hashCode();
-        result = 31 * result + employeePhoneNumber.hashCode();
-        result = 31 * result + createdBy.hashCode();
-        result = 31 * result + createdDate.hashCode();
-        result = 31 * result + lastModifiedDate.hashCode();
-        result = 31 * result + username.hashCode();
-        result = 31 * result + dateTime.hashCode();
-        return result;
+        return Objects.hash(logId, dml, employeeId, employeeName, employeeSex, employeeAge, employeeIdCard, employeeAddress, employeePhoneNumber, createdBy, createdDate, lastModifiedDate, username, dateTime);
     }
 }

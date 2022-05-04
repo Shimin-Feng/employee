@@ -9,13 +9,16 @@ body::before {
     display: block;
     content: '';
     height: 60px;
-    background: grey;
 }
 
 li a {
     cursor: pointer;
 }
 
-#findA {
+section div input + a {
     margin-right: 20px;
+}
+
+nav div a:nth-child(5) {
+    margin-left: 14.6%;
 }

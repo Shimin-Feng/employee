@@ -80,7 +80,7 @@ public class HTTPStatusCodeErrorController implements ErrorController {
                 }
                 default -> {
                     modelAndView.addObject("msg", statusCode);
-                    modelAndView.setViewName("unknownError");
+                    modelAndView.setViewName("unknown-error");
                 }
             }
         }

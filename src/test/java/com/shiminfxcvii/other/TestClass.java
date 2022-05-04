@@ -13,9 +13,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import static java.awt.SystemColor.info;
 import static java.lang.System.out;
 
 public class TestClass {
+
 
     static {
         out.println("static");
@@ -23,6 +25,16 @@ public class TestClass {
 
     {
         out.println("not static");
+    }
+
+    @Test
+    public void testInfo() {
+        out.println(info.getGreen());
+        out.println(info.brighter());
+        out.println(info.getAlpha());
+        out.println(info.getBlue());
+        out.println(info.getColorSpace());
+        out.println(info.darker());
     }
 
     @Test

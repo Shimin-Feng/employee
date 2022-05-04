@@ -3,7 +3,7 @@ package com.shiminfxcvii.controller;
 import com.shiminfxcvii.entity.Employee;
 import com.shiminfxcvii.entity.SearchRecord;
 import com.shiminfxcvii.repository.SearchRecordRepository;
-import com.shiminfxcvii.util.CustomMethods;
+import com.shiminfxcvii.util.ListMethods;
 import net.minidev.json.JSONArray;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Sort;
@@ -56,12 +56,11 @@ public class SearchRecordController {
                 field.setAccessible(true);
                 if (null != field.get(employee) && !Objects.equals(field.get(employee).toString(), "")) {
                     String recordId = UUID.randomUUID().toString();
-                    searchRecordRepository.saveAndFlush(new SearchRecord(recordId, field.getName(),
-                            field.get(employee).toString(), user.getName(), new Date()));
+                    searchRecordRepository.saveAndFlush(new SearchRecord(recordId, field.getName(), field.get(employee).toString(), user.getName(), new Date()));
                     if (searchRecordRepository.findById(recordId).isPresent()) {
                         LOGGER.info("搜索记录保存成功。");
                     } else {
-                        LOGGER.warning("搜索记录保存失败。");
+                        LOGGER.severe("搜索记录保存失败。");
                     }
                     break;
                 }
@@ -104,30 +103,30 @@ public class SearchRecordController {
             // 继续查找此用户的搜索记录 %?%
             List<String> thisRecordNamesTwo = searchRecordRepository.findThisRecordNamesTwo(user.getName(), searchGroupBy, recordName);
             // 合并并去重，前 ?% ———— %?% 后
-            List<String> thisRecordNamesThree = CustomMethods.mergeTwoLists(thisRecordNamesOne, thisRecordNamesTwo);
+            List<String> thisRecordNamesThree = ListMethods.mergeTwoLists(thisRecordNamesOne, thisRecordNamesTwo);
             if (10 == thisRecordNamesThree.size()) {
                 recordNames = thisRecordNamesThree;
             } else if (10 < thisRecordNamesThree.size()) {
                 // 如果多于十条则只取前面十条数据
-                recordNames = CustomMethods.getListTopTenData(thisRecordNamesThree);
+                recordNames = ListMethods.getListTopTenData(thisRecordNamesThree);
             } else {
                 // 所有用户的相关搜索记录，需要输入框有内容
                 if (null != recordName && !Objects.equals(recordName, "")) {
                     List<String> allRecordNamesOne = searchRecordRepository.findAllRecordNamesOne(searchGroupBy, recordName);
-                    List<String> thisAndAllRecordNamesOne = CustomMethods.mergeTwoLists(thisRecordNamesThree, allRecordNamesOne);
+                    List<String> thisAndAllRecordNamesOne = ListMethods.mergeTwoLists(thisRecordNamesThree, allRecordNamesOne);
                     if (10 == thisAndAllRecordNamesOne.size()) {
                         recordNames = thisAndAllRecordNamesOne;
                     } else if (10 < thisAndAllRecordNamesOne.size()) {
                         // 如果多于十条则只取前面十条数据
-                        recordNames = CustomMethods.getListTopTenData(thisAndAllRecordNamesOne);
+                        recordNames = ListMethods.getListTopTenData(thisAndAllRecordNamesOne);
                     } else {
                         List<String> allRecordNamesTwo = searchRecordRepository.findAllRecordNamesTwo(searchGroupBy, recordName);
-                        List<String> thisAndAllRecordNamesTwo = CustomMethods.mergeTwoLists(thisAndAllRecordNamesOne, allRecordNamesTwo);
+                        List<String> thisAndAllRecordNamesTwo = ListMethods.mergeTwoLists(thisAndAllRecordNamesOne, allRecordNamesTwo);
                         if (10 >= thisAndAllRecordNamesTwo.size()) {
                             recordNames = thisAndAllRecordNamesTwo;
                         } else {
                             // 如果多于十条则只取前面十条数据
-                            recordNames = CustomMethods.getListTopTenData(thisAndAllRecordNamesTwo);
+                            recordNames = ListMethods.getListTopTenData(thisAndAllRecordNamesTwo);
                         }
                     }
                 } else {
