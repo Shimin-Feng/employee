@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link href="https://www.runoob.com/images/tryitimg.gif" rel="shortcut icon" type="image/x-icon">
@@ -27,6 +27,11 @@
         </a>
         <div class="collapse navbar-collapse" id="navmenu">
             <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <div class="nav-link">
+                        <a href="/index">主页</a>
+                    </div>
+                </li>
                 <li class="nav-item">
                     <div class="nav-link">
                         <a href="/operationLog">操作日志</a>
@@ -115,7 +120,7 @@
                     <span th:if="${employees.totalPages} > 1">
                         <span>第</span>
                         <label>
-                            <input style="width: 100px" type="number">
+                            <input id="pageNumber" type="number">
                         </label>
                         <span>页</span>
                     </span>
@@ -129,7 +134,7 @@
                         <li th:each="pageNum:${#numbers.sequence(0, employees.getTotalPages() - 1)}">
                             <a class="page-link" th:if="${pageNum ne employees.pageable.getPageNumber()}"
                                th:name="${pageNum}" th:text="${pageNum + 1}"></a>
-                            <a class="page-link currentPage text-light" style='background: #0D6EFD;'
+                            <a class="page-link currentPage text-light"
                                th:if="${pageNum eq employees.pageable.getPageNumber()}"
                                th:name="${pageNum}" th:text="${pageNum + 1}"></a>
                         </li>
@@ -180,7 +185,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-secondary close-employee-modal" data-bs-dismiss="modal" type="button">关闭</a>
+                <a class="btn btn-secondary" data-bs-dismiss="modal" type="button">关闭</a>
                 <a class="btn btn-success" data-bs-dismiss="modal" type="button">确定</a>
             </div>
         </div>

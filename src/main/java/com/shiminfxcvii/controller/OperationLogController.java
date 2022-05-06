@@ -50,6 +50,10 @@ public class OperationLogController {
 
     /**
      * 保存操作员工信息后的日志
+     * 在这里使用的是 saveAndFlush() 而不是 save()，因为保存或者修改之后会立即查询数据库中该条数据
+     * 如果使用 save() 可能会出现保存或者修改方法执行之后，立即查询数据库中该记录可能会出现不存在的情况
+     * save()          将数据保存在内存中
+     * saveAndFlush()  保存在内存中的同时同步到数据库
      *
      * @param dml      INSERT, UPDATE, DELETE
      * @param employee 员工实体类
@@ -59,24 +63,24 @@ public class OperationLogController {
      * @created 2022/5/3 16:28
      */
     public void saveOperationLog(String dml, @NotNull Employee employee, @NotNull Principal user) {
-        OperationLog operationLogs = new OperationLog();
-        operationLogs.setLogId(UUID.randomUUID().toString());
-        operationLogs.setDml(dml);
-        operationLogs.setEmployeeId(employee.getEmployeeId());
-        operationLogs.setEmployeeName(employee.getEmployeeName());
-        operationLogs.setEmployeeSex(employee.getEmployeeSex());
-        operationLogs.setEmployeeAge(employee.getEmployeeAge());
-        operationLogs.setEmployeeIdCard(employee.getEmployeeIdCard());
-        operationLogs.setEmployeeAddress(employee.getEmployeeAddress());
-        operationLogs.setEmployeePhoneNumber(employee.getEmployeePhoneNumber());
-        operationLogs.setCreatedBy(employee.getCreatedBy());
-        operationLogs.setCreatedDate(employee.getCreatedDate());
-        operationLogs.setLastModifiedDate(employee.getLastModifiedDate());
-        operationLogs.setUsername(user.getName());
-        operationLogs.setDateTime(LocalDateTime.now().format(DATE_TIME_FORMATTER));
-        operationLogRepository.saveAndFlush(operationLogs);
+        OperationLog operationLog = new OperationLog();
+        operationLog.setLogId(UUID.randomUUID().toString());
+        operationLog.setDml(dml);
+        operationLog.setEmployeeId(employee.getEmployeeId());
+        operationLog.setEmployeeName(employee.getEmployeeName());
+        operationLog.setEmployeeSex(employee.getEmployeeSex());
+        operationLog.setEmployeeAge(employee.getEmployeeAge());
+        operationLog.setEmployeeIdCard(employee.getEmployeeIdCard());
+        operationLog.setEmployeeAddress(employee.getEmployeeAddress());
+        operationLog.setEmployeePhoneNumber(employee.getEmployeePhoneNumber());
+        operationLog.setCreatedBy(employee.getCreatedBy());
+        operationLog.setCreatedDate(employee.getCreatedDate());
+        operationLog.setLastModifiedDate(employee.getLastModifiedDate());
+        operationLog.setUsername(user.getName());
+        operationLog.setDateTime(LocalDateTime.now().format(DATE_TIME_FORMATTER));
+        operationLogRepository.saveAndFlush(operationLog);
         // 检查是否成功保存到数据库
-        if (operationLogRepository.findById(operationLogs.getLogId()).isPresent()) {
+        if (operationLogRepository.findById(operationLog.getLogId()).isPresent()) {
             LOGGER.info("操作日志保存成功。");
         } else {
             LOGGER.severe("操作日志保存失败。");
@@ -101,7 +105,7 @@ public class OperationLogController {
     ) {
         model.addAttribute(
                 "operationLogs",
-                operationLogRepository.findAll(PageRequest.of(pageNum, pageSize, Sort.by("dateTime")))
+                operationLogRepository.findAll(PageRequest.of(pageNum, pageSize, Sort.by("dateTime", "logId")))
         );
         return "operation-log";
     }

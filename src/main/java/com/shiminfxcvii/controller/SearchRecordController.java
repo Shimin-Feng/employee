@@ -39,7 +39,10 @@ public class SearchRecordController {
 
     /**
      * 保存用户的搜索记录，数据由查找员工信息时一并传到后台，由 EmployeeController.findEmployeesBy() 方法调用<br>
-     * 使用的是 saveAndFlush()
+     * 在这里使用的是 saveAndFlush() 而不是 save()，因为保存或者修改之后会立即查询数据库中该条数据
+     * 如果使用 save() 可能会出现保存或者修改方法执行之后，立即查询数据库中该记录可能会出现不存在的情况
+     * save()          将数据保存在内存中
+     * saveAndFlush()  保存在内存中的同时同步到数据库
      *
      * @param user     String 登录用户
      * @param employee Employee 实体类某单一字段和属性

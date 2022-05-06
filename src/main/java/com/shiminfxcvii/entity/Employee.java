@@ -47,10 +47,10 @@ public class Employee {
         if (this == o) return true;
         if (null == o || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Employee employee = (Employee) o;
-        return Objects.equals(employeeName, employee.getEmployeeName())
-                && Objects.equals(employeeIdCard, employee.getEmployeeIdCard())
-                && Objects.equals(employeeAddress, employee.getEmployeeAddress())
-                && Objects.equals(employeePhoneNumber, employee.getEmployeePhoneNumber());
+        return Objects.equals(employeeName, employee.getEmployeeName()) &&
+                Objects.equals(employeeIdCard, employee.getEmployeeIdCard()) &&
+                Objects.equals(employeeAddress, employee.getEmployeeAddress()) &&
+                Objects.equals(employeePhoneNumber, employee.getEmployeePhoneNumber());
     }
 
     @Override

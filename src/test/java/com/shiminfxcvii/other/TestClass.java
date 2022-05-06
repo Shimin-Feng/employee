@@ -28,6 +28,24 @@ public class TestClass {
     }
 
     @Test
+    public void testPattern() {
+        String str1 = null;
+        String str2 = "";
+        String str3 = "d";
+
+        // java.lang.NullPointerException: Cannot invoke "java.lang.CharSequence.length()" because "this.text" is null
+        if (Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", str1)) {
+            out.println(1);
+        }
+        if (Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", str2)) {
+            out.println(1);
+        }
+        if (Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", str3)) {
+            out.println(1);
+        }
+    }
+
+    @Test
     public void testInfo() {
         out.println(info.getGreen());
         out.println(info.brighter());

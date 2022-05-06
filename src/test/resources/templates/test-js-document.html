@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul id="list">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+</ul>
+<a href="" name="parent"></a>
+<div>
+    parent
+    <div id="children">children</div>
+</div>
+<script>
+	window.onload = function () {
+
+		// 第一种方法
+		let obj = {"name": "tom", "age": 16}
+		let key = "id";
+		let value = 2
+		obj['id'] = value;
+		console.log(obj)
+
+		// 第二种方法，利用扩展运算符,简单又实用
+		var obj1 = {"vue": 300, "jquery": 200};
+		var obj2 = {"react": 500};
+		var obj3 = {
+			...obj1,
+			...obj2
+		}
+		console.log(obj3)
+
+		// 第三种办法
+		let obj4 = {a: "1"};
+		let obj5 = {b: "2"};
+		let obj6 = {c: "3"};
+		Object.assign(obj4, obj5, obj6);
+		console.log(obj4)
+
+
+		const formData = {
+			a: 1,
+			b: 2,
+			c: 3,
+		};
+
+		console.log(formData);
+		formData.push("username", "Groucho");
+		console.log(formData);
+
+
+		let parent = document.getElementsByName('parent')
+		console.log(parent);
+		let children = document.getElementById('children')
+		console.log(children.contains(parent))
+
+
+		var the_ul = document.getElementById('list');
+		var the_li = the_ul.getElementsByTagName('li');
+		for (var i = 0; i < the_li.length; i++) {
+			the_li[i].onclick = function () {
+				console.log(this.innerHTML)
+				console.log(this)
+			}
+		}
+
+
+		/*var the_ul = document.getElementById('list');
+		the_ul.onclick = function (e) {
+			console.log(e.target.innerHTML)
+		}*/
+	}
+</script>
+</body>
+</html>

@@ -26,6 +26,11 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <div class="nav-link">
+                        <a href="/index">主页</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <div class="nav-link">
                         <a href="/employee">员工管理</a>
                     </div>
                 </li>
@@ -90,7 +95,7 @@
                     <span th:if="${operationLogs.totalPages} > 1">
                         <span>第</span>
                         <label>
-                            <input style="width: 100px" type="number">
+                            <input type="number">
                         </label>
                         <span>页</span>
                     </span>
@@ -104,7 +109,7 @@
                         <li th:each="pageNum:${#numbers.sequence(0, operationLogs.getTotalPages() - 1)}">
                             <a class="page-link" th:if="${pageNum ne operationLogs.pageable.getPageNumber()}"
                                th:name="${pageNum}" th:text="${pageNum + 1}"></a>
-                            <a class="page-link currentPage text-light" style='background: #0D6EFD;'
+                            <a class="page-link currentPage text-light"
                                th:if="${pageNum eq operationLogs.pageable.getPageNumber()}"
                                th:name="${pageNum}" th:text="${pageNum + 1}"></a>
                         </li>

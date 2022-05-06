@@ -15,10 +15,18 @@ li a {
     cursor: pointer;
 }
 
+nav div a:nth-child(5) {
+    margin-left: 14.6%;
+}
+
 section div input + a {
     margin-right: 20px;
 }
 
-nav div a:nth-child(5) {
-    margin-left: 14.6%;
+span label input {
+    width: 100px;
+}
+
+.currentPage {
+    background: #0D6EFD;
 }

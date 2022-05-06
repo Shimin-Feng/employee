@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+第<span id="pagingText"></span>页，共<span id="total">40</span>页
+<div id="pagingDiv"></div>
+
+<script>
+	//首先获取当前的总页数，一般是后台传递过来的，这里假定40页。
+	const total = document.getElementById("total").innerHTML;
+	//id="pagingDiv"的div通过pagingConstruct函数构造，比如加载网页是第1页的
+	pagingConstruct(1);
+
+	//形式参数paging是指当前页
+	function pagingConstruct(paging) {
+		//先更新一下行内文本
+		document.getElementById("pagingText").innerHTML = paging;
+		let pagingDivInnerHTML = "";
+		//这里是加载省略号的flag
+		let isHiddenExist = 0;
+		//从第1页读到第40页。
+		for (let i = 1; i <= total; i++) {
+			//如果读到当前页，就仅仅加载一个文本，不放链接
+			if (i === paging) {
+				pagingDivInnerHTML += i + " ";
+			} else {
+				//如果是页首，中间页，页尾，当前页的前后三页则不省略。
+				if (i < 4 || i < (paging + 3) && i > (paging - 3) || i > (total / 2 - 2) && i < (total / 2 + 2) || i > (total - 3)) {
+					pagingDivInnerHTML += "<a href='javascript:void(0)' onclick='pagingConstruct(" + i + ")'>" + i + "</a> ";
+					isHiddenExist = 0;
+				}
+				//否则就构造...
+				else {
+					if (isHiddenExist === 0) {
+						pagingDivInnerHTML += "...";
+						isHiddenExist = 1;
+					}
+				}
+			}
+		}
+		//把构造的内容放上去pagingDiv
+		document.getElementById("pagingDiv").innerHTML = pagingDivInnerHTML;
+	}
+</script>
+
+</body>
+</html>

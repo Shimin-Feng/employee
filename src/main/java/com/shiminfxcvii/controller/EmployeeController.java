@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -56,9 +55,11 @@ public class EmployeeController {
     // TODO: ExampleMatcher 匹配 SearchRecord 搜索（考虑）
     // TODO: 后续可以添加用户管理界面，管理请假界面
     // TODO: 迁移数据库之后 employee_management employee 编码为 utf8mb4，所以某些查询会出现问题
-    // TODO: js // 默认就是 'ASC' 和 'createdDate' 能省略的一定省略
-    // TODO: 操作日志的图表
     // TODO: 如此频繁地查询数据库是否真的有必要？
+    // TODO: 原生 js forEach 的用法
+    // TODO: 根据本项目目前的情况，js 中修改员工信息弹窗事件委托暂时先放在 tbody
+    // TODO: js 加分号，换成 var
+    // TODO: @NotNull 换成自己判断
 
     /**
      * 在登录之前访问任何资源都将跳转到自定义登录界面
@@ -114,14 +115,15 @@ public class EmployeeController {
      */
     @RequestMapping("employee")
     public String employee(@NotNull Model model) {
-        model.addAttribute("employees", employeeRepository.findAll(
-                PageRequest.of(0, 10, Sort.by("createdDate", "employeeId"))));
+        model.addAttribute(
+                "employees",
+                employeeRepository.findAll(PageRequest.of(0, 10, Sort.by("createdDate", "employeeId"))));
         return "employee";
     }
 
     /**
      * 该方法有两个作用，添加和修改员工信息
-     * 在这里使用的是 saveAndFlush() r而不是 save()，因为保存或者修改之后会立即查询数据库中该条数据
+     * 在这里使用的是 saveAndFlush() 而不是 save()，因为保存或者修改之后会立即查询数据库中该条数据
      * 如果使用 save() 可能会出现保存或者修改方法执行之后，立即查询数据库中该记录可能会出现不存在的情况
      * save()          将数据保存在内存中
      * saveAndFlush()  保存在内存中的同时同步到数据库
@@ -145,7 +147,7 @@ public class EmployeeController {
      * @created 2022/4/29 10:59
      */
     @RequestMapping("employee/saveOrUpdateEmployee")
-    public void saveOrUpdateEmployee(@NotNull Principal user, @RequestBody @NotNull Employee employee, HttpServletResponse response) throws IOException {
+    public void saveOrUpdateEmployee(@NotNull Principal user, @NotNull Employee employee, HttpServletResponse response) throws IOException {
         // Get dateTime now
         LocalDateTime now = LocalDateTime.now();
         String dateTime = now.format(DATE_TIME_FORMATTER);
@@ -163,9 +165,11 @@ public class EmployeeController {
                 monthBirth = Integer.parseInt(employee.getEmployeeIdCard().substring(10, 12)),
                 dayBirth = Integer.parseInt(employee.getEmployeeIdCard().substring(12, 14));
         // age
-        String age = String.valueOf(dayNow - dayBirth < 0
-                ? monthNow - 1 - monthBirth < 0 ? yearNow - 1 - yearBirth : yearNow - yearBirth
-                : monthNow - monthBirth < 0 ? yearNow - 1 - yearBirth : yearNow - yearBirth);
+        String age = String.valueOf(
+                dayNow - dayBirth < 0
+                        ? monthNow - 1 - monthBirth < 0 ? yearNow - 1 - yearBirth : yearNow - yearBirth
+                        : monthNow - monthBirth < 0 ? yearNow - 1 - yearBirth : yearNow - yearBirth
+        );
 
         // idCard
         String idCard = employee.getEmployeeIdCard().toUpperCase();
@@ -258,26 +262,31 @@ public class EmployeeController {
      */
     @RequestMapping("employee/deleteEmployeeById")
     public void deleteEmployeeById(@NotNull Principal user, String employeeId, HttpServletResponse response) throws IOException {
-        if (Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", employeeId)) {
-            Optional<Employee> employee = employeeRepository.findById(employeeId);
-            if (employee.isPresent()) {
-                employeeRepository.deleteById(employeeId);
-                if (employeeRepository.findById(employeeId).isEmpty()) {
-                    // 保存操作日志
-                    operationLogController.saveOperationLog("DELETE", employee.get(), user);
-                    status = 200;
-                    message = "删除成功。";
+        if (null != employeeId) {
+            if (Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", employeeId)) {
+                Optional<Employee> employee = employeeRepository.findById(employeeId);
+                if (employee.isPresent()) {
+                    employeeRepository.deleteById(employeeId);
+                    if (employeeRepository.findById(employeeId).isEmpty()) {
+                        // 保存操作日志
+                        operationLogController.saveOperationLog("DELETE", employee.get(), user);
+                        status = 200;
+                        message = "删除成功。";
+                    } else {
+                        status = 500;
+                        message = "服务器出现故障，删除失败，员工信息还存在于数据库。";
+                    }
                 } else {
-                    status = 500;
-                    message = "服务器出现故障，删除失败，员工信息还存在于数据库。";
+                    status = 400;
+                    message = "删除失败，因为数据库没有该员工信息。";
                 }
             } else {
                 status = 400;
-                message = "删除失败，因为数据库没有该员工信息。";
+                message = "删除失败，ID 格式不正确。";
             }
         } else {
             status = 400;
-            message = "删除失败，ID 格式不正确。";
+            message = "删除失败，ID 为空。";
         }
         response.setCharacterEncoding(ENCODE);
         response.setStatus(status);
@@ -315,14 +324,13 @@ public class EmployeeController {
      * @created 2022/4/29 11:50
      */
     @RequestMapping("employee/findEmployeesBy")
-    // 如果没有 @RequestBody，就接收不到 Ajax 传过来的值
     public String findEmployeesBy(
             // name ==(等效) value
             @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
             @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
             @RequestParam(name = "direction", defaultValue = "ASC") Sort.Direction direction,
             @RequestParam(name = "property", defaultValue = "createdDate") String property,
-            @RequestBody Employee employee,
+            Employee employee,
             @NotNull Principal user,
             @NotNull Model model
     ) throws IllegalAccessException {

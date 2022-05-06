@@ -6,34 +6,46 @@
 </head>
 <body>
 <label>
-    <input id="btn" type="text">
+    <input id="btn" onclick="ffffffffff()" type="button">
 </label>
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<a>gggggggggg</a>
 <script>
-	window.onload = function () {
-		$(document).on('blur', '#btn', function (e) {
-			const btn = document.getElementById("btn");
-
-			console.log(e)
-			console.log(this)
-			console.log(btn)
-
-			console.log(document.hasFocus())  //true
 
 
-			// Does the element have focus:
-			const hasFocus = $('input').is(':focus');
-			console.log(hasFocus)
+	const num = 1
+	console.log(1 !== num)
+	console.log(/[1|2]/ !== num)
+	console.log((1 && 2))
+	console.log((1 & 2))
+	console.log((1 || 2))
+	console.log((1 | 2))
 
-			// Does the element have focus:
-			const hasFocus2 = $(this).is(':focus');
-			console.log(hasFocus2)
-			console.log(!hasFocus2)
+	function ffffffffff() {
+		const btn = document.getElementsByTagName("a")[0];
 
-			const elem = btn.ownerDocument.activeElement;
-			console.log(elem);
-		})
-	};
+		console.log(this)
+		console.log(btn)
+
+		console.log(btn === document.activeElement)  //true
+		console.log(document.activeElement)  //true
+
+		this.blur()
+		console.log(btn === document.activeElement)  //true
+		// console.log(btn.hasFocus())  //true
+
+
+		// Does the element have focus:
+		// const hasFocus = $('input').is(':focus');
+		// console.log(hasFocus)
+
+		// Does the element have focus:
+		// const hasFocus2 = $(this).is(':focus');
+		// console.log(hasFocus2)
+		// console.log(!hasFocus2)
+
+		const elem = btn.ownerDocument.activeElement;
+		console.log(elem);
+	}
 </script>
 </body>
 </html>

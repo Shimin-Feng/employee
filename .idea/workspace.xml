@@ -4,41 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="1.新增 class OperationLogController.java 方法 operationLog, findOperationLogsBy&#10;2.新增 operation-log.html&#10;3.新增 operation-log.js&#10;4.新增 js 通过输入框翻页的 enter 和 blur event&#10;5.优化 employee.js 代码，包括但不限于更多地复用 ajax&#10;6.优化 master.css (原名 employee.css)&#10;7.优化 HTML, js 文件命名&#10;8.减少 HTML, js 中 id 的使用&#10;9.更改 class OperationLog.java 中的重写方法 equals 和 hash">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/operation-log.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/operation-log.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/controller/Example.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Test1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Test2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/templates/content1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/templates/content2.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/templates/index2.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/templates/layout1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/templates/layout2.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/templates/test-css-center.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/templates/test-js-blur.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/templates/test-js-typeof-and-instanceof.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="1.减少对 jQuery 的使用, 改为 JavaScript. 包括选择器">
+      <change afterPath="$PROJECT_DIR$/src/test/resources/templates/test-js-document.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/templates/test-js-event-delegate.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/templates/test-js-hasFocus.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/templates/test-js-page.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/templates/test-js-query.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/HTTPStatusCodeErrorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/HTTPStatusCodeErrorController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/OperationLogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/OperationLogController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/SearchRecordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/SearchRecordController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/OperationLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/OperationLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/SearchRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/SearchRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/util/CustomMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/util/ListMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/employee.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/master.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/master.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/master.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/employee.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/employee.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/loginFailed.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login-failed.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/unknownError.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/unknown-error.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/operation-log.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/operation-log.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/templates/test-bootstrap.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/templates/test-bootstrap.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/templates/test-js-navigator.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/templates/test-js-navigator.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/templates/test-menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/templates/test-css-menu.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/templates/index2.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/templates/index2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/templates/test-js-blur.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/templates/test-js-blur.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,18 +131,20 @@
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "full.screen.before.presentation.mode": "false",
     "ignore.preview.features.used": "true",
-    "last_opened_file_path": "C:/Users/g1672/IdeaProjects/employee-management/src/test/resources/templates",
+    "last_opened_file_path": "C:/Users/g1672/IdeaProjects/employee-management-master",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "问题",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "rearrange.code.on.save": "true",
-    "settings.editor.selected.configurable": "actions.on.save",
+    "settings.editor.selected.configurable": "Settings.JavaScript.Linters.JSHint",
     "spring.configuration.checksum": "89daeefeb373ccbfaf54ce642222d999"
   },
   "keyToStringList": {
@@ -226,38 +213,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DataSourceUtilsTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="employee-management" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.shiminfxcvii.config.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.shiminfxcvii.config" />
-      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.config.DataSourceUtilsTest" />
-      <option name="METHOD_NAME" value="test" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="DataSourceUtilsTest.test1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="employee-management" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.shiminfxcvii.config.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.shiminfxcvii.config" />
-      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.config.DataSourceUtilsTest" />
-      <option name="METHOD_NAME" value="test1" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="TestClass.testInfo" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="employee-management" />
       <extension name="coverage">
@@ -273,6 +228,25 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="TestClass.testPattern" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="employee-management" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.shiminfxcvii.other.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.shiminfxcvii.other" />
+      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.other.TestClass" />
+      <option name="METHOD_NAME" value="testPattern" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="employee.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/main/resources/static/js/employee.js" working-dir="$PROJECT_DIR$/src/main/resources/static/js">
+      <method v="2" />
     </configuration>
     <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="ACTIVE_PROFILES" />
@@ -291,20 +265,20 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="JUnit.TestClass.testPattern" />
       <item itemvalue="JUnit.TestClass.testInfo" />
-      <item itemvalue="JUnit.DataSourceUtilsTest.test" />
-      <item itemvalue="JUnit.DataSourceUtilsTest.test1" />
+      <item itemvalue="Node.js.employee.js" />
       <item itemvalue="Spring Boot.Application" />
       <item itemvalue="应用程序.Test1" />
       <item itemvalue="应用程序.Test2" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TestClass.testPattern" />
+        <item itemvalue="Node.js.employee.js" />
         <item itemvalue="应用程序.Test2" />
         <item itemvalue="应用程序.Test1" />
         <item itemvalue="JUnit.TestClass.testInfo" />
-        <item itemvalue="JUnit.DataSourceUtilsTest.test" />
-        <item itemvalue="JUnit.DataSourceUtilsTest.test1" />
       </list>
     </recent_temporary>
   </component>
@@ -354,7 +328,8 @@
       <workItem from="1651485793503" duration="14678000" />
       <workItem from="1651504902842" duration="5244000" />
       <workItem from="1651513306836" duration="841000" />
-      <workItem from="1651540472691" duration="69482000" />
+      <workItem from="1651540472691" duration="96670000" />
+      <workItem from="1651728144667" duration="89280000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1648665299036</created>
@@ -664,7 +639,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651513394951</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="1.新增 class OperationLogController.java 方法 operationLog, findOperationLogsBy&#10;2.新增 operation-log.html&#10;3.新增 operation-log.js&#10;4.新增 js 通过输入框翻页的 enter 和 blur event&#10;5.优化 employee.js 代码，包括但不限于更多地复用 ajax&#10;6.优化 master.css (原名 employee.css)&#10;7.优化 HTML, js 文件命名&#10;8.减少 HTML, js 中 id 的使用&#10;9.更改 class OperationLog.java 中的重写方法 equals 和 hash">
+      <created>1651679437958</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1651679437958</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -702,7 +684,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="实体类 Date 类型改为 String&#10;优化添加功能" />
     <MESSAGE value="优化页面&#10;增加 README.md" />
     <MESSAGE value="优化页面" />
     <MESSAGE value="优化页面代码" />
@@ -727,7 +708,8 @@
     <MESSAGE value="change the package name, com.example -&gt; com.shiminfxcvii" />
     <MESSAGE value="1.终于可以把 class JdbcCheckTableExit.java 安全删除!仅用一行代码就可代替&#10;2.将整个项目中的 Exception 的捕获方式由 try cash 改到方法签名&#10;原因：网上介绍说往上抛可以到最后统一处理异常" />
     <MESSAGE value="优化 test library" />
-    <option name="LAST_COMMIT_MESSAGE" value="优化 test library" />
+    <MESSAGE value="1.新增 class OperationLogController.java 方法 operationLog, findOperationLogsBy&#10;2.新增 operation-log.html&#10;3.新增 operation-log.js&#10;4.新增 js 通过输入框翻页的 enter 和 blur event&#10;5.优化 employee.js 代码，包括但不限于更多地复用 ajax&#10;6.优化 master.css (原名 employee.css)&#10;7.优化 HTML, js 文件命名&#10;8.减少 HTML, js 中 id 的使用&#10;9.更改 class OperationLog.java 中的重写方法 equals 和 hash" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.新增 class OperationLogController.java 方法 operationLog, findOperationLogsBy&#10;2.新增 operation-log.html&#10;3.新增 operation-log.js&#10;4.新增 js 通过输入框翻页的 enter 和 blur event&#10;5.优化 employee.js 代码，包括但不限于更多地复用 ajax&#10;6.优化 master.css (原名 employee.css)&#10;7.优化 HTML, js 文件命名&#10;8.减少 HTML, js 中 id 的使用&#10;9.更改 class OperationLog.java 中的重写方法 equals 和 hash" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
