@@ -32,7 +32,9 @@ import java.util.logging.Logger;
 @Controller
 public class SearchRecordController {
 
+    // 打印日志
     private static final Logger LOGGER = Logger.getGlobal();
+    // 编码格式，不设置编码前台就无法解析汉字
     private static final String ENCODE = "UTF-8";
     @Resource
     private SearchRecordRepository searchRecordRepository;
@@ -46,12 +48,13 @@ public class SearchRecordController {
      *
      * @param user     String 登录用户
      * @param employee Employee 实体类某单一字段和属性
-     * @method saveRecordName
+     * @throws IllegalAccessException 非法访问异常。通过反射访问对象属性时可能抛出
+     * @method saveSearchRecord
      * @author shiminfxcvii
      * @created 2022/4/30 11:11
      * @see com.shiminfxcvii.controller.EmployeeController#findEmployeesBy(Integer, Integer, Sort.Direction, String, Employee, Principal, Model)
      */
-    public void saveRecordName(Employee employee, Principal user) throws IllegalAccessException {
+    public void saveSearchRecord(Employee employee, Principal user) throws IllegalAccessException {
         if (null != user) {
             // 获取这个类的所有属性
             // 循环遍历所有的 fields
@@ -69,6 +72,51 @@ public class SearchRecordController {
                 }
             }
         }
+    }
+
+    /**
+     * 接受删除搜索记录请求
+     *
+     * @param recordName 搜索记录 id
+     * @param user       登录用户
+     * @param response   返回响应
+     * @throws IOException 写入响应信息异常
+     * @method deleteByRecordName
+     * @author shiminfxcvii
+     * @created 2022/5/7 21:11
+     */
+    @RequestMapping("deleteByRecordName")
+    public void deleteByRecordName(Principal user, String searchGroupBy, String recordName, HttpServletResponse response) throws IOException {
+        // 状态码
+        int status;
+        // 返回信息
+        String message;
+        // id 不允许为空
+        if (null != recordName && null != user.getName()) {
+            // 删除之前判断是否存在数据
+            // 需要是属于该用户的搜索记录才允许被删除
+            List<SearchRecord> recordNames = searchRecordRepository.findThisRecordNamesBy(user.getName(), searchGroupBy, recordName);
+            if (0 < recordNames.size()) {
+                searchRecordRepository.deleteByRecordName(recordName);
+                // 检查是否成功删除
+                if (searchRecordRepository.findById(recordName).isEmpty()) {
+                    status = 200;
+                    message = "搜索记录删除成功。";
+                } else {
+                    status = 500;
+                    message = "搜索记录删除失败，服务器出现故障。";
+                }
+            } else {
+                status = 400;
+                message = "搜索记录删除失败，该搜索记录不存在。可能在此之前已经被删除。";
+            }
+        } else {
+            status = 400;
+            message = "搜索记录删除失败，搜索记录名为空。";
+        }
+        response.setCharacterEncoding(ENCODE);
+        response.setStatus(status);
+        response.getWriter().write(message);
     }
 
     /**
@@ -90,6 +138,7 @@ public class SearchRecordController {
      * @param recordName    String 搜索关键字
      *                      将会根据该关键字执行 4 次查询，每两次搜索结果去重后整合为一个结果，最终返回给前台
      * @param response      HttpServletResponse 将要返回的状态和信息
+     * @throws IOException 写入响应信息异常
      * @method findRecordNamesBy
      * @author shiminfxcvii
      * @created 2022/4/29 11:34

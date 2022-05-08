@@ -60,6 +60,8 @@ public class EmployeeController {
     // TODO: 根据本项目目前的情况，js 中修改员工信息弹窗事件委托暂时先放在 tbody
     // TODO: js 加分号，换成 var
     // TODO: @NotNull 换成自己判断
+    // TODO: 再次尝试将 js 查找员工的两个方法写进一个方法里
+    // TODO: 设置页面最小不可变 400px
 
     /**
      * 在登录之前访问任何资源都将跳转到自定义登录界面
@@ -142,6 +144,7 @@ public class EmployeeController {
      *                  </li>
      *                 </ul>
      * @param response HttpServletResponse 需要返回的状态和信息
+     * @throws IOException 写入响应信息异常
      * @method saveOrUpdateEmployee
      * @author shiminfxcvii
      * @created 2022/4/29 10:59
@@ -256,6 +259,7 @@ public class EmployeeController {
      *                   删除之前根据该 employeeId 查询该数据是否存在
      *                   删除之后再次查询该数据是否成功删除
      *                   成功则返回 200 "删除成功。"，否则返回 500 "服务器出现故障，删除失败，员工信息还存在。"
+     * @throws IOException 写入响应信息异常
      * @method deleteEmployeeById
      * @author shiminfxcvii
      * @created 2022/4/29 11:20
@@ -282,7 +286,7 @@ public class EmployeeController {
                 }
             } else {
                 status = 400;
-                message = "删除失败，ID 格式不正确。";
+                message = "删除失败，非法 ID。ID 格式不正确。";
             }
         } else {
             status = 400;
@@ -318,6 +322,7 @@ public class EmployeeController {
      * @param employee  Employee 根据员工的某一个字段和值进行搜索
      * @param user      Principal 登录用户
      * @param model     Model 页面模型
+     * @throws IllegalAccessException 非法访问异常。通过反射访问对象属性时可能抛出
      * @return "employee" 返回查询后的整个页面
      * @method findEmployeesBy
      * @author shiminfxcvii
@@ -345,7 +350,7 @@ public class EmployeeController {
                 )
         );
         // 保存搜索记录
-        searchRecordController.saveRecordName(employee, user);
+        searchRecordController.saveSearchRecord(employee, user);
         return "employee";
     }
 

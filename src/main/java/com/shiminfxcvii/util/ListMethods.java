@@ -65,9 +65,9 @@ public class ListMethods {
         List<E> n = new ArrayList<>();
         if (o.size() > 0) {
             int i = 0;
-            for (E t : o) {
+            for (E e : o) {
                 if (i < 10) {
-                    n.add(t);
+                    n.add(e);
                     i++;
                 } else {
                     break;

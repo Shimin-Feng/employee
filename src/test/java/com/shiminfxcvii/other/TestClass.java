@@ -3,9 +3,13 @@ package com.shiminfxcvii.other;
 import com.shiminfxcvii.controller.EmployeeController;
 import com.shiminfxcvii.entity.Employee;
 import com.shiminfxcvii.entity.SearchRecord;
+import com.shiminfxcvii.repository.SearchRecordRepository;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.StopWatch;
 import org.thymeleaf.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -16,6 +20,7 @@ import java.util.stream.Stream;
 import static java.awt.SystemColor.info;
 import static java.lang.System.out;
 
+@SpringBootTest
 public class TestClass {
 
 
@@ -23,8 +28,67 @@ public class TestClass {
         out.println("static");
     }
 
+    @Resource
+    private SearchRecordRepository searchRecordRepository;
+
     {
         out.println("not static");
+    }
+
+    @Test
+    public void testIterable() {
+        StopWatch sw = new StopWatch();
+        sw.start("校验耗时");
+
+
+        SearchRecord searchRecord1 = new SearchRecord("1", "employeeName", "Jobs", "admin1", new Date());
+        SearchRecord searchRecord2 = new SearchRecord("2", "employeeName", "Anna", "admin3", new Date());
+        SearchRecord searchRecord3 = new SearchRecord("3", "employeeName", "Emma", "admin1", new Date());
+        List<SearchRecord> searchRecordList = new ArrayList<>();
+        searchRecordList.add(searchRecord1);
+        searchRecordList.add(searchRecord2);
+        searchRecordList.add(searchRecord3);
+        for (SearchRecord searchRecord : searchRecordList) {
+            out.println(searchRecord);
+        }
+
+        List<SearchRecord> recordNames = searchRecordRepository.findThisRecordNamesBy("admin1", "employeeName", "glb");
+        out.println(recordNames);
+
+
+        sw.stop();
+        System.out.println(sw.prettyPrint());
+    }
+
+    @Test
+    public void testMap() {
+        List<Map<String, String>> mapList = new ArrayList<>();
+        HashMap<String, String> maps1 = new HashMap<>();
+        Map<String, String> maps2 = new HashMap<>();
+        maps1.put("Jobs", "22");
+//        maps1.put("Anna", "22");
+        maps2.put("JobS", "22");
+        mapList.add(maps1);
+        mapList.add(maps2);
+        out.println(mapList);
+//        Set<String> strings1 = maps1.keySet();
+//        Set<String> strings2 = maps2.keySet();
+//        out.println(strings1);
+//        out.println(strings2);
+//        out.println(strings1.equals(strings2));
+        out.println(maps1.keySet());
+        out.println(maps2.keySet());
+        out.println(maps1.keySet().equals(maps2.keySet()));
+        out.println(maps1.entrySet());
+        out.println(maps1.isEmpty());
+        out.println(maps1.size());
+        out.println(maps1.values());
+        out.println(maps2.values());
+        out.println(maps1.values().iterator());
+        out.println(maps2.values().iterator());
+        out.println(maps1.values().iterator().next());
+        out.println(maps2.values().iterator().next());
+        out.println(maps1.values().iterator().next().equals(maps2.values().iterator().next()));
     }
 
     @Test

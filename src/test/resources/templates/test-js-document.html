@@ -3,32 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style type="text/css">
+
+        .dom1 {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            background: #00f;
+        }
+
+        .dom2 {
+            position: absolute;
+            top: 0;
+            width: 100px;
+            height: 100px;
+            background: #999;
+        }
+
+    </style>
 </head>
 <body>
-<ul id="list">
-    <li>1</li>
-    <li>2</li>
-    <li>3</li>
-    <li>4</li>
-</ul>
-<a href="" name="parent"></a>
-<div>
-    parent
-    <div id="children">children</div>
-</div>
+<div class="dom1"></div>
+<div class="dom2"></div>
+<label>
+    <input id="buttons-hbox" type="text" value="111">
+</label>
 <script>
-	window.onload = function () {
+    window.onload = function () {
 
-		// 第一种方法
-		let obj = {"name": "tom", "age": 16}
-		let key = "id";
-		let value = 2
-		obj['id'] = value;
-		console.log(obj)
+        document.getElementById('buttons-hbox').addEventListener('input', e => {
+            console.log(e.target.value);
+        });
 
-		// 第二种方法，利用扩展运算符,简单又实用
-		var obj1 = {"vue": 300, "jquery": 200};
-		var obj2 = {"react": 500};
+
+        return;
+        document.getElementById("xh").addEventListener('input', e => {
+            document.getElementById("lh").value = e.target.value;
+        })
+
+
+        const divParent = document.getElementById('parent');
+        const divChild = document.createElement('div');
+        divChild.innerText = 'assdsad'
+        divChild.parentElement
+
+        const types = ['blur', 'focus']
+        types.forEach(function (item) {
+            document.getElementById('xh').addEventListener(item, () => {
+                // debugger
+
+                if ('blur' === item) {
+                    console.log(item);
+
+                    divParent.removeChild(divChild)
+                    // divChild.style.display = 'none'
+                } else if ('focus' === item) {
+                    console.log(item);
+
+                    divParent.insertBefore(divChild, divParent.firstElementChild);
+                    // divParent.removeChild(divChild)
+                    // console.log(divParent);
+                    // divChild.style.display = 'display'
+                }
+
+            });
+        })
+
+
+        return;
+
+
+        var ul = document.getElementsByTagName('ul')[0];
+        console.log(ul);
+        var li = document.createElement('LI');
+        li.innerHTML = '<a>2323</a>'
+        // var liText = document.createTextNode('11');
+        // li.appendChild(liText)
+        ul.appendChild(li)
+        console.log(ul);
+
+        return
+        // 第一种方法
+        let obj = {"name": "tom", "age": 16}
+        let key = "id";
+        let value = 2
+        obj['id'] = value;
+        console.log(obj)
+
+        // 第二种方法，利用扩展运算符,简单又实用
+        var obj1 = {"vue": 300, "jquery": 200};
+        var obj2 = {"react": 500};
 		var obj3 = {
 			...obj1,
 			...obj2
