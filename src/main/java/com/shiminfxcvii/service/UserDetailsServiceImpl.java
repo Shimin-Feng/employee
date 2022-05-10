@@ -1,6 +1,5 @@
 package com.shiminfxcvii.service;
 
-import com.shiminfxcvii.entity.User;
 import com.shiminfxcvii.repository.UserRepository;
 import org.springframework.data.domain.Example;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +8,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+
+import static com.shiminfxcvii.util.Constants.USER;
 
 /**
  * @author shiminfxcvii
@@ -39,9 +40,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = new User();
-        user.setUsername(username);
-        return userRepository.findOne(Example.of(user)).map(value -> org.springframework.security.core.userdetails.User
+        USER.setUsername(username);
+        return userRepository.findOne(Example.of(USER)).map(value -> org.springframework.security.core.userdetails.User
                 .withUsername(value.getUsername()).password(value.getPassword()).authorities(value.getAuthorities()
                         .split(",")).build()).orElse(null);
     }

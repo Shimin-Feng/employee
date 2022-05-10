@@ -9,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,11 +19,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
+
+import static com.shiminfxcvii.util.Constants.*;
+import static com.sun.xml.internal.stream.writers.XMLStreamWriterImpl.UTF_8;
+import static org.springframework.data.domain.ExampleMatcher.StringMatcher.CONTAINING;
+import static org.springframework.http.HttpHeaders.CACHE_CONTROL;
+import static org.springframework.http.MediaType.ALL_VALUE;
+import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 /**
  * @author shiminfxcvii
@@ -31,13 +41,11 @@ import java.util.regex.Pattern;
  * @created 2022/5/1 14:50
  */
 @Controller
+@RequestMapping("employee")
 public class EmployeeController {
-
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     // 编码格式，不设置编码前台就无法解析汉字
-    private static final String ENCODE = "UTF-8";
     // 状态码
-    private int status;
+    private Integer status;
     // 返回信息
     private String message;
     @Resource
@@ -46,64 +54,6 @@ public class EmployeeController {
     private OperationLogController operationLogController;
     @Resource
     private SearchRecordController searchRecordController;
-
-    // TODO: <input> 如何解决在使用中文输入时的错误？
-    // TODO: 学习新一代 thymeleaf-extras-spring security6 的使用方法
-    // TODO: 统计图
-    // TODO: 数据库根据时间自动调整年龄
-    // TODO: 实现使用拼音也能搜索
-    // TODO: ExampleMatcher 匹配 SearchRecord 搜索（考虑）
-    // TODO: 后续可以添加用户管理界面，管理请假界面
-    // TODO: 迁移数据库之后 employee_management employee 编码为 utf8mb4，所以某些查询会出现问题
-    // TODO: 如此频繁地查询数据库是否真的有必要？
-    // TODO: 原生 js forEach 的用法
-    // TODO: 根据本项目目前的情况，js 中修改员工信息弹窗事件委托暂时先放在 tbody
-    // TODO: js 加分号，换成 var
-    // TODO: @NotNull 换成自己判断
-    // TODO: 再次尝试将 js 查找员工的两个方法写进一个方法里
-    // TODO: 设置页面最小不可变 400px
-
-    /**
-     * 在登录之前访问任何资源都将跳转到自定义登录界面
-     *
-     * @return "login" login 页面
-     * @method login
-     * @author shiminfxcvii
-     * @created 2022/4/29 16:46
-     */
-    @RequestMapping("login")
-    public String login() {
-        return "login";
-    }
-
-    /**
-     * 接受请求跳转到 index 页面
-     *
-     * @return "index" index 页面
-     * @method index
-     * @author shiminfxcvii
-     * @created 2022/4/29 16:33
-     */
-    @RequestMapping("index")
-    public String index() {
-        return "index";
-    }
-
-    /*@RequestMapping("logout")
-    public String logout() {
-        return "logout";
-    }*/
-
-    /*@RequestMapping("login-failed")
-    public String loginFailed() {
-        return "login-failed";
-    }*/
-
-    // TODO: 为什么点退出会来的 timeout 页面？
-    /*@RequestMapping("timeout")
-    public String timeout() {
-        return "timeout";
-    }*/
 
     /**
      * 当进入员工管理页面之前会立即执行一次查询所有员工，默认按照添加时间升序排列，每页十条数据
@@ -115,11 +65,11 @@ public class EmployeeController {
      * @author shiminfxcvii
      * @created 2022/4/29 10:32
      */
-    @RequestMapping("employee")
+    @GetMapping
     public String employee(@NotNull Model model) {
         model.addAttribute(
-                "employees",
-                employeeRepository.findAll(PageRequest.of(0, 10, Sort.by("createdDate", "employeeId"))));
+                EMPLOYEES,
+                employeeRepository.findAll(PageRequest.of(0, 10, Sort.by(CREATED_DATE, EMPLOYEE_ID))));
         return "employee";
     }
 
@@ -144,19 +94,19 @@ public class EmployeeController {
      *                  </li>
      *                 </ul>
      * @param response HttpServletResponse 需要返回的状态和信息
-     * @throws IOException 写入响应信息异常
+     * @throws IOException HttpServletResponse 写入响应信息异常
      * @method saveOrUpdateEmployee
      * @author shiminfxcvii
      * @created 2022/4/29 10:59
      */
-    @RequestMapping("employee/saveOrUpdateEmployee")
+    @RequestMapping(value = "saveOrUpdateEmployee", method = {POST, PUT}, params = {EMPLOYEE_NAME, EMPLOYEE_ID_CARD, EMPLOYEE_ADDRESS, EMPLOYEE_PHONE_NUMBER, EMPLOYEE_ID}, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = ALL_VALUE)
     public void saveOrUpdateEmployee(@NotNull Principal user, @NotNull Employee employee, HttpServletResponse response) throws IOException {
         // Get dateTime now
         LocalDateTime now = LocalDateTime.now();
         String dateTime = now.format(DATE_TIME_FORMATTER);
 
         // Get sex
-        String sex = Integer.parseInt(String.valueOf(employee.getEmployeeIdCard().charAt(16))) % 2 == 0 ? "女" : "男";
+        String sex = Integer.parseInt(String.valueOf(employee.getEmployeeIdCard().charAt(16))) % 2 == 0 ? FEMALE : MALE;
 
         // Get age
         // now
@@ -192,11 +142,11 @@ public class EmployeeController {
             // 检查是否成功保存到数据库
             if (employeeRepository.findById(employee.getEmployeeId()).isPresent()) {
                 // 保存操作日志
-                operationLogController.saveOperationLog("INSERT", employee, user);
-                status = 200;
+                operationLogController.saveOperationLog(INSERT, employee, user);
+                status = STATUS_200;
                 message = "添加成功。";
             } else {
-                status = 500;
+                status = STATUS_500;
                 message = "添加失败，服务器错误，员工信息未保存进数据库。";
             }
         } else {
@@ -225,27 +175,27 @@ public class EmployeeController {
                         // 修改之后比较被修改对象的值与前台传递过来的值是否相同，判断该数据是否成功修改
                         if (employee.equals(employee4)) {
                             // 保存操作日志
-                            operationLogController.saveOperationLog("UPDATE", employee, user);
-                            status = 200;
+                            operationLogController.saveOperationLog(UPDATE, employee, user);
+                            status = STATUS_200;
                             message = "修改成功。";
                         } else {
-                            status = 500;
+                            status = STATUS_500;
                             message = "服务器出现故障，修改失败，员工信息未被成功修改进数据库。";
                         }
                     } else {
-                        status = 500;
+                        status = STATUS_500;
                         message = "服务器出现故障，修改失败，员工信息未被成功修改进数据库。";
                     }
                 } else {
-                    status = 400;
+                    status = STATUS_400;
                     message = "修改失败，因为员工信息没有任何改变。";
                 }
             } else {
-                status = 400;
+                status = STATUS_400;
                 message = "修改失败，该员工不存在。";
             }
         }
-        response.setCharacterEncoding(ENCODE);
+        response.setCharacterEncoding(UTF_8);
         response.setStatus(status);
         response.getWriter().write(message);
     }
@@ -259,12 +209,12 @@ public class EmployeeController {
      *                   删除之前根据该 employeeId 查询该数据是否存在
      *                   删除之后再次查询该数据是否成功删除
      *                   成功则返回 200 "删除成功。"，否则返回 500 "服务器出现故障，删除失败，员工信息还存在。"
-     * @throws IOException 写入响应信息异常
+     * @throws IOException HttpServletResponse 写入响应信息异常
      * @method deleteEmployeeById
      * @author shiminfxcvii
-     * @created 2022/4/29 11:20
+     * @created 2022/4/29 11:20Z
      */
-    @RequestMapping("employee/deleteEmployeeById")
+    @DeleteMapping(value = "deleteEmployeeById", params = EMPLOYEE_ID, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = ALL_VALUE)
     public void deleteEmployeeById(@NotNull Principal user, String employeeId, HttpServletResponse response) throws IOException {
         if (null != employeeId) {
             if (Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", employeeId)) {
@@ -273,26 +223,26 @@ public class EmployeeController {
                     employeeRepository.deleteById(employeeId);
                     if (employeeRepository.findById(employeeId).isEmpty()) {
                         // 保存操作日志
-                        operationLogController.saveOperationLog("DELETE", employee.get(), user);
-                        status = 200;
+                        operationLogController.saveOperationLog(DELETE, employee.get(), user);
+                        status = STATUS_200;
                         message = "删除成功。";
                     } else {
-                        status = 500;
+                        status = STATUS_500;
                         message = "服务器出现故障，删除失败，员工信息还存在于数据库。";
                     }
                 } else {
-                    status = 400;
+                    status = STATUS_400;
                     message = "删除失败，因为数据库没有该员工信息。";
                 }
             } else {
-                status = 400;
+                status = STATUS_400;
                 message = "删除失败，非法 ID。ID 格式不正确。";
             }
         } else {
-            status = 400;
+            status = STATUS_400;
             message = "删除失败，ID 为空。";
         }
-        response.setCharacterEncoding(ENCODE);
+        response.setCharacterEncoding(UTF_8);
         response.setStatus(status);
         response.getWriter().write(message);
     }
@@ -322,31 +272,31 @@ public class EmployeeController {
      * @param employee  Employee 根据员工的某一个字段和值进行搜索
      * @param user      Principal 登录用户
      * @param model     Model 页面模型
-     * @throws IllegalAccessException 非法访问异常。通过反射访问对象属性时可能抛出
      * @return "employee" 返回查询后的整个页面
+     * @throws IllegalAccessException 非法访问异常。通过反射访问对象属性时可能抛出
      * @method findEmployeesBy
      * @author shiminfxcvii
      * @created 2022/4/29 11:50
      */
-    @RequestMapping("employee/findEmployeesBy")
+    @GetMapping(value = "findEmployeesBy", params = {PAGE_NUM, PAGE_SIZE, DIRECTION, PROPERTY}, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = TEXT_HTML_VALUE)
     public String findEmployeesBy(
             // name ==(等效) value
-            @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
-            @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
-            @RequestParam(name = "direction", defaultValue = "ASC") Sort.Direction direction,
-            @RequestParam(name = "property", defaultValue = "createdDate") String property,
+            @RequestParam(name = PAGE_NUM, defaultValue = ZERO) Integer pageNum,
+            @RequestParam(name = PAGE_SIZE, defaultValue = TEN) Integer pageSize,
+            @RequestParam(name = DIRECTION, defaultValue = ASC) Sort.Direction direction,
+            @RequestParam(name = PROPERTY, defaultValue = CREATED_DATE) String property,
             Employee employee,
             @NotNull Principal user,
             @NotNull Model model
     ) throws IllegalAccessException {
         model.addAttribute(
-                "employees",
+                EMPLOYEES,
                 employeeRepository.findAll(
                         Example.of(
                                 employee,
                                 // 匹配所有字段的模糊查询并且忽略大小写
-                                ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
-                        ), PageRequest.of(pageNum, pageSize, Sort.by(direction, property, "employeeId"))
+                                ExampleMatcher.matching().withStringMatcher(CONTAINING)
+                        ), PageRequest.of(pageNum, pageSize, Sort.by(direction, property, EMPLOYEE_ID))
                 )
         );
         // 保存搜索记录

@@ -9,13 +9,13 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
+
+import static com.shiminfxcvii.util.Constants.*;
 
 /**
  * @author shiminfxcvii
@@ -43,8 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(@NotNull AuthenticationManagerBuilder auth) throws Exception {
-        // 密码加密方式 new BCryptPasswordEncoder()
-        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(new BCryptPasswordEncoder());
+        // B_CRYPT_PASSWORD_ENCODER 密码加密方式
+        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(B_CRYPT_PASSWORD_ENCODER);
     }
 
     /**
@@ -147,19 +147,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @method persistentTokenRepository
      * @author shiminfxcvii
      * @created 2022/5/1 15:15
-     * @see org.springframework.security.web.authentication.rememberme.PersistentTokenRepository
+     * @see PersistentTokenRepository
      */
     @Bean
     public PersistentTokenRepository persistentTokenRepository() throws SQLException {
-        // 获取工厂实例
-        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
         // 设置数据源
-        tokenRepository.setDataSource(dataSource);
+        TOKEN_REPOSITORY.setDataSource(dataSource);
         // 如果表不存在则创建
         // 下面判断已替换掉 class JdbcCheckTableExit.java
-        if (!DataSourceUtils.getConnection(dataSource).getMetaData().getTables(null, "employee_management", "persistent_logins", new String[]{"TABLE"}).next()) {
-            tokenRepository.setCreateTableOnStartup(true);
+        if (!DataSourceUtils.getConnection(dataSource).getMetaData().getTables(null, EMPLOYEE_MANAGEMENT, PERSISTENT_LOGINS, TABLE).next()) {
+            TOKEN_REPOSITORY.setCreateTableOnStartup(true);
         }
-        return tokenRepository;
+        return TOKEN_REPOSITORY;
     }
 }

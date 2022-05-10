@@ -1,7 +1,6 @@
 package com.shiminfxcvii.controller;
 
 import com.shiminfxcvii.entity.Employee;
-import com.shiminfxcvii.entity.SearchRecord;
 import com.shiminfxcvii.repository.SearchRecordRepository;
 import com.shiminfxcvii.util.ListMethods;
 import net.minidev.json.JSONArray;
@@ -9,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
@@ -16,11 +17,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.security.Principal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.logging.Logger;
+
+import static com.shiminfxcvii.util.Constants.*;
+import static com.sun.xml.internal.stream.writers.XMLStreamWriterImpl.UTF_8;
+import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
+import static org.springframework.http.HttpHeaders.CACHE_CONTROL;
+import static org.springframework.http.MediaType.ALL_VALUE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
  * @author shiminfxcvii
@@ -30,12 +37,9 @@ import java.util.logging.Logger;
  * @created 2022/5/1 15:54 周日
  */
 @Controller
+@RequestMapping("searchRecord")
 public class SearchRecordController {
 
-    // 打印日志
-    private static final Logger LOGGER = Logger.getGlobal();
-    // 编码格式，不设置编码前台就无法解析汉字
-    private static final String ENCODE = "UTF-8";
     @Resource
     private SearchRecordRepository searchRecordRepository;
 
@@ -62,11 +66,16 @@ public class SearchRecordController {
                 field.setAccessible(true);
                 if (null != field.get(employee) && !Objects.equals(field.get(employee).toString(), "")) {
                     String recordId = UUID.randomUUID().toString();
-                    searchRecordRepository.saveAndFlush(new SearchRecord(recordId, field.getName(), field.get(employee).toString(), user.getName(), new Date()));
+                    SEARCH_RECORD.setRecordId(recordId);
+                    SEARCH_RECORD.setSearchGroupBy(field.getName());
+                    SEARCH_RECORD.setRecordName(field.get(employee).toString());
+                    SEARCH_RECORD.setUsername(user.getName());
+                    SEARCH_RECORD.setCreatedDate(LocalDateTime.now());
+                    searchRecordRepository.saveAndFlush(SEARCH_RECORD);
                     if (searchRecordRepository.findById(recordId).isPresent()) {
                         LOGGER.info("搜索记录保存成功。");
                     } else {
-                        LOGGER.severe("搜索记录保存失败。");
+                        LOGGER.error("搜索记录保存失败。");
                     }
                     break;
                 }
@@ -80,12 +89,12 @@ public class SearchRecordController {
      * @param recordName 搜索记录 id
      * @param user       登录用户
      * @param response   返回响应
-     * @throws IOException 写入响应信息异常
+     * @throws IOException HttpServletResponse 写入响应信息异常
      * @method deleteByRecordName
      * @author shiminfxcvii
      * @created 2022/5/7 21:11
      */
-    @RequestMapping("deleteByRecordName")
+    @DeleteMapping(value = "deleteByRecordName", params = {SEARCH_GROUP_BY, RECORD_NAME}, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = ALL_VALUE)
     public void deleteByRecordName(Principal user, String searchGroupBy, String recordName, HttpServletResponse response) throws IOException {
         // 状态码
         int status;
@@ -95,26 +104,25 @@ public class SearchRecordController {
         if (null != recordName && null != user.getName()) {
             // 删除之前判断是否存在数据
             // 需要是属于该用户的搜索记录才允许被删除
-            List<SearchRecord> recordNames = searchRecordRepository.findThisRecordNamesBy(user.getName(), searchGroupBy, recordName);
-            if (0 < recordNames.size()) {
+            if (0 < searchRecordRepository.findThisRecordNamesBy(user.getName(), searchGroupBy, recordName)) {
                 searchRecordRepository.deleteByRecordName(recordName);
                 // 检查是否成功删除
-                if (searchRecordRepository.findById(recordName).isEmpty()) {
-                    status = 200;
+                if (0 == searchRecordRepository.findThisRecordNamesBy(user.getName(), searchGroupBy, recordName)) {
+                    status = STATUS_200;
                     message = "搜索记录删除成功。";
                 } else {
-                    status = 500;
+                    status = STATUS_500;
                     message = "搜索记录删除失败，服务器出现故障。";
                 }
             } else {
-                status = 400;
+                status = STATUS_400;
                 message = "搜索记录删除失败，该搜索记录不存在。可能在此之前已经被删除。";
             }
         } else {
-            status = 400;
+            status = STATUS_400;
             message = "搜索记录删除失败，搜索记录名为空。";
         }
-        response.setCharacterEncoding(ENCODE);
+        response.setCharacterEncoding(UTF_8);
         response.setStatus(status);
         response.getWriter().write(message);
     }
@@ -138,12 +146,12 @@ public class SearchRecordController {
      * @param recordName    String 搜索关键字
      *                      将会根据该关键字执行 4 次查询，每两次搜索结果去重后整合为一个结果，最终返回给前台
      * @param response      HttpServletResponse 将要返回的状态和信息
-     * @throws IOException 写入响应信息异常
+     * @throws IOException HttpServletResponse 写入响应信息异常
      * @method findRecordNamesBy
      * @author shiminfxcvii
      * @created 2022/4/29 11:34
      */
-    @RequestMapping("findRecordNamesBy")
+    @GetMapping(value = "findRecordNamesBy", params = {SEARCH_GROUP_BY, RECORD_NAME}, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
     public void findRecordNamesBy(@NotNull Principal user, String searchGroupBy, String recordName, HttpServletResponse response) throws IOException {
         List<String> recordNames;
         // 查找此用户的搜索记录 ?%
@@ -186,7 +194,7 @@ public class SearchRecordController {
                 }
             }
         }
-        response.setCharacterEncoding(ENCODE);
+        response.setCharacterEncoding(UTF_8);
         response.getWriter().write(JSONArray.toJSONString(recordNames));
     }
 

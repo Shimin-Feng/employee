@@ -4,19 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="1.更改 autocomplete&#10;2.interface SearchRecordRepository 所有方法返回值泛型更改， List&lt;String&gt; 改为 List&lt;Map&lt;String, String&gt;&gt;">
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jsLinters/jshint.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+    <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="1.新增 class Constants.java, 用于常量的管理, 增加对 Java 现成常量的使用, &#10;2.新增 class WelcomeController.java, 将 login 和 index 请求单独写进该 class&#10;3.新增 js 方法注释&#10;4.所有 repository 都新增 @Repository 注解，交由 spring 管理&#10;5.将 operation-log.js jQuery 改为 JavaScript&#10;6.更改请求方式&#10;7.更改 jdk 版本, bellsoft-jdk18-full -&gt; Oracle jdk 18">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/WelcomeController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/util/Constants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/templates/test-js-document-active-element.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/templates/test-js-mouse-event.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/EmployeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/HTTPStatusCodeErrorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/HTTPStatusCodeErrorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/OperationLogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/OperationLogController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/SearchRecordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/SearchRecordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/SearchRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/SearchRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/EmployeeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/EmployeeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/OperationLogRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/OperationLogRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/SearchRecordRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/SearchRecordRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/util/ListMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/util/ListMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/UserDetailsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/master.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/master.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/operation-log.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/operation-log.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/employee.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/employee.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/operation-log.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/operation-log.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/templates/test-bootstrap.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/templates/test-bootstrap.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/templates/test-js-blur.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/templates/test-js-blur.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/resources/templates/test-js-document.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/templates/test-js-document.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -31,12 +47,13 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Thymeleaf" />
-        <option value="Record" />
         <option value="CSS File" />
         <option value="Interface" />
         <option value="JUnit5 Test Class" />
-        <option value="Class" />
         <option value="JavaScript File" />
+        <option value="Class" />
+        <option value="Enum" />
+        <option value="Record" />
         <option value="HTML File" />
       </list>
     </option>
@@ -101,6 +118,9 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="277FsxNNobdQE10odHBakj0L9mP" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -140,8 +160,9 @@
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;89daeefeb373ccbfaf54ce642222d999&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.import&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;89daeefeb373ccbfaf54ce642222d999&quot;,
+    &quot;typescript.add.unambiguous.imports.on.the.fly&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
     &quot;DatabaseDriversLRU&quot;: [
@@ -183,8 +204,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.Application">
-    <configuration name="Test2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.other.Test2" />
+    <configuration name="TestClass.testEnum" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="employee-management" />
       <extension name="coverage">
         <pattern>
@@ -192,6 +212,10 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="com.shiminfxcvii.other" />
+      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.other.TestClass" />
+      <option name="METHOD_NAME" value="testEnum" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -249,7 +273,7 @@
     </configuration>
     <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="ACTIVE_PROFILES" />
-      <option name="ALTERNATIVE_JRE_PATH" value="liberica-18" />
+      <option name="ALTERNATIVE_JRE_PATH" value="$USER_HOME$/.jdks/openjdk-18.0.1.1" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <module name="employee-management" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.shiminfxcvii.Application" />
@@ -264,20 +288,20 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="JUnit.TestClass.testEnum" />
       <item itemvalue="JUnit.TestClass.testIterable" />
       <item itemvalue="JUnit.TestClass.testMap" />
       <item itemvalue="JUnit.TestClass.testPattern" />
       <item itemvalue="Node.js.employee.js" />
       <item itemvalue="Spring Boot.Application" />
-      <item itemvalue="应用程序.Test2" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TestClass.testEnum" />
         <item itemvalue="JUnit.TestClass.testIterable" />
         <item itemvalue="JUnit.TestClass.testMap" />
         <item itemvalue="JUnit.TestClass.testPattern" />
         <item itemvalue="Node.js.employee.js" />
-        <item itemvalue="应用程序.Test2" />
       </list>
     </recent_temporary>
   </component>
@@ -329,7 +353,9 @@
       <workItem from="1651513306836" duration="841000" />
       <workItem from="1651540472691" duration="96670000" />
       <workItem from="1651728144667" duration="130642000" />
-      <workItem from="1651930246071" duration="57027000" />
+      <workItem from="1651930246071" duration="57226000" />
+      <workItem from="1652065229258" duration="45702000" />
+      <workItem from="1652156511874" duration="39527000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1648665299036</created>
@@ -653,7 +679,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651867434777</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="1.更改 autocomplete&#10;2.新增 class SearchRecordController 方法 deleteByRecordName&#10;3.新增 interface SearchRecordRepository 方法 findThisRecordNamesBy, deleteByRecordName">
+      <created>1652037344880</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1652037344880</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -691,7 +724,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="优化页面" />
     <MESSAGE value="优化页面代码" />
     <MESSAGE value="简化代码" />
     <MESSAGE value="优化类 SecurityConfig" />
@@ -716,7 +748,8 @@
     <MESSAGE value="优化 test library" />
     <MESSAGE value="1.新增 class OperationLogController.java 方法 operationLog, findOperationLogsBy&#10;2.新增 operation-log.html&#10;3.新增 operation-log.js&#10;4.新增 js 通过输入框翻页的 enter 和 blur event&#10;5.优化 employee.js 代码，包括但不限于更多地复用 ajax&#10;6.优化 master.css (原名 employee.css)&#10;7.优化 HTML, js 文件命名&#10;8.减少 HTML, js 中 id 的使用&#10;9.更改 class OperationLog.java 中的重写方法 equals 和 hash" />
     <MESSAGE value="1.减少对 jQuery 的使用, 改为 JavaScript. 包括选择器&#10;2.将基于 jQuery 的 Ajax 改为 JavaScript 原生代码&#10;3.其他优化" />
-    <option name="LAST_COMMIT_MESSAGE" value="1.减少对 jQuery 的使用, 改为 JavaScript. 包括选择器&#10;2.将基于 jQuery 的 Ajax 改为 JavaScript 原生代码&#10;3.其他优化" />
+    <MESSAGE value="1.更改 autocomplete&#10;2.新增 class SearchRecordController 方法 deleteByRecordName&#10;3.新增 interface SearchRecordRepository 方法 findThisRecordNamesBy, deleteByRecordName" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.更改 autocomplete&#10;2.新增 class SearchRecordController 方法 deleteByRecordName&#10;3.新增 interface SearchRecordRepository 方法 findThisRecordNamesBy, deleteByRecordName" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -728,6 +761,29 @@
           <properties class="org.springframework.beans.factory.BeanCreationException" package="org.springframework.beans.factory" />
           <option name="timeStamp" value="8" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/main/resources/static/js/employee.js</url>
+          <line>70</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/main/resources/static/js/employee.js</url>
+          <line>1034</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/main/resources/static/js/employee.js</url>
+          <line>1016</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/main/resources/static/js/employee.js</url>
+          <line>404</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="44" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

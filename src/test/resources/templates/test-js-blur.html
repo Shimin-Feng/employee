@@ -21,22 +21,24 @@
 	console.log((1 | 2))
 
 	function ffffffffff() {
-		const btn = document.getElementsByTagName("a")[0];
+        const btn = document.getElementsByTagName("a")[0];
 
-		console.log(this)
-		console.log(btn)
+        console.log(this)
+        console.log(btn)
 
-		console.log(btn === document.activeElement)  //true
-		console.log(document.activeElement)  //true
+        console.log(btn === document.activeElement)  //true
+        console.log(document.activeElement)  //true
 
-		this.blur()
-		console.log(btn === document.activeElement)  //true
-		// console.log(btn.hasFocus())  //true
+        console.log(window.getSelection())  //true
+
+        this.blur()
+        console.log(btn === document.activeElement)  //true
+        // console.log(btn.hasFocus())  //true
 
 
-		// Does the element have focus:
-		// const hasFocus = $('input').is(':focus');
-		// console.log(hasFocus)
+        // Does the element have focus:
+        // const hasFocus = $('input').is(':focus');
+        // console.log(hasFocus)
 
 		// Does the element have focus:
 		// const hasFocus2 = $(this).is(':focus');

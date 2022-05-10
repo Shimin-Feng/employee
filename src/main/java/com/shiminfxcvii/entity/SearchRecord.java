@@ -7,7 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -40,7 +40,7 @@ public class SearchRecord {
     @Column(name = "username", nullable = false, updatable = false, columnDefinition = "varchar", length = 45)
     private String username;
     @Column(name = "created_date", nullable = false, updatable = false, columnDefinition = "datetime")
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @Override
     public boolean equals(Object o) {

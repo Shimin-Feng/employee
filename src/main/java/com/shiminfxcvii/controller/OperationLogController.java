@@ -1,22 +1,26 @@
 package com.shiminfxcvii.controller;
 
 import com.shiminfxcvii.entity.Employee;
-import com.shiminfxcvii.entity.OperationLog;
 import com.shiminfxcvii.repository.OperationLogRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
-import java.util.logging.Logger;
+
+import static com.shiminfxcvii.util.Constants.*;
+import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
+import static org.springframework.http.HttpHeaders.CACHE_CONTROL;
+import static org.springframework.http.MediaType.ALL_VALUE;
+import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 
 /**
  * @author shiminfxcvii
@@ -27,10 +31,9 @@ import java.util.logging.Logger;
  * @see EmployeeController
  */
 @Controller
+@RequestMapping("operationLog")
 public class OperationLogController {
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-    private static final Logger LOGGER = Logger.getGlobal();
     @Resource
     private OperationLogRepository operationLogRepository;
 
@@ -41,10 +44,11 @@ public class OperationLogController {
      * @author shiminfxcvii
      * @created 2022/5/4 11:42
      */
-    @RequestMapping("operationLog")
+    @GetMapping
     public String operationLog(@NotNull Model model) {
-        model.addAttribute("operationLogs", operationLogRepository.findAll(
-                PageRequest.of(0, 10, Sort.by("dateTime", "logId"))));
+        model.addAttribute(
+                OPERATION_LOGS,
+                operationLogRepository.findAll(PageRequest.of(0, 10, Sort.by(DATE_TIME, LOG_ID))));
         return "operation-log";
     }
 
@@ -63,27 +67,26 @@ public class OperationLogController {
      * @created 2022/5/3 16:28
      */
     public void saveOperationLog(String dml, @NotNull Employee employee, @NotNull Principal user) {
-        OperationLog operationLog = new OperationLog();
-        operationLog.setLogId(UUID.randomUUID().toString());
-        operationLog.setDml(dml);
-        operationLog.setEmployeeId(employee.getEmployeeId());
-        operationLog.setEmployeeName(employee.getEmployeeName());
-        operationLog.setEmployeeSex(employee.getEmployeeSex());
-        operationLog.setEmployeeAge(employee.getEmployeeAge());
-        operationLog.setEmployeeIdCard(employee.getEmployeeIdCard());
-        operationLog.setEmployeeAddress(employee.getEmployeeAddress());
-        operationLog.setEmployeePhoneNumber(employee.getEmployeePhoneNumber());
-        operationLog.setCreatedBy(employee.getCreatedBy());
-        operationLog.setCreatedDate(employee.getCreatedDate());
-        operationLog.setLastModifiedDate(employee.getLastModifiedDate());
-        operationLog.setUsername(user.getName());
-        operationLog.setDateTime(LocalDateTime.now().format(DATE_TIME_FORMATTER));
-        operationLogRepository.saveAndFlush(operationLog);
+        OPERATION_LOG_ENTITY.setLogId(UUID.randomUUID().toString());
+        OPERATION_LOG_ENTITY.setDml(dml);
+        OPERATION_LOG_ENTITY.setEmployeeId(employee.getEmployeeId());
+        OPERATION_LOG_ENTITY.setEmployeeName(employee.getEmployeeName());
+        OPERATION_LOG_ENTITY.setEmployeeSex(employee.getEmployeeSex());
+        OPERATION_LOG_ENTITY.setEmployeeAge(employee.getEmployeeAge());
+        OPERATION_LOG_ENTITY.setEmployeeIdCard(employee.getEmployeeIdCard());
+        OPERATION_LOG_ENTITY.setEmployeeAddress(employee.getEmployeeAddress());
+        OPERATION_LOG_ENTITY.setEmployeePhoneNumber(employee.getEmployeePhoneNumber());
+        OPERATION_LOG_ENTITY.setCreatedBy(employee.getCreatedBy());
+        OPERATION_LOG_ENTITY.setCreatedDate(employee.getCreatedDate());
+        OPERATION_LOG_ENTITY.setLastModifiedDate(employee.getLastModifiedDate());
+        OPERATION_LOG_ENTITY.setUsername(user.getName());
+        OPERATION_LOG_ENTITY.setDateTime(LocalDateTime.now().format(DATE_TIME_FORMATTER));
+        operationLogRepository.saveAndFlush(OPERATION_LOG_ENTITY);
         // 检查是否成功保存到数据库
-        if (operationLogRepository.findById(operationLog.getLogId()).isPresent()) {
+        if (operationLogRepository.findById(OPERATION_LOG_ENTITY.getLogId()).isPresent()) {
             LOGGER.info("操作日志保存成功。");
         } else {
-            LOGGER.severe("操作日志保存失败。");
+            LOGGER.error("操作日志保存失败。");
         }
     }
 
@@ -97,15 +100,15 @@ public class OperationLogController {
      * @author shiminfxcvii
      * @created 2022/5/3 16:39
      */
-    @RequestMapping("findOperationLogsBy")
+    @GetMapping(value = "findOperationLogsBy", params = {PAGE_NUM, PAGE_SIZE}, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = TEXT_HTML_VALUE)
     public String findOperationLogsBy(
-            @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
-            @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
+            @RequestParam(name = PAGE_NUM, defaultValue = ZERO) Integer pageNum,
+            @RequestParam(name = PAGE_SIZE, defaultValue = TEN) Integer pageSize,
             @NotNull Model model
     ) {
         model.addAttribute(
-                "operationLogs",
-                operationLogRepository.findAll(PageRequest.of(pageNum, pageSize, Sort.by("dateTime", "logId")))
+                OPERATION_LOGS,
+                operationLogRepository.findAll(PageRequest.of(pageNum, pageSize, Sort.by(DATE_TIME, LOG_ID)))
         );
         return "operation-log";
     }

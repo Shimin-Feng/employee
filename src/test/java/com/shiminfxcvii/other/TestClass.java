@@ -5,7 +5,6 @@ import com.shiminfxcvii.entity.Employee;
 import com.shiminfxcvii.entity.SearchRecord;
 import com.shiminfxcvii.repository.SearchRecordRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StopWatch;
 import org.thymeleaf.util.StringUtils;
 
@@ -19,8 +18,9 @@ import java.util.stream.Stream;
 
 import static java.awt.SystemColor.info;
 import static java.lang.System.out;
+import static org.hibernate.bytecode.enhance.spi.interceptor.BytecodeInterceptorLogging.LOGGER;
 
-@SpringBootTest
+//@SpringBootTest
 public class TestClass {
 
 
@@ -36,14 +36,22 @@ public class TestClass {
     }
 
     @Test
+    public void testEnum() {
+        out.println(Color.RED);
+        LOGGER.info("操作日志保存成功。");
+        LOGGER.error("操作日志保存失败。");
+//        out.println(Color.RED instanceof String);
+    }
+
+    @Test
     public void testIterable() {
         StopWatch sw = new StopWatch();
         sw.start("校验耗时");
 
 
-        SearchRecord searchRecord1 = new SearchRecord("1", "employeeName", "Jobs", "admin1", new Date());
-        SearchRecord searchRecord2 = new SearchRecord("2", "employeeName", "Anna", "admin3", new Date());
-        SearchRecord searchRecord3 = new SearchRecord("3", "employeeName", "Emma", "admin1", new Date());
+        SearchRecord searchRecord1 = new SearchRecord("1", "employeeName", "Jobs", "admin1", LocalDateTime.now());
+        SearchRecord searchRecord2 = new SearchRecord("2", "employeeName", "Anna", "admin3", LocalDateTime.now());
+        SearchRecord searchRecord3 = new SearchRecord("3", "employeeName", "Emma", "admin1", LocalDateTime.now());
         List<SearchRecord> searchRecordList = new ArrayList<>();
         searchRecordList.add(searchRecord1);
         searchRecordList.add(searchRecord2);
@@ -52,7 +60,10 @@ public class TestClass {
             out.println(searchRecord);
         }
 
-        List<SearchRecord> recordNames = searchRecordRepository.findThisRecordNamesBy("admin1", "employeeName", "glb");
+        Integer iii = null;
+        Integer eiii = 0;
+
+        Byte recordNames = searchRecordRepository.findThisRecordNamesBy("admin1", "employeeName", "狄拉克");
         out.println(recordNames);
 
 
@@ -207,7 +218,6 @@ public class TestClass {
         out.println(idCard.toUpperCase());
     }
 
-
     @Test
     public void test8() {
         Employee employee = new Employee();
@@ -244,7 +254,6 @@ public class TestClass {
         boolean matches = Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", "37ea78ab-82ff-4bed-bf47-b76fddf28650");
         out.println(matches);
     }
-
 
     @Test
     public void test1() {
@@ -360,5 +369,9 @@ public class TestClass {
         }
         out.println(allRecordNameFour);
 
+    }
+
+    enum Color {
+        RED, GREEN, BLUE;
     }
 }

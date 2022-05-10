@@ -2,22 +2,57 @@
 
     'use strict'
 
-    // 考虑到性能和效率问题，这里选择 getElement 系列，为不是 querySelector 系列选择器
-    // 并且 getElement 系列选择器获取的数组结果为动态，querySelector 为静态
+    /**
+     * 考虑到性能和效率问题，这里选择 getElement 系列，为不是 querySelector 系列选择器
+     * 并且 getElement 系列选择器获取的数组结果为动态，querySelector 为静态
+     * @type {HTMLTableSectionElement}
+     */
     const thead = document.getElementsByTagName('thead')[0],
+        /**
+         * @type {HTMLTableSectionElement}
+         */
         tbody = document.getElementsByTagName('tbody')[0],
+        /**
+         * @type {HTMLTableSectionElement}
+         */
         tfoot = document.getElementsByTagName('tfoot')[0],
+        /**
+         * @type {Element}
+         */
         modalBody = document.getElementsByClassName('modal-body')[0],
+        /**
+         * @type {HTMLDivElement}
+         */
         sectionDiv = document.getElementsByTagName('section')[0].getElementsByTagName('div')[0],
+        /**
+         * @type {HTMLSelectElement}
+         */
         findSelect = sectionDiv.getElementsByTagName('select')[0],
+        /**
+         * @type {HTMLInputElement}
+         */
         findInput = sectionDiv.getElementsByTagName('input')[0],
+        /**
+         * @type {Element}
+         */
         toastBody = document.getElementsByClassName('toast-body')[0],
+        /**
+         * @type {HTMLElement}
+         */
         liveToast = document.getElementById('liveToast'),
 
-        // Get token
+        /**
+         * Get token
+         * @type {String}
+         */
         token = document.getElementsByName('_csrf')[0].value
+    ;
 
-    // 根据所提供身份证的前 17 位算出最后一位
+    /**
+     * 根据所提供身份证的前 17 位算出最后一位
+     * @param id17 18 位身份证前面的 17 位数字
+     * @returns {string} 返回计算后的最后的一位验证码数字
+     */
     function getLastIdCardNumber(id17) {
         const weight = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2],
             validate = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2']
@@ -29,24 +64,36 @@
         return validate[sum % 11]
     }
 
-    // 更新页面数据
+    /**
+     * 更新页面数据
+     * @param data html 页面数据
+     */
     function updatePage(data) {
         if (/btn-primary/.test(data)) {
             // 截取之后填充进页面
             const trs = data.split('<tbody class="table-secondary">')[1].split('</tbody>'),
                 ul = trs[1].split('<div class="modal-footer no-margin-top">')[1].split('</div>')
 
+            console.log(trs[0])
+            console.log(ul[0])
+
             tbody.innerHTML = trs[0]
             document.getElementsByClassName('no-margin-top')[0].innerHTML = ul[0]
+
         } else {
             tbody.innerHTML = ''
             tfoot.getElementsByTagName('tr')[0].getElementsByTagName('td')[0].getElementsByTagName('div')[0].innerHTML = ''
         }
     }
 
-    // 验证信息
+    /**
+     * 验证信息
+     * @param valuesArray 需要验证的字段
+     * @returns {boolean} false 验证不通过，数据格式不正确
+     */
     function regExp(valuesArray) {
         let msg = ''
+
         for (let i in valuesArray) {
             if ('' === valuesArray[i]) {
                 switch (i) {
@@ -65,6 +112,7 @@
                 break
             }
         }
+
         if ('' === msg) {
             // 验证姓名
             if (!/^[\u4e00-\u9fa5\w\s•]{1,25}$/.test(valuesArray[0])) {
@@ -94,6 +142,7 @@
                 msg = '电话号码格式有误，请检查后重试。'
             }
         }
+
         if ('' !== msg) {
             toastBody.textContent = msg;
             new bootstrap.Toast(liveToast).show();
@@ -101,7 +150,10 @@
         }
     }
 
-    // 若有则获取上一次的排序规则
+    /**
+     * 若有则获取上一次的排序规则
+     * @returns {string} 返回排序字段和值
+     */
     function getDirectionAndProperty() {
         let th = thead.getElementsByTagName('tr')[0].getElementsByTagName('th'),
             direction = '',
@@ -111,6 +163,7 @@
         for (let i = 1; i < 10; i++) {
             if (/^(ASC|DESC)$/.test(th[i].valueOf().value)) {
                 direction = th[i].valueOf().value
+
                 switch (i) {
                     case 1:
                         property = 'employeeName'
@@ -142,7 +195,9 @@
         return direction + ', ' + property
     }
 
-    // 添加、修改员工信息
+    /**
+     * 添加、修改员工信息
+     */
     document.getElementsByClassName('modal-footer')[1].getElementsByTagName('a')[1].addEventListener('click', () => {
         // 获取表单数据
         const collection = document.getElementsByClassName('modal-body')[0].getElementsByClassName('form-control')
@@ -167,17 +222,27 @@
 
         let employeeId = ''
 
+        // test
+        console.log(modalBody.valueOf().value);
+        console.log(modalBody.value);
+
+        // 根据实际实际情况设置请求方式
+        let method;
+
         // if it's updating an employee, also need to get the employeeId
-        if (/\d/.test(modalBody.value)) {
-            employeeId = tbody.getElementsByTagName('tr')[modalBody.value].getElementsByTagName('th')[0].getAttribute('id')
+        if (/\d/.test(modalBody.valueOf().value)) {
+            employeeId = tbody.getElementsByTagName('tr')[modalBody.valueOf().value].getElementsByTagName('th')[0].getAttribute('id');
             // delete the index
-            modalBody.value = ''
+            modalBody.valueOf().value = '';
+            method = 'PUT';
+        } else {
+            method = 'POST';
         }
 
         // 使用 FormDataAPI 是最简单最快的，但缺点是收集的数据不能被字符串化。仅使用 AJAX 更复杂，但通常更灵活、更强大。
         xhr.open(
-            'POST',
-            '/employee/saveOrUpdateEmployee?employeeName=' + valuesArray[0] + '&employeeIdCard=' + valuesArray[1]
+            method,
+            'employee/saveOrUpdateEmployee?employeeName=' + valuesArray[0] + '&employeeIdCard=' + valuesArray[1]
             + '&employeeAddress=' + valuesArray[2] + '&employeePhoneNumber=' + valuesArray[3] + '&employeeId=' + employeeId
         );
 
@@ -192,44 +257,44 @@
         xhr.send();
 
         // callback
-        xhr.onreadystatechange = function () {
-            console.log(xhr)
-            console.log(xhr.readyState);
-            console.log(xhr.status);
-            console.log(xhr.responseText)
-            console.log(xhr.response)
-            console.log(xhr.responseURL);
-            console.log(xhr.getAllResponseHeaders());
+        xhr.addEventListener('readystatechange', () => {
 
             // 在通信错误的事件中（例如服务器宕机），在访问响应状态 onreadystatechange 方法中会抛出一个例外。
             // 为了缓和这种情况，则可以使用 try...catch 把 if...then 语句包裹起来。
             try {
                 if (XMLHttpRequest.DONE === xhr.readyState) {
                     if (200 === xhr.status) {
+                        console.log(xhr.response || xhr.responseText)
                         saveOrDelete()
+
                     } else {
-                        toastBody.textContent = xhr.responseText
+                        console.error(xhr.response || xhr.responseText)
+                        toastBody.textContent = xhr.response || xhr.responseText
                         new bootstrap.Toast(liveToast).show()
                     }
                 }
             } catch (e) {
-                console.log('Caught Exception: ' + e.description);
+                console.error('Caught Exception: ' + e.description);
             }
-        };
+        });
     });
 
-    // 将更改和删除按钮的 click 事件委托在 tbody 标签上
+    /**
+     * 将更改和删除按钮的 click 事件委托在 tbody 标签上
+     */
     document.getElementsByTagName('tbody')[0].addEventListener('click', e => {
         // 兼容性处理
         const event = e || window.event
         const target = event.target || event.srcElement
 
-        // 将需要更改的员工信息填充进 modal
+        /**
+         * 将需要更改的员工信息填充进 modal
+         */
         if ('btn btn-primary' === target.getAttribute('class')) {
             // 获取当前 tbody tr 下标
             const index = (target.parentNode.parentNode.firstElementChild.textContent - 1) % 10
             // 保存下标到模态弹框中
-            modalBody.value = index
+            modalBody.valueOf().value = index
 
             // 将 table 中的数据填充进模态弹框
             const tds = tbody.getElementsByTagName('tr')[index].getElementsByTagName('td')
@@ -239,10 +304,11 @@
             document.getElementById('recipient-phoneNumber').value = tds[5].textContent
         }
 
-        // 删除员工信息
+        /**
+         * 删除员工信息
+         */
         if ('btn btn-danger' === target.getAttribute('class')) {
             const employeeId = target.parentElement.parentElement.firstElementChild.id
-            console.log(employeeId);
 
             if (!/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(employeeId)) {
                 toastBody.textContent = '无法获取到员工 ID，请检查后重试。'
@@ -263,7 +329,7 @@
                     xhr = new ActiveXObject("Microsoft.XMLHTTP");
                 }
 
-                xhr.open('POST', '/employee/deleteEmployeeById?employeeId=' + employeeId);
+                xhr.open('DELETE', 'employee/deleteEmployeeById?employeeId=' + employeeId);
 
                 // 这似乎是默认设置？
                 // 如果不设置响应头 Cache-Control: no-cache 浏览器将会把响应缓存下来而且再也无法重新提交请求。
@@ -276,46 +342,45 @@
                 xhr.send();
 
                 // callback
-                xhr.onreadystatechange = function () {
-                    console.log(xhr)
-                    console.log(xhr.readyState);
-                    console.log(xhr.status);
-                    console.log(xhr.responseText)
-                    console.log(xhr.response)
-                    console.log(xhr.responseURL);
-                    console.log(xhr.getAllResponseHeaders());
+                xhr.addEventListener('readystatechange', () => {
 
                     // 在通信错误的事件中（例如服务器宕机），在访问响应状态 onreadystatechange 方法中会抛出一个例外。
                     // 为了缓和这种情况，则可以使用 try...catch 把 if...then 语句包裹起来。
                     try {
                         if (XMLHttpRequest.DONE === xhr.readyState) {
                             if (200 === xhr.status) {
+                                console.log(xhr.response || xhr.responseText)
                                 saveOrDelete()
+
                             } else {
-                                toastBody.textContent = xhr.responseText
+                                console.error(xhr.response || xhr.responseText)
+                                toastBody.textContent = xhr.response || xhr.responseText
                                 new bootstrap.Toast(liveToast).show()
                             }
                         }
                     } catch (e) {
-                        console.log('Caught Exception: ' + e.description);
+                        console.error('Caught Exception: ' + e.description);
                     }
-                };
+                });
             }
         }
     });
 
-    // 避免点击更改弹出了 modal 更改后却并没有提交使 tbody tr 下标继续留在 .modal-body
+    /**
+     * 避免点击更改弹出了 modal 更改后却并没有提交使 tbody tr 下标继续留在 .modal-body
+     * @type {Element[]}
+     */
     const elements = [document.getElementsByClassName('modal-header')[0], document.getElementsByClassName('modal-footer')[1]];
-    elements.forEach(function (item, index, array) {
+    elements.forEach(function (item) {
         item.getElementsByTagName('a')[0].addEventListener('click', () => {
-            console.log(item);
-            console.log(index);
-            console.log(array);
-            modalBody.value = ''
+
+            modalBody.valueOf().value = ''
         })
     });
 
-    // 添加、修改或者删除操作之后的查询是一致的
+    /**
+     * 添加、修改或者删除操作之后的查询是一致的
+     */
     function saveOrDelete() {
         let array = getDirectionAndProperty().split(', '),
             pageNum
@@ -333,26 +398,59 @@
     const div = document.createElement('div')
     // create ul
     const ul = document.createElement('ul')
-    document.addEventListener('click', e => {
+    /**
+     * 对整个 document 的监听是目前最好最简单的方案，但是可能会损耗更多的性能
+     * test document.activeElement
+     */
+    document.addEventListener('mouseup', e => {
         // 兼容性处理
         const event = e || window.event
         const target = event.target || event.srcElement
 
+        // 当点击的不是搜索框、也不是 autocomplete 搜索提示的内容、并且 div 已经添加到 html 中
         if (findInput !== target && !div.contains(target) && sectionDiv.contains(div)) {
             sectionDiv.removeChild(div);
 
-        } else if (findInput === target) {
-            deleteByRecordName();
-        }
+            // 当点击的是搜索框
+        }/* else if (findInput === target) {
+            autocomplete();
+        }*/
     });
 
-    findInput.addEventListener('input', () => {
-
-        deleteByRecordName()
-
+    /**
+     * 使搜索提示框 width 与 input width 保持一致
+     */
+    window.addEventListener('resize', () => {
+        div.style.width = getComputedStyle(findInput)["width"];
     });
 
-    function deleteByRecordName() {
+    /**
+     * 搜索框内容的每一次变动都将触发一次根据内容的搜索
+     */
+    const typeArray = ['focus', 'input']
+    typeArray.forEach(function (item) {
+        findInput.addEventListener(item, () => {
+            // 用于下面的测试:
+            // console.count();
+            // console.trace();
+            switch (item) {
+                case 'focus':
+                    autocomplete();
+                    break;
+
+                case 'input':
+                    autocomplete();
+            }
+        });
+    })
+
+    /**
+     * 根据搜索框内容执行搜索任务
+     */
+    function autocomplete() {
+
+        console.count();
+        console.trace();
 
         let xhr;
 
@@ -362,7 +460,7 @@
             xhr = new ActiveXObject('Microsoft.XMLHTTP')
         }
 
-        xhr.open('POST', '/findRecordNamesBy?searchGroupBy=' + findSelect.value + '&recordName=' + findInput.value)
+        xhr.open('GET', 'searchRecord/findRecordNamesBy?searchGroupBy=' + findSelect.value + '&recordName=' + findInput.value)
 
         xhr.setRequestHeader('Cache-Control', 'no-cache')
 
@@ -372,22 +470,16 @@
 
         xhr.send()
 
-        xhr.onreadystatechange = function () {
+        xhr.addEventListener('readystatechange', () => {
 
             try {
                 if (XMLHttpRequest.DONE === xhr.readyState) {
 
-                    console.log(xhr);
-                    console.log(xhr.readyState);
-                    console.log(xhr.status);
-                    console.log(xhr.response);
-                    console.log(xhr.response.length);
-                    // console.log(xhr.responseText);
-                    console.log(xhr.responseURL);
-                    console.log(xhr.getAllResponseHeaders());
-
                     if (200 === xhr.status) {
 
+                        console.log(xhr.response || xhr.responseText);
+
+                        // 如果 response 没有数据并且 div 已添加到 html 则删除 div
                         if (0 === xhr.response.length && sectionDiv.contains(div)) {
                             sectionDiv.removeChild(div);
                         }
@@ -438,9 +530,13 @@
 
                                     '</div>';
 
-                                // 添加事件
-                                // 聚焦/失焦改变背景颜色
-                                // 点击历史搜索记录之一可以查询数据
+                                /**
+                                 * 添加事件
+                                 * 聚焦/失焦改变背景颜色
+                                 * 点击历史搜索记录之一可以查询数据
+                                 * 写在这里方便获取数据 ---- xhr.response[i]
+                                 * @type {string[]}
+                                 */
                                 const types = ['mouseout', 'mouseover', 'click']
                                 types.forEach(function (item) {
                                     li.addEventListener(item, e => {
@@ -477,7 +573,7 @@
                                                         xhrDeleteByRecordName = new ActiveXObject('Microsoft.XMLHTTP');
                                                     }
 
-                                                    xhrDeleteByRecordName.open('POST', 'deleteByRecordName?searchGroupBy=' + findSelect.value + '&recordName=' + xhr.response[i]);
+                                                    xhrDeleteByRecordName.open('DELETE', 'searchRecord/deleteByRecordName?searchGroupBy=' + findSelect.value + '&recordName=' + xhr.response[i]);
 
                                                     xhrDeleteByRecordName.setRequestHeader('Cache-Control', 'no-cache');
 
@@ -485,30 +581,27 @@
 
                                                     xhrDeleteByRecordName.send();
 
-                                                    xhrDeleteByRecordName.onreadystatechange = function () {
+                                                    xhrDeleteByRecordName.addEventListener('readystatechange', () => {
 
                                                         try {
                                                             if (XMLHttpRequest.DONE === xhrDeleteByRecordName.readyState) {
 
-                                                                console.log(xhrDeleteByRecordName);
-                                                                console.log(xhrDeleteByRecordName.readyState);
-                                                                console.log(xhrDeleteByRecordName.status);
-                                                                console.log(xhrDeleteByRecordName.response);
-                                                                console.log(xhrDeleteByRecordName.responseURL);
-                                                                console.log(xhrDeleteByRecordName.getAllResponseHeaders());
-
                                                                 if (200 === xhrDeleteByRecordName.status) {
-                                                                    deleteByRecordName();
+
+                                                                    console.log(xhrDeleteByRecordName.response || xhrDeleteByRecordName.responseText);
+
+                                                                    autocomplete();
 
                                                                 } else {
+                                                                    console.error(xhrDeleteByRecordName.response || xhrDeleteByRecordName.responseText)
                                                                     toastBody.textContent = xhrDeleteByRecordName.response || xhrDeleteByRecordName.responseText
                                                                     new bootstrap.Toast(liveToast).show()
                                                                 }
                                                             }
                                                         } catch (e) {
-                                                            console.log('Caught Exception: ' + e.description);
+                                                            console.error('Caught Exception: ' + e.description);
                                                         }
-                                                    }
+                                                    })
                                                 }
                                         }
                                     });
@@ -519,19 +612,22 @@
                             sectionDiv.appendChild(div);
                         }
                     } else {
-                        toastBody.textContent = xhr.responseText
+                        console.error(xhr.response || xhr.responseText)
+                        toastBody.textContent = xhr.response || xhr.responseText
                         new bootstrap.Toast(liveToast).show()
                     }
                 }
             } catch (e) {
-                console.log('Caught Exception: ' + e.description);
+                console.error('Caught Exception: ' + e.description);
             }
-        }
+        });
     }
 
-    // 查找员工
-    // 尝试过把下面两个方法写进一个方法里，但不理想
-    // 键盘回车事件
+    /**
+     * 查找员工
+     * 尝试过把下面两个方法写进一个方法里，但不理想
+     * 键盘回车事件
+     */
     document.getElementsByTagName('section')[0].getElementsByTagName('div')[0].getElementsByTagName('input')[0].addEventListener('keypress', e => {
         // 兼容性处理
         const event = e || window.event
@@ -539,9 +635,6 @@
 
         // keypress 相对于 keydown 与 keyup，只有按下 Enter 键会触发此事件。
         // 而 keydown 与 keyup，按下 Shift、Ctrl、Caps 都会触发，所以这里选择 keypress
-        console.log(event);
-        console.log(target);
-        console.log(target.value);
 
         if ('' !== target.value) {
             const key = event.key || event.code
@@ -550,6 +643,7 @@
             // No. keydown、keyup 获取为 0
             // Yes. keydown、keypress、keyup 都能正确获取到 key
             const keyCode = event.keyCode || event.which || event.charCode
+
             if ('Enter' === key || 13 === keyCode) {
                 target.blur()
                 reset()
@@ -558,15 +652,13 @@
         }
     });
 
-    // 搜索员工按钮点击事件
+    /**
+     * 搜索员工按钮点击事件
+     */
     document.getElementsByTagName('section')[0].getElementsByTagName('div')[0].getElementsByTagName('a')[0].addEventListener('click', e => {
         // 兼容性处理
         const event = e || window.event
         const target = event.target || event.srcElement
-
-        console.log(event);
-        console.log(target);
-        console.log(target.previousElementSibling.value);
 
         if ('' !== target.previousElementSibling.value) {
             reset()
@@ -574,8 +666,6 @@
         }
     });
 
-    // 根据排序条件查询
-    // 写在这里方便查看
     let employee = {
         name: 0,
         sex: 0,
@@ -588,6 +678,9 @@
         lastModifiedDate: 0
     };
 
+    /**
+     * 将 employee 所有属性重置
+     */
     function init() {
         employee = {
             name: 0,
@@ -602,8 +695,14 @@
         }
     }
 
+    /**
+     * init() 将 employee 所有属性重置
+     * 重新加载页面数据后需要清除之前保存在 thead tr th 中的 tbody tr 下标
+     * 初始化 class
+     */
     function reset() {
         init()
+
         for (let i = 1; i < 10; i++) {
             let th = thead.getElementsByTagName('tr')[0].getElementsByTagName('th')[i]
 
@@ -612,18 +711,16 @@
         }
     }
 
+    /**
+     * 根据所点击的字段进行升序降序的排序
+     */
     Array.from(document.getElementsByTagName('thead')[0].getElementsByTagName('tr')[0].getElementsByTagName('th')).forEach(e => {
         e.addEventListener('click', ev => {
             // 兼容性处理
             const event = ev || window.event
             const target = event.target || event.srcElement
 
-            console.log(event);
-            console.log(target);
-            console.log(target.nodeName);
-
             if ('TH' === target.nodeName) {
-                console.log(target.cellIndex);
                 switch (target.cellIndex) {
                     case 1:
                         switch (employee.name) {
@@ -755,6 +852,14 @@
                         }
                 }
 
+                /**
+                 * 调用发送排序方法
+                 * @param target 当前 th
+                 * @param direction 排序规则 ASC (Default), DESC
+                 * @param property 需要排序的字段
+                 * @param value class 样式
+                 * @param val 将当前的排序规则 value 添加到当前的 target
+                 */
                 function sortDirection(target, direction, property, value, val) {
                     ajaxRequestBy(0, direction, property)
                     target.getElementsByTagName('i')[0].setAttribute('class', value)
@@ -781,9 +886,12 @@
         })
     });
 
-    // 翻页
-    // keypress 相对于 keydown 与 keyup，只有按下 Enter 键会触发此事件。
-    // 而 keydown 与 keyup，按下 Shift、Ctrl、Caps 都会触发，所以这里选择 keypress
+    /**
+     * 翻页
+     * keypress 相对于 keydown 与 keyup，只有按下 Enter 键会触发此事件。
+     * 而 keydown 与 keyup，按下 Shift、Ctrl、Caps 都会触发，所以这里选择 keypress
+     * @type {string[]}
+     */
     const types = ['click', 'keypress'];
     types.forEach(function (item) {
         document.getElementsByTagName('tfoot')[0].addEventListener(item, e => {
@@ -795,21 +903,23 @@
             const ulPagination = document.getElementsByClassName('pagination pull-right no-margin')[0]
             const aPageLink = document.getElementsByClassName('page-link')
 
-            console.log(event);
-            console.log(target);
-
-            // 首页、上一页、中间页、下一页、尾页
-            // ulPagination.contains(target) 判断 ulPagination 是否包含此 target ---- 当点击翻页相关按钮时
+            /**
+             * 首页、上一页、中间页、下一页、尾页
+             * ulPagination.contains(target) 判断 ulPagination 是否包含此 target ---- 当点击翻页相关按钮时
+             */
             if ('click' === item && ulPagination.contains(target)) {
                 const array = getDirectionAndProperty().split(', ')
                 ajaxRequestBy(target.name, array[0], array[1])
                 return
             }
 
-            // 通过输入框翻页的 click 和 keypress 事件
-            // ulPagination.contains(target) 判断 ulPagination 是否包含此 target ---- 当不是点击翻页相关按钮时
-            if (/\d/.test(inputPageNumber.value) && !ulPagination.contains(target)) {
+            /**
+             * 通过输入框翻页的 click 和 keypress 事件
+             * ulPagination.contains(target) 判断 ulPagination 是否包含此 target ---- 当不是点击翻页相关按钮时
+             */
+            if (/\d/.test(inputPageNumber.valueOf().value) && !ulPagination.contains(target)) {
                 if ('keypress' === item && inputPageNumber === target) {
+
                     const key = event.key || event.code
                     // Yes. 只有 keypress 能正确获取到 e.charCode 的值
                     // No. keydown、keyup 获取为 0
@@ -826,15 +936,23 @@
                 }
             }
 
+            /**
+             * 发送数据，调用查询请求
+             */
             function sendPage() {
-                // 有效页数: 1.必须为整数 2.大于零 3.不大于总页数
-                console.log(0 === inputPageNumber.value % 1)
-                console.log(0 < inputPageNumber.value)
-                console.log(parseInt(aPageLink[aPageLink.length - 1].name) + 2 > inputPageNumber.value)
 
-                if (0 === inputPageNumber.value % 1 && 0 < inputPageNumber.value && parseInt(aPageLink[aPageLink.length - 1].name) + 2 > inputPageNumber.value) {
+                // 有效页数: 1.必须为整数 2.大于零 3.不大于总页数
+                const value = inputPageNumber.valueOf().value;
+                console.log(0 === value % 1)
+                console.log(0 < value)
+                console.log(parseInt(aPageLink[aPageLink.length - 1].name) + 2 > value)
+
+                if (0 === value % 1 && 0 < value && parseInt(aPageLink[aPageLink.length - 1].name) + 2 > value) {
                     const array = getDirectionAndProperty().split(', ')
-                    ajaxRequestBy(inputPageNumber.value - 1, array[0], array[1])
+                    ajaxRequestBy(value - 1, array[0], array[1])
+                    // 发送请求后将 target.valueOf().value 的值设为 ''，以避免失焦后再次发送请求
+                    inputPageNumber.valueOf().value = '';
+
                 } else {
                     toastBody.textContent = '请输入正确的页数。'
                     new bootstrap.Toast(liveToast).show()
@@ -843,7 +961,12 @@
         })
     });
 
-    // 发送增删改之后的页面数据更新和翻页的请求
+    /**
+     * 发送增删改之后的页面数据更新和翻页的请求
+     * @param pageNum 页数
+     * @param direction 排序规则，ASC 升序，DESC 降序
+     * @param property 根据该字段排序，默认 createdDate 添加时间
+     */
     function ajaxRequestBy(pageNum, direction, property) {
         if (pageNum > -1) {
 
@@ -859,11 +982,12 @@
             }
 
             xhr.open(
-                'POST',
-                '/employee/findEmployeesBy?pageNum=' + pageNum + '&direction=' + direction + '&property=' + property + '&' + findSelect.value + '=' + findInput.value
+                'GET',
+                'employee/findEmployeesBy?pageNum=' + pageNum + '&pageSize=' + 10 + '&direction=' + direction + '&property=' + property + '&' + findSelect.value + '=' + findInput.value
             )
 
             // 这似乎是默认设置？
+            // GET 请求则设置此参数
             // 如果不设置响应头 Cache-Control: no-cache 浏览器将会把响应缓存下来而且再也无法重新提交请求。
             // 你也可以添加一个总是不同的 GET 参数，比如时间戳或者随机数
             xhr.setRequestHeader('Cache-Control', 'no-cache')
@@ -874,14 +998,7 @@
             xhr.send();
 
             // callback
-            xhr.onreadystatechange = function () {
-                console.log(xhr);
-                console.log(xhr.readyState);
-                console.log(xhr.status);
-                console.log(xhr.responseText);
-                console.log(xhr.response);
-                console.log(xhr.responseURL);
-                console.log(xhr.getAllResponseHeaders());
+            xhr.addEventListener('readystatechange', () => {
 
                 // 在通信错误的事件中（例如服务器宕机），在访问响应状态 onreadystatechange 方法中会抛出一个例外。
                 // 为了缓和这种情况，则可以使用 try...catch 把 if...then 语句包裹起来。
@@ -889,50 +1006,33 @@
                     if (XMLHttpRequest.DONE === xhr.readyState) {
                         if (200 === xhr.status) {
 
+                            console.log(xhr.response || xhr.responseText);
+
                             // 如果有数据则填充进 table
-                            if (/btn-primary/.test(xhr.responseText)) {
-                                updatePage(xhr.responseText)
+                            if (/btn-primary/.test(xhr.response || xhr.responseText)) {
+                                updatePage(xhr.response || xhr.responseText)
+
                             } else if (pageNum > 0) {
                                 // 如果该页没有数据，将会向前面一页查询数据
                                 ajaxRequestBy(pageNum - 1, direction, property)
+
                             } else {
                                 tbody.innerHTML = ''
                                 tfoot.getElementsByTagName('tr')[0].getElementsByTagName('td')[0].getElementsByTagName('div')[0].innerHTML = ''
                             }
 
                         } else {
+                            console.error(xhr.response || xhr.responseText)
+                            toastBody.textContent = xhr.response || xhr.responseText
                             new bootstrap.Toast(liveToast).show()
                         }
                     }
                 } catch (e) {
-                    console.log('Caught Exception: ' + e.description);
+                    console.error('Caught Exception: ' + e.description);
                 }
-            }
+            })
         } else {
             ajaxRequestBy(0, direction, property)
         }
     }
 }();
-
-window.onload = function () {
-
-    'use strict'
-
-    /*const listeners = {
-        dark: (mediaQueryList) => {
-            if (mediaQueryList.matches) {
-                $("body").css("background", '#1B1B1B')
-                // document.body.bgColor = '#1B1B1B'
-            }
-        },
-        light: (mediaQueryList) => {
-            if (mediaQueryList.matches) {
-                $("body").css("background", '#FFFFFF')
-                // document.body.bgColor = '#FFFFFF'
-            }
-        }
-    }
-
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', listeners.dark)
-    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', listeners.light)*/
-};

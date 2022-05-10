@@ -31,6 +31,27 @@
 <script>
     window.onload = function () {
 
+        const a = 0;
+        const b = 1;
+
+        console.log(a || b)
+        console.log(b || a)
+        console.log(1 < 2 || 2 > 3)
+        console.log(2 > 3 || 1 < 2)
+
+        return;
+
+
+        const getWindowInfo = () => {
+            const windowInfo = {
+                width: window.innerWidth,
+                height: window.innerHeight
+            }
+            console.log(windowInfo);
+        };
+        window.addEventListener('resize', getWindowInfo);
+
+
         document.getElementById('buttons-hbox').addEventListener('input', e => {
             console.log(e.target.value);
         });
@@ -121,7 +142,7 @@
 		let parent = document.getElementsByName('parent')
 		console.log(parent);
 		let children = document.getElementById('children')
-		console.log(children.contains(parent))
+        console.log(parent.contains(children))
 
 
 		var the_ul = document.getElementById('list');

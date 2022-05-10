@@ -30,3 +30,7 @@ span label input {
 .currentPage {
     background: #0D6EFD;
 }
+
+#nav-divOne, #section-divOne {
+    min-width: 919px;
+}

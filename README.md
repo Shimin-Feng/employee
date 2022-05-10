@@ -13,8 +13,6 @@ MySQL: 8.0.28
 
 ## 前端
 
-jQuery: 3.6.0  
-jQuery UI: 1.13.1  
 Bootstrap: 5.1.3
 
 ## 渲染模板

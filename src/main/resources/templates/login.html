@@ -37,17 +37,16 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
     </form>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	!function () {
-		$(document).on('click', '.btn-primary', function () {
-			if ($('#username').val() === '' || $('#password').val() === '') {
-				alert('Please enter username and password.');
-				// 如果不 return false, 表单还是会提交!
-				return false;
-			}
-		})
-	}()
+        document.getElementsByClassName('btn-primary')[0].addEventListener('click', () => {
+            if ('' === document.getElementById('username').value || '' === document.getElementById('password').value) {
+                alert('Please enter username and password.');
+                // 如果不 return false, 表单还是会提交!
+                return false;
+            }
+        });
+    }()
 </script>
 </body>
 </html>
