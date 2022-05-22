@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * @author shiminfxcvii
  * @version 1.0
  * @description 员工管理操作日志工厂接口
- * @class OperationLogRepository
+ * @interface OperationLogRepository
  * @created 2022/5/2 1:10 周一
  */
 @Repository

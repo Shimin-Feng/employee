@@ -1,10 +1,13 @@
 package com.shiminfxcvii.other;
 
 import com.shiminfxcvii.controller.EmployeeController;
+import com.shiminfxcvii.controller.SearchRecordController;
 import com.shiminfxcvii.entity.Employee;
 import com.shiminfxcvii.entity.SearchRecord;
 import com.shiminfxcvii.repository.SearchRecordRepository;
+import com.shiminfxcvii.util.Sex;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.StopWatch;
 import org.thymeleaf.util.StringUtils;
 
@@ -16,31 +19,101 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import static com.shiminfxcvii.other.HttpStatusTest.BAD_REQUEST;
+import static com.shiminfxcvii.other.TestClass.Color.RED;
+import static com.shiminfxcvii.util.Constants.DATE_TIME;
 import static java.awt.SystemColor.info;
 import static java.lang.System.out;
-import static org.hibernate.bytecode.enhance.spi.interceptor.BytecodeInterceptorLogging.LOGGER;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 //@SpringBootTest
 public class TestClass {
 
+//    static {
+//        out.println("static");
+//    }
 
-    static {
-        out.println("static");
-    }
-
+    private SearchRecordController searchRecordController;
     @Resource
     private SearchRecordRepository searchRecordRepository;
 
-    {
-        out.println("not static");
+//    {
+//        out.println("not static");
+//    }
+
+
+    @Test
+    public void testList() {
+        Object o = null;
+        out.println(o.equals(null));
+        List<String> list = new ArrayList<>();
+        list.add("1");
+        list.add("2");
+        list.add("3");
+        list.add("1");
+        out.println(list);
+        List<String> strings = list.subList(2, list.size());
+        out.println(strings);
+    }
+
+    @Test
+    public void testParam2() {
+        Employee employee = new Employee();
+        out.println(null == employee);
+        String s = testParam1(employee);
+        out.println(s);
+        out.println(UTF_8);
+        out.println(UTF_8.toString() instanceof String);
+    }
+
+
+    @Test
+    public String testParam1(Employee employee) {
+        return employee.getEmployeeId();
     }
 
     @Test
     public void testEnum() {
-        out.println(Color.RED);
-        LOGGER.info("操作日志保存成功。");
-        LOGGER.error("操作日志保存失败。");
-//        out.println(Color.RED instanceof String);
+        Employee employee = new Employee();
+        employee.setEmployeeSex("3");
+        Object o = new Object();
+
+        if (0 == Integer.parseInt(employee.getEmployeeSex()) % 2) {
+            out.println(Sex.Male.getNumber());
+        } else {
+            out.println(Sex.Female.getNumber());
+        }
+
+        /*out.println(StandardCharsets.UTF_8);
+
+
+        String s = null;
+        String s2 = "";
+        String s3 = "    ";
+        String s4 = "1";
+        String s5 = " 4 1  4 ";
+        out.println(org.springframework.util.StringUtils.hasLength(s));
+        out.println(org.springframework.util.StringUtils.hasText(s));
+        out.println(org.springframework.util.StringUtils.hasLength(s2));
+        out.println(org.springframework.util.StringUtils.hasText(s2));
+        out.println(org.springframework.util.StringUtils.hasLength(s3.trim()));
+        out.println(org.springframework.util.StringUtils.hasText(s3));
+        out.println(org.springframework.util.StringUtils.hasText(s5.trim()));
+        out.println(org.springframework.util.StringUtils.trimWhitespace(Objects.requireNonNull(s4)));
+        out.println(org.springframework.util.StringUtils.trimAllWhitespace(s));
+
+        out.println(HttpStatus.NOT_FOUND);
+        out.println(HttpStatus.BAD_REQUEST);*/
+
+        /*try {
+            int i = 10/0;
+        } catch (Exception e) {
+            out.println(e.getMessage());
+            out.println(e.getCause());
+            out.println(e.getLocalizedMessage());
+            out.println(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }*/
     }
 
     @Test
@@ -63,7 +136,7 @@ public class TestClass {
         Integer iii = null;
         Integer eiii = 0;
 
-        Byte recordNames = searchRecordRepository.findThisRecordNamesBy("admin1", "employeeName", "狄拉克");
+        Byte recordNames = searchRecordRepository.countByUsernameAndSearchGroupByAndRecordName("admin1", "employeeName", "狄拉克");
         out.println(recordNames);
 
 
@@ -369,9 +442,73 @@ public class TestClass {
         }
         out.println(allRecordNameFour);
 
+        out.println("Color.RED  : " + RED.ordinal());
+        out.println("Color.RED  : " + RED.name());
+        out.println("Color.RED  : " + RED.ordinal());
+        out.println("Color.RED  : " + RED.hashCode());
+        out.println("Color.RED  : " + RED.compareTo(Color.GREEN));
+        out.println("Color.RED  : " + Color.GREEN.compareTo(RED));
+        System.out.println("Color.GREEN: " + Color.GREEN.ordinal());
+
+        System.out.println("Color.BLUE : " + Color.class);
+        System.out.println("Color.BLUE : " + Color.valueOf(String.valueOf(RED)));
+        System.out.println("Color.BLUE : " + Color.valueOf(Color.class, "RED"));
+        System.out.println("Color.BLUE : " + Arrays.toString(Color.values()));
+
+
     }
 
-    enum Color {
-        RED, GREEN, BLUE;
+    @Test
+    public void testEnum1() {
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss", Locale.US);
+        DateTimeFormatter dateTimeFormatter2 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss", Locale.SIMPLIFIED_CHINESE);
+        String dateTime = now.format(dateTimeFormatter);
+        String dateTime1 = now.format(dateTimeFormatter1);
+        String dateTime2 = now.format(dateTimeFormatter2);
+
+        out.println(dateTime);
+        out.println(dateTime1);
+        out.println(dateTime2);
+//        HttpStatus notFound = HttpStatus.NOT_FOUND;
+//        out.println(TestEnum.ZERO_INTEGER);
+
+        for (HttpStatus value : HttpStatus.values()) {
+            out.println(value);
+        }
+        out.println(BAD_REQUEST.value());
+        out.println(BAD_REQUEST);
+        out.println(DATE_TIME);
+        out.println(DATE_TIME);
+        out.println(Constants.ZERO_int);
+        out.println(Constants.ZERO_int.value() instanceof Integer);
+        out.println(Constants.PAGE_NUM.value() instanceof Integer);
+        out.println(Constants.PAGE_NUM.value() instanceof String);
+        out.println(Constants.X_CSRF_TOKEN);
+
+//        out.println(RED);
+//        out.println(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
+//        out.println(HttpStatus.NOT_FOUND instanceof Object);
+//        out.println(RED.getName() instanceof String);
+    }
+
+    public enum TestEnum1 {
+
+//        NETWORK_AUTHENTICATION_REQUIRED(511, HttpStatus.Series.SERVER_ERROR, "Network Authentication Required");
+    }
+
+    public enum Color {
+        RED("red"), GREEN("green"), BLUE("blue");
+        private final String name;
+
+        Color(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
 }

@@ -2,21 +2,20 @@ package com.shiminfxcvii.controller;
 
 import com.shiminfxcvii.entity.Employee;
 import com.shiminfxcvii.repository.EmployeeRepository;
+import com.shiminfxcvii.util.Sex;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -25,13 +24,14 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 import static com.shiminfxcvii.util.Constants.*;
-import static com.sun.xml.internal.stream.writers.XMLStreamWriterImpl.UTF_8;
 import static org.springframework.data.domain.ExampleMatcher.StringMatcher.CONTAINING;
 import static org.springframework.http.HttpHeaders.CACHE_CONTROL;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
+import static org.springframework.web.bind.annotation.RequestMethod.PATCH;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 /**
  * @author shiminfxcvii
@@ -43,11 +43,11 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 @Controller
 @RequestMapping("employee")
 public class EmployeeController {
-    // 编码格式，不设置编码前台就无法解析汉字
+
     // 状态码
-    private Integer status;
+    private HttpStatus status;
     // 返回信息
-    private String message;
+    private String body;
     @Resource
     private EmployeeRepository employeeRepository;
     @Resource
@@ -66,10 +66,12 @@ public class EmployeeController {
      * @created 2022/4/29 10:32
      */
     @GetMapping
-    public String employee(@NotNull Model model) {
-        model.addAttribute(
-                EMPLOYEES,
-                employeeRepository.findAll(PageRequest.of(0, 10, Sort.by(CREATED_DATE, EMPLOYEE_ID))));
+    public String employee(Model model) {
+        Page<Employee> employees = employeeRepository.findAll(PageRequest.of(ZERO_INTEGER, TEN_INTEGER, Sort.by(CREATED_DATE, EMPLOYEE_ID)));
+        // 数据库存储的性别是 0 和 1，但是需要使页面正常显示
+        for (Employee employee : employees)
+            employee.setEmployeeSex(Objects.requireNonNull(Sex.resolveByNumber(employee.getEmployeeSex())).getGender());
+        model.addAttribute(EMPLOYEES, employees);
         return "employee";
     }
 
@@ -79,6 +81,7 @@ public class EmployeeController {
      * 如果使用 save() 可能会出现保存或者修改方法执行之后，立即查询数据库中该记录可能会出现不存在的情况
      * save()          将数据保存在内存中
      * saveAndFlush()  保存在内存中的同时同步到数据库
+     * PATCH 只更新部分字段
      *
      * @param user     Principal 登录用户
      * @param employee Employee 前台传过来的需要添加或者修改的员工信息，根据是否存在 employeeId 判断该请求为添加还是修改
@@ -93,20 +96,21 @@ public class EmployeeController {
      *                  成功则返回 status 200 ”修改成功“，否则返回 400 "修改失败，因为员工信息没有任何改变"
      *                  </li>
      *                 </ul>
-     * @param response HttpServletResponse 需要返回的状态和信息
-     * @throws IOException HttpServletResponse 写入响应信息异常
      * @method saveOrUpdateEmployee
      * @author shiminfxcvii
      * @created 2022/4/29 10:59
      */
-    @RequestMapping(value = "saveOrUpdateEmployee", method = {POST, PUT}, params = {EMPLOYEE_NAME, EMPLOYEE_ID_CARD, EMPLOYEE_ADDRESS, EMPLOYEE_PHONE_NUMBER, EMPLOYEE_ID}, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = ALL_VALUE)
-    public void saveOrUpdateEmployee(@NotNull Principal user, @NotNull Employee employee, HttpServletResponse response) throws IOException {
+    @RequestMapping(value = "saveOrUpdateEmployee", method = {POST, PATCH}, params = {EMPLOYEE_NAME, EMPLOYEE_ID_CARD, EMPLOYEE_ADDRESS, EMPLOYEE_PHONE_NUMBER, EMPLOYEE_ID}, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = ALL_VALUE)
+    public ResponseEntity<String> saveOrUpdateEmployee(@NotNull Principal user, @NotNull Employee employee) {
+        // 设置响应头信息
+        HTTP_HEADERS.add(CONTENT_TYPE, ALL_VALUE);
         // Get dateTime now
         LocalDateTime now = LocalDateTime.now();
         String dateTime = now.format(DATE_TIME_FORMATTER);
 
         // Get sex
-        String sex = Integer.parseInt(String.valueOf(employee.getEmployeeIdCard().charAt(16))) % 2 == 0 ? FEMALE : MALE;
+        // 数据库存储的性别是 0 和 1
+        String number = String.valueOf(Integer.parseInt(String.valueOf(employee.getEmployeeIdCard().charAt(16))) % 2);
 
         // Get age
         // now
@@ -127,12 +131,13 @@ public class EmployeeController {
         // idCard
         String idCard = employee.getEmployeeIdCard().toUpperCase();
 
-        if (null == employee.getEmployeeId() || Objects.equals(employee.getEmployeeId(), "")) {
+        if (!StringUtils.hasText(employee.getEmployeeId())) {
             // save
             // 设置值
             employee.setEmployeeId(UUID.randomUUID().toString());
-            employee.setEmployeeSex(sex);
+            employee.setEmployeeSex(number);
             employee.setEmployeeAge(age);
+            // 转大写处理后的值
             employee.setEmployeeIdCard(idCard);
             employee.setCreatedBy(user.getName());
             employee.setCreatedDate(dateTime);
@@ -143,11 +148,11 @@ public class EmployeeController {
             if (employeeRepository.findById(employee.getEmployeeId()).isPresent()) {
                 // 保存操作日志
                 operationLogController.saveOperationLog(INSERT, employee, user);
-                status = STATUS_200;
-                message = "添加成功。";
+                body = "添加成功。";
+                status = OK;
             } else {
-                status = STATUS_500;
-                message = "添加失败，服务器错误，员工信息未保存进数据库。";
+                body = "添加失败，服务器错误，员工信息未保存进数据库。";
+                status = INTERNAL_SERVER_ERROR;
             }
         } else {
             // update
@@ -159,9 +164,11 @@ public class EmployeeController {
                 // 修改之前比较被修改对象的值与前台传递过来的值是否相同，不相同则执行修改操作
                 if (!employee.equals(employee2)) {
                     // 设置值
-                    employee.setEmployeeSex(sex);
+                    employee.setEmployeeSex(number);
                     employee.setEmployeeAge(age);
+                    // 转大写处理后的值
                     employee.setEmployeeIdCard(idCard);
+                    // 因为需要保存操作日志，所以这里还是要设置值
                     employee.setCreatedBy(employee2.getCreatedBy());
                     employee.setCreatedDate(employee2.getCreatedDate());
                     employee.setLastModifiedDate(dateTime);
@@ -176,28 +183,27 @@ public class EmployeeController {
                         if (employee.equals(employee4)) {
                             // 保存操作日志
                             operationLogController.saveOperationLog(UPDATE, employee, user);
-                            status = STATUS_200;
-                            message = "修改成功。";
+                            body = "修改成功。";
+                            status = OK;
                         } else {
-                            status = STATUS_500;
-                            message = "服务器出现故障，修改失败，员工信息未被成功修改进数据库。";
+                            body = "服务器出现故障，修改失败，员工信息未被成功修改进数据库。";
+                            status = INTERNAL_SERVER_ERROR;
                         }
                     } else {
-                        status = STATUS_500;
-                        message = "服务器出现故障，修改失败，员工信息未被成功修改进数据库。";
+                        body = "服务器出现故障，修改失败，员工信息未被成功修改进数据库。";
+                        status = INTERNAL_SERVER_ERROR;
                     }
                 } else {
-                    status = STATUS_400;
-                    message = "修改失败，因为员工信息没有任何改变。";
+                    body = "修改失败，因为员工信息没有任何改变。";
+                    status = BAD_REQUEST;
                 }
             } else {
-                status = STATUS_400;
-                message = "修改失败，该员工不存在。";
+                body = "修改失败，该员工不存在。";
+                status = BAD_REQUEST;
             }
         }
-        response.setCharacterEncoding(UTF_8);
-        response.setStatus(status);
-        response.getWriter().write(message);
+
+        return new ResponseEntity<>(body, HTTP_HEADERS, status);
     }
 
     /**
@@ -205,18 +211,16 @@ public class EmployeeController {
      *
      * @param user       Principal 获取登录用户信息
      * @param employeeId String 前台传过来的 employeeId
-     * @param response   HttpServletResponse 将要返回的状态和信息
-     *                   删除之前根据该 employeeId 查询该数据是否存在
-     *                   删除之后再次查询该数据是否成功删除
-     *                   成功则返回 200 "删除成功。"，否则返回 500 "服务器出现故障，删除失败，员工信息还存在。"
-     * @throws IOException HttpServletResponse 写入响应信息异常
      * @method deleteEmployeeById
      * @author shiminfxcvii
-     * @created 2022/4/29 11:20Z
+     * @created 2022/4/29 11:20
      */
     @DeleteMapping(value = "deleteEmployeeById", params = EMPLOYEE_ID, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = ALL_VALUE)
-    public void deleteEmployeeById(@NotNull Principal user, String employeeId, HttpServletResponse response) throws IOException {
-        if (null != employeeId) {
+    public ResponseEntity<String> deleteEmployeeById(@NotNull Principal user, @NotNull String employeeId) {
+        // 设置响应头信息
+        HTTP_HEADERS.add(CONTENT_TYPE, ALL_VALUE);
+
+        if (StringUtils.hasText(employeeId)) {
             if (Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", employeeId)) {
                 Optional<Employee> employee = employeeRepository.findById(employeeId);
                 if (employee.isPresent()) {
@@ -224,27 +228,26 @@ public class EmployeeController {
                     if (employeeRepository.findById(employeeId).isEmpty()) {
                         // 保存操作日志
                         operationLogController.saveOperationLog(DELETE, employee.get(), user);
-                        status = STATUS_200;
-                        message = "删除成功。";
+                        body = "删除成功。";
+                        status = OK;
                     } else {
-                        status = STATUS_500;
-                        message = "服务器出现故障，删除失败，员工信息还存在于数据库。";
+                        body = "服务器出现故障，删除失败，员工信息还存在于数据库。";
+                        status = INTERNAL_SERVER_ERROR;
                     }
                 } else {
-                    status = STATUS_400;
-                    message = "删除失败，因为数据库没有该员工信息。";
+                    body = "删除失败，因为数据库没有该员工信息。";
+                    status = BAD_REQUEST;
                 }
             } else {
-                status = STATUS_400;
-                message = "删除失败，非法 ID。ID 格式不正确。";
+                body = "删除失败，非法 ID。ID 格式不正确。";
+                status = BAD_REQUEST;
             }
         } else {
-            status = STATUS_400;
-            message = "删除失败，ID 为空。";
+            body = "删除失败，ID 为空。";
+            status = BAD_REQUEST;
         }
-        response.setCharacterEncoding(UTF_8);
-        response.setStatus(status);
-        response.getWriter().write(message);
+
+        return new ResponseEntity<>(body, HTTP_HEADERS, status);
     }
 
     /**
@@ -281,26 +284,33 @@ public class EmployeeController {
     @GetMapping(value = "findEmployeesBy", params = {PAGE_NUM, PAGE_SIZE, DIRECTION, PROPERTY}, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = TEXT_HTML_VALUE)
     public String findEmployeesBy(
             // name ==(等效) value
-            @RequestParam(name = PAGE_NUM, defaultValue = ZERO) Integer pageNum,
-            @RequestParam(name = PAGE_SIZE, defaultValue = TEN) Integer pageSize,
-            @RequestParam(name = DIRECTION, defaultValue = ASC) Sort.Direction direction,
-            @RequestParam(name = PROPERTY, defaultValue = CREATED_DATE) String property,
-            Employee employee,
+            @RequestParam(value = PAGE_NUM, defaultValue = ZERO) Integer pageNum,
+            @RequestParam(value = PAGE_SIZE, defaultValue = TEN) Integer pageSize,
+            @RequestParam(value = DIRECTION, defaultValue = ASC) Sort.Direction direction,
+            @RequestParam(value = PROPERTY, defaultValue = CREATED_DATE) String property,
+            @NotNull Employee employee,
             @NotNull Principal user,
-            @NotNull Model model
+            Model model
     ) throws IllegalAccessException {
-        model.addAttribute(
-                EMPLOYEES,
-                employeeRepository.findAll(
-                        Example.of(
-                                employee,
-                                // 匹配所有字段的模糊查询并且忽略大小写
-                                ExampleMatcher.matching().withStringMatcher(CONTAINING)
-                        ), PageRequest.of(pageNum, pageSize, Sort.by(direction, property, EMPLOYEE_ID))
-                )
-        );
         // 保存搜索记录
         searchRecordController.saveSearchRecord(employee, user);
+
+        // 先判断非空，再根据实际性别解析成数字
+        if (null != employee.getEmployeeSex())
+            employee.setEmployeeSex(Objects.requireNonNull(Sex.resolveByGender(employee.getEmployeeSex())).getNumber());
+        Page<Employee> employees = employeeRepository.findAll(
+                Example.of(
+                        employee,
+                        // 匹配所有字段的模糊查询并且忽略大小写
+                        ExampleMatcher.matching().withStringMatcher(CONTAINING)
+                ),
+                PageRequest.of(pageNum, pageSize, Sort.by(direction, property, EMPLOYEE_ID))
+        );
+        // 数据库存储的性别是 0 和 1，但是需要使页面正常显示
+        for (Employee employee1 : employees)
+            employee1.setEmployeeSex(Objects.requireNonNull(Sex.resolveByNumber(employee1.getEmployeeSex())).getGender());
+        model.addAttribute(EMPLOYEES, employees);
+
         return "employee";
     }
 

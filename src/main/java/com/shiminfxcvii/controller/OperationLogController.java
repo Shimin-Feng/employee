@@ -1,8 +1,11 @@
 package com.shiminfxcvii.controller;
 
 import com.shiminfxcvii.entity.Employee;
+import com.shiminfxcvii.entity.OperationLog;
 import com.shiminfxcvii.repository.OperationLogRepository;
+import com.shiminfxcvii.util.Sex;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.annotation.Resource;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 import static com.shiminfxcvii.util.Constants.*;
@@ -45,10 +49,12 @@ public class OperationLogController {
      * @created 2022/5/4 11:42
      */
     @GetMapping
-    public String operationLog(@NotNull Model model) {
-        model.addAttribute(
-                OPERATION_LOGS,
-                operationLogRepository.findAll(PageRequest.of(0, 10, Sort.by(DATE_TIME, LOG_ID))));
+    public String operationLog(Model model) {
+        Page<OperationLog> operationLogs = operationLogRepository.findAll(PageRequest.of(ZERO_INTEGER, TEN_INTEGER, Sort.by(DATE_TIME, LOG_ID)));
+        // 数据库存储的性别是 0 和 1，但是需要使页面正常显示
+        for (OperationLog operationLog : operationLogs)
+            operationLog.setEmployeeSex(Objects.requireNonNull(Sex.resolveByNumber(operationLog.getEmployeeSex())).getGender());
+        model.addAttribute(OPERATION_LOGS, operationLogs);
         return "operation-log";
     }
 
@@ -66,7 +72,7 @@ public class OperationLogController {
      * @author shiminfxcvii
      * @created 2022/5/3 16:28
      */
-    public void saveOperationLog(String dml, @NotNull Employee employee, @NotNull Principal user) {
+    public void saveOperationLog(@NotNull String dml, @NotNull Employee employee, @NotNull Principal user) {
         OPERATION_LOG_ENTITY.setLogId(UUID.randomUUID().toString());
         OPERATION_LOG_ENTITY.setDml(dml);
         OPERATION_LOG_ENTITY.setEmployeeId(employee.getEmployeeId());
@@ -102,14 +108,15 @@ public class OperationLogController {
      */
     @GetMapping(value = "findOperationLogsBy", params = {PAGE_NUM, PAGE_SIZE}, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = TEXT_HTML_VALUE)
     public String findOperationLogsBy(
-            @RequestParam(name = PAGE_NUM, defaultValue = ZERO) Integer pageNum,
-            @RequestParam(name = PAGE_SIZE, defaultValue = TEN) Integer pageSize,
-            @NotNull Model model
+            @RequestParam(value = PAGE_NUM, defaultValue = ZERO) Integer pageNum,
+            @RequestParam(value = PAGE_SIZE, defaultValue = TEN) Integer pageSize,
+            Model model
     ) {
-        model.addAttribute(
-                OPERATION_LOGS,
-                operationLogRepository.findAll(PageRequest.of(pageNum, pageSize, Sort.by(DATE_TIME, LOG_ID)))
-        );
+        Page<OperationLog> operationLogs = operationLogRepository.findAll(PageRequest.of(pageNum, pageSize, Sort.by(DATE_TIME, LOG_ID)));
+        // 数据库存储的性别是 0 和 1，但是需要使页面正常显示
+        for (OperationLog operationLog : operationLogs)
+            operationLog.setEmployeeSex(Objects.requireNonNull(Sex.resolveByNumber(operationLog.getEmployeeSex())).getGender());
+        model.addAttribute(OPERATION_LOGS, operationLogs);
         return "operation-log";
     }
 }

@@ -8,41 +8,40 @@
      * @type {HTMLTableSectionElement}
      */
     const thead = document.getElementsByTagName('thead')[0],
-        /**
-         * @type {HTMLTableSectionElement}
+
+        /** @type {HTMLTableSectionElement}
          */
         tbody = document.getElementsByTagName('tbody')[0],
-        /**
-         * @type {HTMLTableSectionElement}
+
+        /** @type {HTMLTableSectionElement}
          */
         tfoot = document.getElementsByTagName('tfoot')[0],
-        /**
-         * @type {Element}
+
+        /** @type {Element}
          */
         modalBody = document.getElementsByClassName('modal-body')[0],
-        /**
-         * @type {HTMLDivElement}
+
+        /** @type {HTMLDivElement}
          */
         sectionDiv = document.getElementsByTagName('section')[0].getElementsByTagName('div')[0],
-        /**
-         * @type {HTMLSelectElement}
+
+        /** @type {HTMLSelectElement}
          */
         findSelect = sectionDiv.getElementsByTagName('select')[0],
-        /**
-         * @type {HTMLInputElement}
+
+        /** @type {HTMLInputElement}
          */
         findInput = sectionDiv.getElementsByTagName('input')[0],
-        /**
-         * @type {Element}
+
+        /** @type {Element}
          */
         toastBody = document.getElementsByClassName('toast-body')[0],
-        /**
-         * @type {HTMLElement}
+
+        /** @type {HTMLElement}
          */
         liveToast = document.getElementById('liveToast'),
 
-        /**
-         * Get token
+        /** Get token
          * @type {String}
          */
         token = document.getElementsByName('_csrf')[0].value
@@ -234,7 +233,7 @@
             employeeId = tbody.getElementsByTagName('tr')[modalBody.valueOf().value].getElementsByTagName('th')[0].getAttribute('id');
             // delete the index
             modalBody.valueOf().value = '';
-            method = 'PUT';
+            method = 'PATCH';
         } else {
             method = 'POST';
         }
@@ -242,8 +241,8 @@
         // 使用 FormDataAPI 是最简单最快的，但缺点是收集的数据不能被字符串化。仅使用 AJAX 更复杂，但通常更灵活、更强大。
         xhr.open(
             method,
-            'employee/saveOrUpdateEmployee?employeeName=' + valuesArray[0] + '&employeeIdCard=' + valuesArray[1]
-            + '&employeeAddress=' + valuesArray[2] + '&employeePhoneNumber=' + valuesArray[3] + '&employeeId=' + employeeId
+            'employee/saveOrUpdateEmployee?employeeName=' + valuesArray[0] + '&employeeIdCard=' + valuesArray[1] +
+            '&employeeAddress=' + valuesArray[2] + '&employeePhoneNumber=' + valuesArray[3] + '&employeeId=' + employeeId
         );
 
         // 这似乎是默认设置？
@@ -264,12 +263,12 @@
             try {
                 if (XMLHttpRequest.DONE === xhr.readyState) {
                     if (200 === xhr.status) {
-                        console.log(xhr.response || xhr.responseText)
+                        console.log(xhr.response)
                         saveOrDelete()
 
                     } else {
-                        console.error(xhr.response || xhr.responseText)
-                        toastBody.textContent = xhr.response || xhr.responseText
+                        console.error(xhr.response)
+                        toastBody.textContent = xhr.response
                         new bootstrap.Toast(liveToast).show()
                     }
                 }
@@ -349,12 +348,12 @@
                     try {
                         if (XMLHttpRequest.DONE === xhr.readyState) {
                             if (200 === xhr.status) {
-                                console.log(xhr.response || xhr.responseText)
+                                console.log(xhr.response)
                                 saveOrDelete()
 
                             } else {
-                                console.error(xhr.response || xhr.responseText)
-                                toastBody.textContent = xhr.response || xhr.responseText
+                                console.error(xhr.response)
+                                toastBody.textContent = xhr.response
                                 new bootstrap.Toast(liveToast).show()
                             }
                         }
@@ -371,8 +370,8 @@
      * @type {Element[]}
      */
     const elements = [document.getElementsByClassName('modal-header')[0], document.getElementsByClassName('modal-footer')[1]];
-    elements.forEach(function (item) {
-        item.getElementsByTagName('a')[0].addEventListener('click', () => {
+    elements.forEach(function (element) {
+        element.getElementsByTagName('a')[0].addEventListener('click', () => {
 
             modalBody.valueOf().value = ''
         })
@@ -402,7 +401,7 @@
      * 对整个 document 的监听是目前最好最简单的方案，但是可能会损耗更多的性能
      * test document.activeElement
      */
-    document.addEventListener('mouseup', e => {
+    document.addEventListener('click', e => {
         // 兼容性处理
         const event = e || window.event
         const target = event.target || event.srcElement
@@ -421,7 +420,7 @@
      * 使搜索提示框 width 与 input width 保持一致
      */
     window.addEventListener('resize', () => {
-        div.style.width = getComputedStyle(findInput)["width"];
+        div.style.width = getComputedStyle(findInput)['width'];
     });
 
     /**
@@ -430,14 +429,13 @@
     const typeArray = ['focus', 'input']
     typeArray.forEach(function (item) {
         findInput.addEventListener(item, () => {
-            // 用于下面的测试:
+            // 写成 switch 是用于下面的测试:
             // console.count();
             // console.trace();
             switch (item) {
                 case 'focus':
                     autocomplete();
                     break;
-
                 case 'input':
                     autocomplete();
             }
@@ -451,6 +449,16 @@
 
         console.count();
         console.trace();
+
+        const lis1 = []
+        const lis2 = []
+        /**
+         * @type {Element[]}
+         */
+        const xhrResponse1 = [];
+        const xhrResponse2 = []
+        console.log(lis1)
+        console.log(lis2)
 
         let xhr;
 
@@ -472,20 +480,17 @@
 
         xhr.addEventListener('readystatechange', () => {
 
-            try {
-                if (XMLHttpRequest.DONE === xhr.readyState) {
+                try {
+                    if (XMLHttpRequest.DONE === xhr.readyState) {
 
-                    if (200 === xhr.status) {
+                        if (200 === xhr.status) {
 
-                        console.log(xhr.response || xhr.responseText);
+                            console.log(xhr.response);
 
-                        // 如果 response 没有数据并且 div 已添加到 html 则删除 div
-                        if (0 === xhr.response.length && sectionDiv.contains(div)) {
-                            sectionDiv.removeChild(div);
-                        }
-
-                        // 如果此用户有历史搜索记录
-                        if (0 < xhr.response.length) {
+                            // 如果 response 没有数据并且 div 已添加到 html 则删除 div
+                            if (0 === xhr.response.length && sectionDiv.contains(div)) {
+                                sectionDiv.removeChild(div);
+                            }
 
                             // set div
                             div.style.backgroundColor = '#303134';
@@ -503,124 +508,254 @@
                             ul.style.margin = '0';
                             ul.style.padding = '0';
 
-                            // create li
-                            for (const i in xhr.response) {
+                            // 如果此用户有历史搜索记录
+                            if (0 < xhr.response.length) {
 
-                                // 每次循环都需要创建一个 li
-                                const li = document.createElement('li')
+                                // create li
+                                for (const i in xhr.response) {
 
-                                // set style
-                                li.style.height = '33px'
-                                li.innerHTML =
-                                    '<div style="display: flex; margin: 0 20px 0 14px; align-items: Center; top: 50%;">' +
+                                    // 每次循环都需要创建一个 li
+                                    const li = document.createElement('li')
+                                    lis1.push(li)
+                                    xhrResponse1.push(xhr.response[i])
 
-                                    '<div style="margin: 0 13px 0 1px;">' +
-                                    '<i class="bi bi-clock"></i>' +
-                                    '</div>' +
+                                    // set style
+                                    li.style.height = '33px'
+                                    li.innerHTML =
+                                        '<div style="display: flex; margin: 0 20px 0 14px; align-items: Center; top: 50%;">' +
 
-                                    '<div style="flex: auto; height: 33px; padding: 6px 0;">' +
-                                    '<div style="height: 21px; padding: 0 8px 0 0;">' +
-                                    '<span style="color: #C475F0; cursor: default; display: block; height: 21px;">' + xhr.response[i] + '</span>' +
-                                    '</div>' +
-                                    '</div>' +
+                                        '<div style="margin: 0 13px 0 1px;">' +
+                                        '<i class="bi bi-clock"></i>' +
+                                        '</div>' +
 
-                                    '<div>' +
-                                    '<div id="deleteByRecordName" style="cursor: pointer; height: 17px;" onmouseover="this.style.color = `#3F7DF3`; this.style.textDecoration = `underline`" onmouseout="this.style.color = ``; this.style.textDecoration = ``">delete</div>' +
-                                    '</div>' +
+                                        '<div style="flex: auto; height: 33px; padding: 6px 0;">' +
+                                        '<div style="height: 21px; padding: 0 8px 0 0;">' +
+                                        '<span style="color: #C475F0; cursor: default; display: block; height: 21px;">' + xhr.response[i] + '</span>' +
+                                        '</div>' +
+                                        '</div>' +
 
-                                    '</div>';
+                                        '<div>' +
+                                        '<div id="deleteByRecordName" style="cursor: pointer; height: 17px;" onmouseover="this.style.color = `#3F7DF3`; this.style.textDecoration = `underline`" onmouseout="this.style.color = ``; this.style.textDecoration = ``">delete</div>' +
+                                        '</div>' +
 
-                                /**
-                                 * 添加事件
-                                 * 聚焦/失焦改变背景颜色
-                                 * 点击历史搜索记录之一可以查询数据
-                                 * 写在这里方便获取数据 ---- xhr.response[i]
-                                 * @type {string[]}
-                                 */
-                                const types = ['mouseout', 'mouseover', 'click']
-                                types.forEach(function (item) {
-                                    li.addEventListener(item, e => {
-                                        // 兼容性处理
-                                        const event = e || window.event
-                                        const target = event.target || event.srcElement
+                                        '</div>';
 
-                                        switch (item) {
-                                            case 'mouseout':
-                                                li.style.backgroundColor = '#303134';
-                                                break;
 
-                                            case 'mouseover':
-                                                li.style.backgroundColor = '#3C4043';
-                                                break;
+                                    ul.appendChild(li)
+                                }
+                            }
+                            const length = ul.getElementsByTagName('li').length;
+                            console.log(xhr.response);
+                            console.log(length);
 
-                                            case 'click':
-                                                if ('deleteByRecordName' !== target.id) {
-                                                    // 执行搜索请求
-                                                    // 将当前点击的值填充进 input
-                                                    findInput.value = xhr.response[i];
-                                                    findInput.blur();
-                                                    reset();
-                                                    ajaxRequestBy(0, '', '');
+                            // 如果搜索记录不足 10 条，并且搜索框有值，则在整个数据表中搜索与之相关联的数据
+                            if (10 > length && '' !== findInput.value) {
+                                let xhr2;
+
+                                if (window.XMLHttpRequest) {
+                                    xhr2 = new XMLHttpRequest()
+                                } else if (window.ActiveXObject) {
+                                    xhr2 = new ActiveXObject('Microsoft.XMLHTTP')
+                                }
+
+                                xhr2.open('GET', 'searchRecord/findAllEmployeesBy?recordNames=' + xhr.response + '&' + findSelect.value + '=' + findInput.value)
+
+                                xhr2.setRequestHeader('Cache-Control', 'no-cache')
+
+                                xhr2.setRequestHeader('X-CSRF-Token', token);
+
+                                xhr2.responseType = 'json'
+
+                                xhr2.send()
+
+                                xhr2.addEventListener('readystatechange', () => {
+
+                                    try {
+                                        if (XMLHttpRequest.DONE === xhr2.readyState) {
+
+                                            if (200 === xhr2.status) {
+
+                                                // debugger
+
+                                                console.log(xhr2);
+                                                console.log(xhr2.response);
+                                                console.log(xhr2.getAllResponseHeaders());
+
+                                                // 如果 response 没有数据并且 div 已添加到 html 则删除 div
+                                                if (0 === xhr2.response.length && sectionDiv.contains(div)) {
                                                     sectionDiv.removeChild(div);
+                                                }
 
-                                                } else {
-                                                    // 执行删除搜索记录请求
-                                                    let xhrDeleteByRecordName
+                                                // 如果此用户有历史搜索记录
+                                                if (0 < xhr2.response.length) {
 
-                                                    if (window.XMLHttpRequest) {
-                                                        xhrDeleteByRecordName = new XMLHttpRequest();
-                                                    } else if (window.ActiveXObject) {
-                                                        xhrDeleteByRecordName = new ActiveXObject('Microsoft.XMLHTTP');
+                                                    // create li
+                                                    for (const i in xhr2.response) {
+
+                                                        // 每次循环都需要创建一个 li
+                                                        const li = document.createElement('li')
+                                                        lis2.push(li)
+
+                                                        // set style
+                                                        li.style.height = '33px'
+                                                        li.innerHTML =
+                                                            '<div style="display: flex; margin: 0 20px 0 14px; align-items: Center; top: 50%;">' +
+
+                                                            '<div style="margin: 0 13px 0 1px;">' +
+                                                            '<i class="bi bi-search"></i>' +
+                                                            '</div>' +
+
+                                                            '<div style="flex: auto; height: 33px; padding: 6px 0;">' +
+                                                            '<div style="height: 21px; padding: 0 8px 0 0;">' +
+                                                            '<span style="cursor: default; display: block; height: 21px;">' + xhr2.response[i] + '</span>' +
+                                                            '</div>' +
+                                                            '</div>' +
+
+                                                            '</div>';
+
+                                                        /**
+                                                         * 添加事件
+                                                         * 聚焦/失焦改变背景颜色
+                                                         * 点击历史搜索记录之一可以查询数据
+                                                         * 写在这里方便获取数据 ---- xhr.response[i]
+                                                         * @type {string[]}
+                                                         */
+                                                        const types = ['mouseout', 'mouseover', 'click']
+                                                        types.forEach(function (item) {
+                                                            li.addEventListener(item, () => {
+                                                                switch (item) {
+                                                                    case 'mouseout':
+                                                                        li.style.backgroundColor = '#303134';
+                                                                        break;
+
+                                                                    case 'mouseover':
+                                                                        li.style.backgroundColor = '#3C4043';
+                                                                        break;
+
+                                                                    case 'click':
+                                                                        // 执行搜索请求
+                                                                        // 将当前点击的值填充进 input
+                                                                        findInput.value = xhr2.response[i];
+                                                                        findInput.blur();
+                                                                        reset();
+                                                                        ajaxRequestBy(0, '', '');
+                                                                        sectionDiv.removeChild(div);
+                                                                }
+                                                            });
+                                                        })
+                                                        ul.appendChild(li)
                                                     }
 
-                                                    xhrDeleteByRecordName.open('DELETE', 'searchRecord/deleteByRecordName?searchGroupBy=' + findSelect.value + '&recordName=' + xhr.response[i]);
-
-                                                    xhrDeleteByRecordName.setRequestHeader('Cache-Control', 'no-cache');
-
-                                                    xhrDeleteByRecordName.setRequestHeader('X-CSRF-Token', token);
-
-                                                    xhrDeleteByRecordName.send();
-
-                                                    xhrDeleteByRecordName.addEventListener('readystatechange', () => {
-
-                                                        try {
-                                                            if (XMLHttpRequest.DONE === xhrDeleteByRecordName.readyState) {
-
-                                                                if (200 === xhrDeleteByRecordName.status) {
-
-                                                                    console.log(xhrDeleteByRecordName.response || xhrDeleteByRecordName.responseText);
-
-                                                                    autocomplete();
-
-                                                                } else {
-                                                                    console.error(xhrDeleteByRecordName.response || xhrDeleteByRecordName.responseText)
-                                                                    toastBody.textContent = xhrDeleteByRecordName.response || xhrDeleteByRecordName.responseText
-                                                                    new bootstrap.Toast(liveToast).show()
-                                                                }
-                                                            }
-                                                        } catch (e) {
-                                                            console.error('Caught Exception: ' + e.description);
-                                                        }
-                                                    })
                                                 }
+                                            }
                                         }
-                                    });
+                                    } catch (e) {
+                                        console.error('Caught Exception: ' + e.description);
+                                    }
                                 })
-                                ul.appendChild(li)
                             }
+
                             div.appendChild(ul);
                             sectionDiv.appendChild(div);
+                            console.log(lis1)
+                            console.log(lis2)
+                        } else {
+                            console.error(xhr.response)
+                            toastBody.textContent = xhr.response
+                            new bootstrap.Toast(liveToast).show()
                         }
-                    } else {
-                        console.error(xhr.response || xhr.responseText)
-                        toastBody.textContent = xhr.response || xhr.responseText
-                        new bootstrap.Toast(liveToast).show()
                     }
+                } catch (e) {
+                    console.error('Caught Exception: ' + e.description);
                 }
-            } catch (e) {
-                console.error('Caught Exception: ' + e.description);
             }
-        });
+        );
+
+        /**
+         * 添加事件
+         * 聚焦/失焦改变背景颜色
+         * 点击历史搜索记录之一可以查询数据
+         * 虽然写在这里会使耦合提高，但是方便添加事件和获取数据 ---- xhr.response[i]
+         * @type {string[]}
+         */
+        const types = ['mouseout', 'mouseover', 'click']
+        types.forEach(function (type, index) {
+            lis1.forEach(function (li) {
+                // xhrResponse1.forEach(function (xhrResponse) {
+                li.addEventListener(type, e => {
+                    // 兼容性处理
+                    const event = e || window.event
+                    const target = event.target || event.srcElement
+
+                    console.log(xhrResponse1)
+                    console.log(index)
+                    console.log(xhrResponse1[index])
+
+                    switch (type) {
+                        case 'mouseout':
+                            li.style.backgroundColor = '#303134';
+                            break;
+
+                        case 'mouseover':
+                            li.style.backgroundColor = '#3C4043';
+                            break;
+
+                        case 'click':
+                            if ('deleteByRecordName' !== target.id) {
+                                // 执行搜索请求
+                                // 将当前点击的值填充进 input
+                                findInput.value = xhrResponse1[index];
+                                findInput.blur();
+                                reset();
+                                ajaxRequestBy(0, '', '');
+                                sectionDiv.removeChild(div);
+
+                            } else {
+                                // 发送删除搜索记录请求
+                                let xhrDeleteByRecordName
+
+                                if (window.XMLHttpRequest) {
+                                    xhrDeleteByRecordName = new XMLHttpRequest();
+                                } else if (window.ActiveXObject) {
+                                    xhrDeleteByRecordName = new ActiveXObject('Microsoft.XMLHTTP');
+                                }
+
+                                xhrDeleteByRecordName.open('DELETE', 'searchRecord/deleteByRecordName?searchGroupBy=' + findSelect.value + '&recordName=' + xhrResponse1[index]);
+
+                                xhrDeleteByRecordName.setRequestHeader('Cache-Control', 'no-cache');
+
+                                xhrDeleteByRecordName.setRequestHeader('X-CSRF-Token', token);
+
+                                xhrDeleteByRecordName.send();
+
+                                xhrDeleteByRecordName.addEventListener('readystatechange', () => {
+
+                                    try {
+                                        if (XMLHttpRequest.DONE === xhrDeleteByRecordName.readyState) {
+
+                                            if (200 === xhrDeleteByRecordName.status) {
+
+                                                console.log(xhrDeleteByRecordName.response);
+
+                                                autocomplete();
+
+                                            } else {
+                                                console.error(xhrDeleteByRecordName.response)
+                                                toastBody.textContent = xhrDeleteByRecordName.response
+                                                new bootstrap.Toast(liveToast).show()
+                                            }
+                                        }
+                                    } catch (e) {
+                                        console.error('Caught Exception: ' + e.description);
+                                    }
+                                })
+                            }
+                    }
+                    // });
+                })
+            })
+        })
+
     }
 
     /**
@@ -1006,11 +1141,11 @@
                     if (XMLHttpRequest.DONE === xhr.readyState) {
                         if (200 === xhr.status) {
 
-                            console.log(xhr.response || xhr.responseText);
+                            console.log(xhr.response);
 
                             // 如果有数据则填充进 table
-                            if (/btn-primary/.test(xhr.response || xhr.responseText)) {
-                                updatePage(xhr.response || xhr.responseText)
+                            if (/btn-primary/.test(xhr.response)) {
+                                updatePage(xhr.response)
 
                             } else if (pageNum > 0) {
                                 // 如果该页没有数据，将会向前面一页查询数据
@@ -1022,8 +1157,8 @@
                             }
 
                         } else {
-                            console.error(xhr.response || xhr.responseText)
-                            toastBody.textContent = xhr.response || xhr.responseText
+                            console.error(xhr.response)
+                            toastBody.textContent = xhr.response
                             new bootstrap.Toast(liveToast).show()
                         }
                     }
@@ -1035,4 +1170,6 @@
             ajaxRequestBy(0, direction, property)
         }
     }
-}();
+}
+
+();

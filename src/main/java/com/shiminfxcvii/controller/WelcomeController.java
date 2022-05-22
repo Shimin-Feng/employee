@@ -1,7 +1,7 @@
 package com.shiminfxcvii.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * @author shiminfxcvii
@@ -21,7 +21,7 @@ public class WelcomeController {
      * @author shiminfxcvii
      * @created 2022/4/29 16:46
      */
-    @RequestMapping("login")
+    @GetMapping("login")
     public String login() {
         return "login";
     }
@@ -34,7 +34,7 @@ public class WelcomeController {
      * @author shiminfxcvii
      * @created 2022/4/29 16:33
      */
-    @RequestMapping("index")
+    @GetMapping("index")
     public String index() {
         return "index";
     }

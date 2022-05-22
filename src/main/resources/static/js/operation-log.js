@@ -2,32 +2,31 @@
 
     'use strict'
 
-    /**
-     * @type {HTMLElement}
+    /** @type {HTMLElement}
      */
     const liveToast = document.getElementById('liveToast'),
-        /**
-         * @type {Element}
+
+        /** @type {Element}
          */
         noMarginTop = document.getElementsByClassName('no-margin-top')[0],
-        /**
-         * @type {Element}
+
+        /** @type {Element}
          */
         toastBody = document.getElementsByClassName('toast-body')[0],
-        /**
-         * @type {String}
+
+        /** @type {String}
          */
         token = document.getElementsByName('_csrf')[0].valueOf().value,
-        /**
-         * @type {HTMLTableSectionElement}
+
+        /** @type {HTMLTableSectionElement}
          */
         tbody = document.getElementsByTagName('tbody')[0],
-        /**
-         * @type {HTMLTableSectionElement}
+
+        /** @type {HTMLTableSectionElement}
          */
         tfoot = document.getElementsByTagName('tfoot')[0],
-        /**
-         * @type {HTMLDivElement}
+
+        /** @type {HTMLDivElement}
          */
         tfootTrTdDiv = tfoot.getElementsByTagName('tr')[0].getElementsByTagName('td')[0].getElementsByTagName('div')[0]
     ;
@@ -43,19 +42,20 @@
             // 兼容性处理
             const event = e || window.event;
             const target = event.target || event.srcElement;
-// debugger
+
+            // test
             console.log(document.activeElement !== target);
 
-            /**
-             * @type {HTMLElement}
+            // 如果在事件外定义则无法正确显示数据
+            /** @type {HTMLElement}
              */
             const inputPageNumber = document.getElementById('pageNumber'),
-                /**
-                 * @type {HTMLCollectionOf<Element>}
+
+                /** @type {HTMLCollectionOf<Element>}
                  */
                 aPageLink = document.getElementsByClassName('page-link'),
-                /**
-                 * @type {Element}
+
+                /** @type {Element}
                  */
                 ulPagination = document.getElementsByClassName('pagination pull-right no-margin')[0];
 
