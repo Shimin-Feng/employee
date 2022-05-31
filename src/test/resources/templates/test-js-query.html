@@ -15,7 +15,64 @@
 </label>
 <p id="bar">111</p>
 <script>
-	/*
+    (function () {
+        let str = "1"
+        console.log(str);
+        str.clear();
+        console.log(str);
+        for (; ;) {
+            console.log(1)
+        }
+    })()
+
+    function getDirectionAndProperty() {
+        let th = ['AS'],
+            direction,
+            property
+
+        // 只寻找支持排序功能的 9 个 th 之一的值
+        for (let i = 1; i < 10; i++) {
+            if (/^(ASC|DESC)$/.test(th[i])) {
+                direction = th[i].valueOf()
+
+                switch (i) {
+                    case 1:
+                        property = 'employeeName'
+                        break
+                    case 2:
+                        property = 'employeeSex'
+                        break
+                    case 3:
+                        property = 'employeeAge'
+                        break
+                    case 4:
+                        property = 'employeeIdCard'
+                        break
+                    case 5:
+                        property = 'employeeAddress'
+                        break
+                    case 6:
+                        property = 'employeePhoneNumber'
+                        break
+                    case 7:
+                        property = 'createdBy'
+                        break
+                    case 9:
+                        property = 'lastModifiedDate'
+                        break
+                    default:
+                        property = ''
+                }
+                break
+            }
+        }
+        console.log(th[0])
+        console.log(th[0].valueOf())
+        return direction + ', ' + property
+    }
+
+    console.log(getDirectionAndProperty())
+    /*
 
         const c = '3';
         console.log(c % 10 - 1);

@@ -7,8 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
-import java.util.List;
+import java.util.LinkedHashSet;
 
 /**
  * @author shiminfxcvii
@@ -21,32 +20,6 @@ import java.util.List;
 public interface SearchRecordRepository extends JpaRepository<SearchRecord, String> {
 
     /**
-     * 删除需要显示声明事物 @Transactional
-     *
-     * @param username      登陆用户名
-     * @param searchGroupBy 搜索字段
-     * @param recordName    搜索名称
-     * @method deleteByUsernameAndSearchGroupByAndRecordNameIn
-     * @author shiminfxcvii
-     * @created 2022/5/20 14:44
-     */
-    @Transactional
-    void deleteByUsernameAndSearchGroupByAndRecordName(@NotNull String username, @NotNull String searchGroupBy, @NotNull String recordName);
-
-    /**
-     * 查找符合条件的数据总条数
-     *
-     * @param username      登陆用户名
-     * @param searchGroupBy 搜索字段
-     * @param recordName    搜索名称
-     * @return 数据总条数
-     * @method countByUsernameAndSearchGroupByAndRecordName
-     * @author shiminfxcvii
-     * @created 2022/5/20 14:49
-     */
-    Byte countByUsernameAndSearchGroupByAndRecordName(@NotNull String username, @NotNull String searchGroupBy, @NotNull String recordName);
-
-    /**
      * 查找符合条件的搜索名 %?
      *
      * @param username      登陆用户名
@@ -56,9 +29,10 @@ public interface SearchRecordRepository extends JpaRepository<SearchRecord, Stri
      * @method findThisRecordNamesOne
      * @author shiminfxcvii
      * @created 2022/5/20 14:53
+     * TODO: 如何将这两个方法合并？
      */
-    @Query(value = "SELECT record_name FROM (SELECT record_name, MAX(created_date) mcd FROM employee_management.search_record WHERE username = ?1 AND search_group_by = ?2 AND IF(?3 != '', record_name LIKE CONCAT(?3, '%'), TRUE) GROUP BY record_name) AS rncd ORDER BY mcd DESC LIMIT 0, 10;", nativeQuery = true)
-    List<String> findThisRecordNamesOne(@NotNull String username, @NotNull String searchGroupBy, @Nullable String recordName);
+    @Query(value = "SELECT record_name FROM (SELECT record_name, MAX(created_date) mcd FROM employee_management.search_record WHERE username = ?1 AND search_group_by = ?2 AND IF('' != ?3, record_name LIKE CONCAT(?3, '%'), TRUE) GROUP BY record_name) AS rncd ORDER BY mcd DESC LIMIT 0, 10;", nativeQuery = true)
+    LinkedHashSet<String> findThisRecordNamesOne(@NotNull String username, @NotNull String searchGroupBy, @Nullable String recordName);
 
     /**
      * 查找符合条件的搜索名 %?%
@@ -71,8 +45,8 @@ public interface SearchRecordRepository extends JpaRepository<SearchRecord, Stri
      * @author shiminfxcvii
      * @created 2022/5/20 14:55
      */
-    @Query(value = "SELECT record_name FROM (SELECT record_name, MAX(created_date) mcd FROM employee_management.search_record WHERE username = ?1 AND search_group_by = ?2 AND record_name = ?3 GROUP BY record_name) AS rncd ORDER BY mcd DESC LIMIT 0, 10;", nativeQuery = true)
-    List<String> findThisRecordNamesTwo(@NotNull String username, @NotNull String searchGroupBy, @NotNull String recordName);
+    @Query(value = "SELECT record_name FROM (SELECT record_name, MAX(created_date) mcd FROM employee_management.search_record WHERE username = ?1 AND search_group_by = ?2 AND record_name LIKE CONCAT('%', ?3, '%') GROUP BY record_name) AS rncd ORDER BY mcd DESC LIMIT 0, 10;", nativeQuery = true)
+    LinkedHashSet<String> findThisRecordNamesTwo(@NotNull String username, @NotNull String searchGroupBy, @NotNull String recordName);
 
     /*@Query(value = "SELECT record_name FROM (SELECT record_name, MAX(created_date) mcd, COUNT(record_name) c FROM employee_management.search_record WHERE search_group_by = ?1 AND record_name LIKE CONCAT(?2, '%') GROUP BY record_name) AS rncdc ORDER BY c DESC, mcd DESC LIMIT 0, 10;", nativeQuery = true)
     List<String> findAllRecordNamesOne(@Param("searchGroupBy") String searchGroupBy, @Param("recordName") String recordName);

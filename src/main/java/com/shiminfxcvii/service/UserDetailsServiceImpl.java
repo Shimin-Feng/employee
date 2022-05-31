@@ -1,6 +1,8 @@
 package com.shiminfxcvii.service;
 
+import com.shiminfxcvii.entity.User;
 import com.shiminfxcvii.repository.UserRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Example;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -8,8 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-
-import static com.shiminfxcvii.util.Constants.USER;
 
 /**
  * @author shiminfxcvii
@@ -20,8 +20,9 @@ import static com.shiminfxcvii.util.Constants.USER;
  */
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public final class UserDetailsServiceImpl implements UserDetailsService {
 
+    private static final User USER = new User();
     @Resource
     private UserRepository userRepository;
 
@@ -31,7 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      * 后台没有错误报告，前台和页面会报错 POST <a href="http://localhost:8080/logout">http://localhost:8080/logout</a> 403<br>
      * <br>
      * TODO<br>
-     * 有时候第一次点击登录只是刷新了一下页面，第二次点击才会登录成功
+     * 有时候第一次点击登录只是刷新了一下页面，第二次点击才会登录成功<br>
      * <br>
      * TODO<br>
      * 有时会报错
@@ -39,10 +40,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      * Invalid remember-me token (Series/token) mismatch. Implies previous cookie theft attack.
      */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(@NotNull String username) throws UsernameNotFoundException {
         USER.setUsername(username);
-        return userRepository.findOne(Example.of(USER)).map(value -> org.springframework.security.core.userdetails.User
-                .withUsername(value.getUsername()).password(value.getPassword()).authorities(value.getAuthorities()
-                        .split(",")).build()).orElse(null);
+        return userRepository.findOne(Example.of(USER)).map(
+                value -> org.springframework.security.core.userdetails.User
+                        .withUsername(value.getUsername())
+                        .password(value.getPassword())
+                        .authorities(value.getAuthorities()
+                                .split(",")).build()).orElse(null);
     }
 }

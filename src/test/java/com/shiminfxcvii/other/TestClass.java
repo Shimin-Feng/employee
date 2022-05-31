@@ -6,17 +6,26 @@ import com.shiminfxcvii.entity.Employee;
 import com.shiminfxcvii.entity.SearchRecord;
 import com.shiminfxcvii.repository.SearchRecordRepository;
 import com.shiminfxcvii.util.Sex;
+import com.sun.istack.NotNull;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.StopWatch;
 import org.thymeleaf.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.shiminfxcvii.other.HttpStatusTest.BAD_REQUEST;
@@ -24,52 +33,500 @@ import static com.shiminfxcvii.other.TestClass.Color.RED;
 import static com.shiminfxcvii.util.Constants.DATE_TIME;
 import static java.awt.SystemColor.info;
 import static java.lang.System.out;
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.time.ZoneId.SHORT_IDS;
+import static java.util.Objects.isNull;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 //@SpringBootTest
 public class TestClass {
 
-//    static {
+    protected transient int modCount = 0;
+    //    static {
 //        out.println("static");
 //    }
-
+    HttpHeaders HTTP_HEADERS = new HttpHeaders();
+    Employee employee = new Employee();
+    transient Object[] elementData; // non-private to simplify nested class access
     private SearchRecordController searchRecordController;
     @Resource
     private SearchRecordRepository searchRecordRepository;
+    private int size;
 
-//    {
+    private static native void registerNatives();
+
+    /**
+     * @author Zerox
+     * @date 2018/12/4 15:59
+     */
+
+    public static void main(String[] args) {
+
+//        System.out.println(testFunction(11, j -> j * 2 + 1));
+//        System.out.println(testFunct(11, j -> j * 2 + 1));
+    }
+
+    //    {
 //        out.println("not static");
 //    }
+    public static int testFunct(int i, Function<Integer, Integer> function) {
 
+        return function.apply(i);
+    }
+
+    public static int testFunction(int i, Function<Integer, Integer> function) {
+
+        return function.apply(i);
+    }
+
+    @Test
+    public static String testParam1(@org.jetbrains.annotations.NotNull Employee employee) {
+        return employee.getEmployeeId();
+    }
+
+    public static void error() {
+        throw new AssertionError();
+    }
+    /**使用两个for循环实现List去重(有序)
+     *
+     * @param list
+     * */
+    /*public static List removeDuplicationBy2For(List<Integer> list) {
+        for (int i=0;i<list.size();i++)
+        {
+            for (int j=i+1;j<list.size();j++)
+            {
+                if(list.get(i).equals(list.get(j))){
+                    list.remove(j);
+                }
+            }
+        }
+        return list;
+    }*/
+
+    /**
+     * 使用List集合contains方法循环遍历(有序)
+     *
+     * @param list
+     */
+    public static List removeDuplicationByContains(List<Integer> list) {
+        List<Integer> newList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            boolean isContains = newList.contains(list.get(i));
+            if (!isContains) {
+                newList.add(list.get(i));
+            }
+        }
+        list.clear();
+        list.addAll(newList);
+        return list;
+    }
+
+    /**
+     * 使用HashSet实现List去重(无序)
+     *
+     * @param list
+     */
+    public static List removeDuplicationByHashSet(List<Integer> list) {
+        HashSet set = new HashSet(list);
+        //把List集合所有元素清空
+        list.clear();
+        //把HashSet对象添加至List集合
+        list.addAll(set);
+        return list;
+    }
+
+    /**
+     * 使用LinkedHashSet实现List去重(有序)
+     *
+     * @param list
+     */
+    public static List removeDuplicationByLinkedHashSet(List<Integer> list) {
+        LinkedHashSet set = new LinkedHashSet(list);
+        //把List集合所有元素清空
+        list.clear();
+        //把HashSet对象添加至List集合
+        list.addAll(set);
+        return list;
+    }
+
+    /**
+     * 使用TreeSet实现List去重(有序)
+     *
+     * @param list
+     */
+    public static List removeDuplicationByTreeSet(List<Integer> list) {
+        TreeSet set = new TreeSet(list);
+        //把List集合所有元素清空
+        list.clear();
+        //把HashSet对象添加至List集合
+        list.addAll(set);
+        return list;
+    }
+
+    /**
+     * 使用java8新特性stream实现List去重(有序)
+     *
+     * @param list
+     */
+    public static List removeDuplicationByStream(List<Integer> list) {
+//        List newList = list.stream().distinct().collect(Collectors.toList());
+        List newList = list.stream().distinct().toList();
+        return newList;
+    }
+
+    @Test
+    public void test() {
+        /*LinkedHashSet<String> hashSet = new LinkedHashSet<>();
+        hashSet.add("rtha");
+        hashSet.add(";l,cfj");
+        hashSet.add("/vkcjg");
+        hashSet.add(".kc.j");
+        hashSet.add("*kc,");
+        hashSet.add("/565sj");
+        hashSet.add("kuk%^^");
+        hashSet.add("%%^xh");
+        hashSet.add("hgjd");
+        hashSet.add("%%^xh");
+        hashSet.add("/uuu");
+        hashSet.add("9");
+        out.println(hashSet);
+        out.println(hashSet.size());
+        for (String value : hashSet) {
+            out.println(value);
+        }
+        System.out.println("=============================");*/
+
+
+        StopWatch sw = new StopWatch();
+        sw.start("stream");
+
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 1000000; i++) {
+            list.add("" + i);
+            list.add("" + (i + 1));
+            list.add("" + (i + 2));
+        }
+        list = list.stream().distinct().collect(Collectors.toList());
+
+        sw.stop();
+        System.out.println(sw.prettyPrint());
+        System.out.println(sw.getTotalTimeSeconds());
+        System.out.println(sw.getTotalTimeMillis());
+        System.out.println(sw.getTotalTimeNanos());
+
+
+        System.out.println("------------------------------------------------------------------------------------------");
+
+
+        StopWatch sw2 = new StopWatch();
+        sw2.start("LinkedHashSet");
+
+        List<String> list22 = new ArrayList<>();
+        for (int i = 0; i < 1000000; i++) {
+            list22.add("" + i);
+            list22.add("" + (i + 1));
+            list22.add("" + (i + 2));
+        }
+        list22 = new LinkedHashSet<>(list22).stream().toList();
+
+        sw2.stop();
+        System.out.println(sw2.prettyPrint());
+        System.out.println(sw2.getTotalTimeSeconds());
+        System.out.println(sw2.getTotalTimeMillis());
+        System.out.println(sw2.getTotalTimeNanos());
+
+
+        System.out.println("------------------------------------------------------------------------------------------");
+
+
+        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        List<Integer> list3 = new ArrayList<>();
+        List<Integer> list4 = new ArrayList<>();
+        List<Integer> list5 = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < 1000000; i++) {
+            int value = random.nextInt(500);
+            list1.add(value);
+            list2.add(value);
+            list3.add(value);
+            list4.add(value);
+            list5.add(value);
+        }
+        long startTime;
+        long endTime;
+        startTime = System.currentTimeMillis();
+        removeDuplicationByHashSet(list1);
+        endTime = System.currentTimeMillis();
+        System.out.println("使用HashSet实现List去重时间:" + (endTime - startTime) + "毫秒");
+        startTime = System.currentTimeMillis();
+        removeDuplicationByLinkedHashSet(list4);
+        endTime = System.currentTimeMillis();
+        System.out.println("使用LinkedHashSet实现List去重时间:" + (endTime - startTime) + "毫秒");
+        startTime = System.currentTimeMillis();
+        removeDuplicationByTreeSet(list2);
+        endTime = System.currentTimeMillis();
+        System.out.println("使用TreeSet实现List去重时间:" + (endTime - startTime) + "毫秒");
+        startTime = System.currentTimeMillis();
+        removeDuplicationByStream(list3);
+        endTime = System.currentTimeMillis();
+        System.out.println("使用java8新特性stream实现List去重:" + (endTime - startTime) + "毫秒");
+//        startTime = System.currentTimeMillis();
+//        removeDuplicationBy2For(list4);
+//        endTime = System.currentTimeMillis();
+//        System.out.println("使用两个for循环实现List去重:"+(endTime-startTime)+"毫秒");
+        startTime = System.currentTimeMillis();
+        removeDuplicationByContains(list5);
+        endTime = System.currentTimeMillis();
+        System.out.println("使用List集合contains方法循环遍历:" + (endTime - startTime) + "毫秒");
+
+//        System.out.println(list);
+
+        String[] recordNames = {};
+        Set<String> set = new LinkedHashSet<>(List.of(recordNames));
+        out.println(set);
+        out.println(set.size());
+
+//        List<String> list = new ArrayList<>();
+//        List<String> list2 = new ArrayList<>();
+//        list.add("a");
+//        list.add("b");
+//        list.add("c");
+//        list.add("c");
+//        list.add("g");
+//        list2.add("a");
+//        list2.add("e");
+//        list2.add("e");
+//        list2.add("g");
+//        list2.add("g");
+//        System.out.println("=============================");
+//        for (String string : list) {
+//            System.out.println(string);
+//        }
+//        System.out.println("=============================");
+//        List<String> result = Stream.of(list, list2).flatMap(Collection::stream).distinct().toList();
+//        out.println("result = " + result);
+//        for (String s : result) {
+//            out.println("s = " + s);
+//        }
+//        result.forEach(out::println);
+//        System.out.println("=============================");
+//        Stream<List<String>> list1 = Stream.of(list, list2);
+//        Stream<String> stringStream = list1.flatMap(Collection::stream);
+//        Stream<String> distinct = stringStream.distinct();
+//        List<String> strings = distinct.toList();
+//        strings.forEach(out::println);
+//        System.out.println("=============================");
+//        out.println(strings.subList(0, 3));
+
+        /*TestVolatile testVolatile = new TestVolatile();
+        testVolatile.changeStatus();
+        testVolatile.run();
+        Runnable r = () -> System.out.println("Run method");
+        r.run();
+        new Thread(() -> {
+            for (int i = 0; i < 100; i++)
+                out.println(i);
+        }).start();
+        for (int i = 0; i < 100; i++) {
+            out.println("---------------------------------------"+i);
+        }*/
+    }
 
     @Test
     public void testList() {
+        String[] weekends = {"Friday", "Saturday", "Sunday"};
+        assert weekends.length == 2 : "There are only 2 weekends in a week";
+        System.out.println("There are " + weekends.length + "  weekends in a week");
         Object o = null;
-        out.println(o.equals(null));
+//        out.println(o.equals(null));
         List<String> list = new ArrayList<>();
         list.add("1");
         list.add("2");
         list.add("3");
         list.add("1");
         out.println(list);
+        out.println(isNull("fr"));
+        out.println(hashCode());
+        out.println(this.hashCode());
+        out.println(super.hashCode());
+        @NotNull
         List<String> strings = list.subList(2, list.size());
         out.println(strings);
     }
 
+    public boolean remove(Object o) {
+        final Object[] es = elementData;
+        final int size = this.size;
+        int i = 0;
+        found:
+        {
+            if (o == null) {
+                for (; i < size; i++)
+                    if (es[i] == null)
+                        break found;
+            } else {
+                for (; i < size; i++)
+                    if (o.equals(es[i]))
+                        break found;
+            }
+            return false;
+        }
+//        out.println(found);
+        fastRemove(es, i);
+        return true;
+    }
+
+    private void fastRemove(Object[] es, int i) {
+        modCount++;
+        final int newSize;
+        if ((newSize = size - 1) > i)
+            System.arraycopy(es, i + 1, es, i, newSize - i);
+        es[size = newSize] = null;
+    }
+
+    private void responseEntity(@Nullable MultiValueMap<String, String> headers, @NonNull Object status) {
+        Assert.notNull(status, "HttpStatus must not be null");
+        out.println(status);
+    }
+
+    private void responseEntity(Object status) {
+        Assert.notNull(status, "HttpStatus must not be null");
+        out.println(status + "-------------------");
+    }
+
+    @Test
+    public void testZone() {
+        Set<String> set1 = new LinkedHashSet<>();
+        set1.add("1");
+        set1.add("2");
+        set1.add("2");
+        set1.add("3");
+        set1.add("h");
+        set1.add("f");
+        Set<String> set2 = new LinkedHashSet<>();
+        set2.add("3");
+        set2.add("4");
+        set2.add("1");
+        set2.add("4");
+        set2.add("f");
+        set2.add("s");
+        set2.add("h");
+        set2.add("5");
+        Set<String> collect = Stream.of(set1, set2).flatMap(Collection::stream).collect(Collectors.toCollection(LinkedHashSet::new));
+        out.println(collect);
+        int total = 0;
+        try {
+            for (; ; ) {
+                System.out.println(total);
+                Thread.sleep(1000);
+                total++;
+                if (total == 10) break;
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+//        out.println(HttpMethod.values());
+//        //invoking the of() method of the Stream class that returns a sequential ordered stream
+//        Stream<String> st = Stream.of("San Jose", "Las Vegas", "Austin", "New York", "Denver", "Portland");
+//        String[] str = {"San Jose", "Las Vegas", "Austin", "New York", "Denver", "Portland"};
+//        //print the streams
+//        st.forEach(out::println);
+//        st.forEachOrdered(out::println);
+//        st.max(out::println);
+//        str.forEach(out::println);
+    }
+
     @Test
     public void testParam2() {
-        Employee employee = new Employee();
+        DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss", Locale.PRC).withZone(ZoneId.of(SHORT_IDS.get("CTT")));
+        DateTimeFormatter DATE_TIME_FORMATTER2 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss", Locale.PRC).withZone(ZoneId.of("CTT", SHORT_IDS));
+        LocalDateTime now = LocalDateTime.now();
+        String dateTime = now.format(DATE_TIME_FORMATTER);
+
+        out.println(dateTime);
+        out.println(DATE_TIME_FORMATTER2);
+
+        out.println(SHORT_IDS);
+        out.println(SHORT_IDS.get("CTT"));
+        out.println(SHORT_IDS.get("CT"));
+        out.println(SHORT_IDS.values());
+
+        error();
+
+        HttpStatus o = HttpStatus.OK;
+        HttpStatus n = null;
+        out.println(o);
+
+        responseEntity(o);
+//        responseEntity(n);
+//        assert;
+
+        HttpHeaders headers;
+        headers = new HttpHeaders();
+        out.println(headers);
+        HTTP_HEADERS.addIfAbsent(CONTENT_TYPE, APPLICATION_JSON_VALUE);
+        HTTP_HEADERS.add(CONTENT_TYPE, APPLICATION_JSON_VALUE);
+        HTTP_HEADERS.set(CONTENT_TYPE, APPLICATION_JSON_VALUE);
+        out.println(headers);
+        out.println(headers.toSingleValueMap());
+        out.println(headers.size());
+        out.println(headers.get(CONTENT_TYPE));
+        out.println(headers.containsKey(CONTENT_TYPE));
+        out.println(HttpHeaders.ACCEPT);
+        out.println(headers.getAccept());
+        out.println(headers.getAcceptCharset());
+        out.println(headers.getAcceptLanguage());
+        out.println(headers.entrySet());
+        out.println(headers.getAcceptLanguageAsLocales());
+        out.println(headers.getAcceptPatch());
+        out.println(headers.getAccessControlAllowCredentials());
+        out.println(headers.getAccessControlAllowHeaders());
+        out.println(headers.getAccessControlAllowMethods());
+        out.println(headers.getAccessControlAllowOrigin());
+        out.println(headers.getAccessControlExposeHeaders());
+        out.println(headers.getAccessControlMaxAge());
+        out.println(headers.getAccessControlRequestHeaders());
+        out.println(headers.getAccessControlRequestMethod());
+        out.println(headers.getAllow());
+        out.println(headers.getCacheControl());
+        out.println(headers.getConnection());
+        out.println(headers.getContentDisposition());
+        out.println(headers.getContentLanguage());
+        out.println(headers.getContentLength());
+        out.println(headers.getContentType());
+        out.println(headers.getDate());
+        out.println(headers.getETag());
+        out.println(headers.getExpires());
+        out.println(headers.getHost());
+        out.println(headers.getIfMatch());
+        out.println(headers.getIfModifiedSince());
+        out.println(headers.getIfNoneMatch());
+        out.println(headers.getIfUnmodifiedSince());
+        out.println(headers.getLastModified());
+        out.println(headers.getLocation());
+        out.println(headers.getOrigin());
+        out.println(headers.getPragma());
+        out.println(headers.getRange());
+        out.println(headers.getUpgrade());
+        out.println(headers.getVary());
+        out.println(headers.hashCode());
+        out.println(headers.isEmpty());
+        out.println(headers.keySet());
+        out.println(headers.size());
+        out.println(headers.values());
+
+        /*out.println(employee);
+        Employee employee = null;
+        out.println(testParam1(employee));
+        out.println(Pattern.matches("^[男女]$", "女"));
         out.println(null == employee);
         String s = testParam1(employee);
         out.println(s);
         out.println(UTF_8);
         out.println(UTF_8.toString() instanceof String);
-    }
-
-
-    @Test
-    public String testParam1(Employee employee) {
-        return employee.getEmployeeId();
+        throw new NullPointerException("message");*/
     }
 
     @Test
@@ -122,22 +579,22 @@ public class TestClass {
         sw.start("校验耗时");
 
 
-        SearchRecord searchRecord1 = new SearchRecord("1", "employeeName", "Jobs", "admin1", LocalDateTime.now());
-        SearchRecord searchRecord2 = new SearchRecord("2", "employeeName", "Anna", "admin3", LocalDateTime.now());
-        SearchRecord searchRecord3 = new SearchRecord("3", "employeeName", "Emma", "admin1", LocalDateTime.now());
-        List<SearchRecord> searchRecordList = new ArrayList<>();
-        searchRecordList.add(searchRecord1);
-        searchRecordList.add(searchRecord2);
-        searchRecordList.add(searchRecord3);
-        for (SearchRecord searchRecord : searchRecordList) {
-            out.println(searchRecord);
-        }
+//        SearchRecord searchRecord1 = new SearchRecord("1", "employeeName", "Jobs", "admin1", LocalDateTime.now());
+//        SearchRecord searchRecord2 = new SearchRecord("2", "employeeName", "Anna", "admin3", LocalDateTime.now());
+//        SearchRecord searchRecord3 = new SearchRecord("3", "employeeName", "Emma", "admin1", LocalDateTime.now());
+//        List<SearchRecord> searchRecordList = new ArrayList<>();
+//        searchRecordList.add(searchRecord1);
+//        searchRecordList.add(searchRecord2);
+//        searchRecordList.add(searchRecord3);
+//        for (SearchRecord searchRecord : searchRecordList) {
+//            out.println(searchRecord);
+//        }
 
         Integer iii = null;
         Integer eiii = 0;
 
-        Byte recordNames = searchRecordRepository.countByUsernameAndSearchGroupByAndRecordName("admin1", "employeeName", "狄拉克");
-        out.println(recordNames);
+//        Byte recordNames = searchRecordRepository.countByUsernameAndSearchGroupByAndRecordName("admin1", "employeeName", "狄拉克");
+//        out.println(recordNames);
 
 
         sw.stop();
@@ -460,6 +917,10 @@ public class TestClass {
 
     @Test
     public void testEnum1() {
+        out.println("".isEmpty());
+        out.println("".isBlank());
+        out.println(" ".isEmpty());
+        out.println(" ".trim().isEmpty());
 
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -494,6 +955,15 @@ public class TestClass {
 //        out.println(RED.getName() instanceof String);
     }
 
+    private void startThread(Runnable task) {
+        new Thread(task).start();
+    }
+
+    @Test
+    public void testThread() {
+        startThread(() -> System.out.println("线程任务执行！"));
+    }
+
     public enum TestEnum1 {
 
 //        NETWORK_AUTHENTICATION_REQUIRED(511, HttpStatus.Series.SERVER_ERROR, "Network Authentication Required");
@@ -510,5 +980,86 @@ public class TestClass {
         public String getName() {
             return name;
         }
+    }
+
+    @FunctionalInterface
+    public interface MessageBuilder {
+        String buildMessage();
+    }
+
+    public static class JavafinalizeExample1 {
+        public static void main(String[] args) {
+            JavafinalizeExample1 obj = new JavafinalizeExample1();
+            System.out.println(obj.hashCode());
+            obj = null;
+            // calling garbage collector
+            System.gc();
+            System.out.println("end of garbage collection");
+
+        }
+
+        @Override
+        protected void finalize() {
+            System.out.println("finalize method called");
+        }
+    }
+
+    public class Demo02LoggerLambda {
+        private static void log(int level, MessageBuilder builder) {
+            if (level == 1) {
+                System.out.println(builder.buildMessage());// 实际上利用内部类 延迟的原理,代码不相关 无需进入到启动代理执行
+            }
+        }
+
+        public static void main(String[] args) {
+            String msgA = "Hello";
+            String msgB = "World";
+            String msgC = "Java";
+            out.println(Arrays.toString(args));
+            Object o = new Object();
+            Object n = null;
+            Assert.notNull(n, () -> {
+                out.println("lambda ------------------");
+                return msgA + msgB + msgC;
+            });
+//            ServletContext
+            log(1, () -> {
+                System.out.println("lambda 是否执行了");
+                return msgA + msgB + msgC;
+            });
+        }
+    }
+
+    abstract class TestAbstract {
+        private static final String STR = "h";
+
+        public TestAbstract() {
+            super();
+        }
+
+        @Override
+        public String toString() {
+            return super.toString();
+        }
+    }
+
+    public class TestVolatile {
+        int a = 1;
+        boolean status = false;
+
+        //状态切换为true
+        public void changeStatus() {
+            a = 2;                      // 1
+            status = true;              // 2
+        }
+
+        // 若状态为true，则为running
+        public void run() {
+            if (status) {
+                int b = a + 1;         // 3
+                System.out.println(b); // 4
+            }
+        }
+
     }
 }

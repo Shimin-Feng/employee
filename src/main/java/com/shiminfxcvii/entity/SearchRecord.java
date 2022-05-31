@@ -1,7 +1,9 @@
 package com.shiminfxcvii.entity;
 
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +29,6 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@AllArgsConstructor
 @Table(name = "search_record", schema = "employee_management")
 public class SearchRecord {
     @Id
@@ -45,9 +46,9 @@ public class SearchRecord {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (null == o || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        SearchRecord that = (SearchRecord) o;
-        return null != recordId && Objects.equals(recordId, that.recordId);
+        if (null == o || getClass() != o.getClass()) return false;
+        SearchRecord searchRecord = (SearchRecord) o;
+        return null != recordId && Objects.equals(recordId, searchRecord.recordId);
     }
 
     @Override

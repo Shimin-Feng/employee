@@ -1,4 +1,4 @@
-package com.shiminfxcvii.exception;
+package com.shiminfxcvii.advice;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -10,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
-import static com.shiminfxcvii.util.Constants.MODEL_AND_VIEW;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 /**
@@ -21,7 +20,9 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
  * @created 2022/5/12 12:54 周四
  */
 @ControllerAdvice
-public class SpringControllerAdvice {
+public final class SpringControllerAdvice {
+
+    private static final ModelAndView MODEL_AND_VIEW = new ModelAndView();
 
     /**
      * 全局异常捕捉处理
@@ -37,11 +38,12 @@ public class SpringControllerAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ModelAndView exceptionHandler(Exception e) {
-        if (e instanceof IllegalAccessException) {
-            MODEL_AND_VIEW.setViewName("unknown-error");
+        if (e instanceof IllegalAccessException)
             MODEL_AND_VIEW.addObject("msg", "非法访问反射对象属性: " + e.getMessage());
-            MODEL_AND_VIEW.setStatus(INTERNAL_SERVER_ERROR);
-        }
+        else if (e instanceof NullPointerException)
+            MODEL_AND_VIEW.addObject("msg", "目标对象或值为空: " + e.getMessage());
+        MODEL_AND_VIEW.setStatus(INTERNAL_SERVER_ERROR);
+        MODEL_AND_VIEW.setViewName("error-code");
         return MODEL_AND_VIEW;
     }
 

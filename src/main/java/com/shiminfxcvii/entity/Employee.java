@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.Hibernate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,7 +44,7 @@ public class Employee {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (null == o || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (null == o || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
         return Objects.equals(employeeName, employee.getEmployeeName()) &&
                 Objects.equals(employeeIdCard, employee.getEmployeeIdCard()) &&

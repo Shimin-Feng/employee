@@ -32,22 +32,18 @@ public enum Sex {
     @Nullable
     public static Sex resolveByNumber(String number) {
         // Use cached VALUES instead of values() to prevent array allocation.
-        for (Sex sex : VALUES) {
-            if (Objects.equals(sex.getNumber(), number)) {
+        for (Sex sex : VALUES)
+            if (Objects.equals(sex.getNumber(), number))
                 return sex;
-            }
-        }
         return null;
     }
 
     @Nullable
     public static Sex resolveByGender(String gender) {
         // Use cached VALUES instead of values() to prevent array allocation.
-        for (Sex sex : VALUES) {
-            if (Objects.equals(sex.getGender(), gender)) {
+        for (Sex sex : VALUES)
+            if (Objects.equals(sex.getGender(), gender))
                 return sex;
-            }
-        }
         return null;
     }
 

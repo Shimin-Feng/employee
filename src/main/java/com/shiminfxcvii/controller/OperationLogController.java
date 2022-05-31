@@ -9,12 +9,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Field;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -38,6 +42,7 @@ import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 @RequestMapping("operationLog")
 public class OperationLogController {
 
+    private static final OperationLog OPERATION_LOG = new OperationLog();
     @Resource
     private OperationLogRepository operationLogRepository;
 
@@ -72,28 +77,40 @@ public class OperationLogController {
      * @author shiminfxcvii
      * @created 2022/5/3 16:28
      */
-    public void saveOperationLog(@NotNull String dml, @NotNull Employee employee, @NotNull Principal user) {
-        OPERATION_LOG_ENTITY.setLogId(UUID.randomUUID().toString());
-        OPERATION_LOG_ENTITY.setDml(dml);
-        OPERATION_LOG_ENTITY.setEmployeeId(employee.getEmployeeId());
-        OPERATION_LOG_ENTITY.setEmployeeName(employee.getEmployeeName());
-        OPERATION_LOG_ENTITY.setEmployeeSex(employee.getEmployeeSex());
-        OPERATION_LOG_ENTITY.setEmployeeAge(employee.getEmployeeAge());
-        OPERATION_LOG_ENTITY.setEmployeeIdCard(employee.getEmployeeIdCard());
-        OPERATION_LOG_ENTITY.setEmployeeAddress(employee.getEmployeeAddress());
-        OPERATION_LOG_ENTITY.setEmployeePhoneNumber(employee.getEmployeePhoneNumber());
-        OPERATION_LOG_ENTITY.setCreatedBy(employee.getCreatedBy());
-        OPERATION_LOG_ENTITY.setCreatedDate(employee.getCreatedDate());
-        OPERATION_LOG_ENTITY.setLastModifiedDate(employee.getLastModifiedDate());
-        OPERATION_LOG_ENTITY.setUsername(user.getName());
-        OPERATION_LOG_ENTITY.setDateTime(LocalDateTime.now().format(DATE_TIME_FORMATTER));
-        operationLogRepository.saveAndFlush(OPERATION_LOG_ENTITY);
-        // 检查是否成功保存到数据库
-        if (operationLogRepository.findById(OPERATION_LOG_ENTITY.getLogId()).isPresent()) {
-            LOGGER.info("操作日志保存成功。");
-        } else {
-            LOGGER.error("操作日志保存失败。");
+    @Transactional
+    public void saveOperationLog(@NotNull String dml, @NotNull Employee employee, @NotNull Principal user) throws IllegalAccessException {
+        if (!StringUtils.hasText(user.getName())) {
+            LOGGER.error("操作日志保存失败，原因：登录用户名不能为空但为空。");
+            return;
         }
+        for (Field field : employee.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            // 在这里不能用 StringUtils.hasText(String.valueOf(obj)) 判断是否有值，因为 null 会被转换成 String
+            if (ObjectUtils.isEmpty(field.get(employee))) {
+                LOGGER.error("操作日志保存失败，原因：实体类每个字段都不能为空，但 " + field.getName() + " 为空。");
+                return;
+            }
+        }
+        OPERATION_LOG.setLogId(String.valueOf(UUID.randomUUID()));
+        OPERATION_LOG.setDml(dml);
+        OPERATION_LOG.setEmployeeId(employee.getEmployeeId());
+        OPERATION_LOG.setEmployeeName(employee.getEmployeeName());
+        OPERATION_LOG.setEmployeeSex(employee.getEmployeeSex());
+        OPERATION_LOG.setEmployeeAge(employee.getEmployeeAge());
+        OPERATION_LOG.setEmployeeIdCard(employee.getEmployeeIdCard());
+        OPERATION_LOG.setEmployeeAddress(employee.getEmployeeAddress());
+        OPERATION_LOG.setEmployeePhoneNumber(employee.getEmployeePhoneNumber());
+        OPERATION_LOG.setCreatedBy(employee.getCreatedBy());
+        OPERATION_LOG.setCreatedDate(employee.getCreatedDate());
+        OPERATION_LOG.setLastModifiedDate(employee.getLastModifiedDate());
+        OPERATION_LOG.setUsername(user.getName());
+        OPERATION_LOG.setDateTime(LocalDateTime.now().format(DATE_TIME_FORMATTER));
+        operationLogRepository.saveAndFlush(OPERATION_LOG);
+        // 检查是否成功保存到数据库
+        if (operationLogRepository.findById(OPERATION_LOG.getLogId()).isPresent())
+            LOGGER.info("操作日志保存成功。");
+        else
+            LOGGER.error("操作日志保存失败。");
     }
 
     /**
@@ -107,11 +124,9 @@ public class OperationLogController {
      * @created 2022/5/3 16:39
      */
     @GetMapping(value = "findOperationLogsBy", params = {PAGE_NUM, PAGE_SIZE}, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = TEXT_HTML_VALUE)
-    public String findOperationLogsBy(
-            @RequestParam(value = PAGE_NUM, defaultValue = ZERO) Integer pageNum,
-            @RequestParam(value = PAGE_SIZE, defaultValue = TEN) Integer pageSize,
-            Model model
-    ) {
+    public String findOperationLogsBy(@RequestParam(value = PAGE_NUM, defaultValue = ZERO) Integer pageNum,
+                                      @RequestParam(value = PAGE_SIZE, defaultValue = TEN) Integer pageSize,
+                                      Model model) {
         Page<OperationLog> operationLogs = operationLogRepository.findAll(PageRequest.of(pageNum, pageSize, Sort.by(DATE_TIME, LOG_ID)));
         // 数据库存储的性别是 0 和 1，但是需要使页面正常显示
         for (OperationLog operationLog : operationLogs)

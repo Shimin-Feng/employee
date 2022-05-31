@@ -13,7 +13,7 @@ import java.util.List;
  * @description 自定义方法类
  * @see java.util.List
  */
-public class ListMethods {
+public final class ListMethods implements Constants {
 
     /**
      * 合并两个 List
@@ -32,23 +32,20 @@ public class ListMethods {
             List<E> n2 = new ArrayList<>();
             for (E e1 : o2) {
                 int i = 0;
-                for (E e2 : n1) {
+                for (E e2 : n1)
                     if (e1.equals(e2)) {
                         i = 1;
                         break;
                     }
-                }
-                if (0 == i) {
+                if (0 == i)
                     n2.add(e1);
-                }
             }
             n1.addAll(n2);
             return n1;
-        } else if (o1.size() > 0) {
+        } else if (o1.size() > 0)
             return o1;
-        } else {
+        else
             return o2;
-        }
     }
 
     /**
@@ -65,14 +62,12 @@ public class ListMethods {
         List<E> n = new ArrayList<>();
         if (o.size() > 0) {
             int i = 0;
-            for (E e : o) {
+            for (E e : o)
                 if (i < 10) {
                     n.add(e);
                     i++;
-                } else {
+                } else
                     break;
-                }
-            }
         }
         return n;
     }

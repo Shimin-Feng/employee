@@ -1,7 +1,6 @@
 package com.shiminfxcvii.config;
 
 import com.shiminfxcvii.service.UserDetailsServiceImpl;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceUtils;
@@ -9,6 +8,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.annotation.Resource;
@@ -29,6 +30,9 @@ import static com.shiminfxcvii.util.Constants.*;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    // 密码加密方式
+    private static final BCryptPasswordEncoder B_CRYPT_PASSWORD_ENCODER = new BCryptPasswordEncoder();
+    private static final JdbcTokenRepositoryImpl JDBC_TOKEN_REPOSITORY = new JdbcTokenRepositoryImpl();
     @Resource
     private DataSource dataSource;
     @Resource
@@ -42,8 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @method configure
      */
     @Override
-    protected void configure(@NotNull AuthenticationManagerBuilder auth) throws Exception {
-        // B_CRYPT_PASSWORD_ENCODER 密码加密方式
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(B_CRYPT_PASSWORD_ENCODER);
     }
 
@@ -55,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @method configure
      */
     @Override
-    protected void configure(@NotNull HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {
         http
                 // 关闭 csrf（Cross-site request forgery 跨站请求伪造）防护
                 // 注释掉则开启防护
@@ -152,12 +155,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PersistentTokenRepository persistentTokenRepository() throws SQLException {
         // 设置数据源
-        TOKEN_REPOSITORY.setDataSource(dataSource);
+        JDBC_TOKEN_REPOSITORY.setDataSource(dataSource);
         // 如果表不存在则创建
         // 下面判断已替换掉 class JdbcCheckTableExit.java
-        if (!DataSourceUtils.getConnection(dataSource).getMetaData().getTables(null, EMPLOYEE_MANAGEMENT, PERSISTENT_LOGINS, TABLE).next()) {
-            TOKEN_REPOSITORY.setCreateTableOnStartup(true);
-        }
-        return TOKEN_REPOSITORY;
+        if (!DataSourceUtils.getConnection(dataSource).getMetaData().getTables(null, EMPLOYEE_MANAGEMENT, PERSISTENT_LOGINS, TABLE).next())
+            JDBC_TOKEN_REPOSITORY.setCreateTableOnStartup(true);
+        return JDBC_TOKEN_REPOSITORY;
     }
 }

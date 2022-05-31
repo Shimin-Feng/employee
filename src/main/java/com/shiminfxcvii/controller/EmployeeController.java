@@ -5,9 +5,11 @@ import com.shiminfxcvii.repository.EmployeeRepository;
 import com.shiminfxcvii.util.Sex;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,16 +46,13 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RequestMapping("employee")
 public class EmployeeController {
 
-    // 状态码
-    private HttpStatus status;
-    // 返回信息
-    private String body;
+    private static final HttpHeaders HTTP_HEADERS = new HttpHeaders();
+    private static HttpStatus status;
+    private static String body;
     @Resource
     private EmployeeRepository employeeRepository;
     @Resource
     private OperationLogController operationLogController;
-    @Resource
-    private SearchRecordController searchRecordController;
 
     /**
      * 当进入员工管理页面之前会立即执行一次查询所有员工，默认按照添加时间升序排列，每页十条数据
@@ -96,14 +95,14 @@ public class EmployeeController {
      *                  成功则返回 status 200 ”修改成功“，否则返回 400 "修改失败，因为员工信息没有任何改变"
      *                  </li>
      *                 </ul>
+     * @throws IllegalAccessException 非法访问异常。通过反射访问对象属性时可能抛出
      * @method saveOrUpdateEmployee
      * @author shiminfxcvii
      * @created 2022/4/29 10:59
      */
+    @Transactional
     @RequestMapping(value = "saveOrUpdateEmployee", method = {POST, PATCH}, params = {EMPLOYEE_NAME, EMPLOYEE_ID_CARD, EMPLOYEE_ADDRESS, EMPLOYEE_PHONE_NUMBER, EMPLOYEE_ID}, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = ALL_VALUE)
-    public ResponseEntity<String> saveOrUpdateEmployee(@NotNull Principal user, @NotNull Employee employee) {
-        // 设置响应头信息
-        HTTP_HEADERS.add(CONTENT_TYPE, ALL_VALUE);
+    public synchronized ResponseEntity<String> saveOrUpdateEmployee(@NotNull Principal user, @NotNull Employee employee) throws IllegalAccessException {
         // Get dateTime now
         LocalDateTime now = LocalDateTime.now();
         String dateTime = now.format(DATE_TIME_FORMATTER);
@@ -131,10 +130,12 @@ public class EmployeeController {
         // idCard
         String idCard = employee.getEmployeeIdCard().toUpperCase();
 
-        if (!StringUtils.hasText(employee.getEmployeeId())) {
+        String employeeId = employee.getEmployeeId();
+
+        if (!StringUtils.hasText(employeeId)) {
             // save
             // 设置值
-            employee.setEmployeeId(UUID.randomUUID().toString());
+            employee.setEmployeeId(String.valueOf(UUID.randomUUID()));
             employee.setEmployeeSex(number);
             employee.setEmployeeAge(age);
             // 转大写处理后的值
@@ -156,7 +157,7 @@ public class EmployeeController {
             }
         } else {
             // update
-            Optional<Employee> employee1 = employeeRepository.findById(employee.getEmployeeId());
+            Optional<Employee> employee1 = employeeRepository.findById(employeeId);
             // 判断是否存在该员工
             if (employee1.isPresent()) {
                 // 获取对象
@@ -175,20 +176,14 @@ public class EmployeeController {
                     // 执行修改操作
                     employeeRepository.saveAndFlush(employee);
                     // 执行修改之后再次查询该员工属性
-                    Optional<Employee> employee3 = employeeRepository.findById(employee.getEmployeeId());
-                    if (employee3.isPresent()) {
-                        // 如果数据存在则获取对象
-                        Employee employee4 = employee3.get();
-                        // 修改之后比较被修改对象的值与前台传递过来的值是否相同，判断该数据是否成功修改
-                        if (employee.equals(employee4)) {
-                            // 保存操作日志
-                            operationLogController.saveOperationLog(UPDATE, employee, user);
-                            body = "修改成功。";
-                            status = OK;
-                        } else {
-                            body = "服务器出现故障，修改失败，员工信息未被成功修改进数据库。";
-                            status = INTERNAL_SERVER_ERROR;
-                        }
+                    Optional<Employee> employee3 = employeeRepository.findById(employeeId);
+                    // 如果数据存在则获取对象
+                    // 修改之后比较被修改对象的值与前台传递过来的值是否相同，判断该数据是否成功修改
+                    if (employee3.isPresent() && employee.equals(employee3.get())) {
+                        // 保存操作日志
+                        operationLogController.saveOperationLog(UPDATE, employee, user);
+                        body = "修改成功。";
+                        status = OK;
                     } else {
                         body = "服务器出现故障，修改失败，员工信息未被成功修改进数据库。";
                         status = INTERNAL_SERVER_ERROR;
@@ -202,6 +197,8 @@ public class EmployeeController {
                 status = BAD_REQUEST;
             }
         }
+        // 设置响应头信息
+        HTTP_HEADERS.set(CONTENT_TYPE, ALL_VALUE);
 
         return new ResponseEntity<>(body, HTTP_HEADERS, status);
     }
@@ -211,16 +208,15 @@ public class EmployeeController {
      *
      * @param user       Principal 获取登录用户信息
      * @param employeeId String 前台传过来的 employeeId
+     * @throws IllegalAccessException 非法访问异常。通过反射访问对象属性时可能抛出
      * @method deleteEmployeeById
      * @author shiminfxcvii
      * @created 2022/4/29 11:20
      */
+    @Transactional
     @DeleteMapping(value = "deleteEmployeeById", params = EMPLOYEE_ID, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = ALL_VALUE)
-    public ResponseEntity<String> deleteEmployeeById(@NotNull Principal user, @NotNull String employeeId) {
-        // 设置响应头信息
-        HTTP_HEADERS.add(CONTENT_TYPE, ALL_VALUE);
-
-        if (StringUtils.hasText(employeeId)) {
+    public synchronized ResponseEntity<String> deleteEmployeeById(@NotNull Principal user, @NotNull String employeeId) throws IllegalAccessException {
+        if (StringUtils.hasText(employeeId))
             if (Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", employeeId)) {
                 Optional<Employee> employee = employeeRepository.findById(employeeId);
                 if (employee.isPresent()) {
@@ -242,10 +238,12 @@ public class EmployeeController {
                 body = "删除失败，非法 ID。ID 格式不正确。";
                 status = BAD_REQUEST;
             }
-        } else {
+        else {
             body = "删除失败，ID 为空。";
             status = BAD_REQUEST;
         }
+        // 设置响应头信息
+        HTTP_HEADERS.set(CONTENT_TYPE, ALL_VALUE);
 
         return new ResponseEntity<>(body, HTTP_HEADERS, status);
     }
@@ -273,42 +271,36 @@ public class EmployeeController {
      *                   <li>lastModifiedDate         最后操作时间</li>
      *                  </ul>
      * @param employee  Employee 根据员工的某一个字段和值进行搜索
-     * @param user      Principal 登录用户
      * @param model     Model 页面模型
      * @return "employee" 返回查询后的整个页面
-     * @throws IllegalAccessException 非法访问异常。通过反射访问对象属性时可能抛出
      * @method findEmployeesBy
      * @author shiminfxcvii
      * @created 2022/4/29 11:50
      */
     @GetMapping(value = "findEmployeesBy", params = {PAGE_NUM, PAGE_SIZE, DIRECTION, PROPERTY}, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = TEXT_HTML_VALUE)
-    public String findEmployeesBy(
-            // name ==(等效) value
-            @RequestParam(value = PAGE_NUM, defaultValue = ZERO) Integer pageNum,
-            @RequestParam(value = PAGE_SIZE, defaultValue = TEN) Integer pageSize,
-            @RequestParam(value = DIRECTION, defaultValue = ASC) Sort.Direction direction,
-            @RequestParam(value = PROPERTY, defaultValue = CREATED_DATE) String property,
-            @NotNull Employee employee,
-            @NotNull Principal user,
-            Model model
-    ) throws IllegalAccessException {
-        // 保存搜索记录
-        searchRecordController.saveSearchRecord(employee, user);
-
-        // 先判断非空，再根据实际性别解析成数字
-        if (null != employee.getEmployeeSex())
+    public String findEmployeesBy(@RequestParam(value = PAGE_NUM, defaultValue = ZERO) Integer pageNum,
+                                  @RequestParam(value = PAGE_SIZE, defaultValue = TEN) Integer pageSize,
+                                  @RequestParam(value = DIRECTION, defaultValue = ASC) Sort.Direction direction,
+                                  @RequestParam(value = PROPERTY, defaultValue = CREATED_DATE) String property,
+                                  @NotNull Employee employee,
+                                  Model model) {
+        // 如果是根据性别搜索，先判断值是否有效，再根据实际性别解析成对应的数字
+        if (StringUtils.hasText(employee.getEmployeeSex()) && Pattern.matches("^[女男]$", employee.getEmployeeSex()))
             employee.setEmployeeSex(Objects.requireNonNull(Sex.resolveByGender(employee.getEmployeeSex())).getNumber());
+
         Page<Employee> employees = employeeRepository.findAll(
                 Example.of(
                         employee,
                         // 匹配所有字段的模糊查询并且忽略大小写
-                        ExampleMatcher.matching().withStringMatcher(CONTAINING)
+                        ExampleMatcher.matchingAll().withStringMatcher(CONTAINING)
                 ),
                 PageRequest.of(pageNum, pageSize, Sort.by(direction, property, EMPLOYEE_ID))
         );
+
         // 数据库存储的性别是 0 和 1，但是需要使页面正常显示
         for (Employee employee1 : employees)
             employee1.setEmployeeSex(Objects.requireNonNull(Sex.resolveByNumber(employee1.getEmployeeSex())).getGender());
+
         model.addAttribute(EMPLOYEES, employees);
 
         return "employee";

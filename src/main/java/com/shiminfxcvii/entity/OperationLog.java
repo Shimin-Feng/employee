@@ -60,7 +60,7 @@ public class OperationLog {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (null == o || getClass() != o.getClass()) return false;
         OperationLog log = (OperationLog) o;
         return logId.equals(log.logId) && dml.equals(log.dml) && employeeId.equals(log.employeeId) && employeeName.equals(log.employeeName) && employeeSex.equals(log.employeeSex) && employeeAge.equals(log.employeeAge) && employeeIdCard.equals(log.employeeIdCard) && employeeAddress.equals(log.employeeAddress) && employeePhoneNumber.equals(log.employeePhoneNumber) && createdBy.equals(log.createdBy) && createdDate.equals(log.createdDate) && lastModifiedDate.equals(log.lastModifiedDate) && username.equals(log.username) && dateTime.equals(log.dateTime);
     }

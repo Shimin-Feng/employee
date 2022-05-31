@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @created 2022/5/10 15:40 周二
  */
 @Controller
-public class WelcomeController {
+public final class WelcomeController {
 
     /**
      * 在登录之前访问任何资源都将跳转到自定义登录界面
