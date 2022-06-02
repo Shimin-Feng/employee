@@ -7,8 +7,8 @@ import java.util.Objects;
  * @version 1.0
  * @description
  * @class Consumer
- * @created 2022/5/28 0:18 周六
  * @see
+ * @since 2022/5/28 0:18 周六
  */
 @FunctionalInterface
 public interface Consumer<T> {

@@ -8,8 +8,8 @@ import java.util.Scanner;
  * @version 1.0
  * @description
  * @class Test1
- * @created 2022/5/3 15:33 周二
  * @see
+ * @since 2022/5/3 15:33 周二
  */
 public class Test1 {
     public static void main(String[] args) {//程序主函数

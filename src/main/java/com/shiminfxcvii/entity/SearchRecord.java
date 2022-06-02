@@ -13,16 +13,15 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
- * @author shiminfxcvii
- * @version 1.0
- * @class SearchRecord
- * @created 2022/4/24 0:11 周日
- * @description 记录 user 每一次的搜索内容，并与 username 关联，username 唯一
+ * 记录 user 每一次的搜索内容，并与 username 关联，username 唯一
  * 无法改用为 record 记录类
  * 因为
  * 实体类必须是非 final
  * 实体类需要有一个无参数的构造函数，要么是 public 要么 protected
  * 实体属性必须是非 final
+ *
+ * @author shiminfxcvii
+ * @since 2022/4/24 0:11 周日
  */
 @Entity
 @Getter

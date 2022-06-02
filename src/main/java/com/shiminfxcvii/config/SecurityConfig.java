@@ -19,12 +19,11 @@ import java.sql.SQLException;
 import static com.shiminfxcvii.util.Constants.*;
 
 /**
+ * Spring Boot Security 用于用户的登录验证
+ *
  * @author shiminfxcvii
- * @version 1.0
- * @description Spring Boot Security 用于用户的登录验证
- * @class SecurityConfig
- * @created 2022/5/1 14:45
  * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+ * @since 2022/5/1 14:45
  */
 @Configuration
 @EnableWebSecurity
@@ -44,6 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @param auth AuthenticationManagerBuilder
      * @throws Exception 未知异常
      * @method configure
+     * @author shiminfxcvii
+     * @since 2022/5/1 14:50
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -56,6 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @param http HttpSecurity
      * @throws Exception 未知异常
      * @method configure
+     * @author shiminfxcvii
+     * @since 2022/5/1 14:50
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -149,8 +152,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @return {@code tokenRepository} 由该 token 仓库创建一个 token 并返回
      * @method persistentTokenRepository
      * @author shiminfxcvii
-     * @created 2022/5/1 15:15
      * @see PersistentTokenRepository
+     * @since 2022/5/1 15:15
      */
     @Bean
     public PersistentTokenRepository persistentTokenRepository() throws SQLException {

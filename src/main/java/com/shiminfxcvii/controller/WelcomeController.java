@@ -4,11 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
+ * 接受登录和主页的请求
+ *
  * @author shiminfxcvii
- * @version 1.0
- * @description 接受登录和主页的请求
- * @class LoginController
- * @created 2022/5/10 15:40 周二
+ * @since 2022/5/10 15:40
  */
 @Controller
 public final class WelcomeController {
@@ -19,7 +18,7 @@ public final class WelcomeController {
      * @return "login" login 页面
      * @method login
      * @author shiminfxcvii
-     * @created 2022/4/29 16:46
+     * @since 2022/4/29 16:46
      */
     @GetMapping("login")
     public String login() {
@@ -32,7 +31,7 @@ public final class WelcomeController {
      * @return "index" index 页面
      * @method index
      * @author shiminfxcvii
-     * @created 2022/4/29 16:33
+     * @since 2022/4/29 16:33
      */
     @GetMapping("index")
     public String index() {

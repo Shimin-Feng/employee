@@ -18,3 +18,7 @@ Bootstrap: 5.1.3
 ## 渲染模板
 
 Thymeleaf: 2.6.7
+
+## JDK 要求
+
+15+

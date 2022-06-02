@@ -5,8 +5,8 @@ package com.shiminfxcvii.other;
  * @version 1.0
  * @description
  * @class TestStatic
- * @created 2022/5/2 12:19 周一
  * @see
+ * @since 2022/5/2 12:19 周一
  */
 public class TestStatic {
 

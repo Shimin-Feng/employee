@@ -31,17 +31,14 @@ import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 
 /**
+ * 保存和查询操作员工信息后的日志
+ *
  * @author shiminfxcvii
- * @version 1.0
- * @description 保存和查询操作员工信息后的日志
- * @class OperationLogController
- * @created 2022/5/2 1:15 周一
- * @see EmployeeController
+ * @since 2022/5/2 1:15 周一
  */
 @Controller
 @RequestMapping("operationLog")
 public class OperationLogController {
-
     private static final OperationLog OPERATION_LOG = new OperationLog();
     @Resource
     private OperationLogRepository operationLogRepository;
@@ -51,14 +48,16 @@ public class OperationLogController {
      * @return "operationLog" 映射到页面
      * @method operationLog
      * @author shiminfxcvii
-     * @created 2022/5/4 11:42
+     * @since 2022/5/4 11:42
      */
     @GetMapping
     public String operationLog(Model model) {
         Page<OperationLog> operationLogs = operationLogRepository.findAll(PageRequest.of(ZERO_INTEGER, TEN_INTEGER, Sort.by(DATE_TIME, LOG_ID)));
+
         // 数据库存储的性别是 0 和 1，但是需要使页面正常显示
         for (OperationLog operationLog : operationLogs)
             operationLog.setEmployeeSex(Objects.requireNonNull(Sex.resolveByNumber(operationLog.getEmployeeSex())).getGender());
+
         model.addAttribute(OPERATION_LOGS, operationLogs);
         return "operation-log";
     }
@@ -75,9 +74,9 @@ public class OperationLogController {
      * @param user     获取登录用户信息
      * @method saveOperationLog
      * @author shiminfxcvii
-     * @created 2022/5/3 16:28
+     * @since 2022/5/3 16:28
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void saveOperationLog(@NotNull String dml, @NotNull Employee employee, @NotNull Principal user) throws IllegalAccessException {
         if (!StringUtils.hasText(user.getName())) {
             LOGGER.error("操作日志保存失败，原因：登录用户名不能为空但为空。");
@@ -121,16 +120,24 @@ public class OperationLogController {
      * @param model    Model 页面模型
      * @method findOperationLogsBy
      * @author shiminfxcvii
-     * @created 2022/5/3 16:39
+     * @since 2022/5/3 16:39
      */
-    @GetMapping(value = "findOperationLogsBy", params = {PAGE_NUM, PAGE_SIZE}, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = TEXT_HTML_VALUE)
+    @GetMapping(
+            value = "findOperationLogsBy",
+            params = {PAGE_NUM, PAGE_SIZE},
+            headers = {CACHE_CONTROL, X_CSRF_TOKEN},
+            consumes = ALL_VALUE,
+            produces = TEXT_HTML_VALUE
+    )
     public String findOperationLogsBy(@RequestParam(value = PAGE_NUM, defaultValue = ZERO) Integer pageNum,
                                       @RequestParam(value = PAGE_SIZE, defaultValue = TEN) Integer pageSize,
                                       Model model) {
         Page<OperationLog> operationLogs = operationLogRepository.findAll(PageRequest.of(pageNum, pageSize, Sort.by(DATE_TIME, LOG_ID)));
+
         // 数据库存储的性别是 0 和 1，但是需要使页面正常显示
         for (OperationLog operationLog : operationLogs)
             operationLog.setEmployeeSex(Objects.requireNonNull(Sex.resolveByNumber(operationLog.getEmployeeSex())).getGender());
+
         model.addAttribute(OPERATION_LOGS, operationLogs);
         return "operation-log";
     }

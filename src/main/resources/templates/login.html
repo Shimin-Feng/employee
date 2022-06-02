@@ -38,7 +38,7 @@
     </form>
 </div>
 <script>
-	!function () {
+	(() => {
         document.getElementsByClassName('btn-primary')[0].addEventListener('click', () => {
             if ('' === document.getElementById('username').value || '' === document.getElementById('password').value) {
                 alert('Please enter username and password.');
@@ -46,7 +46,7 @@
                 return false;
             }
         });
-    }()
+    })()
 </script>
 </body>
 </html>

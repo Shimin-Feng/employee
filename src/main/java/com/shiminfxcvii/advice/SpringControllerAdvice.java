@@ -2,6 +2,7 @@ package com.shiminfxcvii.advice;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -10,14 +11,11 @@ import org.springframework.web.servlet.ModelAndView;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-
 /**
+ * 给 Controller 控制器添加统一的操作或处理。
+ *
  * @author shiminfxcvii
- * @version 1.0
- * @description 给 Controller 控制器添加统一的操作或处理。
- * @class SpringControllerAdvice
- * @created 2022/5/12 12:54 周四
+ * @since 2022/5/12 12:54
  */
 @ControllerAdvice
 public final class SpringControllerAdvice {
@@ -29,11 +27,11 @@ public final class SpringControllerAdvice {
      *
      * @param e Exception
      * @return MODEL_AND_VIEW
-     * @method errorHandler
      * @author shiminfxcvii
-     * @created 2022/5/12 15:46
-     * @see java.io.IOException
+     * @method exceptionHandler
      * @see java.lang.IllegalAccessException
+     * @see java.lang.NullPointerException
+     * @since 2022/5/12 15:46
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody
@@ -42,7 +40,8 @@ public final class SpringControllerAdvice {
             MODEL_AND_VIEW.addObject("msg", "非法访问反射对象属性: " + e.getMessage());
         else if (e instanceof NullPointerException)
             MODEL_AND_VIEW.addObject("msg", "目标对象或值为空: " + e.getMessage());
-        MODEL_AND_VIEW.setStatus(INTERNAL_SERVER_ERROR);
+
+        MODEL_AND_VIEW.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         MODEL_AND_VIEW.setViewName("error-code");
         return MODEL_AND_VIEW;
     }
@@ -54,10 +53,10 @@ public final class SpringControllerAdvice {
      * 将 request 中字符串类型的参数通过转换器转换为 Date 类型的参数，从而供给 @RequestMapping 标注的方法使用。
      *
      * @param binder WebDataBinder
-     * @method initBinder
      * @author shiminfxcvii
-     * @created 2022/5/12 15:52
+     * @method initBinder
      * @see org.springframework.web.bind.WebDataBinder
+     * @since 2022/5/12 15:52
      */
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -82,13 +81,13 @@ public final class SpringControllerAdvice {
     }
 
     /**
-     * 把值绑定到 Model 中，使全局 @RequestMapping 都可以获取到该值
-     * \@ModelAttribute 标注的方法的执行是在所有的拦截器的 preHandle() 方法执行之后才会执行。
+     * 把值绑定到 Model 中，使全局 @RequestMapping 都可以获取到该值<p>
+     * &#064;ModelAttribute  标注的方法的执行是在所有的拦截器的 preHandle() 方法执行之后才会执行。
      *
      * @param model Model
      * @method addAttributes
      * @author shiminfxcvii
-     * @created 2022/5/12 15:49
+     * @since 2022/5/12 15:49
      */
     @ModelAttribute
     public void addAttributes(Model model) {

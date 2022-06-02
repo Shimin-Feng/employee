@@ -12,16 +12,14 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 /**
+ * 该类用于验证在有账号登录时是否与数据库账号匹配
+ *
  * @author shiminfxcvii
- * @version 1.0
- * @class UserService
- * @created 2022/5/1 15:31
- * @description 该类用于验证在有账号登录时是否与数据库账号匹配
+ * @since 2022/5/1 15:31
  */
 
 @Service
 public final class UserDetailsServiceImpl implements UserDetailsService {
-
     private static final User USER = new User();
     @Resource
     private UserRepository userRepository;
@@ -46,7 +44,8 @@ public final class UserDetailsServiceImpl implements UserDetailsService {
                 value -> org.springframework.security.core.userdetails.User
                         .withUsername(value.getUsername())
                         .password(value.getPassword())
-                        .authorities(value.getAuthorities()
-                                .split(",")).build()).orElse(null);
+                        .authorities(value.getAuthorities().split(","))
+                        .build()
+        ).orElse(null);
     }
 }

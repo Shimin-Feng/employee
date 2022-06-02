@@ -396,6 +396,16 @@ public class TestClass {
         out.println(status + "-------------------");
     }
 
+
+    @Test
+    public void testGetTopTenList() {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            list.add("" + i);
+        }
+        out.println(list);
+    }
+
     @Test
     public void testZone() {
         Set<String> set1 = new LinkedHashSet<>();
@@ -962,6 +972,8 @@ public class TestClass {
     @Test
     public void testThread() {
         startThread(() -> System.out.println("线程任务执行！"));
+        B aa = new B();
+        aa.testA();
     }
 
     public enum TestEnum1 {
@@ -1060,6 +1072,18 @@ public class TestClass {
                 System.out.println(b); // 4
             }
         }
+
+    }
+}
+
+class A {
+    public void testA() {
+
+    }
+}
+
+class B extends A {
+    public void testB() {
 
     }
 }

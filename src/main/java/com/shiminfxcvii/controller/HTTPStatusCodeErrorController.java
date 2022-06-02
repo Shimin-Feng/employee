@@ -11,15 +11,13 @@ import java.security.Principal;
 import java.util.regex.Pattern;
 
 /**
+ * 处理 HTTP status code
+ *
  * @author shiminfxcvii
- * @version 1.0
- * @class HTTPStatusCodeErrorController
- * @created 2022/4/9 12:56 周六
- * @description 处理 HTTP status code
+ * @since 2022/4/9 12:56
  */
 @Controller
 public final class HTTPStatusCodeErrorController implements ErrorController {
-
     private static final ModelAndView MODEL_AND_VIEW = new ModelAndView();
 
     /**
@@ -30,16 +28,16 @@ public final class HTTPStatusCodeErrorController implements ErrorController {
      * @return modelAndView 根据错误状态码设置并返回内容
      * @method handleError
      * @author shiminfxcvii
-     * @created 2022/5/1 15:25
      * @see ModelAndView
      * @see HttpServletResponse
      * @see Principal
+     * @since 2022/5/1 15:25
      */
     @GetMapping("error")
     public ModelAndView handleError(HttpServletResponse response, Principal user) {
         // Get HTTP status code
         int status = response.getStatus();
-        if (0 != status && Pattern.matches("^\\d+$", String.valueOf(status))) {
+        if (Pattern.matches("^\\d+$", String.valueOf(status))) {
             MODEL_AND_VIEW.addObject("back", "Back to the index page.");
             MODEL_AND_VIEW.addObject("href", "/index");
             switch (status) {
@@ -159,16 +157,15 @@ public final class HTTPStatusCodeErrorController implements ErrorController {
                     MODEL_AND_VIEW.addObject("back", "Back to the login page.");
                     MODEL_AND_VIEW.addObject("href", "/login");
                 }
-                default -> {
-                    MODEL_AND_VIEW.addObject("msg", HttpStatus.resolve(status));
-                }
+                default -> MODEL_AND_VIEW.addObject("msg", HttpStatus.resolve(status));
             }
+
             // 使前台能通过 ${#request.getAttribute('org.springframework.web.servlet.View.responseStatus')} 获取到值，附带原因短语的错误提示
             MODEL_AND_VIEW.setStatus(HttpStatus.resolve(status));
             // 所有的错误状态码都将在 error-code 页面展示
             MODEL_AND_VIEW.setViewName("error-code");
         }
+
         return MODEL_AND_VIEW;
     }
-
 }

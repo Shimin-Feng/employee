@@ -12,12 +12,10 @@ import javax.persistence.Table;
 import java.util.Objects;
 
 /**
+ * 员工管理操作日志实体类
+ *
  * @author shiminfxcvii
- * @version 1.0
- * @description 员工管理操作日志实体类
- * @class OperationLog
- * @created 2022/5/1 22:36 周日
- * @see Employee
+ * @since 2022/5/1 22:36 周日
  */
 @Entity
 @Getter
@@ -56,17 +54,16 @@ public class OperationLog {
     @Column(name = "date_time", nullable = false, updatable = false, columnDefinition = "varchar", length = 19)
     private String dateTime;
 
-    // Java Util Objects 7+ Version
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (null == o || getClass() != o.getClass()) return false;
-        OperationLog log = (OperationLog) o;
-        return logId.equals(log.logId) && dml.equals(log.dml) && employeeId.equals(log.employeeId) && employeeName.equals(log.employeeName) && employeeSex.equals(log.employeeSex) && employeeAge.equals(log.employeeAge) && employeeIdCard.equals(log.employeeIdCard) && employeeAddress.equals(log.employeeAddress) && employeePhoneNumber.equals(log.employeePhoneNumber) && createdBy.equals(log.createdBy) && createdDate.equals(log.createdDate) && lastModifiedDate.equals(log.lastModifiedDate) && username.equals(log.username) && dateTime.equals(log.dateTime);
+        OperationLog operationLog = (OperationLog) o;
+        return null != logId && Objects.equals(logId, operationLog.logId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(logId, dml, employeeId, employeeName, employeeSex, employeeAge, employeeIdCard, employeeAddress, employeePhoneNumber, createdBy, createdDate, lastModifiedDate, username, dateTime);
+        return getClass().hashCode();
     }
 }

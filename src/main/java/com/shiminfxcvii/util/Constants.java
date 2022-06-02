@@ -5,13 +5,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 /**
+ * 统一管理常量
+ *
  * @author shiminfxcvii
- * @version 1.0
- * @description 统一管理常量
- * @interface Constants
- * @created 2022/5/10 20:18 周二
+ * @since 2022/5/10 20:18 周二
  */
-public sealed interface Constants permits ListMethods {
+public sealed interface Constants permits Sex {
     Integer ZERO_INTEGER = 0;
     Integer TEN_INTEGER = 10;
     String PAGE_NUM = "pageNum";

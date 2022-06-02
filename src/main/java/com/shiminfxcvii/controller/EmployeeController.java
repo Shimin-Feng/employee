@@ -12,10 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.security.Principal;
@@ -32,20 +29,16 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
-import static org.springframework.web.bind.annotation.RequestMethod.PATCH;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
+ * 操作员工信息 ———— CRUD
+ *
  * @author shiminfxcvii
- * @version 1.0
- * @description 操作员工信息 ———— CRUD
- * @class EmployeeController
- * @created 2022/5/1 14:50
+ * @since 2022/5/1 14:50
  */
 @Controller
 @RequestMapping("employee")
 public class EmployeeController {
-
     private static final HttpHeaders HTTP_HEADERS = new HttpHeaders();
     private static HttpStatus status;
     private static String body;
@@ -62,7 +55,7 @@ public class EmployeeController {
      * @return "employee" 返回查询后的整个页面
      * @method employee
      * @author shiminfxcvii
-     * @created 2022/4/29 10:32
+     * @since 2022/4/29 10:32
      */
     @GetMapping
     public String employee(Model model) {
@@ -98,10 +91,17 @@ public class EmployeeController {
      * @throws IllegalAccessException 非法访问异常。通过反射访问对象属性时可能抛出
      * @method saveOrUpdateEmployee
      * @author shiminfxcvii
-     * @created 2022/4/29 10:59
+     * @since 2022/4/29 10:59
      */
-    @Transactional
-    @RequestMapping(value = "saveOrUpdateEmployee", method = {POST, PATCH}, params = {EMPLOYEE_NAME, EMPLOYEE_ID_CARD, EMPLOYEE_ADDRESS, EMPLOYEE_PHONE_NUMBER, EMPLOYEE_ID}, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = ALL_VALUE)
+    @Transactional(rollbackFor = Exception.class)
+    @RequestMapping(
+            value = "saveOrUpdateEmployee",
+            method = {RequestMethod.POST, RequestMethod.PATCH},
+            params = {EMPLOYEE_NAME, EMPLOYEE_ID_CARD, EMPLOYEE_ADDRESS, EMPLOYEE_PHONE_NUMBER, EMPLOYEE_ID},
+            headers = {CACHE_CONTROL, X_CSRF_TOKEN},
+            consumes = ALL_VALUE,
+            produces = ALL_VALUE
+    )
     public synchronized ResponseEntity<String> saveOrUpdateEmployee(@NotNull Principal user, @NotNull Employee employee) throws IllegalAccessException {
         // Get dateTime now
         LocalDateTime now = LocalDateTime.now();
@@ -211,10 +211,16 @@ public class EmployeeController {
      * @throws IllegalAccessException 非法访问异常。通过反射访问对象属性时可能抛出
      * @method deleteEmployeeById
      * @author shiminfxcvii
-     * @created 2022/4/29 11:20
+     * @since 2022/4/29 11:20
      */
-    @Transactional
-    @DeleteMapping(value = "deleteEmployeeById", params = EMPLOYEE_ID, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = ALL_VALUE)
+    @Transactional(rollbackFor = Exception.class)
+    @DeleteMapping(
+            value = "deleteEmployeeById",
+            params = EMPLOYEE_ID,
+            headers = {CACHE_CONTROL, X_CSRF_TOKEN},
+            consumes = ALL_VALUE,
+            produces = ALL_VALUE
+    )
     public synchronized ResponseEntity<String> deleteEmployeeById(@NotNull Principal user, @NotNull String employeeId) throws IllegalAccessException {
         if (StringUtils.hasText(employeeId))
             if (Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", employeeId)) {
@@ -275,9 +281,15 @@ public class EmployeeController {
      * @return "employee" 返回查询后的整个页面
      * @method findEmployeesBy
      * @author shiminfxcvii
-     * @created 2022/4/29 11:50
+     * @since 2022/4/29 11:50
      */
-    @GetMapping(value = "findEmployeesBy", params = {PAGE_NUM, PAGE_SIZE, DIRECTION, PROPERTY}, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = TEXT_HTML_VALUE)
+    @GetMapping(
+            value = "findEmployeesBy",
+            params = {PAGE_NUM, PAGE_SIZE, DIRECTION, PROPERTY},
+            headers = {CACHE_CONTROL, X_CSRF_TOKEN},
+            consumes = ALL_VALUE,
+            produces = TEXT_HTML_VALUE
+    )
     public String findEmployeesBy(@RequestParam(value = PAGE_NUM, defaultValue = ZERO) Integer pageNum,
                                   @RequestParam(value = PAGE_SIZE, defaultValue = TEN) Integer pageSize,
                                   @RequestParam(value = DIRECTION, defaultValue = ASC) Sort.Direction direction,

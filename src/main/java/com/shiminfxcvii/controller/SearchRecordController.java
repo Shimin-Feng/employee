@@ -39,11 +39,10 @@ import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
+ * 对搜索记录的保存与查询
+ *
  * @author shiminfxcvii
- * @version 1.0
- * @description 对搜索记录的保存与查询
- * @class SearchRecordController
- * @created 2022/5/1 15:54 周日
+ * @since 2022/5/1 15:54
  */
 @Controller
 @RequestMapping("searchRecord")
@@ -71,10 +70,15 @@ public class SearchRecordController {
      * @throws IllegalAccessException 非法访问异常。通过反射访问对象属性时可能抛出
      * @method saveSearchRecord
      * @author shiminfxcvii
-     * @created 2022/4/30 11:11
+     * @since 2022/4/30 11:11
      */
-    @Transactional
-    @PostMapping(value = "saveSearchRecord", headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = ALL_VALUE)
+    @Transactional(rollbackFor = Exception.class)
+    @PostMapping(
+            value = "saveSearchRecord",
+            headers = {CACHE_CONTROL, X_CSRF_TOKEN},
+            consumes = ALL_VALUE,
+            produces = ALL_VALUE
+    )
     public ResponseEntity<String> saveSearchRecord(@NotNull Principal user, @NotNull Employee employee) throws IllegalAccessException {
         // 获取登录用户名
         username = user.getName();
@@ -121,10 +125,16 @@ public class SearchRecordController {
      * @param searchRecord 接收前台传递的值
      * @method deleteByRecordName
      * @author shiminfxcvii
-     * @created 2022/5/7 21:11
+     * @since 2022/5/7 21:11
      */
-    @Transactional
-    @DeleteMapping(value = "deleteByRecordName", params = {SEARCH_GROUP_BY, RECORD_NAME}, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = ALL_VALUE)
+    @Transactional(rollbackFor = Exception.class)
+    @DeleteMapping(
+            value = "deleteByRecordName",
+            params = {SEARCH_GROUP_BY, RECORD_NAME},
+            headers = {CACHE_CONTROL, X_CSRF_TOKEN},
+            consumes = ALL_VALUE,
+            produces = ALL_VALUE
+    )
     public ResponseEntity<String> deleteByRecordName(@NotNull Principal user, @NotNull SearchRecord searchRecord) {
         // 获取登录用户名
         username = user.getName();
@@ -192,9 +202,16 @@ public class SearchRecordController {
      * @return ResponseEntity<List < String>>
      * @method findRecordNamesBy
      * @author shiminfxcvii
-     * @created 2022/4/29 11:34
+     * @since 2022/4/29 11:34
      */
-    @GetMapping(value = "findRecordNamesBy", params = {SEARCH_GROUP_BY, RECORD_NAME}, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
+    @GetMapping(
+            value = "findRecordNamesBy",
+            params = {SEARCH_GROUP_BY, RECORD_NAME},
+            headers = {CACHE_CONTROL, X_CSRF_TOKEN},
+            consumes = ALL_VALUE,
+            produces = APPLICATION_JSON_VALUE
+    )
+    // TODO: 为什么 recordName 中头和或尾有 % 就进不来接口？
     public ResponseEntity<Set<String>> findRecordNamesBy(@NotNull Principal user, @NotNull String searchGroupBy, @Nullable String recordName) {
         // 获取登录用户名
         username = user.getName();
@@ -205,22 +222,15 @@ public class SearchRecordController {
         if (StringUtils.hasText(recordName)) {
             // 查找此用户的搜索记录 ?%，recordName 可以为空
             // Collections.synchronizedSet() 设为线程安全的 Set
-            Set<String> thisRecordNames = Collections.synchronizedSet(searchRecordRepository.findThisRecordNamesOne(username, searchGroupBy, recordName));
+            Set<String> thisRecordNames = Collections.synchronizedSet(searchRecordRepository.findThisRecordNames(username, searchGroupBy, recordName + "%"));
             // 如果有十条则返回，否则继续查找
             if (10 == thisRecordNames.size())
                 recordNamesResponse = thisRecordNames;
             else
                 synchronized (thisRecordNames) {
-                    /*System.out.println("Thread.sleep(30000); start -------------------------------------------> " + recordName);
-                    try {
-                        Thread.sleep(30000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    System.out.println("Thread.sleep(30000); stop -------------------------------------------> " + recordName);*/
                     // 继续查找此用户的搜索记录 %?%，recordName 可以为空
                     // 去重并合并，前 ?% ———— %?% 后
-                    thisRecordNames = Stream.of(thisRecordNames, searchRecordRepository.findThisRecordNamesTwo(username, searchGroupBy, recordName))
+                    thisRecordNames = Stream.of(thisRecordNames, searchRecordRepository.findThisRecordNames(username, searchGroupBy, "%" + recordName + "%"))
                             .flatMap(Collection::stream).collect(Collectors.toCollection(LinkedHashSet::new));
                     // 少于或者等于十条直接返回
                     if (10 >= thisRecordNames.size())
@@ -231,7 +241,7 @@ public class SearchRecordController {
                 }
         } else
             // 没有搜索内容
-            recordNamesResponse = searchRecordRepository.findThisRecordNamesOne(username, searchGroupBy, recordName);
+            recordNamesResponse = searchRecordRepository.findThisRecordNames(username, searchGroupBy, recordName);
         // 设置响应头信息
         HTTP_HEADERS.set(CONTENT_TYPE, APPLICATION_JSON_VALUE);
 
@@ -249,10 +259,16 @@ public class SearchRecordController {
      * @throws IllegalAccessException 非法访问异常。通过反射访问对象属性时可能抛出
      * @method findAllPropertyOfEmployeesBy
      * @author shiminfxcvii
-     * @created 2022/5/25 13:18
      * @see org.springframework.http.ResponseEntity
+     * @since 2022/5/25 13:18
      */
-    @GetMapping(value = "findAllPropertiesOfEmployeesBy", params = RECORD_NAMES, headers = {CACHE_CONTROL, X_CSRF_TOKEN}, consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
+    @GetMapping(
+            value = "findAllPropertiesOfEmployeesBy",
+            params = RECORD_NAMES,
+            headers = {CACHE_CONTROL, X_CSRF_TOKEN},
+            consumes = ALL_VALUE,
+            produces = APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<Set<String>> findAllPropertiesOfEmployeesBy(@Nullable String[] recordNames, @NotNull Employee employee) throws IllegalAccessException {
         // 前台传过来的搜搜记录，可能为空
         // 把前台传过来的字符串转成 List 数组
@@ -285,8 +301,8 @@ public class SearchRecordController {
      * @throws IllegalAccessException 非法访问异常。通过反射访问对象属性时可能抛出
      * @method getRecordNames
      * @author shiminfxcvii
-     * @created 2022/5/25 13:24
      * @see #findAllPropertiesOfEmployeesBy
+     * @since 2022/5/25 13:24
      */
     public Set<String> getAllPropertiesOfEmployeesBy(@NotNull Employee employee,
                                                      @NotNull ExampleMatcher.StringMatcher stringMatcher,

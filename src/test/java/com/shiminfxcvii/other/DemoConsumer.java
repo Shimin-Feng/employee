@@ -12,8 +12,8 @@ import java.util.function.Consumer;
  * @version 1.0
  * @description
  * @class DemoConsumer
- * @created 2022/5/27 21:50 周五
  * @see
+ * @since 2022/5/27 21:50 周五
  */
 public class DemoConsumer {
     /*

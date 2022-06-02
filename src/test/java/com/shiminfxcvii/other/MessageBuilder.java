@@ -13,8 +13,8 @@ import static java.lang.System.out;
  * @version 1.0
  * @description
  * @class Testttt
- * @created 2022/5/26 2:46 周四
  * @see
+ * @since 2022/5/26 2:46 周四
  */
 
 @FunctionalInterface

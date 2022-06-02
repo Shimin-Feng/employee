@@ -11,6 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 
+/**
+ * 用户信息表
+ *
+ * @author shiminfxcvii
+ * @since 2022/6/2 20:01
+ */
 @Entity
 @Getter
 @Setter

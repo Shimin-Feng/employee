@@ -1,4 +1,4 @@
-!function () {
+(() => {
 
     'use strict'
 
@@ -1190,4 +1190,4 @@
         } else
             findEmployeesBy(0, direction, property)
     }
-}();
+})();

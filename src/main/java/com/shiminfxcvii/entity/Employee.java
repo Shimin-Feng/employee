@@ -11,6 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 
+/**
+ * 员工信息实体类
+ *
+ * @author shiminfxcvii
+ * @since 6/2/2022 5:16 PM
+ */
 @Entity
 @Getter
 @Setter
@@ -18,7 +24,6 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Table(name = "employee", schema = "employee_management")
 public class Employee {
-
     @Id
     @Column(name = "employee_id", unique = true, nullable = false, updatable = false, columnDefinition = "varchar", length = 36)
     private String employeeId;
