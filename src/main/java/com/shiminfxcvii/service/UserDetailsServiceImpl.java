@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 
 @Service
 public final class UserDetailsServiceImpl implements UserDetailsService {
-    private static final User USER = new User();
+
     @Resource
     private UserRepository userRepository;
 
@@ -39,8 +39,9 @@ public final class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(@NotNull String username) throws UsernameNotFoundException {
-        USER.setUsername(username);
-        return userRepository.findOne(Example.of(USER)).map(
+        User user = new User();
+        user.setUsername(username);
+        return userRepository.findOne(Example.of(user)).map(
                 value -> org.springframework.security.core.userdetails.User
                         .withUsername(value.getUsername())
                         .password(value.getPassword())

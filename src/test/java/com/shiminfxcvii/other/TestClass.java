@@ -19,7 +19,6 @@ import org.thymeleaf.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
@@ -33,9 +32,9 @@ import static com.shiminfxcvii.other.TestClass.Color.RED;
 import static com.shiminfxcvii.util.Constants.DATE_TIME;
 import static java.awt.SystemColor.info;
 import static java.lang.System.out;
-import static java.time.ZoneId.SHORT_IDS;
 import static java.util.Objects.isNull;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 //@SpringBootTest
@@ -336,6 +335,11 @@ public class TestClass {
 
     @Test
     public void testList() {
+        String str = "1";
+        switch (str) {
+            case "0" -> out.println("0");
+            case "1", "2" -> out.println("1 / 2");
+        }
         String[] weekends = {"Friday", "Saturday", "Sunday"};
         assert weekends.length == 2 : "There are only 2 weekends in a week";
         System.out.println("There are " + weekends.length + "  weekends in a week");
@@ -360,6 +364,18 @@ public class TestClass {
         final Object[] es = elementData;
         final int size = this.size;
         int i = 0;
+        GOTO:
+        {
+            CONST:
+            {
+                if ("admin1".equals("username"))
+                    break GOTO;
+                else if ("admin2".equals("username"))
+                    break CONST;
+
+                return true;
+            }
+        }
         found:
         {
             if (o == null) {
@@ -450,36 +466,41 @@ public class TestClass {
 
     @Test
     public void testParam2() {
-        DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss", Locale.PRC).withZone(ZoneId.of(SHORT_IDS.get("CTT")));
-        DateTimeFormatter DATE_TIME_FORMATTER2 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss", Locale.PRC).withZone(ZoneId.of("CTT", SHORT_IDS));
-        LocalDateTime now = LocalDateTime.now();
-        String dateTime = now.format(DATE_TIME_FORMATTER);
-
-        out.println(dateTime);
-        out.println(DATE_TIME_FORMATTER2);
-
-        out.println(SHORT_IDS);
-        out.println(SHORT_IDS.get("CTT"));
-        out.println(SHORT_IDS.get("CT"));
-        out.println(SHORT_IDS.values());
-
-        error();
-
-        HttpStatus o = HttpStatus.OK;
-        HttpStatus n = null;
-        out.println(o);
-
-        responseEntity(o);
+//        DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss", Locale.PRC).withZone(ZoneId.of(SHORT_IDS.get("CTT")));
+//        DateTimeFormatter DATE_TIME_FORMATTER2 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss", Locale.PRC).withZone(ZoneId.of("CTT", SHORT_IDS));
+//        LocalDateTime now = LocalDateTime.now();
+//        String dateTime = now.format(DATE_TIME_FORMATTER);
+//
+//        out.println(dateTime);
+//        out.println(DATE_TIME_FORMATTER2);
+//
+//        out.println(SHORT_IDS);
+//        out.println(SHORT_IDS.get("CTT"));
+//        out.println(SHORT_IDS.get("CT"));
+//        out.println(SHORT_IDS.values());
+//
+////        error();
+//
+//        HttpStatus o = HttpStatus.OK;
+//        HttpStatus n = null;
+//        out.println(o);
+//
+//        responseEntity(o);
 //        responseEntity(n);
 //        assert;
 
         HttpHeaders headers;
         headers = new HttpHeaders();
         out.println(headers);
-        HTTP_HEADERS.addIfAbsent(CONTENT_TYPE, APPLICATION_JSON_VALUE);
-        HTTP_HEADERS.add(CONTENT_TYPE, APPLICATION_JSON_VALUE);
-        HTTP_HEADERS.set(CONTENT_TYPE, APPLICATION_JSON_VALUE);
+//        headers.addIfAbsent(CONTENT_TYPE, APPLICATION_JSON_VALUE);
+        headers.add(CONTENT_TYPE, APPLICATION_JSON_VALUE);
+        headers.add(CONTENT_TYPE, ALL_VALUE);
+//        headers.set(CONTENT_TYPE, APPLICATION_JSON_VALUE);
         out.println(headers);
+        out.println(headers.keySet());
+        out.println(headers.values());
+        headers.keySet().forEach(out::println);
+        headers.values().forEach(out::println);
         out.println(headers.toSingleValueMap());
         out.println(headers.size());
         out.println(headers.get(CONTENT_TYPE));
@@ -649,13 +670,13 @@ public class TestClass {
         String str3 = "d";
 
         // java.lang.NullPointerException: Cannot invoke "java.lang.CharSequence.length()" because "this.text" is null
-        if (Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", str1)) {
+        if (Pattern.matches("^[\\dA-Fa-f]{8}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{12}$", str1)) {
             out.println(1);
         }
-        if (Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", str2)) {
+        if (Pattern.matches("^[\\dA-Fa-f]{8}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{12}$", str2)) {
             out.println(1);
         }
-        if (Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", str3)) {
+        if (Pattern.matches("^[\\dA-Fa-f]{8}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{12}$", str3)) {
             out.println(1);
         }
     }
@@ -791,7 +812,7 @@ public class TestClass {
 
     @Test
     public void test4() {
-        boolean matches = Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$", "37ea78ab-82ff-4bed-bf47-b76fddf28650");
+        boolean matches = Pattern.matches("^[\\dA-Fa-f]{8}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{12}$", "37ea78ab-82ff-4bed-bf47-b76fddf28650");
         out.println(matches);
     }
 
@@ -886,7 +907,7 @@ public class TestClass {
 
     @Test
     public void test3() {
-        boolean matches = Pattern.matches("^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}", "37ea78ab-82ff-4bed-bf47-b76fddf28650");
+        boolean matches = Pattern.matches("^[\\dA-Fa-f]{8}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{12}", "37ea78ab-82ff-4bed-bf47-b76fddf28650");
         out.println(matches);
 
 

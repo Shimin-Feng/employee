@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
  */
 @Controller
 public final class HTTPStatusCodeErrorController implements ErrorController {
-    private static final ModelAndView MODEL_AND_VIEW = new ModelAndView();
 
     /**
      * 接受 http 错误状态码设置并返回内容
@@ -35,15 +34,17 @@ public final class HTTPStatusCodeErrorController implements ErrorController {
      */
     @GetMapping("error")
     public ModelAndView handleError(HttpServletResponse response, Principal user) {
+        ModelAndView modelAndView = new ModelAndView();
         // Get HTTP status code
         int status = response.getStatus();
+
         if (Pattern.matches("^\\d+$", String.valueOf(status))) {
-            MODEL_AND_VIEW.addObject("back", "Back to the index page.");
-            MODEL_AND_VIEW.addObject("href", "/index");
+            modelAndView.addObject("back", "Back to the index page.");
+            modelAndView.addObject("href", "/index");
             switch (status) {
                 case 400 -> {
                     if (null != user)
-                        MODEL_AND_VIEW.addObject(
+                        modelAndView.addObject(
                                 "msg",
                                 "Hi " + user.getName() +
                                         """
@@ -53,7 +54,7 @@ public final class HTTPStatusCodeErrorController implements ErrorController {
                                                 """
                         );
                     else
-                        MODEL_AND_VIEW.addObject(
+                        modelAndView.addObject(
                                 "msg",
                                 """
                                         The server cannot or will not process the request due to an apparent client error
@@ -64,20 +65,20 @@ public final class HTTPStatusCodeErrorController implements ErrorController {
                 }
                 case 403 -> {
                     if (null != user)
-                        MODEL_AND_VIEW.addObject(
+                        modelAndView.addObject(
                                 "msg",
                                 "Hi " + user.getName() +
                                         ", you do not have permission to access this page.<br>服务器已经理解请求，但是拒绝执行它。"
                         );
                     else
-                        MODEL_AND_VIEW.addObject(
+                        modelAndView.addObject(
                                 "msg",
                                 "You do not have permission to access this page.<br>服务器已经理解请求，但是拒绝执行它。"
                         );
                 }
                 case 404 -> {
                     if (null != user)
-                        MODEL_AND_VIEW.addObject(
+                        modelAndView.addObject(
                                 "msg",
                                 "Hi " + user.getName() +
                                         """
@@ -87,7 +88,7 @@ public final class HTTPStatusCodeErrorController implements ErrorController {
                                                 """
                         );
                     else
-                        MODEL_AND_VIEW.addObject(
+                        modelAndView.addObject(
                                 "msg",
                                 """
                                         The requested resource could not be found but may be available in the future.
@@ -98,7 +99,7 @@ public final class HTTPStatusCodeErrorController implements ErrorController {
                 }
                 case 405 -> {
                     if (null != user)
-                        MODEL_AND_VIEW.addObject(
+                        modelAndView.addObject(
                                 "msg",
                                 "Hi " + user.getName() +
                                         """
@@ -109,7 +110,7 @@ public final class HTTPStatusCodeErrorController implements ErrorController {
                                                 """
                         );
                     else
-                        MODEL_AND_VIEW.addObject(
+                        modelAndView.addObject(
                                 "msg",
                                 """
                                         A request method is not supported for the requested resource; for example,
@@ -121,7 +122,7 @@ public final class HTTPStatusCodeErrorController implements ErrorController {
                 }
                 case 415 -> {
                     if (null != user)
-                        MODEL_AND_VIEW.addObject(
+                        modelAndView.addObject(
                                 "msg",
                                 "Hi " + user.getName() +
                                         """
@@ -132,7 +133,7 @@ public final class HTTPStatusCodeErrorController implements ErrorController {
                                                 """
                         );
                     else
-                        MODEL_AND_VIEW.addObject(
+                        modelAndView.addObject(
                                 "msg",
                                 """
                                         The requested resource could not be found but may be available in the future.
@@ -144,28 +145,28 @@ public final class HTTPStatusCodeErrorController implements ErrorController {
                 }
                 case 440 -> {
                     if (null != user)
-                        MODEL_AND_VIEW.addObject(
+                        modelAndView.addObject(
                                 "msg",
                                 "Hi " + user.getName() + ", the client's session has expired and must log in again.<br>会话已过期，请重新登录。"
                         );
                     else
-                        MODEL_AND_VIEW.addObject(
+                        modelAndView.addObject(
                                 "msg",
                                 "The client's session has expired and must log in again.<br>会话已过期，请重新登录。"
                         );
                     // 将会覆盖之前的设置
-                    MODEL_AND_VIEW.addObject("back", "Back to the login page.");
-                    MODEL_AND_VIEW.addObject("href", "/login");
+                    modelAndView.addObject("back", "Back to the login page.");
+                    modelAndView.addObject("href", "/login");
                 }
-                default -> MODEL_AND_VIEW.addObject("msg", HttpStatus.resolve(status));
+                default -> modelAndView.addObject("msg", HttpStatus.resolve(status));
             }
 
             // 使前台能通过 ${#request.getAttribute('org.springframework.web.servlet.View.responseStatus')} 获取到值，附带原因短语的错误提示
-            MODEL_AND_VIEW.setStatus(HttpStatus.resolve(status));
+            modelAndView.setStatus(HttpStatus.resolve(status));
             // 所有的错误状态码都将在 error-code 页面展示
-            MODEL_AND_VIEW.setViewName("error-code");
+            modelAndView.setViewName("error-code");
         }
 
-        return MODEL_AND_VIEW;
+        return modelAndView;
     }
 }

@@ -55,6 +55,8 @@ public final class WelcomeController {
     // TODO: 设置页面最小不可变 400px
     // TODO: js 将获取标签统一写在开头
     // TODO: 精简页面需要更新的数据
+    // TODO: 将在 js 中的验证转到 entity 上字段上验证
+    // TODO: test @Transcational
 
     /*@RequestMapping("logout")
     public String logout() {

@@ -29,9 +29,6 @@ import static com.shiminfxcvii.util.Constants.*;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    // 密码加密方式
-    private static final BCryptPasswordEncoder B_CRYPT_PASSWORD_ENCODER = new BCryptPasswordEncoder();
-    private static final JdbcTokenRepositoryImpl JDBC_TOKEN_REPOSITORY = new JdbcTokenRepositoryImpl();
     @Resource
     private DataSource dataSource;
     @Resource
@@ -48,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(B_CRYPT_PASSWORD_ENCODER);
+        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     /**
@@ -157,12 +154,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public PersistentTokenRepository persistentTokenRepository() throws SQLException {
+        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
         // 设置数据源
-        JDBC_TOKEN_REPOSITORY.setDataSource(dataSource);
+        tokenRepository.setDataSource(dataSource);
         // 如果表不存在则创建
         // 下面判断已替换掉 class JdbcCheckTableExit.java
         if (!DataSourceUtils.getConnection(dataSource).getMetaData().getTables(null, EMPLOYEE_MANAGEMENT, PERSISTENT_LOGINS, TABLE).next())
-            JDBC_TOKEN_REPOSITORY.setCreateTableOnStartup(true);
-        return JDBC_TOKEN_REPOSITORY;
+            tokenRepository.setCreateTableOnStartup(true);
+        return tokenRepository;
     }
 }

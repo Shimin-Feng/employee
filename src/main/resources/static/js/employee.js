@@ -276,7 +276,7 @@
         if ('btn btn-danger' === target.getAttribute('class')) {
             const employeeId = target.parentElement.parentElement.firstElementChild.id
 
-            if (!/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(employeeId)) {
+            if (!/^[\dA-Fa-f]{8}-[\dA-Fa-f]{4}-[\dA-Fa-f]{4}-[\dA-Fa-f]{4}-[\dA-Fa-f]{12}$/.test(employeeId)) {
                 toastBody.textContent = '无法获取到员工 ID，请检查后重试。'
                 new bootstrap.Toast(liveToast).show()
                 return

@@ -11,8 +11,10 @@ import java.util.Objects;
  * @since 2022/5/13 17:38 周五
  */
 public enum Sex implements Constants {
+
     Female("0", "女"),
-    Male("1", "男");
+    Male("1", "男"),
+    Unknown("-1", "未知");
 
     private static final Sex[] VALUES = values();
     private final String number;
@@ -27,38 +29,36 @@ public enum Sex implements Constants {
      * 通过性别对应的数字获取 Sex
      *
      * @param number 性别对应的数字
-     * @return Sex / null
+     * @return {@link Sex}
      * @method resolveByNumber
      * @author shiminfxcvii
      * @since 6/2/2022 1:48 PM
      */
-    @Nullable
-    public static Sex resolveByNumber(String number) {
+    public static Sex resolveByNumber(@Nullable String number) {
         // Use cached VALUES instead of values() to prevent array allocation.
         for (Sex sex : VALUES)
             if (Objects.equals(sex.getNumber(), number))
                 return sex;
 
-        return null;
+        return Unknown;
     }
 
     /**
      * 通过数字对应的性别获取 Sex
      *
      * @param gender 数字对应的性别
-     * @return Sex / null
+     * @return {@link Sex}
      * @method resolveByGender
      * @author shiminfxcvii
      * @since 6/2/2022 1:48 PM
      */
-    @Nullable
-    public static Sex resolveByGender(String gender) {
+    public static Sex resolveByGender(@Nullable String gender) {
         // Use cached VALUES instead of values() to prevent array allocation.
         for (Sex sex : VALUES)
             if (Objects.equals(sex.getGender(), gender))
                 return sex;
 
-        return null;
+        return Unknown;
     }
 
     public String getNumber() {

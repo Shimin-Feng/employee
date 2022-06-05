@@ -30,8 +30,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.shiminfxcvii.util.Constants.*;
-import static org.springframework.data.domain.ExampleMatcher.StringMatcher.CONTAINING;
-import static org.springframework.data.domain.ExampleMatcher.StringMatcher.STARTING;
 import static org.springframework.http.HttpHeaders.CACHE_CONTROL;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpStatus.*;
@@ -45,14 +43,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  * @since 2022/5/1 15:54
  */
 @Controller
+@Transactional(readOnly = true)
 @RequestMapping("searchRecord")
 public class SearchRecordController {
 
-    private static final HttpHeaders HTTP_HEADERS = new HttpHeaders();
-    private static final SearchRecord SEARCH_RECORD = new SearchRecord();
-    private static HttpStatus status;
-    private static String body;
-    private static String username;
+    private static final HttpHeaders ALL = new HttpHeaders();
+    private static final HttpHeaders JSON = new HttpHeaders();
     @Resource
     private EmployeeRepository employeeRepository;
     @Resource
@@ -64,6 +60,11 @@ public class SearchRecordController {
      * 如果使用 save() 可能会出现保存或者修改方法执行之后，立即查询数据库中该记录可能会出现不存在的情况
      * save()          将数据保存在内存中
      * saveAndFlush()  保存在内存中的同时同步到数据库
+     * <p>
+     * About the {@link org.springframework.transaction.annotation.Transactional}<br>
+     * {@link org.springframework.data.jpa.repository.support.SimpleJpaRepository}
+     * 中需要有 @Transactional 的 method 都有 @Transactional，但使用的却是默认的事务回滚的机制 ----
+     * on {@link RuntimeException} and {@link Error}
      *
      * @param user     String 登录用户
      * @param employee Employee 实体类某单一字段和属性
@@ -80,42 +81,44 @@ public class SearchRecordController {
             produces = ALL_VALUE
     )
     public ResponseEntity<String> saveSearchRecord(@NotNull Principal user, @NotNull Employee employee) throws IllegalAccessException {
+        String body = "搜索记录保存失败，获取的登录用户名为空。";
+        HttpStatus status = BAD_REQUEST;
         // 获取登录用户名
-        username = user.getName();
-        if (StringUtils.hasText(username))
+        String username = user.getName();
+        // 设置标签
+        hasText:
+        if (StringUtils.hasText(username)) {
             // 获取这个类的所有属性
-            // 循环遍历所有的 fields
             for (Field field : employee.getClass().getDeclaredFields()) {
                 field.setAccessible(true);
-                final Object object = field.get(employee);
+                Object object = field.get(employee);
                 // 在这里不能用 StringUtils.hasText(String.valueOf(obj)) 判断是否有值，因为 null 会被转换成 String -> "null"
-                if (!ObjectUtils.isEmpty(object))
-                    synchronized (SearchRecordController.class) {
-                        SEARCH_RECORD.setRecordId(String.valueOf(UUID.randomUUID()));
-                        SEARCH_RECORD.setSearchGroupBy(field.getName());
-                        SEARCH_RECORD.setRecordName(String.valueOf(object));
-                        SEARCH_RECORD.setUsername(username);
-                        SEARCH_RECORD.setCreatedDate(LocalDateTime.now());
-                        searchRecordRepository.saveAndFlush(SEARCH_RECORD);
-                        // 下面判断并没有执行 sql
-                        if (searchRecordRepository.findById(SEARCH_RECORD.getRecordId()).isPresent()) {
-                            body = "搜索记录保存成功。";
-                            status = OK;
-                        } else {
-                            body = "系统出错，搜索记录保存失败。";
-                            status = INTERNAL_SERVER_ERROR;
-                        }
-                        break;
+                if (!ObjectUtils.isEmpty(object)) {
+                    SearchRecord searchRecord = new SearchRecord();
+                    searchRecord.setRecordId(String.valueOf(UUID.randomUUID()));
+                    searchRecord.setSearchGroupBy(field.getName());
+                    searchRecord.setRecordName(String.valueOf(object));
+                    searchRecord.setUsername(username);
+                    searchRecord.setCreatedDate(LocalDateTime.now());
+                    searchRecordRepository.saveAndFlush(searchRecord);
+                    // 检查是否保存成功
+                    if (searchRecordRepository.existsById(searchRecord.getRecordId())) {
+                        body = "搜索记录保存成功。";
+                        status = OK;
+                    } else {
+                        body = "搜索记录保存失败，数据没有成功保存到数据库。";
+                        status = INTERNAL_SERVER_ERROR;
                     }
+                    break hasText;
+                }
             }
-        else {
-            body = "搜索记录保存失败，获取的登录用户名为空。";
-            status = BAD_REQUEST;
+            body = "搜索记录保存失败，需要保存的值为空。";
         }
-        // 设置响应头信息
-        HTTP_HEADERS.set(CONTENT_TYPE, ALL_VALUE);
 
-        return new ResponseEntity<>(body, HTTP_HEADERS, status);
+        // 设置响应头信息
+        ALL.set(CONTENT_TYPE, ALL_VALUE);
+
+        return new ResponseEntity<>(body, ALL, status);
     }
 
     /**
@@ -136,10 +139,12 @@ public class SearchRecordController {
             produces = ALL_VALUE
     )
     public ResponseEntity<String> deleteByRecordName(@NotNull Principal user, @NotNull SearchRecord searchRecord) {
+        String body;
+        HttpStatus status;
         // 获取登录用户名
-        username = user.getName();
+        String username = user.getName();
 
-        if (StringUtils.hasText(username))
+        if (StringUtils.hasText(username)) {
             // 获取搜索字段
             // 需要删除的搜索记录不允许为空
             if (StringUtils.hasText(searchRecord.getRecordName())) {
@@ -147,38 +152,35 @@ public class SearchRecordController {
                 // 需要是属于该用户的搜索记录才允许被删除
                 // 出于安全考虑，在此处获取 username，而不是从前台传过来
                 searchRecord.setUsername(username);
-                // Collections.synchronizedList() 设为线程安全的 List
-                List<SearchRecord> searchRecords = Collections.synchronizedList(searchRecordRepository.findAll(Example.of(searchRecord)));
-                if (0 < searchRecords.size())
-                    synchronized (searchRecords) {
-                        // 根据 id 执行批删除
-                        searchRecordRepository.deleteAllInBatch(searchRecords);
-                        // 检查是否成功删除
-                        searchRecords = searchRecordRepository.findAll(Example.of(searchRecord));
-                        if (0 == searchRecords.size()) {
-                            body = "搜索记录删除成功。";
-                            status = OK;
-                        } else {
-                            body = "搜索记录删除失败，服务器出现故障。";
-                            status = INTERNAL_SERVER_ERROR;
-                        }
+                List<SearchRecord> searchRecords = searchRecordRepository.findAll(Example.of(searchRecord));
+                if (0 < searchRecords.size()) {
+                    // 根据 id 执行批删除
+                    searchRecordRepository.deleteAllInBatch(searchRecords);
+                    // 检查是否成功删除
+                    if (!searchRecordRepository.exists(Example.of(searchRecord))) {
+                        body = "搜索记录删除成功。";
+                        status = OK;
+                    } else {
+                        body = "搜索记录删除失败，服务器出现故障。";
+                        status = INTERNAL_SERVER_ERROR;
                     }
-                else {
-                    body = "搜索记录删除失败，该搜索记录不存在。可能在此之前已经被删除。";
+                } else {
+                    body = "搜索记录删除失败，该搜索记录不存在，可能在此之前已经被删除。";
                     status = BAD_REQUEST;
                 }
             } else {
                 body = "搜索记录删除失败，搜索记录名为空。";
                 status = BAD_REQUEST;
             }
-        else {
+        } else {
             body = "搜索记录删除失败，登录用户名为空。";
             status = BAD_REQUEST;
         }
-        // 设置响应头信息
-        HTTP_HEADERS.set(CONTENT_TYPE, ALL_VALUE);
 
-        return new ResponseEntity<>(body, HTTP_HEADERS, status);
+        // 设置响应头信息
+        ALL.set(CONTENT_TYPE, ALL_VALUE);
+
+        return new ResponseEntity<>(body, ALL, status);
     }
 
     /**
@@ -214,40 +216,40 @@ public class SearchRecordController {
     // TODO: 为什么 recordName 中头和或尾有 % 就进不来接口？
     public ResponseEntity<Set<String>> findRecordNamesBy(@NotNull Principal user, @NotNull String searchGroupBy, @Nullable String recordName) {
         // 获取登录用户名
-        username = user.getName();
+        String username = user.getName();
         // 返回数据
-        Set<String> recordNamesResponse;
+        LinkedHashSet<String> recordNamesResponse;
 
         // 有搜索内容
         if (StringUtils.hasText(recordName)) {
             // 查找此用户的搜索记录 ?%，recordName 可以为空
             // Collections.synchronizedSet() 设为线程安全的 Set
-            Set<String> thisRecordNames = Collections.synchronizedSet(searchRecordRepository.findThisRecordNames(username, searchGroupBy, recordName + "%"));
+            LinkedHashSet<String> thisRecordNames = searchRecordRepository.findThisRecordNames(username, searchGroupBy, recordName + "%");
             // 如果有十条则返回，否则继续查找
             if (10 == thisRecordNames.size())
                 recordNamesResponse = thisRecordNames;
-            else
-                synchronized (thisRecordNames) {
-                    // 继续查找此用户的搜索记录 %?%，recordName 可以为空
-                    // 去重并合并，前 ?% ———— %?% 后
-                    thisRecordNames = Stream.of(thisRecordNames, searchRecordRepository.findThisRecordNames(username, searchGroupBy, "%" + recordName + "%"))
-                            .flatMap(Collection::stream).collect(Collectors.toCollection(LinkedHashSet::new));
-                    // 少于或者等于十条直接返回
-                    if (10 >= thisRecordNames.size())
-                        recordNamesResponse = thisRecordNames;
-                    else
-                        // 如果多于十条则只取前面十条数据
-                        recordNamesResponse = new LinkedHashSet<>(thisRecordNames.stream().toList().subList(0, 10));
-                }
+            else {
+                // 继续查找此用户的搜索记录 %?%，recordName 可以为空
+                // 去重并合并，前 ?% ———— %?% 后
+                thisRecordNames = Stream.of(thisRecordNames, searchRecordRepository.findThisRecordNames(username, searchGroupBy, "%" + recordName + "%"))
+                        .flatMap(Collection::stream).collect(Collectors.toCollection(LinkedHashSet::new));
+                // 少于或者等于十条直接返回
+                if (10 >= thisRecordNames.size())
+                    recordNamesResponse = thisRecordNames;
+                else
+                    // 如果多于十条则只取前面十条数据
+                    recordNamesResponse = new LinkedHashSet<>(thisRecordNames.stream().toList().subList(0, 10));
+            }
         } else
             // 没有搜索内容
             recordNamesResponse = searchRecordRepository.findThisRecordNames(username, searchGroupBy, recordName);
+
         // 设置响应头信息
-        HTTP_HEADERS.set(CONTENT_TYPE, APPLICATION_JSON_VALUE);
+        JSON.set(CONTENT_TYPE, APPLICATION_JSON_VALUE);
 
         // 没有找到设置编码的方式，暂时不设置编码。似乎不需要设置
         // 使用 ResponseEntity 优点之一：不抛异常。而 HttpServletResponse 在 response.getWriter().write(message); 时会抛异常
-        return new ResponseEntity<>(recordNamesResponse, HTTP_HEADERS, OK);
+        return new ResponseEntity<>(recordNamesResponse, JSON, OK);
     }
 
     /**
@@ -272,21 +274,19 @@ public class SearchRecordController {
     public ResponseEntity<Set<String>> findAllPropertiesOfEmployeesBy(@Nullable String[] recordNames, @NotNull Employee employee) throws IllegalAccessException {
         // 前台传过来的搜搜记录，可能为空
         // 把前台传过来的字符串转成 List 数组
-        final Set<String> recordNamesRequest = new LinkedHashSet<>(List.of(recordNames));
-        final int size = recordNamesRequest.size();
+        LinkedHashSet<String> recordNamesRequest = new LinkedHashSet<>(List.of(recordNames));
+        int size = recordNamesRequest.size();
 
         // 需要返回的值
-        Set<String> propertiesResponse = Collections.synchronizedSet(getAllPropertiesOfEmployeesBy(employee, STARTING, recordNamesRequest, size, new LinkedHashSet<>()));
+        var propertiesResponse = getAllPropertiesOfEmployeesBy(employee, ExampleMatcher.StringMatcher.STARTING, recordNamesRequest, size, new LinkedHashSet<>());
         // 如果只根据 %? 搜索的结果不满足所需的数据量，则再根据 %?% 搜索一次
         if (10 - size > propertiesResponse.size())
-            synchronized (propertiesResponse) {
-                propertiesResponse = getAllPropertiesOfEmployeesBy(employee, CONTAINING, recordNamesRequest, size, propertiesResponse);
-            }
-        // 设置响应头信息
-        HTTP_HEADERS.set(CONTENT_TYPE, APPLICATION_JSON_VALUE);
+            propertiesResponse = getAllPropertiesOfEmployeesBy(employee, ExampleMatcher.StringMatcher.CONTAINING, recordNamesRequest, size, propertiesResponse);
 
-        // 没有找到设置编码的方式，暂时不设置编码。似乎不需要设置
-        return new ResponseEntity<>(propertiesResponse, HTTP_HEADERS, OK);
+        // 设置响应头信息
+        JSON.set(CONTENT_TYPE, APPLICATION_JSON_VALUE);
+
+        return new ResponseEntity<>(propertiesResponse, JSON, OK);
     }
 
     /**
@@ -304,48 +304,49 @@ public class SearchRecordController {
      * @see #findAllPropertiesOfEmployeesBy
      * @since 2022/5/25 13:24
      */
-    public Set<String> getAllPropertiesOfEmployeesBy(@NotNull Employee employee,
-                                                     @NotNull ExampleMatcher.StringMatcher stringMatcher,
-                                                     @Nullable Set<String> recordNamesRequest,
-                                                     int size,
-                                                     @Nullable Set<String> propertiesResponse) throws IllegalAccessException {
-        Set<String> newPropertiesResponse = Collections.synchronizedSet(new LinkedHashSet<>());
+    public LinkedHashSet<String> getAllPropertiesOfEmployeesBy(@NotNull Employee employee,
+                                                               @NotNull ExampleMatcher.StringMatcher stringMatcher,
+                                                               @Nullable LinkedHashSet<String> recordNamesRequest,
+                                                               int size,
+                                                               @Nullable LinkedHashSet<String> propertiesResponse) throws IllegalAccessException {
+        LinkedHashSet<String> newPropertiesResponse = new LinkedHashSet<>();
 
-        final List<Employee> employeeList = employeeRepository.findAll(
+        List<Employee> employeeList = employeeRepository.findAll(
                 Example.of(
                         employee,
                         // 匹配所有字段的模糊查询并且忽略大小写，模糊匹配所有
                         ExampleMatcher.matchingAll().withStringMatcher(stringMatcher)
                 )
         );
+
         // 如果有数据则将所需的值截取出来，如果没有数据则返回空数组
-        if (0 < employeeList.size())
-            synchronized (newPropertiesResponse) {
-                // 获取 employee 的所有属性
-                // 循环遍历所有的 fields
-                for (Field field : employee.getClass().getDeclaredFields()) {
-                    field.setAccessible(true);
-                    // 在这里不能用 StringUtils.hasText(String.valueOf(obj)) 判断是否有值，因为 null 会被转换成 String
-                    if (!ObjectUtils.isEmpty(field.get(employee))) {
-                        for (Employee e : employeeList)
-                            newPropertiesResponse.add(String.valueOf(field.get(e)));
-                        break;
-                    }
+        if (0 < employeeList.size()) {
+            // 获取 employee 的所有属性
+            // 循环遍历所有的 fields
+            for (Field field : employee.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+                // 在这里不能用 StringUtils.hasText(String.valueOf(obj)) 判断是否有值，因为 null 会被转换成 String
+                if (!ObjectUtils.isEmpty(field.get(employee))) {
+                    for (Employee e : employeeList)
+                        newPropertiesResponse.add(String.valueOf(field.get(e)));
+                    break;
                 }
-                // 如果前台传过来的值不为空
-                if (!CollectionUtils.isEmpty(recordNamesRequest)) {
-                    // 先利用 stream().distinct() 的使结果去重，然后两个 List 去重并合并。不能与搜索记录有相同的数据
-                    newPropertiesResponse = Stream.of(recordNamesRequest, newPropertiesResponse).flatMap(Collection::stream).collect(Collectors.toCollection(LinkedHashSet::new));
-                    // 截取出新的数据，去掉前台传过来的值
-                    newPropertiesResponse = new LinkedHashSet<>(newPropertiesResponse.stream().toList().subList(size, newPropertiesResponse.size()));
-                }
-                // 如果之前已经根据 %? 查询过，则合并
-                if (!CollectionUtils.isEmpty(propertiesResponse))
-                    newPropertiesResponse = Stream.of(propertiesResponse, newPropertiesResponse).flatMap(Collection::stream).collect(Collectors.toCollection(LinkedHashSet::new));
-                // 如果结果大于所需的量需要去除多余的数据
-                if (10 - size < newPropertiesResponse.size())
-                    newPropertiesResponse = new LinkedHashSet<>(newPropertiesResponse.stream().toList().subList(0, 10 - size));
             }
+
+            // 如果前台传过来的值不为空
+            if (!CollectionUtils.isEmpty(recordNamesRequest)) {
+                // 先利用 stream().distinct() 的使结果去重，然后两个 List 去重并合并。不能与搜索记录有相同的数据
+                newPropertiesResponse = Stream.of(recordNamesRequest, newPropertiesResponse).flatMap(Collection::stream).collect(Collectors.toCollection(LinkedHashSet::new));
+                // 截取出新的数据，去掉前台传过来的值
+                newPropertiesResponse = new LinkedHashSet<>(newPropertiesResponse.stream().toList().subList(size, newPropertiesResponse.size()));
+            }
+            // 如果之前已经根据 %? 查询过，则合并
+            if (!CollectionUtils.isEmpty(propertiesResponse))
+                newPropertiesResponse = Stream.of(propertiesResponse, newPropertiesResponse).flatMap(Collection::stream).collect(Collectors.toCollection(LinkedHashSet::new));
+            // 如果结果大于所需的量需要去除多余的数据
+            if (10 - size < newPropertiesResponse.size())
+                newPropertiesResponse = new LinkedHashSet<>(newPropertiesResponse.stream().toList().subList(0, 10 - size));
+        }
 
         return newPropertiesResponse;
     }

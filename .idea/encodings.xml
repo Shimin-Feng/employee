@@ -4,13 +4,10 @@
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/resources/templates/content1.html" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/test/resources/templates/content1.html" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/test/resources/templates/content2.html" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/test/resources/templates/content2.html" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/test/resources/templates/index2.html" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/test/resources/templates/layout1.html" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/test/resources/templates/layout1.html" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/test/resources/templates/layout2.html" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/test/resources/templates/layout2.html" charset="GBK" />
+    <file url="jar://$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.24/lombok-1.18.24-sources.jar!/lombok/delombok/ant/DelombokTask.java" charset="UTF-8" />
   </component>
 </project>

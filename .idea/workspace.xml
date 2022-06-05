@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="1. 新增数据库表的 sql">
-      <change afterPath="$PROJECT_DIR$/sql/employee_management.sql" afterDir="false" />
+    <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="1. 优化 sql&#10;2. 优化部分判断是否保存成功的查询 (java)&#10;3. 其他优化">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql/employee_management.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/employee_management.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/advice/SpringControllerAdvice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/advice/SpringControllerAdvice.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/EmployeeController.java" afterDir="false" />
@@ -16,32 +18,11 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/OperationLogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/OperationLogController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/SearchRecordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/SearchRecordController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/WelcomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/WelcomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/OperationLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/OperationLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/SearchRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/SearchRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/EmployeeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/EmployeeRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/OperationLogRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/OperationLogRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/SearchRecordRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/SearchRecordRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/UserDetailsServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/util/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/util/ListMethods.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/util/Sex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/util/Sex.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/employee.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/operation-log.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/operation-log.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/controller/EmployeeControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/controller/EmployeeControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/controller/OperationLogControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/controller/OperationLogControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Consumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/DemoConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/DemoConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/MessageBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/MessageBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Test1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Test1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Test2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Test2.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestStatic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestStatic.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -218,9 +199,13 @@
     <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/Objects.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/concurrent/ThreadPoolExecutor.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/function/Consumer.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/function/Function.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/function/Predicate.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/function/Supplier.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/stream/Collectors.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/stream/Stream.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-core/9.0.62/tomcat-embed-core-9.0.62.jar!/javax/servlet/http/HttpServletResponse.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/jetbrains/annotations/23.0.0/annotations-23.0.0-sources.jar!/org/intellij/lang/annotations/Pattern.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/org/jetbrains/annotations/23.0.0/annotations-23.0.0-sources.jar!/org/jetbrains/annotations/NotNull.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-test/2.6.7/spring-boot-test-2.6.7-sources.jar!/org/springframework/boot/test/context/SpringBootTest.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-jpa/2.6.4/spring-data-jpa-2.6.4-sources.jar!/org/springframework/data/jpa/repository/JpaRepository.java" root0="SKIP_INSPECTION" />
@@ -300,48 +285,54 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
-    &quot;ignore.preview.features.used&quot;: &quot;true&quot;,
-    &quot;last_directory_selection&quot;: &quot;C:/Users/g1672/IdeaProjects/employee-management/src/main/java/com/shiminfxcvii/util&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/g1672/IdeaProjects/edatope-backend-master-master&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDK&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;fileTemplates&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;89daeefeb373ccbfaf54ce642222d999&quot;,
-    &quot;typescript.add.unambiguous.imports.on.the.fly&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "full.screen.before.presentation.mode": "false",
+    "ignore.preview.features.used": "true",
+    "last_directory_selection": "C:/Users/g1672/IdeaProjects/employee-management/src/main/java/com/shiminfxcvii/util",
+    "last_opened_file_path": "C:/Users/g1672/IdeaProjects/employee-management",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.detected.package.stylelint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.stylelint": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "SDK",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "rearrange.code.on.save": "true",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "spring.configuration.checksum": "89daeefeb373ccbfaf54ce642222d999",
+    "typescript.add.unambiguous.imports.on.the.fly": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ],
+    "RunConfigurationTargetLRU": [
+      "de5d2b22-ad4c-488e-b95b-ab4a8429f85f"
+    ],
+    "com.intellij.ide.scratch.LRUPopupBuilder$1/SQL 方言": [
+      "MySQL"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\g1672\IdeaProjects\employee-management\src\test\resources\templates" />
@@ -378,18 +369,11 @@
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.Application">
-    <configuration name="Test2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.other.Test2" />
-      <module name="employee-management" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.shiminfxcvii.other.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration name="employee_management.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/sql/employee_management.sql" />
+      <script-mode>FILE</script-mode>
+      <data-source id="de5d2b22-ad4c-488e-b95b-ab4a8429f85f" />
+      <method v="2" />
     </configuration>
     <configuration name="TestClass.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="employee-management" />
@@ -423,7 +407,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestClass.testIterable" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TestClass.testParam2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="employee-management" />
       <extension name="coverage">
         <pattern>
@@ -433,7 +417,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.shiminfxcvii.other" />
       <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.other.TestClass" />
-      <option name="METHOD_NAME" value="testIterable" />
+      <option name="METHOD_NAME" value="testParam2" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -483,20 +467,19 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="JUnit.TestClass.testParam2" />
       <item itemvalue="JUnit.TestClass.testGetTopTenList" />
       <item itemvalue="JUnit.TestClass.testZone" />
       <item itemvalue="JUnit.TestClass.test" />
-      <item itemvalue="JUnit.TestClass.testIterable" />
       <item itemvalue="Spring Boot.Application" />
-      <item itemvalue="应用程序.Test2" />
+      <item itemvalue="数据库脚本.employee_management.sql" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TestClass.testParam2" />
         <item itemvalue="JUnit.TestClass.testGetTopTenList" />
         <item itemvalue="JUnit.TestClass.testZone" />
         <item itemvalue="JUnit.TestClass.test" />
-        <item itemvalue="JUnit.TestClass.testIterable" />
-        <item itemvalue="应用程序.Test2" />
       </list>
     </recent_temporary>
   </component>
@@ -570,14 +553,14 @@
       <workItem from="1653825302246" duration="30422000" />
       <workItem from="1653885688975" duration="72426000" />
       <workItem from="1654148798531" duration="7479000" />
-      <workItem from="1654162394036" duration="7501000" />
-    </task>
-    <task id="LOCAL-00002" summary="Changes:&#10;&#10;1. Password.&#10;2. Entity.&#10;3. Add employee name regExp.">
-      <created>1648733751353</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1648733751353</updated>
+      <workItem from="1654162394036" duration="8346000" />
+      <workItem from="1654231661881" duration="28806000" />
+      <workItem from="1654350478743" duration="1136000" />
+      <workItem from="1654412012941" duration="7466000" />
+      <workItem from="1654422035760" duration="205000" />
+      <workItem from="1654422261959" duration="2211000" />
+      <workItem from="1654424556297" duration="461000" />
+      <workItem from="1654427360870" duration="18330000" />
     </task>
     <task id="LOCAL-00003" summary="Something changes.">
       <created>1648820379177</created>
@@ -915,7 +898,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653963890159</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="1. 新增数据库表的 sql&#10;2. 其他优化">
+      <created>1654179175407</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1654179175412</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -953,7 +943,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="代码优化" />
     <MESSAGE value="优化页面：增加显示数据总条数、删除 footer、把部分弹窗改为 bootstrap 吐司消息、修改部分按钮颜色、暂时不显示最后修改时间--为了使界面更加和谐" />
     <MESSAGE value="优化页面：合并添加、修改员工 jQuery/controller codes，恢复显示最后修改时间，简化 html 代码，取消对性别、年龄的可操作" />
     <MESSAGE value="增加对员工属性的排序————页面点击，代码优化" />
@@ -978,7 +967,8 @@
     <MESSAGE value="1.新增 class Constants.java, 用于常量的管理, 增加对 Java 现成常量的使用, &#10;2.新增 class WelcomeController.java, 将 login 和 index 请求单独写进该 class&#10;3.新增 js 方法注释&#10;4.所有 repository 都新增 @Repository 注解，交由 spring 管理&#10;5.将 operation-log.js, login.html jQuery 改为 JavaScript&#10;6.更改请求方式&#10;7.更改 jdk 版本, bellsoft-jdk18-full -&gt; Oracle jdk 18&#10;8.其他优化" />
     <MESSAGE value="1. 新增 class SpringControllerAdvice.java. 作用: 添加 @Controller 层全局处理异常等方法&#10;2. 新增 enum Sex 用于对性别的控制&#10;3. 更改数据库存储性别的值, &quot;女&quot;|&quot;男&quot; -&gt; &quot;0&quot;|&quot;1&quot;&#10;4. 优化 Controller 接口，HttpServletResponse 改为 spring ResponseEntity&#10;5. 其他优化" />
     <MESSAGE value="1. 优化 class SearchRecordController.java's method&#10;&#10;2. 优化 js employee.js&#10;&#10;3. 优化错误页面的代码&#10;&#10;4. 新增部分 Java class method 非空断言&#10;&#10;5. 删除 interface method countByUsernameAndSearchGroupByAndRecordName(), 使用更简单的 jpa count()&#10;&#10;6. 将 Java 中 .toString() 改为更安全的 String.valueOf()&#10;&#10;7. 增加 interface Constants 的安全性, 已设为 sealed&#10;&#10;8. 利用 Stream.of(propertiesResponse, newPropertiesResponse).flatMap(Collection::stream).distinct().toList(); 替换掉自定义的 method mergeTwoLists&#10;&#10;9. 利用 list.subList(0, 10); 替换掉自定义的 method getListTopTenData&#10;&#10;10. 其他优化" />
-    <option name="LAST_COMMIT_MESSAGE" value="1. 优化 class SearchRecordController.java's method&#10;&#10;2. 优化 js employee.js&#10;&#10;3. 优化错误页面的代码&#10;&#10;4. 新增部分 Java class method 非空断言&#10;&#10;5. 删除 interface method countByUsernameAndSearchGroupByAndRecordName(), 使用更简单的 jpa count()&#10;&#10;6. 将 Java 中 .toString() 改为更安全的 String.valueOf()&#10;&#10;7. 增加 interface Constants 的安全性, 已设为 sealed&#10;&#10;8. 利用 Stream.of(propertiesResponse, newPropertiesResponse).flatMap(Collection::stream).distinct().toList(); 替换掉自定义的 method mergeTwoLists&#10;&#10;9. 利用 list.subList(0, 10); 替换掉自定义的 method getListTopTenData&#10;&#10;10. 其他优化" />
+    <MESSAGE value="1. 新增数据库表的 sql&#10;2. 其他优化" />
+    <option name="LAST_COMMIT_MESSAGE" value="1. 新增数据库表的 sql&#10;2. 其他优化" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -997,27 +987,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
-          <line>530</line>
+          <line>551</line>
           <option name="timeStamp" value="46" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
-          <line>478</line>
-          <option name="timeStamp" value="72" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
-          <line>476</line>
-          <option name="timeStamp" value="74" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
-          <line>1032</line>
+          <line>1053</line>
           <option name="timeStamp" value="76" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
-          <line>1028</line>
+          <line>1049</line>
           <option name="timeStamp" value="77" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -1050,7 +1030,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
-          <line>930</line>
+          <line>951</line>
           <option name="timeStamp" value="119" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -1065,13 +1045,23 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/advice/SpringControllerAdvice.java</url>
-          <line>36</line>
+          <line>34</line>
           <option name="timeStamp" value="149" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
-          <line>314</line>
+          <line>313</line>
           <option name="timeStamp" value="151" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
+          <line>399</line>
+          <option name="timeStamp" value="155" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
+          <line>378</line>
+          <option name="timeStamp" value="157" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestComparator.java</url>
@@ -1084,7 +1074,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
-          <line>358</line>
+          <line>362</line>
           <properties class="com.shiminfxcvii.other.TestClass" method="remove">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />

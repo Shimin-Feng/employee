@@ -1,70 +1,83 @@
-create table employee
-(
-    employee_id           varchar(36) not null
-        primary key,
-    employee_name         varchar(45) not null,
-    employee_sex          varchar(1)  not null,
-    employee_age          varchar(2)  not null,
-    employee_id_card      varchar(18) not null,
-    employee_address      varchar(45) not null,
-    employee_phone_number varchar(11) not null,
-    created_by            varchar(45) not null,
-    created_date          varchar(19) not null,
-    last_modified_date    varchar(19) not null,
-    constraint employee_employee_id_uindex
-        unique (employee_id)
-)
-    comment '员工信息表';
+CREATE DATABASE IF NOT EXISTS employee_management DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
-create table operation_logs
-(
-    log_id                varchar(36) not null
-        primary key,
-    dml                   varchar(6)  not null,
-    employee_id           varchar(36) not null,
-    employee_name         varchar(45) not null,
-    employee_sex          varchar(1)  not null,
-    employee_age          varchar(2)  not null,
-    employee_id_card      varchar(18) not null,
-    employee_address      varchar(45) not null,
-    employee_phone_number varchar(11) not null,
-    created_by            varchar(45) not null,
-    created_date          varchar(19) not null,
-    last_modified_date    varchar(19) not null,
-    username              varchar(45) not null,
-    date_time             varchar(19) not null,
-    constraint employee_management_operation_logs_log_id_uindex
-        unique (log_id)
-)
-    comment '员工管理操作日志表';
+USE employee_management;
 
-create table persistent_logins
-(
-    username  varchar(64) not null,
-    series    varchar(64) not null
-        primary key,
-    token     varchar(64) not null,
-    last_used timestamp   not null
-);
+DROP TABLE IF EXISTS employee;
 
-create table search_record
+CREATE TABLE IF NOT EXISTS employee
 (
-    record_id       varchar(36) null,
-    search_group_by varchar(45) null,
-    record_name     varchar(45) null,
-    username        varchar(45) null,
-    created_date    datetime    null
-)
-    comment '搜索记录表';
+    employee_id           VARCHAR(36) NOT NULL COMMENT '员工 id'
+        PRIMARY KEY,
+    employee_name         VARCHAR(45) NOT NULL COMMENT '员工姓名',
+    employee_sex          VARCHAR(1)  NOT NULL COMMENT '员工性别',
+    employee_age          VARCHAR(2)  NOT NULL COMMENT '员工年龄',
+    employee_id_card      VARCHAR(18) NOT NULL COMMENT '员工身份证号码',
+    employee_address      VARCHAR(45) NOT NULL COMMENT '员工住址',
+    employee_phone_number VARCHAR(11) NOT NULL COMMENT '员工电话号码',
+    created_by            VARCHAR(45) NOT NULL COMMENT '员工信息创建者',
+    created_date          VARCHAR(19) NOT NULL COMMENT '员工信息创建时间',
+    last_modified_date    VARCHAR(19) NOT NULL COMMENT '员工信息最后更改时间',
+    CONSTRAINT employee_management_employee_employee_id_uindex
+        UNIQUE (employee_id)
+) COMMENT '员工信息表';
 
-create table user
+DROP TABLE IF EXISTS operation_logs;
+
+CREATE TABLE IF NOT EXISTS operation_logs
 (
-    user_id     varchar(36) not null
-        primary key,
-    username    varchar(45) not null,
-    password    varchar(60) not null,
-    authorities varchar(45) not null,
-    constraint user_user_id_uindex
-        unique (user_id)
-)
-    comment '用户表';
+    log_id                VARCHAR(36) NOT NULL COMMENT '操作记录 id'
+        PRIMARY KEY,
+    dml                   VARCHAR(6)  NOT NULL COMMENT 'dml 名称',
+    employee_id           VARCHAR(36) NOT NULL COMMENT '员工 id',
+    employee_name         VARCHAR(45) NOT NULL COMMENT '员工姓名',
+    employee_sex          VARCHAR(1)  NOT NULL COMMENT '员工性别',
+    employee_age          VARCHAR(2)  NOT NULL COMMENT '员工年龄',
+    employee_id_card      VARCHAR(18) NOT NULL COMMENT '员工身份证号码',
+    employee_address      VARCHAR(45) NOT NULL COMMENT '员工住址',
+    employee_phone_number VARCHAR(11) NOT NULL COMMENT '员工电话号码',
+    created_by            VARCHAR(45) NOT NULL COMMENT '员工信息创建者',
+    created_date          VARCHAR(19) NOT NULL COMMENT '员工信息创建时间',
+    last_modified_date    VARCHAR(19) NOT NULL COMMENT '员工信息最后更改时间',
+    username              VARCHAR(45) NOT NULL COMMENT '操作用户',
+    date_time             VARCHAR(19) NOT NULL COMMENT '操作时间',
+    CONSTRAINT employee_management_operation_logs_log_id_uindex
+        UNIQUE (log_id)
+) COMMENT '员工管理操作日志表';
+
+DROP TABLE IF EXISTS persistent_logins;
+
+CREATE TABLE IF NOT EXISTS persistent_logins
+(
+    username  VARCHAR(64) NOT NULL COMMENT '用户账号',
+    series    VARCHAR(64) NOT NULL COMMENT '序列号'
+        PRIMARY KEY,
+    token     VARCHAR(64) NOT NULL COMMENT 'token 值',
+    last_used TIMESTAMP   NOT NULL COMMENT '最后使用时间'
+) COMMENT '用户 token 表';
+
+DROP TABLE IF EXISTS search_record;
+
+CREATE TABLE IF NOT EXISTS search_record
+(
+    record_id       VARCHAR(36) NOT NULL COMMENT '搜索记录 id'
+        PRIMARY KEY,
+    search_group_by VARCHAR(45) NOT NULL COMMENT '搜索记录根据',
+    record_name     VARCHAR(45) NOT NULL COMMENT '搜索记录名称',
+    username        VARCHAR(45) NOT NULL COMMENT '搜索记录创建者',
+    created_date    DATETIME    NOT NULL DEFAULT NOW() COMMENT '搜索记录生成时间',
+    CONSTRAINT employee_management_search_record_record_id_uindex
+        UNIQUE (record_id)
+) COMMENT '搜索记录表';
+
+DROP TABLE IF EXISTS user;
+
+CREATE TABLE IF NOT EXISTS user
+(
+    user_id     VARCHAR(36) NOT NULL COMMENT '用户 id'
+        PRIMARY KEY,
+    username    VARCHAR(45) NOT NULL COMMENT '用户账号',
+    password    VARCHAR(60) NOT NULL COMMENT '用户密码',
+    authorities VARCHAR(45) NOT NULL COMMENT '用户权限（多个权限用","英文逗号隔开）',
+    CONSTRAINT employee_management_user_user_id_uindex
+        UNIQUE (user_id)
+) COMMENT '用户表';

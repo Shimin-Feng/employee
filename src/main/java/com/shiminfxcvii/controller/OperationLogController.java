@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -26,9 +28,6 @@ import java.util.UUID;
 
 import static com.shiminfxcvii.util.Constants.*;
 import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
-import static org.springframework.http.HttpHeaders.CACHE_CONTROL;
-import static org.springframework.http.MediaType.ALL_VALUE;
-import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 
 /**
  * 保存和查询操作员工信息后的日志
@@ -39,7 +38,7 @@ import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 @Controller
 @RequestMapping("operationLog")
 public class OperationLogController {
-    private static final OperationLog OPERATION_LOG = new OperationLog();
+
     @Resource
     private OperationLogRepository operationLogRepository;
 
@@ -82,6 +81,7 @@ public class OperationLogController {
             LOGGER.error("操作日志保存失败，原因：登录用户名不能为空但为空。");
             return;
         }
+
         for (Field field : employee.getClass().getDeclaredFields()) {
             field.setAccessible(true);
             // 在这里不能用 StringUtils.hasText(String.valueOf(obj)) 判断是否有值，因为 null 会被转换成 String
@@ -90,23 +90,26 @@ public class OperationLogController {
                 return;
             }
         }
-        OPERATION_LOG.setLogId(String.valueOf(UUID.randomUUID()));
-        OPERATION_LOG.setDml(dml);
-        OPERATION_LOG.setEmployeeId(employee.getEmployeeId());
-        OPERATION_LOG.setEmployeeName(employee.getEmployeeName());
-        OPERATION_LOG.setEmployeeSex(employee.getEmployeeSex());
-        OPERATION_LOG.setEmployeeAge(employee.getEmployeeAge());
-        OPERATION_LOG.setEmployeeIdCard(employee.getEmployeeIdCard());
-        OPERATION_LOG.setEmployeeAddress(employee.getEmployeeAddress());
-        OPERATION_LOG.setEmployeePhoneNumber(employee.getEmployeePhoneNumber());
-        OPERATION_LOG.setCreatedBy(employee.getCreatedBy());
-        OPERATION_LOG.setCreatedDate(employee.getCreatedDate());
-        OPERATION_LOG.setLastModifiedDate(employee.getLastModifiedDate());
-        OPERATION_LOG.setUsername(user.getName());
-        OPERATION_LOG.setDateTime(LocalDateTime.now().format(DATE_TIME_FORMATTER));
-        operationLogRepository.saveAndFlush(OPERATION_LOG);
+
+        OperationLog operationLog = new OperationLog();
+        operationLog.setLogId(String.valueOf(UUID.randomUUID()));
+        operationLog.setDml(dml);
+        operationLog.setEmployeeId(employee.getEmployeeId());
+        operationLog.setEmployeeName(employee.getEmployeeName());
+        operationLog.setEmployeeSex(employee.getEmployeeSex());
+        operationLog.setEmployeeAge(employee.getEmployeeAge());
+        operationLog.setEmployeeIdCard(employee.getEmployeeIdCard());
+        operationLog.setEmployeeAddress(employee.getEmployeeAddress());
+        operationLog.setEmployeePhoneNumber(employee.getEmployeePhoneNumber());
+        operationLog.setCreatedBy(employee.getCreatedBy());
+        operationLog.setCreatedDate(employee.getCreatedDate());
+        operationLog.setLastModifiedDate(employee.getLastModifiedDate());
+        operationLog.setUsername(user.getName());
+        operationLog.setDateTime(LocalDateTime.now().format(DATE_TIME_FORMATTER));
+        operationLogRepository.saveAndFlush(operationLog);
+
         // 检查是否成功保存到数据库
-        if (operationLogRepository.findById(OPERATION_LOG.getLogId()).isPresent())
+        if (operationLogRepository.findById(operationLog.getLogId()).isPresent())
             LOGGER.info("操作日志保存成功。");
         else
             LOGGER.error("操作日志保存失败。");
@@ -125,9 +128,9 @@ public class OperationLogController {
     @GetMapping(
             value = "findOperationLogsBy",
             params = {PAGE_NUM, PAGE_SIZE},
-            headers = {CACHE_CONTROL, X_CSRF_TOKEN},
-            consumes = ALL_VALUE,
-            produces = TEXT_HTML_VALUE
+            headers = {HttpHeaders.CACHE_CONTROL, X_CSRF_TOKEN},
+            consumes = MediaType.ALL_VALUE,
+            produces = MediaType.TEXT_HTML_VALUE
     )
     public String findOperationLogsBy(@RequestParam(value = PAGE_NUM, defaultValue = ZERO) Integer pageNum,
                                       @RequestParam(value = PAGE_SIZE, defaultValue = TEN) Integer pageSize,
