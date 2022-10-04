@@ -5,15 +5,11 @@ import org.springframework.util.Assert;
 import java.util.Arrays;
 import java.util.function.Supplier;
 
-import static com.sun.tools.javac.util.Assert.error;
+import static java.lang.System.err;
 import static java.lang.System.out;
 
 /**
  * @author shiminfxcvii
- * @version 1.0
- * @description
- * @class Testttt
- * @see
  * @since 2022/5/26 2:46 周四
  */
 
@@ -47,13 +43,12 @@ class Demo02LoggerLambda {
 
         out.println(Arrays.toString(args));
         Object o = new Object();
-        Object n = null;
         Assert.notNull(o, () -> {
             out.println("lambda ------------------");
             return msgA + msgB + msgC;
         });
 
-        Object o1 = checkNonNull(n, () -> {
+        Object o1 = checkNonNull(null, () -> {
             out.println(22);
             return msgA + msgB;
         });
@@ -62,7 +57,7 @@ class Demo02LoggerLambda {
 
     public static <T> T checkNonNull(T t, Supplier<String> msg) {
         if (t == null)
-            error(msg.get());
+            err.println(msg.get());
         return t;
     }
 }

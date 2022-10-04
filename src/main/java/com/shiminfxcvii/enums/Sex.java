@@ -1,5 +1,6 @@
-package com.shiminfxcvii.util;
+package com.shiminfxcvii.enums;
 
+import com.shiminfxcvii.util.Constants;
 import org.springframework.lang.Nullable;
 
 import java.util.Objects;
@@ -12,60 +13,62 @@ import java.util.Objects;
  */
 public enum Sex implements Constants {
 
-    Female("0", "女"),
-    Male("1", "男"),
-    Unknown("-1", "未知");
+    /**
+     * 女
+     */
+    Female("女"),
+    /**
+     * 男
+     */
+    Male("男"),
+    /**
+     * 未知
+     */
+    Unknown("未知");
 
     private static final Sex[] VALUES = values();
-    private final String number;
     private final String gender;
 
-    Sex(String number, String gender) {
-        this.number = number;
+    Sex(String gender) {
         this.gender = gender;
     }
 
     /**
-     * 通过性别对应的数字获取 Sex
+     * 通过性别对应的数字获取性别
      *
-     * @param number 性别对应的数字
+     * @param ordinal 枚举常量序数
      * @return {@link Sex}
-     * @method resolveByNumber
      * @author shiminfxcvii
      * @since 6/2/2022 1:48 PM
      */
-    public static Sex resolveByNumber(@Nullable String number) {
+    public static String getGenderByOrdinal(@Nullable Integer ordinal) {
         // Use cached VALUES instead of values() to prevent array allocation.
         for (Sex sex : VALUES)
-            if (Objects.equals(sex.getNumber(), number))
-                return sex;
+            if (Objects.equals(sex.ordinal(), ordinal))
+                return sex.getGender();
 
-        return Unknown;
+        return Unknown.getGender();
     }
 
     /**
-     * 通过数字对应的性别获取 Sex
+     * 通过数字对应的性别获取枚举常量序数
      *
-     * @param gender 数字对应的性别
+     * @param gender 枚举常量序数对应的性别
      * @return {@link Sex}
-     * @method resolveByGender
      * @author shiminfxcvii
      * @since 6/2/2022 1:48 PM
      */
-    public static Sex resolveByGender(@Nullable String gender) {
+    public static Integer getOrdinalByGender(@Nullable String gender) {
         // Use cached VALUES instead of values() to prevent array allocation.
         for (Sex sex : VALUES)
             if (Objects.equals(sex.getGender(), gender))
-                return sex;
+                return sex.ordinal();
 
-        return Unknown;
-    }
-
-    public String getNumber() {
-        return this.number;
+        return Unknown.ordinal();
     }
 
     public String getGender() {
         return this.gender;
     }
+
 }

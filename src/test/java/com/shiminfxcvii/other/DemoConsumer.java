@@ -56,7 +56,7 @@ public class DemoConsumer {
         consume(3, " jer ry o ", s -> {
         });
 
-        System.out.println(Persistence.PERSISTENCE_PROVIDER);
+        System.out.println(Persistence.getPersistenceUtil());
         loadUserByUsername("vv");
         loadUserByUsername(null);
 

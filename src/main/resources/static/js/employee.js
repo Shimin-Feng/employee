@@ -8,7 +8,8 @@
      *
      * @type {HTMLCollectionOf<HTMLElementTagNameMap[string]>}
      */
-    const theadTrThCollectionOf = document.getElementsByTagName('thead')[0].getElementsByTagName('tr')[0].getElementsByTagName('th'),
+    const theadTrThCollectionOf = document.getElementsByTagName('thead')[0]
+            .getElementsByTagName('tr')[0].getElementsByTagName('th'),
         /**
          * @type {HTMLTableSectionElement}
          */
@@ -24,7 +25,8 @@
         /**
          * @type {HTMLDivElement}
          */
-        tfootTrTdDiv = tfoot.getElementsByTagName('tr')[0].getElementsByTagName('td')[0].getElementsByTagName('div')[0],
+        tfootTrTdDiv = tfoot.getElementsByTagName('tr')[0].getElementsByTagName('td')[0]
+            .getElementsByTagName('div')[0],
         /**
          * @type {Element}
          */
@@ -57,7 +59,11 @@
          * Get token
          * @type {String}
          */
-        token = document.getElementsByName('_csrf')[0].value
+        token = document.getElementsByName('_csrf')[0].value,
+        /**
+         * @type {Toast|Mn}
+         */
+        toast = new bootstrap.Toast(liveToast)
     ;
 
     /**
@@ -65,7 +71,7 @@
      * @param id17 18 位身份证前面的 17 位数字
      * @returns {string} 返回计算后的最后的一位验证码数字
      */
-    function getLastIdCardNumber(id17) {
+    const getLastIdCardNumber = (id17) => {
         const weight = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2],
             validate = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2']
         let sum = 0
@@ -79,7 +85,7 @@
      * 更新页面数据
      * @param data html 页面数据
      */
-    function updatePage(data) {
+    const updatePage = (data) => {
         if (/btn-primary/.test(data)) {
             // 截取之后填充进页面
             const trs = data.split('<tbody class="table-secondary">')[1].split('</tbody>'),
@@ -87,7 +93,6 @@
 
             tbody.innerHTML = trs[0]
             document.getElementsByClassName('no-margin-top')[0].innerHTML = ul[0]
-
         } else {
             tbody.innerHTML = ''
             tfootTrTdDiv.innerHTML = ''
@@ -99,10 +104,10 @@
      * @param valuesArray 需要验证的字段
      * @returns {boolean} false 验证不通过，数据格式不正确
      */
-    function regExp(valuesArray) {
+    const regExp = (valuesArray) => {
         let msg = ''
 
-        for (let i in valuesArray)
+        /*for (let i in valuesArray)
             if ('' === valuesArray[i]) {
                 switch (i) {
                     case '0':
@@ -118,15 +123,16 @@
                         msg = '电话号码不能为空。'
                 }
                 break
-            }
+            }*/
 
         if ('' === msg) {
             // 验证姓名
-            if (!/^[\u4e00-\u9fa5\w\s•]{1,25}$/.test(valuesArray[0]))
+            /*if (!/^[\u4e00-\u9fa5\w\s•]{1,25}$/.test(valuesArray[0]))
                 msg = '姓名只支持由 1 - 25 个汉字、英文、数字、空格和•的组合。'
 
             // 验证身份证号码，15、18 位身份证号码第一重验证
-            else if (valuesArray[1].length !== 15 && valuesArray[1].length !== 18)
+            else */
+            if (valuesArray[1].length !== 15 && valuesArray[1].length !== 18)
                 msg = '请填写 15 或者 18 位身份证号码。'
 
             // 15、18 位身份证号码第二重验证
@@ -134,7 +140,8 @@
                 msg = '身份证号码有误，请检查后重试。'
 
             // 18 位身份证号码第三重验证
-            else if (valuesArray[1].length === 18 && valuesArray[1].charAt(17).toUpperCase() !== getLastIdCardNumber(valuesArray[1].substring(0, 17).split('')))
+            else if (valuesArray[1].length === 18 && valuesArray[1].charAt(17).toUpperCase() !==
+                getLastIdCardNumber(valuesArray[1].substring(0, 17).split('')))
                 msg = '身份证号码有误，请检查后重试。'
 
             // 验证住址
@@ -148,7 +155,7 @@
 
         if ('' !== msg) {
             toastBody.textContent = msg;
-            new bootstrap.Toast(liveToast).show();
+            toast.show();
             return false;
         }
     }
@@ -157,7 +164,7 @@
      * 若有则获取上一次的排序规则
      * @returns {string} 返回排序字段和值
      */
-    function getDirectionAndProperty() {
+    const getDirectionAndProperty = () => {
         let direction = '',
             property = ''
 
@@ -202,52 +209,53 @@
      */
     modalFooter.getElementsByTagName('a')[1].addEventListener('click', () => {
         // 获取表单数据
-        const formControl = modalBody.getElementsByClassName('form-control'),
-            valuesArray = []
-        for (let collectionElement of formControl)
-            valuesArray.push(collectionElement.value)
+        const formControl = modalBody.getElementsByClassName('form-control');
+        if (formControl.length) {
+            const valuesArray = Array.from(formControl).map(value => value.value);
 
-        // regExp data
-        if (regExp(valuesArray) === false) return
+            // regExp data
+            // if (regExp(valuesArray) === false) return
 
-        // 如果变量 xhr 在全局范围内使用，它会在 makeRequest() 函数中被相互覆盖，从而导致资源竞争。
-        // 为了避免这个情况，请在包含 AJAX 函数的闭包中声明 xhr 变量。
-        let xhr;
+            // 如果变量 xhr 在全局范围内使用，它会在 makeRequest() 函数中被相互覆盖，从而导致资源竞争。
+            // 为了避免这个情况，请在包含 AJAX 函数的闭包中声明 xhr 变量。
+            let xhr;
 
-        // Old compatibility code, no longer needed.
-        if (window.XMLHttpRequest) // Mozilla, Safari, IE7+ ...
-            xhr = new XMLHttpRequest();
-        else if (window.ActiveXObject) // IE 6 and older
-            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            // Old compatibility code, no longer needed.
+            if (window.XMLHttpRequest) // Mozilla, Safari, IE7+ ...
+                xhr = new XMLHttpRequest();
+            else if (window.ActiveXObject) // IE 6 and older
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
 
-        let employeeId = ''
+            let employeeId = ''
 
-        // 根据实际实际情况设置请求方式
-        let method;
+            // 根据实际实际情况设置请求方式
+            let method;
 
-        // if it's updating an employee, also need to get the employeeId
-        if (/\d/.test(modalBody.valueOf().value)) {
-            employeeId = tbodyTrCollectionOf[modalBody.valueOf().value].getElementsByTagName('th')[0].getAttribute('id');
-            // delete the index
-            modalBody.valueOf().value = '';
-            method = 'PATCH';
-        } else
-            method = 'POST';
+            // if it's updating an employee, also need to get the employeeId
+            if (/\d/.test(modalBody.valueOf().value)) {
+                employeeId = tbodyTrCollectionOf[modalBody.valueOf().value].getElementsByTagName('th')[0]
+                    .getAttribute('id');
+                // delete the index
+                modalBody.valueOf().value = '';
+                method = 'PATCH';
+            } else
+                method = 'POST';
 
-        // 使用 FormDataAPI 是最简单最快的，但缺点是收集的数据不能被字符串化。仅使用 AJAX 更复杂，但通常更灵活、更强大。
-        xhr.open(
-            method,
-            'employee/saveOrUpdateEmployee?employeeName=' + valuesArray[0] + '&employeeIdCard=' + valuesArray[1] +
-            '&employeeAddress=' + valuesArray[2] + '&employeePhoneNumber=' + valuesArray[3] + '&employeeId=' + employeeId
-        );
+            // 使用 FormDataAPI 是最简单最快的，但缺点是收集的数据不能被字符串化。仅使用 AJAX 更复杂，但通常更灵活、更强大。
+            xhr.open(
+                method,
+                'employee/saveOrUpdateEmployee?employeeName=' + valuesArray[0] + '&employeeIdCard=' + valuesArray[1] +
+                '&employeeAddress=' + valuesArray[2] + '&employeePhoneNumber=' + valuesArray[3] + '&employeeId=' + employeeId
+            );
 
-        saveUpdateDeleteRequest(xhr);
+            saveUpdateDeleteRequest(xhr);
+        }
     });
 
     /**
      * 将更改和删除按钮的 click 事件委托在 tbody 标签上
      */
-    tbody.addEventListener('click', e => {
+    tbody.addEventListener('click', (e) => {
         // 兼容性处理
         const event = e || window.event,
             target = event.target || event.srcElement
@@ -278,7 +286,7 @@
 
             if (!/^[\dA-Fa-f]{8}-[\dA-Fa-f]{4}-[\dA-Fa-f]{4}-[\dA-Fa-f]{4}-[\dA-Fa-f]{12}$/.test(employeeId)) {
                 toastBody.textContent = '无法获取到员工 ID，请检查后重试。'
-                new bootstrap.Toast(liveToast).show()
+                toast.show()
                 return
             }
 
@@ -294,7 +302,7 @@
                 else if (window.ActiveXObject) // IE 6 and older
                     xhr = new ActiveXObject("Microsoft.XMLHTTP");
 
-                xhr.open('DELETE', 'employee/deleteEmployeeById?employeeId=' + employeeId);
+                xhr.open('DELETE', 'employee/deleteEmployeeById?id=' + employeeId);
 
                 saveUpdateDeleteRequest(xhr);
             }
@@ -306,9 +314,8 @@
      * @type {Element[]}
      */
     const elements = [document.getElementsByClassName('modal-header')[0], modalFooter];
-    elements.forEach(function (element) {
+    elements.forEach((element) => {
         element.getElementsByTagName('a')[0].addEventListener('click', () => {
-
             modalBody.valueOf().value = ''
         })
     });
@@ -317,7 +324,7 @@
      * 封装添加、修改、删除操作的 Ajax
      * @param xhr XMLHttpRequest
      */
-    function saveUpdateDeleteRequest(xhr) {
+    const saveUpdateDeleteRequest = (xhr) => {
         // 这似乎是默认设置？
         // 如果不设置响应头 Cache-Control: no-cache 浏览器将会把响应缓存下来而且再也无法重新提交请求。
         // 你也可以添加一个总是不同的 GET 参数，比如时间戳或者随机数
@@ -344,7 +351,7 @@
                     } else {
                         console.error(xhr.response)
                         toastBody.textContent = xhr.response
-                        new bootstrap.Toast(liveToast).show()
+                        toast.show()
                     }
                 }
             } catch (e) {
@@ -356,7 +363,7 @@
     /**
      * 添加、修改或者删除操作之后的查询是一致的
      */
-    function saveOrDelete() {
+    const saveOrDelete = () => {
         let currentPage = document.getElementsByClassName('currentPage'),
             array = getDirectionAndProperty().split(', '),
             pageNum;
@@ -380,7 +387,7 @@
      * 对整个 document 的监听是目前最好最简单的方案，但是可能会损耗更多的性能
      * test document.activeElement
      */
-    document.addEventListener('click', e => {
+    document.addEventListener('click', (e) => {
         // 兼容性处理
         const event = e || window.event,
             target = event.target || event.srcElement
@@ -400,8 +407,7 @@
     /**
      * 搜索框内容的每一次变动都将触发一次根据内容的搜索
      */
-    const focusInput = ['focus', 'input']
-    focusInput.forEach(function (type) {
+    ['focus', 'input'].forEach((type) => {
         sectionDivInput.addEventListener(type, () => {
             // 写成 switch 是用于下面的测试:
             // console.count();
@@ -419,8 +425,7 @@
     /**
      * 根据搜索框内容执行搜索任务
      */
-    function autocomplete() {
-
+    const autocomplete = () => {
         console.count();
         console.trace();
 
@@ -432,7 +437,8 @@
             xhr = new ActiveXObject('Microsoft.XMLHTTP')
         }
 
-        xhr.open('GET', 'searchRecord/findRecordNamesBy?searchGroupBy=' + sectionDivSelect.value + '&recordName=' + sectionDivInput.value)
+        xhr.open('GET', 'searchRecord/findRecordNamesBy?searchGroupBy=' + sectionDivSelect.value +
+            '&recordName=' + sectionDivInput.value)
 
         xhr.setRequestHeader('Cache-Control', 'no-cache')
 
@@ -515,8 +521,8 @@
                                      * 如果不写在这里，在外部是无法获取到 li 的
                                      * @type {string[]}
                                      */
-                                    clickMouseoutMouseover.forEach(function (type) {
-                                        li.addEventListener(type, e => {
+                                    clickMouseoutMouseover.forEach((type) => {
+                                        li.addEventListener(type, (e) => {
                                             // 兼容性处理
                                             const event = e || window.event,
                                                 target = event.target || event.srcElement
@@ -577,7 +583,7 @@
                                                                     } else {
                                                                         console.error(xhrDeleteByRecordName.response)
                                                                         toastBody.textContent = xhrDeleteByRecordName.response
-                                                                        new bootstrap.Toast(liveToast).show()
+                                                                        toast.show()
                                                                     }
                                                                 }
                                                             } catch (e) {
@@ -664,7 +670,7 @@
                                                          * 写在这里方便获取数据 ---- xhr.response[i]
                                                          * @type {string[]}
                                                          */
-                                                        clickMouseoutMouseover.forEach(function (type) {
+                                                        clickMouseoutMouseover.forEach((type) => {
                                                             li.addEventListener(type, () => {
                                                                 switch (type) {
                                                                     case 'mouseout':
@@ -703,7 +709,7 @@
                         } else {
                             console.error(xhr.response)
                             toastBody.textContent = xhr.response
-                            new bootstrap.Toast(liveToast).show()
+                            toast.show()
                         }
                     }
                 } catch (e) {
@@ -720,7 +726,7 @@
      * keypress 相对于 keydown 与 keyup，只有按下 Enter 键会触发此事件。
      * 而 keydown 与 keyup，按下 Shift、Ctrl、Caps 都会触发，所以这里选择 keypress
      */
-    sectionDivInput.addEventListener('keypress', e => {
+    sectionDivInput.addEventListener('keypress', (e) => {
         // 兼容性处理
         const event = e || window.event,
             target = event.target || event.srcElement
@@ -747,7 +753,7 @@
     /**
      * 搜索员工按钮点击事件
      */
-    sectionDiv.getElementsByTagName('a')[0].addEventListener('click', e => {
+    sectionDiv.getElementsByTagName('a')[0].addEventListener('click', (e) => {
         // 兼容性处理
         const event = e || window.event,
             target = event.target || event.srcElement
@@ -766,7 +772,7 @@
      * @param attribute 属性
      * @param property 值
      */
-    function saveSearchRecord(attribute, property) {
+    const saveSearchRecord = (attribute, property) => {
         // 如果变量 xhr 在全局范围内使用，它会在 makeRequest() 函数中被相互覆盖，从而导致资源竞争。
         // 为了避免这个情况，请在包含 AJAX 函数的闭包中声明 xhr 变量。
         let xhr
@@ -809,7 +815,7 @@
                     } else {
                         console.error(xhr.response)
                         toastBody.textContent = xhr.response
-                        new bootstrap.Toast(liveToast).show()
+                        toast.show()
                     }
                 }
             } catch (e) {
@@ -833,7 +839,7 @@
     /**
      * 将 employee 所有属性重置
      */
-    function init() {
+    const init = () => {
         employee = {
             name: 0,
             sex: 0,
@@ -852,7 +858,7 @@
      * 重新加载页面数据后需要清除之前保存在 thead tr th 中的 tbody tr 下标
      * 初始化 class
      */
-    function reset() {
+    const reset = () => {
         init()
 
         for (let i = 1; i < 10; i++) {
@@ -863,8 +869,8 @@
         }
     }
 
-    Array.from(theadTrThCollectionOf).forEach(th => {
-        th.addEventListener('click', e => {
+    Array.from(theadTrThCollectionOf).forEach((th) => {
+        th.addEventListener('click', (e) => {
             // 兼容性处理
             const event = e || window.event,
                 target = event.target || event.srcElement
@@ -1002,21 +1008,6 @@
                         }
                 }
 
-                /**
-                 * 调用发送排序方法
-                 * @param target 当前 th
-                 * @param direction 排序规则 ASC (Default), DESC
-                 * @param property 需要排序的字段
-                 * @param value class 样式
-                 * @param val 将当前的排序规则 value 添加到当前的 target
-                 */
-                function sortDirection(target, direction, property, value, val) {
-                    findEmployeesBy(0, direction, property)
-                    target.getElementsByTagName('i')[0].setAttribute('class', value)
-                    target.value = val
-                    init()
-                }
-
                 // 选中并删除其他 thead tr th 的 val()
                 // 只选取支持排序功能的 th
                 const ths = []
@@ -1028,13 +1019,28 @@
                 ths.splice(cellIndex - 1, 1)
 
                 // Init, delete th's 'val()' & change i's 'class'.
-                for (let th of ths) {
+                ths.forEach((th) => {
                     th.value = ''
                     th.getElementsByTagName('i')[0].setAttribute('class', 'bi bi-chevron-expand')
-                }
+                })
             }
         })
     });
+
+    /**
+     * 调用发送排序方法
+     * @param target 当前 th
+     * @param direction 排序规则 ASC (Default), DESC
+     * @param property 需要排序的字段
+     * @param value class 样式
+     * @param val 将当前的排序规则 value 添加到当前的 target
+     */
+    const sortDirection = (target, direction, property, value, val) => {
+        findEmployeesBy(0, direction, property)
+        target.getElementsByTagName('i')[0].setAttribute('class', value)
+        target.value = val
+        init()
+    }
 
     /**
      * 翻页
@@ -1042,9 +1048,8 @@
      * 而 keydown 与 keyup，按下 Shift、Ctrl、Caps 都会触发，所以这里选择 keypress
      * @type {string[]}
      */
-    const clickKeypress = ['click', 'keypress'];
-    clickKeypress.forEach(function (type) {
-        tfoot.addEventListener(type, e => {
+    ['click', 'keypress'].forEach((type) => {
+        tfoot.addEventListener(type, (e) => {
             // 兼容性处理
             const event = e || window.event,
                 target = event.target || event.srcElement,
@@ -1094,7 +1099,7 @@
             /**
              * 发送数据，调用查询请求
              */
-            function pageTurningRequest() {
+            const pageTurningRequest = () => {
                 /**
                  * 如果在事件外定义则无法正确获取，因为翻页后标签已被重载
                  * @type {HTMLCollectionOf<Element>}
@@ -1106,10 +1111,9 @@
                     findEmployeesBy(pageNumber - 1, strings[0], strings[1])
                     // 发送请求后将 target.valueOf().value 的值设为 ''，以避免失焦后再次发送请求
                     inputPageNumber.valueOf().value = '';
-
                 } else {
                     toastBody.textContent = '请输入正确的页数。'
-                    new bootstrap.Toast(liveToast).show()
+                    toast.show()
                     inputPageNumber.valueOf().value = '';
                 }
             }
@@ -1122,7 +1126,7 @@
      * @param direction 排序规则，ASC 升序，DESC 降序
      * @param property 根据该字段排序，默认 createdDate 添加时间
      */
-    function findEmployeesBy(pageNum, direction, property) {
+    const findEmployeesBy = (pageNum, direction, property) => {
         if (pageNum > -1) {
 
             // 如果变量 xhr 在全局范围内使用，它会在 makeRequest() 函数中被相互覆盖，从而导致资源竞争。
@@ -1180,7 +1184,7 @@
                         } else {
                             console.error(xhr.response)
                             toastBody.textContent = xhr.response
-                            new bootstrap.Toast(liveToast).show()
+                            toast.show()
                         }
                     }
                 } catch (e) {

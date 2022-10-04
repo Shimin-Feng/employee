@@ -14,11 +14,9 @@ CREATE TABLE IF NOT EXISTS employee
     employee_id_card      VARCHAR(18) NOT NULL COMMENT '员工身份证号码',
     employee_address      VARCHAR(45) NOT NULL COMMENT '员工住址',
     employee_phone_number VARCHAR(11) NOT NULL COMMENT '员工电话号码',
-    created_by            VARCHAR(45) NOT NULL COMMENT '员工信息创建者',
-    created_date          VARCHAR(19) NOT NULL COMMENT '员工信息创建时间',
-    last_modified_date    VARCHAR(19) NOT NULL COMMENT '员工信息最后更改时间',
-    CONSTRAINT employee_management_employee_employee_id_uindex
-        UNIQUE (employee_id)
+    created_by            VARCHAR(45) NOT NULL COMMENT '创建者',
+    created_date          VARCHAR(19) NOT NULL COMMENT '创建时间',
+    last_modified_date    VARCHAR(19) NOT NULL COMMENT '最后更改时间'
 ) COMMENT '员工信息表';
 
 DROP TABLE IF EXISTS operation_logs;
@@ -35,13 +33,11 @@ CREATE TABLE IF NOT EXISTS operation_logs
     employee_id_card      VARCHAR(18) NOT NULL COMMENT '员工身份证号码',
     employee_address      VARCHAR(45) NOT NULL COMMENT '员工住址',
     employee_phone_number VARCHAR(11) NOT NULL COMMENT '员工电话号码',
-    created_by            VARCHAR(45) NOT NULL COMMENT '员工信息创建者',
-    created_date          VARCHAR(19) NOT NULL COMMENT '员工信息创建时间',
-    last_modified_date    VARCHAR(19) NOT NULL COMMENT '员工信息最后更改时间',
+    created_by            VARCHAR(45) NOT NULL COMMENT '创建者',
+    created_date          VARCHAR(19) NOT NULL COMMENT '创建时间',
+    last_modified_date    VARCHAR(19) NOT NULL COMMENT '最后更改时间',
     username              VARCHAR(45) NOT NULL COMMENT '操作用户',
-    date_time             VARCHAR(19) NOT NULL COMMENT '操作时间',
-    CONSTRAINT employee_management_operation_logs_log_id_uindex
-        UNIQUE (log_id)
+    date_time             VARCHAR(19) NOT NULL COMMENT '操作时间'
 ) COMMENT '员工管理操作日志表';
 
 DROP TABLE IF EXISTS persistent_logins;
@@ -64,9 +60,7 @@ CREATE TABLE IF NOT EXISTS search_record
     search_group_by VARCHAR(45) NOT NULL COMMENT '搜索记录根据',
     record_name     VARCHAR(45) NOT NULL COMMENT '搜索记录名称',
     username        VARCHAR(45) NOT NULL COMMENT '搜索记录创建者',
-    created_date    DATETIME    NOT NULL DEFAULT NOW() COMMENT '搜索记录生成时间',
-    CONSTRAINT employee_management_search_record_record_id_uindex
-        UNIQUE (record_id)
+    created_date DATETIME NOT NULL DEFAULT NOW() COMMENT '搜索记录生成时间'
 ) COMMENT '搜索记录表';
 
 DROP TABLE IF EXISTS user;
@@ -77,7 +71,5 @@ CREATE TABLE IF NOT EXISTS user
         PRIMARY KEY,
     username    VARCHAR(45) NOT NULL COMMENT '用户账号',
     password    VARCHAR(60) NOT NULL COMMENT '用户密码',
-    authorities VARCHAR(45) NOT NULL COMMENT '用户权限（多个权限用","英文逗号隔开）',
-    CONSTRAINT employee_management_user_user_id_uindex
-        UNIQUE (user_id)
+    authorities VARCHAR(45) NOT NULL COMMENT '用户权限（多个权限用","英文逗号隔开）'
 ) COMMENT '用户表';

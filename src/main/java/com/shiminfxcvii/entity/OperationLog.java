@@ -1,14 +1,14 @@
 package com.shiminfxcvii.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Objects;
 
 /**
@@ -24,6 +24,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Table(name = "operation_logs", schema = "employee_management")
 public class OperationLog {
+
     @Id
     @Column(name = "log_id", unique = true, nullable = false, updatable = false, columnDefinition = "varchar", length = 36)
     private String logId;
@@ -34,9 +35,9 @@ public class OperationLog {
     @Column(name = "employee_name", nullable = false, updatable = false, columnDefinition = "varchar", length = 45)
     private String employeeName;
     @Column(name = "employee_sex", nullable = false, updatable = false, columnDefinition = "varchar", length = 1)
-    private String employeeSex;
+    private Integer employeeSex;
     @Column(name = "employee_age", nullable = false, updatable = false, columnDefinition = "varchar", length = 2)
-    private String employeeAge;
+    private Integer employeeAge;
     @Column(name = "employee_id_card", nullable = false, updatable = false, columnDefinition = "varchar", length = 18)
     private String employeeIdCard;
     @Column(name = "employee_address", nullable = false, updatable = false, columnDefinition = "varchar", length = 45)
@@ -66,4 +67,5 @@ public class OperationLog {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }

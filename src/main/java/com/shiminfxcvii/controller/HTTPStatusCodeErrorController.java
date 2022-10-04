@@ -1,12 +1,12 @@
 package com.shiminfxcvii.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.regex.Pattern;
 
@@ -25,7 +25,6 @@ public final class HTTPStatusCodeErrorController implements ErrorController {
      * @param response HttpServletResponse 响应的错误信息
      * @param user     Principal 包含登录用户信息
      * @return modelAndView 根据错误状态码设置并返回内容
-     * @method handleError
      * @author shiminfxcvii
      * @see ModelAndView
      * @see HttpServletResponse
@@ -34,7 +33,8 @@ public final class HTTPStatusCodeErrorController implements ErrorController {
      */
     @GetMapping("error")
     public ModelAndView handleError(HttpServletResponse response, Principal user) {
-        ModelAndView modelAndView = new ModelAndView();
+        // 所有的错误状态码都将在 error-code 页面展示
+        ModelAndView modelAndView = new ModelAndView("error-code");
         // Get HTTP status code
         int status = response.getStatus();
 
@@ -163,10 +163,9 @@ public final class HTTPStatusCodeErrorController implements ErrorController {
 
             // 使前台能通过 ${#request.getAttribute('org.springframework.web.servlet.View.responseStatus')} 获取到值，附带原因短语的错误提示
             modelAndView.setStatus(HttpStatus.resolve(status));
-            // 所有的错误状态码都将在 error-code 页面展示
-            modelAndView.setViewName("error-code");
         }
 
         return modelAndView;
     }
+
 }

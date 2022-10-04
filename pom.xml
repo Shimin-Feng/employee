@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.shiminfxcvii</groupId>
@@ -11,8 +11,24 @@
     <!-- 18 似乎指的是 JDK 版本 -->
     <!-- 如果改成 19 ====> java: 错误: 不支持发行版本 19 -->
     <properties>
-        <maven.compiler.source>18</maven.compiler.source>
-        <maven.compiler.target>18</maven.compiler.target>
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
+
+        <java.version>19</java.version>
+
+        <spring-boot.version>3.0.0-SNAPSHOT</spring-boot.version>
+
+        <spring-framework.version>6.0.0-SNAPSHOT</spring-framework.version>
+
+        <lombok.version>1.18.24</lombok.version>
+
+        <mysql.version>8.0.30</mysql.version>
+
+        <thymeleaf.extras.version>3.1.0.M1</thymeleaf.extras.version>
+
+        <jetbrains.annotations.version>23.0.0</jetbrains.annotations.version>
+
+        <fasterxml.jackson.core.version>2.13.4</fasterxml.jackson.core.version>
 
         <!-- spring-boot 官方项目的某个配置 -->
         <!-- <thymeleaf.version>3.0.2.RELEASE</thymeleaf.version>
@@ -31,7 +47,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.7</version>
+        <version>3.0.0-SNAPSHOT</version>
+        <relativePath/>
     </parent>
 
     <dependencies>
@@ -51,14 +68,14 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.13.3</version>
+            <version>${fasterxml.jackson.core.version}</version>
         </dependency>
 
         <!-- MySQL 驱动 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.29</version>
+            <version>${mysql.version}</version>
         </dependency>
 
         <!-- 不知道有什么作用，是有一次编写代码使提示添加的 -->
@@ -67,7 +84,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>23.0.0</version>
+            <version>${jetbrains.annotations.version}</version>
             <scope>compile</scope>
         </dependency>
 
@@ -75,7 +92,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
+            <version>${lombok.version}</version>
         </dependency>
 
         <!-- Provides transitive vulnerable dependency -->
@@ -91,52 +108,120 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>5.3.20</version>
+            <version>${spring-framework.version}</version>
+        </dependency>
+
+        <!--  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
 
         <!-- 下面的依赖是为了能够使用到 JPA Hibernate -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>2.6.7</version>
+            <version>${spring-boot.version}</version>
         </dependency>
 
         <!-- Spring 安全框架 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-            <version>2.6.7</version>
+            <version>${spring-boot.version}</version>
         </dependency>
 
         <!-- 单元测试依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>2.6.7</version>
+            <version>${spring-boot.version}</version>
         </dependency>
 
         <!-- 引入 Thymeleaf 模板 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
-            <version>2.6.7</version>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+        <!-- 添加验证 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
 
         <!-- Spring MVC -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>2.6.7</version>
+            <version>${spring-boot.version}</version>
         </dependency>
 
         <!-- 添加 thymeleaf 属性 -->
         <!-- 获取登录用户名 -->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
-            <version>3.0.4.RELEASE</version>
+            <artifactId>thymeleaf-extras-springsecurity6</artifactId>
+            <version>${thymeleaf.extras.version}</version>
         </dependency>
 
+        <!-- swagger -->
+        <!--        <dependency>-->
+        <!--            <groupId>io.springfox</groupId>-->
+        <!--            <artifactId>springfox-boot-starter</artifactId>-->
+        <!--            <version>3.0.0</version>-->
+        <!--        </dependency>-->
+
     </dependencies>
+
+    <!-- for spring-boot.version 3.0.0-SNAPSHOT start -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+    <!-- for spring-boot.version 3.0.0-SNAPSHOT end -->
 
 </project>

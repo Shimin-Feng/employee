@@ -1,11 +1,10 @@
 package com.shiminfxcvii.other;
 
-import com.shiminfxcvii.controller.EmployeeController;
 import com.shiminfxcvii.controller.SearchRecordController;
 import com.shiminfxcvii.entity.Employee;
 import com.shiminfxcvii.entity.SearchRecord;
 import com.shiminfxcvii.repository.SearchRecordRepository;
-import com.shiminfxcvii.util.Sex;
+import com.shiminfxcvii.enums.Sex;
 import com.sun.istack.NotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -33,6 +32,7 @@ import static com.shiminfxcvii.util.Constants.DATE_TIME;
 import static java.awt.SystemColor.info;
 import static java.lang.System.out;
 import static java.util.Objects.isNull;
+import static org.springframework.http.HttpHeaders.CONTENT_RANGE;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -335,7 +335,16 @@ public class TestClass {
 
     @Test
     public void testList() {
-        String str = "1";
+        String str = "1234";
+        out.println(str.substring(2));
+        out.println(str.substring(2, 3));
+        out.println(str.repeat(2));
+        out.println(str.indent(2));
+        out.println(str.charAt(2));
+        out.println(11111111);
+        out.println(str.concat("2"));
+        out.println(str.substring(2, 3));
+        out.println(str.subSequence(2, 3));
         switch (str) {
             case "0" -> out.println("0");
             case "1", "2" -> out.println("1 / 2");
@@ -494,7 +503,7 @@ public class TestClass {
         out.println(headers);
 //        headers.addIfAbsent(CONTENT_TYPE, APPLICATION_JSON_VALUE);
         headers.add(CONTENT_TYPE, APPLICATION_JSON_VALUE);
-        headers.add(CONTENT_TYPE, ALL_VALUE);
+        headers.set(CONTENT_RANGE, ALL_VALUE);
 //        headers.set(CONTENT_TYPE, APPLICATION_JSON_VALUE);
         out.println(headers);
         out.println(headers.keySet());
@@ -563,13 +572,13 @@ public class TestClass {
     @Test
     public void testEnum() {
         Employee employee = new Employee();
-        employee.setEmployeeSex("3");
+        employee.setEmployeeSex(3);
         Object o = new Object();
 
-        if (0 == Integer.parseInt(employee.getEmployeeSex()) % 2) {
-            out.println(Sex.Male.getNumber());
+        if (0 == employee.getEmployeeSex() % 2) {
+            out.println(Sex.Male.ordinal());
         } else {
-            out.println(Sex.Female.getNumber());
+            out.println(Sex.Female.ordinal());
         }
 
         /*out.println(StandardCharsets.UTF_8);
@@ -693,7 +702,7 @@ public class TestClass {
 
     @Test
     public void testStatic() {
-        EmployeeController employeeController = new EmployeeController();
+//        EmployeeController employeeController = new EmployeeController();
         out.println(TestStatic.ENCODE);
         out.println(TestStatic.STATUS);
     }

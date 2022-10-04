@@ -30,7 +30,5 @@ class OperationLogControllerTest {
         System.out.println(Arrays.toString(logger.getHandlers()));
         System.out.println(logger.getClass());
         System.out.println(logger.getLevel());
-        Logger global = Logger.global;
-        global.warning("global");
     }
 }

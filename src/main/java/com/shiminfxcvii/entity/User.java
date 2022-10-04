@@ -1,14 +1,14 @@
 package com.shiminfxcvii.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Objects;
 
 /**
@@ -24,6 +24,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Table(name = "user", schema = "employee_management")
 public class User {
+
     @Id
     @Column(name = "user_id", unique = true, nullable = false, updatable = false, columnDefinition = "varchar", length = 36)
     private String userId;
@@ -46,4 +47,5 @@ public class User {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }

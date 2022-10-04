@@ -1,18 +1,19 @@
 package com.shiminfxcvii.config;
 
-import com.shiminfxcvii.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.datasource.DataSourceUtils;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
@@ -22,30 +23,44 @@ import static com.shiminfxcvii.util.Constants.*;
  * Spring Boot Security 用于用户的登录验证
  *
  * @author shiminfxcvii
- * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
  * @since 2022/5/1 14:45
  */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
-    @Resource
-    private DataSource dataSource;
-    @Resource
-    private UserDetailsServiceImpl userDetailsServiceImpl;
+    private final DataSource dataSource;
+    private final UserDetailsService userDetailsService;
+
+    @Lazy
+    public SecurityConfig(DataSource dataSource, UserDetailsService userDetailsService) {
+        this.dataSource = dataSource;
+        this.userDetailsService = userDetailsService;
+    }
+
+    /**
+     * 解析验证密码
+     *
+     * @return BCryptPasswordEncoder
+     * @author ShiminFXCVII
+     * @since 2022/10/4 17:14
+     */
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     /**
      * 对用户账号、密码、权限的管理
      *
-     * @param auth AuthenticationManagerBuilder
+     * @param auth AuthenticationConfiguration
      * @throws Exception 未知异常
-     * @method configure
      * @author shiminfxcvii
      * @since 2022/5/1 14:50
      */
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(new BCryptPasswordEncoder());
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
+        return auth.getAuthenticationManager();
     }
 
     /**
@@ -53,13 +68,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      *
      * @param http HttpSecurity
      * @throws Exception 未知异常
-     * @method configure
      * @author shiminfxcvii
      * @since 2022/5/1 14:50
      */
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
                 // 关闭 csrf（Cross-site request forgery 跨站请求伪造）防护
                 // 注释掉则开启防护
                 /*.csrf()
@@ -79,9 +93,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 下面这行代码似乎并没有任何作用，URL 随便写都没有影响
 //                .successForwardUrl("/khbgkhjvkjh")
                 /*
-                   有了下面这行代码，登录成功后地址栏才会显示正确的 `http://localhost:8080/index` 地址，而不是 `http://localhost:8080/login`
-                   并且如果是：.defaultSuccessUrl("/index")，这个时候会出现个问题，假如我们还没有登录认证，在浏览器输入一个不存在的 url，
-                   例如 localhost:8080/test，那么通过此配置，security 会帮我们导向登录页面，然后当我们登录成功后你会发现跳转的路径变成了 /test，
+                   有了下面这行代码，登录成功后地址栏才会显示正确的 `http://localhost:8080/index` 地址，
+                   而不是 `http://localhost:8080/login`
+                   并且如果是：.defaultSuccessUrl("/index")，这个时候会出现个问题，假如我们还没有登录认证，
+                   在浏览器输入一个不存在的 url，
+                   例如 localhost:8080/test，那么通过此配置，security 会帮我们导向登录页面，
+                   然后当我们登录成功后你会发现跳转的路径变成了 /test，
                    而不是设置的 /index。使用 .defaultSuccessUrl("/index", true)，那么就不会出现上面问题，会直接转到 /index
                  */
                 .defaultSuccessUrl("/index", true)
@@ -92,7 +109,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 授权请求
                 .authorizeRequests()
                 // 不需要拦截的页面
-                .antMatchers(/*"/403", */"/login", "/loginFailed", "/logout"/*, "/timeout"*/).permitAll()
+                .antMatchers(/*"/403", */"/login", "/loginFailed", "/logout"/*, "/timeout"*/)
+                .permitAll()
                 // 需要拦截的页面
                 // 如要访问 employee 页面必须具有 ROLE_ADMIN 权限
                 // ROLE_ADMIN 这个写法不对，这里不需要加 ROLE_ 前缀
@@ -118,7 +136,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     加了也会报错
                     如果登陆时勾选了````记住我````，那么在登录状态下重启服务器后再点击退出就会出现这个问题
                  */
-                .userDetailsService(userDetailsServiceImpl)
+                .userDetailsService(userDetailsService)
                 /*.and()
                 // 已在 HTTPStatusCodeErrorController class 中处理
                 // 开启异常处理
@@ -140,14 +158,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidSessionUrl("/timeout")
                 // 设置最大 Session 数为 1
                 .maximumSessions(1)*/
-        ;
+                .and()
+                .build()
+                ;
     }
 
     /**
      * 将 remember me token 信息存储进数据库
      *
      * @return {@code tokenRepository} 由该 token 仓库创建一个 token 并返回
-     * @method persistentTokenRepository
      * @author shiminfxcvii
      * @see PersistentTokenRepository
      * @since 2022/5/1 15:15
@@ -159,8 +178,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         tokenRepository.setDataSource(dataSource);
         // 如果表不存在则创建
         // 下面判断已替换掉 class JdbcCheckTableExit.java
-        if (!DataSourceUtils.getConnection(dataSource).getMetaData().getTables(null, EMPLOYEE_MANAGEMENT, PERSISTENT_LOGINS, TABLE).next())
+        if (!DataSourceUtils.getConnection(dataSource).getMetaData()
+                .getTables(null, EMPLOYEE_MANAGEMENT, PERSISTENT_LOGINS, TABLE).next())
             tokenRepository.setCreateTableOnStartup(true);
         return tokenRepository;
     }
+
 }

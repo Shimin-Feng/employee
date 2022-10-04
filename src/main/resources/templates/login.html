@@ -40,7 +40,11 @@
 <script>
 	(() => {
         document.getElementsByClassName('btn-primary')[0].addEventListener('click', () => {
-            if ('' === document.getElementById('username').value || '' === document.getElementById('password').value) {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            if (username === void 0 || password === void 0 ||
+                username === null || password === null ||
+                username.trim().length === 0 || password.trim().length === 0) {
                 alert('Please enter username and password.');
                 // 如果不 return false, 表单还是会提交!
                 return false;

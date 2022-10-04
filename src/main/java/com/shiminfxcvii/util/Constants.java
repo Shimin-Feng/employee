@@ -1,5 +1,7 @@
 package com.shiminfxcvii.util;
 
+import org.springframework.http.HttpHeaders;
+
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -10,7 +12,7 @@ import java.util.Locale;
  * @author shiminfxcvii
  * @since 2022/5/10 20:18 周二
  */
-public sealed interface Constants permits Sex {
+public interface Constants {
     Integer ZERO_INTEGER = 0;
     Integer TEN_INTEGER = 10;
     String PAGE_NUM = "pageNum";
@@ -43,5 +45,11 @@ public sealed interface Constants permits Sex {
     /**
      * CTT -> Asia/Shanghai
      */
-    DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss", Locale.PRC).withZone(ZoneId.of(ZoneId.SHORT_IDS.get("CTT")));
+    DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss", Locale.PRC)
+            .withZone(ZoneId.of(ZoneId.SHORT_IDS.get("CTT")));
+    HttpHeaders HTTP_HEADERS = new HttpHeaders();
+    HttpHeaders ALL = new HttpHeaders();
+    HttpHeaders JSON = new HttpHeaders();
+    byte[] WEIGHT = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
+    char[] VALIDATE = {'1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'};
 }

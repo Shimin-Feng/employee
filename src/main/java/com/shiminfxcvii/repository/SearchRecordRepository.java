@@ -1,10 +1,9 @@
 package com.shiminfxcvii.repository;
 
-import com.shiminfxcvii.entity.Employee;
 import com.shiminfxcvii.entity.SearchRecord;
+import com.shiminfxcvii.service.impl.SearchRecordServiceImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.LinkedHashSet;
 
 /**
- * 查询和删除搜索记录，用于前台搜索框 autocomplete
+ * 搜索记录工厂接口，查询和删除搜索记录，用于前台搜索框 autocomplete
  *
  * @author shiminfxcvii
  * @since 2022/4/24 0:23 周日
@@ -28,9 +27,8 @@ public interface SearchRecordRepository extends JpaRepository<SearchRecord, Stri
      * @param searchGroupBy 搜索字段
      * @param recordName    搜索名称
      * @return 返回符合条件的搜索名 record_name
-     * @method findThisRecordNamesOne
      * @author shiminfxcvii
-     * @see com.shiminfxcvii.controller.SearchRecordController#getAllPropertiesOfEmployeesBy(Employee, ExampleMatcher.StringMatcher, LinkedHashSet, int, LinkedHashSet)
+     * @see SearchRecordServiceImpl#getAllPropertiesOfEmployeesBy
      * @since 2022/5/20 14:53
      */
     @Query(value = """
@@ -42,5 +40,8 @@ public interface SearchRecordRepository extends JpaRepository<SearchRecord, Stri
             ) AS rncd
             ORDER BY mcd DESC LIMIT 0, 10;
             """, nativeQuery = true)
-    LinkedHashSet<String> findThisRecordNames(@NotNull String username, @NotNull String searchGroupBy, @Nullable String recordName);
+    LinkedHashSet<String> findThisRecordNames(@NotNull("用户名不能为空") String username,
+                                              @NotNull("搜索字段不能为空") String searchGroupBy,
+                                              @Nullable String recordName);
+
 }

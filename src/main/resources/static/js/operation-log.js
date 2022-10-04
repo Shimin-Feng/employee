@@ -12,7 +12,8 @@
 
         /** @type {HTMLDivElement}
          */
-        tfootTrTdDiv = tfoot.getElementsByTagName('tr')[0].getElementsByTagName('td')[0].getElementsByTagName('div')[0],
+        tfootTrTdDiv = tfoot.getElementsByTagName('tr')[0].getElementsByTagName('td')[0]
+            .getElementsByTagName('div')[0],
 
         /** @type {HTMLElement}
          */
@@ -36,9 +37,8 @@
      * keypress 相对于 keydown 与 keyup，只有按下 Enter 键会触发此事件。
      * 而 keydown 与 keyup，按下 Shift、Ctrl、Caps 都会触发，所以这里选择 keypress
      */
-    const clickKeypress = ['click', 'keypress'];
-    clickKeypress.forEach(function (type) {
-        tfoot.addEventListener(type, e => {
+    ['click', 'keypress'].forEach((type) => {
+        tfoot.addEventListener(type, (e) => {
             // 兼容性处理
             const event = e || window.event,
                 target = event.target || event.srcElement;
@@ -94,7 +94,7 @@
             /**
              * 发送数据，调用查询请求
              */
-            function pageTurningRequest() {
+            const pageTurningRequest = () => {
                 /**
                  * 如果在事件外定义则无法正确获取，因为翻页后标签已被重载
                  * @type {HTMLCollectionOf<Element>}
@@ -102,7 +102,8 @@
                 const pageLink = document.getElementsByClassName('page-link');
 
                 // 有效页数: 1.必须为整数 2.大于零 3.不大于总页数
-                if (0 === pageNumber % 1 && 0 < pageNumber && parseInt(pageLink[pageLink.length - 1].name) + 2 > pageNumber) {
+                if (0 === pageNumber % 1 && 0 < pageNumber &&
+                    parseInt(pageLink[pageLink.length - 1].name) + 2 > pageNumber) {
                     sendPageTurningRequest(pageNumber - 1)
                     // 发送请求后将 target.valueOf().value 的值设为 ''，以避免失焦后再次发送请求
                     inputPageNumber.valueOf().value = '';
@@ -120,7 +121,7 @@
      * 发送翻页请求
      * @param page 页数
      */
-    function sendPageTurningRequest(page) {
+    const sendPageTurningRequest = (page) => {
 
         // 如果变量 xhr 在全局范围内使用，它会在 makeRequest() 函数中被相互覆盖，从而导致资源竞争。
         // 为了避免这个情况，请在包含 AJAX 函数的闭包中声明 xhr 变量。
@@ -160,7 +161,6 @@
 
                             tbody.innerHTML = trs[0]
                             noMarginTop.innerHTML = ul[0]
-
                         } else {
                             tbody.innerHTML = ''
                             tfootTrTdDiv.innerHTML = ''

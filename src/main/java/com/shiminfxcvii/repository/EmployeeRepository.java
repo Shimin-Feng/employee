@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * 员工信息操作接口
+ * 员工信息操作工厂接口
  *
  * @author shiminfxcvii
  * @since 2022/6/2 20:02

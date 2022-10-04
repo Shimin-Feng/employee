@@ -1,15 +1,14 @@
-package com.shiminfxcvii.service;
+package com.shiminfxcvii.service.impl;
 
 import com.shiminfxcvii.entity.User;
 import com.shiminfxcvii.repository.UserRepository;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Example;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 /**
  * 该类用于验证在有账号登录时是否与数据库账号匹配
@@ -21,8 +20,12 @@ import javax.annotation.Resource;
 @Service
 public final class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Resource
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    @Lazy
+    public UserDetailsServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /**
      * TODO<br>
@@ -38,7 +41,7 @@ public final class UserDetailsServiceImpl implements UserDetailsService {
      * Invalid remember-me token (Series/token) mismatch. Implies previous cookie theft attack.
      */
     @Override
-    public UserDetails loadUserByUsername(@NotNull String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(@NotNull("用户名不能为空") String username) throws UsernameNotFoundException {
         User user = new User();
         user.setUsername(username);
         return userRepository.findOne(Example.of(user)).map(
@@ -49,4 +52,5 @@ public final class UserDetailsServiceImpl implements UserDetailsService {
                         .build()
         ).orElse(null);
     }
+
 }

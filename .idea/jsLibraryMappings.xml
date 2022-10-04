@@ -3,7 +3,5 @@
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$" libraries="{bfwone, bootstrap, bootstrap-icons, signin}" />
     <file url="PROJECT" libraries="{bootstrap, contract, dispatcher, signin}" />
-    <includedPredefinedLibrary name="HTTP Response Handler" />
-    <includedPredefinedLibrary name="Nashorn" />
   </component>
 </project>

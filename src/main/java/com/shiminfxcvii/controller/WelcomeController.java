@@ -16,7 +16,6 @@ public final class WelcomeController {
      * 在登录之前访问任何资源都将跳转到自定义登录界面
      *
      * @return "login" login 页面
-     * @method login
      * @author shiminfxcvii
      * @since 2022/4/29 16:46
      */
@@ -29,7 +28,6 @@ public final class WelcomeController {
      * 接受请求跳转到 index 页面
      *
      * @return "index" index 页面
-     * @method index
      * @author shiminfxcvii
      * @since 2022/4/29 16:33
      */
@@ -39,7 +37,6 @@ public final class WelcomeController {
     }
 
     // TODO: <input> 如何解决在使用中文输入时的错误？
-    // TODO: 学习新一代 thymeleaf-extras-spring security6 的使用方法
     // TODO: 统计图
     // TODO: 数据库根据时间自动调整年龄
     // TODO: 实现使用拼音也能搜索
@@ -56,7 +53,6 @@ public final class WelcomeController {
     // TODO: js 将获取标签统一写在开头
     // TODO: 精简页面需要更新的数据
     // TODO: 将在 js 中的验证转到 entity 上字段上验证
-    // TODO: test @Transcational
 
     /*@RequestMapping("logout")
     public String logout() {

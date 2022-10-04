@@ -1,9 +1,11 @@
 spring:
+#  application:
+  #    name: Employee Management
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/employee_management?useUnicode=true&characterEncoding=UTF-8
     username: root
-    password: MySQL1672943850
+    password: 123456
 
   jpa:
     # Silent
@@ -21,3 +23,16 @@ server:
   servlet:
     session:
       timeout: 1800
+
+# swagger
+#springfox:
+#  documentation:
+#    swagger:
+#      v2:
+#        use-model-v3: true
+#    open-api:
+#      enabled: true
+#    enabled: true
+#    swagger-ui:
+#      enabled: true
+#      base-url: http://localhost:3306/swagger-ui.html
