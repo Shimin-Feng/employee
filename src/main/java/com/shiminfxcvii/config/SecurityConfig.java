@@ -8,11 +8,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -39,19 +44,33 @@ public class SecurityConfig {
     }
 
     /**
-     * 解析验证密码
+     * 密码明文加密方式配置
      *
      * @return BCryptPasswordEncoder
      * @author ShiminFXCVII
      * @since 2022/10/4 17:14
      */
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     /**
-     * 对用户账号、密码、权限的管理
+     * 配置跨源访问 (CORS)（暂时未使用到）
+     *
+     * @return CorsConfigurationSource
+     * @author ShiminFXCVII
+     * @since 2022/10/4 19:46
+     */
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        return source;
+    }
+
+    /**
+     * 获取 AuthenticationManager（认证管理器），登录时认证使用（暂时未使用到）
      *
      * @param auth AuthenticationConfiguration
      * @throws Exception 未知异常
@@ -61,6 +80,25 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
         return auth.getAuthenticationManager();
+    }
+
+    /**
+     * 对请求的管理
+     *
+     * @return WebSecurityCustomizer
+     * @author ShiminFXCVII
+     * @since 2022/10/5 23:15
+     */
+    @Bean
+    public WebSecurityCustomizer swaggerWebSecurityCustomizer() {
+        return web -> web.ignoring().antMatchers(
+                "/swagger-ui.html",
+                "/swagger-ui/**",
+                "/swagger-resources/**",
+                "/v2/api-docs",
+                "/v3/api-docs",
+                "/webjars/**"
+        );
     }
 
     /**
@@ -109,7 +147,12 @@ public class SecurityConfig {
                 // 授权请求
                 .authorizeRequests()
                 // 不需要拦截的页面
-                .antMatchers(/*"/403", */"/login", "/loginFailed", "/logout"/*, "/timeout"*/)
+                .antMatchers(/*"/403", */"/login",
+                        "/loginFailed",
+                        "/logout",
+                        "/swagger-ui.html",
+                        "/swagger-ui/**",
+                        "/swagger-resources/**"/*, "/timeout"*/)
                 .permitAll()
                 // 需要拦截的页面
                 // 如要访问 employee 页面必须具有 ROLE_ADMIN 权限

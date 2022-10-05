@@ -1,5 +1,11 @@
+server:
+  servlet:
+    session:
+      timeout: 1800
+  port: 8080
+
 spring:
-#  application:
+  #  application:
   #    name: Employee Management
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -19,20 +25,19 @@ spring:
     # Turn off caching while developing
     cache: false
 
-server:
-  servlet:
-    session:
-      timeout: 1800
-
 # swagger
-#springfox:
-#  documentation:
-#    swagger:
-#      v2:
-#        use-model-v3: true
-#    open-api:
-#      enabled: true
-#    enabled: true
-#    swagger-ui:
-#      enabled: true
-#      base-url: http://localhost:3306/swagger-ui.html
+springfox:
+  documentation:
+    enabled: true
+    open-api:
+      enabled: true
+    swagger-ui:
+      enabled: true
+      base-url: http://localhost:8080/swagger-ui.html
+# ===== 自定义swagger配置 ===== #
+#swagger:
+#  enable: true
+#  application-name: ${spring.application.name}
+#  application-version: 1.0
+#  application-description: springfox swagger 3.0整合Demo
+#  try-host: http://localhost:${server.port}

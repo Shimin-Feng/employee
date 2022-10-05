@@ -30,6 +30,8 @@
 
         <fasterxml.jackson.core.version>2.13.4</fasterxml.jackson.core.version>
 
+        <springfox.version>3.0.0</springfox.version>
+
         <!-- spring-boot 官方项目的某个配置 -->
         <!-- <thymeleaf.version>3.0.2.RELEASE</thymeleaf.version>
 		<thymeleaf-layout-dialect.version>2.1.1</thymeleaf-layout-dialect.version> -->
@@ -169,11 +171,11 @@
         </dependency>
 
         <!-- swagger -->
-        <!--        <dependency>-->
-        <!--            <groupId>io.springfox</groupId>-->
-        <!--            <artifactId>springfox-boot-starter</artifactId>-->
-        <!--            <version>3.0.0</version>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
 
     </dependencies>
 

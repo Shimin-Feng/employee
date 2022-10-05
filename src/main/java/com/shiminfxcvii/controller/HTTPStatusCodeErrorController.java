@@ -41,6 +41,7 @@ public final class HTTPStatusCodeErrorController implements ErrorController {
         if (Pattern.matches("^\\d+$", String.valueOf(status))) {
             modelAndView.addObject("back", "Back to the index page.");
             modelAndView.addObject("href", "/index");
+            modelAndView.addObject("status", status);
             switch (status) {
                 case 400 -> {
                     if (null != user)

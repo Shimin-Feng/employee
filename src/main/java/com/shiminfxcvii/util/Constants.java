@@ -23,6 +23,7 @@ public interface Constants {
     String TEN = "10";
     String ASC = "ASC";
     String EMPLOYEES = "employees";
+    String ID = "id";
     String EMPLOYEE_ID = "employeeId";
     String EMPLOYEE_NAME = "employeeName";
     String EMPLOYEE_ID_CARD = "employeeIdCard";

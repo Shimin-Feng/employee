@@ -2,10 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${#response.getStatus()}"></title>
+    <title th:text="${status}"></title>
 </head>
 <body>
-<h1 th:text="${#request.getAttribute('org.springframework.web.servlet.View.responseStatus')}"></h1>
+<h1 th:text="${status}"></h1>
 <h2 th:utext="${msg}"></h2>
 <a th:href="${href}" th:text="${back}"></a>
 </body>

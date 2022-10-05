@@ -44,8 +44,8 @@ public final class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(@NotNull("用户名不能为空") String username) throws UsernameNotFoundException {
         User user = new User();
         user.setUsername(username);
-        return userRepository.findOne(Example.of(user)).map(
-                value -> org.springframework.security.core.userdetails.User
+        return userRepository.findOne(Example.of(user)).map(value ->
+                org.springframework.security.core.userdetails.User
                         .withUsername(value.getUsername())
                         .password(value.getPassword())
                         .authorities(value.getAuthorities().split(","))

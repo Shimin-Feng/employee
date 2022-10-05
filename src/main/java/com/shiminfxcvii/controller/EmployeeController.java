@@ -4,6 +4,8 @@ import com.shiminfxcvii.entity.Employee;
 import com.shiminfxcvii.model.cmd.EmployeeCmd;
 import com.shiminfxcvii.model.query.EmployeeQuery;
 import com.shiminfxcvii.service.EmployeeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Sort;
@@ -29,6 +31,7 @@ import static org.springframework.http.MediaType.ALL_VALUE;
  */
 @Controller
 @RequestMapping("employee")
+@Tag(name = "employeeController", description = "操作员工信息 ———— CRUD")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -39,6 +42,7 @@ public class EmployeeController {
     }
 
     @GetMapping
+    @Operation(description = "员工管理界面", method = "GET", summary = "测试", tags = "employeeController")
     public String employee(Model model) {
         employeeService.employee(model);
         return "employee";
@@ -61,7 +65,7 @@ public class EmployeeController {
 
     @DeleteMapping(
             value = "deleteEmployeeById",
-            params = EMPLOYEE_ID,
+            params = ID,
             headers = {CACHE_CONTROL, X_CSRF_TOKEN},
             consumes = MediaType.IMAGE_JPEG_VALUE,
             produces = ALL_VALUE
