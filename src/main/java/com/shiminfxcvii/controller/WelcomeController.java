@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 /**
  * 接受登录和主页的请求
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/5/10 15:40
  */
 @Controller
@@ -16,7 +16,7 @@ public final class WelcomeController {
      * 在登录之前访问任何资源都将跳转到自定义登录界面
      *
      * @return "login" login 页面
-     * @author shiminfxcvii
+     * @author ShiminFXCVII
      * @since 2022/4/29 16:46
      */
     @GetMapping("login")
@@ -28,7 +28,7 @@ public final class WelcomeController {
      * 接受请求跳转到 index 页面
      *
      * @return "index" index 页面
-     * @author shiminfxcvii
+     * @author ShiminFXCVII
      * @since 2022/4/29 16:33
      */
     @GetMapping("index")

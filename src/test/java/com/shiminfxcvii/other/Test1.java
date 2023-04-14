@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.util.Scanner;
 
 /**
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @version 1.0
  * @description
  * @class Test1

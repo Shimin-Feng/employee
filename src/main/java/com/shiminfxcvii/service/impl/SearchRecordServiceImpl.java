@@ -36,7 +36,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 /**
  * SearchRecordServiceImpl
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/10/3 23:10 周一
  */
 @Service
@@ -278,7 +278,7 @@ public class SearchRecordServiceImpl implements SearchRecordService {
      * @param propertiesResponse 如果长度大于 0，则数据是通过 %? 搜索之后的值
      * @return 经过筛选后的值
      * @throws IllegalAccessException 非法访问异常。通过反射访问对象属性时可能抛出
-     * @author shiminfxcvii
+     * @author ShiminFXCVII
      * @see #findAllPropertiesOfEmployeesBy
      * @since 2022/5/25 13:24
      */

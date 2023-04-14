@@ -13,7 +13,7 @@ import java.security.Principal;
 /**
  * EmployeeService
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/10/3 22:51 周一
  */
 public interface EmployeeService {
@@ -68,7 +68,7 @@ public interface EmployeeService {
      * @author ShiminFXCVII
      * @since 2022/10/3 15:36
      */
-    ResponseEntity<String> deleteEmployeeById(Principal user, String id) throws IllegalAccessException;
+    ResponseEntity<String> deleteEmployeeById(Principal user, Long id) throws IllegalAccessException;
 
     /**
      * 根据条件和关键字搜索员工信息<br>

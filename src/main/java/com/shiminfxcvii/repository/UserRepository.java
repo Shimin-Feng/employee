@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 /**
  * 用户工厂接口
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/6/2 20:04
  */
 @Repository

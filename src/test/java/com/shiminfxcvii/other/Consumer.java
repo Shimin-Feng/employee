@@ -3,7 +3,7 @@ package com.shiminfxcvii.other;
 import java.util.Objects;
 
 /**
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @version 1.0
  * @description
  * @class Consumer

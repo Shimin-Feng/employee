@@ -24,7 +24,6 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.regex.Pattern;
 
 import static com.shiminfxcvii.util.Constants.*;
@@ -35,7 +34,7 @@ import static org.springframework.http.MediaType.ALL_VALUE;
 /**
  * EmployeeServiceImpl
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/10/3 15:09 周一
  */
 @Service
@@ -153,18 +152,19 @@ public class EmployeeServiceImpl implements EmployeeService {
             // save
             // 设置值
             Employee employee = new Employee();
-            employee.setEmployeeId(String.valueOf(UUID.randomUUID()));
             employee.setEmployeeSex(sex);
             employee.setEmployeeAge(age);
             // 转大写处理后的值
             employee.setEmployeeIdCard(idCard);
-            employee.setCreatedBy(user.getName());
-            employee.setCreatedDate(dateTime);
-            employee.setLastModifiedDate(dateTime);
+//            employee.setCreatedBy(user.getName());
+            employee.setCreatedDate(now);
+            employee.setLastModifiedDate(now);
             // 保存到数据库
             employeeRepository.saveAndFlush(employee);
+            System.out.println(employee);
+            System.out.println(employee.getId());
             // 检查是否成功保存到数据库
-            if (employeeRepository.existsById(employee.getEmployeeId())) {
+            if (employeeRepository.existsById(employee.getId())) {
                 // 保存操作日志
                 operationLogService.saveOperationLog(INSERT, employee, user);
                 body = "添加成功。";
@@ -175,7 +175,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
         } else {
             // update
-            Optional<Employee> employeeOptional = employeeRepository.findById(cmd.getEmployeeId());
+            Optional<Employee> employeeOptional = employeeRepository.findById(cmd.getId());
             // 判断是否存在该员工
             if (employeeOptional.isPresent()) {
                 // 获取对象
@@ -198,7 +198,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                         employee1.setEmployeeAddress(cmd.getEmployeeAddress());
                     if (!employee1.getEmployeePhoneNumber().equals(cmd.getEmployeePhoneNumber()))
                         employee1.setEmployeePhoneNumber(cmd.getEmployeePhoneNumber());
-                    employee1.setLastModifiedDate(dateTime);
+                    employee1.setLastModifiedDate(now);
                     // 执行修改操作
                     employeeRepository.saveAndFlush(employee1);
                     // 因为保存之后立马查询不会执行，所以这里不再做查询操作
@@ -234,13 +234,11 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<String> deleteEmployeeById(Principal user, String id) throws IllegalAccessException {
+    public ResponseEntity<String> deleteEmployeeById(Principal user, Long id) throws IllegalAccessException {
         HttpStatus status;
         String body;
 
-        if (StringUtils.hasText(id)) {
-            if (Pattern.matches("^[\\dA-Fa-f]{8}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{12}$",
-                    id)) {
+        if (id != null) {
                 Optional<Employee> employee = employeeRepository.findById(id);
                 if (employee.isPresent()) {
                     employeeRepository.deleteById(id);
@@ -261,10 +259,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 body = "删除失败，非法 ID。ID 格式不正确。";
                 status = BAD_REQUEST;
             }
-        } else {
-            body = "删除失败，ID 为空。";
-            status = BAD_REQUEST;
-        }
 
         // 设置响应头信息
         HTTP_HEADERS.set(CONTENT_TYPE, ALL_VALUE);

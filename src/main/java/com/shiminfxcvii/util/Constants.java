@@ -9,7 +9,7 @@ import java.util.Locale;
 /**
  * 统一管理常量
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/5/10 20:18 周二
  */
 public interface Constants {

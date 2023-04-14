@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * SearchRecordService
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/10/3 23:09 周一
  */
 public interface SearchRecordService {

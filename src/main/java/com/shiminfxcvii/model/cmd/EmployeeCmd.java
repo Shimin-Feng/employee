@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Length;
 /**
  * EmployeeCmd
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/10/3 15:57 周一
  */
 @Getter
@@ -21,7 +21,7 @@ public class EmployeeCmd {
      * 员工 id
      */
     @Schema(example = "员工 id", type = "string")
-    private String employeeId;
+    private Long id;
     /**
      * 员工姓名
      */

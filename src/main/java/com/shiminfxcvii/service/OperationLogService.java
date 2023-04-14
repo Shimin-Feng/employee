@@ -8,7 +8,7 @@ import java.security.Principal;
 /**
  * OperationLogService
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/10/3 23:01 周一
  */
 public interface OperationLogService {

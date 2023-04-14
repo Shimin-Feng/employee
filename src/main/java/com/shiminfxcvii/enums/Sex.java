@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * 设置统一获取性别的方式
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/5/13 17:38 周五
  */
 public enum Sex implements Constants {
@@ -38,7 +38,7 @@ public enum Sex implements Constants {
      *
      * @param ordinal 枚举常量序数
      * @return {@link Sex}
-     * @author shiminfxcvii
+     * @author ShiminFXCVII
      * @since 6/2/2022 1:48 PM
      */
     public static String getGenderByOrdinal(@Nullable Integer ordinal) {
@@ -55,7 +55,7 @@ public enum Sex implements Constants {
      *
      * @param gender 枚举常量序数对应的性别
      * @return {@link Sex}
-     * @author shiminfxcvii
+     * @author ShiminFXCVII
      * @since 6/2/2022 1:48 PM
      */
     public static Integer getOrdinalByGender(@Nullable String gender) {

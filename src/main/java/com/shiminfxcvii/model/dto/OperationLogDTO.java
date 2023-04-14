@@ -7,7 +7,7 @@ import lombok.Setter;
 /**
  * OperationLogDTO
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/10/3 17:26 周一
  */
 @Getter

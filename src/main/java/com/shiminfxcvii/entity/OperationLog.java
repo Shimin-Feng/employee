@@ -2,36 +2,27 @@ package com.shiminfxcvii.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-
-import java.util.Objects;
+import org.springframework.data.jpa.domain.AbstractAuditable;
 
 /**
  * 员工管理操作日志实体类
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/5/1 22:36 周日
  */
 @Entity
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
 @Table(name = "operation_logs", schema = "employee_management")
-public class OperationLog {
+public class OperationLog extends AbstractAuditable<Long, Long> {
 
-    @Id
-    @Column(name = "log_id", unique = true, nullable = false, updatable = false, columnDefinition = "varchar", length = 36)
-    private String logId;
     @Column(name = "dml", nullable = false, updatable = false, columnDefinition = "varchar", length = 6)
     private String dml;
     @Column(name = "employee_id", nullable = false, updatable = false, columnDefinition = "varchar", length = 36)
-    private String employeeId;
+    private Long employeeId;
     @Column(name = "employee_name", nullable = false, updatable = false, columnDefinition = "varchar", length = 45)
     private String employeeName;
     @Column(name = "employee_sex", nullable = false, updatable = false, columnDefinition = "varchar", length = 1)
@@ -44,28 +35,9 @@ public class OperationLog {
     private String employeeAddress;
     @Column(name = "employee_phone_number", nullable = false, updatable = false, columnDefinition = "varchar", length = 11)
     private String employeePhoneNumber;
-    @Column(name = "created_by", nullable = false, updatable = false, columnDefinition = "varchar", length = 45)
-    private String createdBy;
-    @Column(name = "created_date", nullable = false, updatable = false, columnDefinition = "varchar", length = 19)
-    private String createdDate;
-    @Column(name = "last_modified_date", nullable = false, updatable = false, columnDefinition = "varchar", length = 19)
-    private String lastModifiedDate;
     @Column(name = "username", nullable = false, updatable = false, columnDefinition = "varchar", length = 45)
     private String username;
     @Column(name = "date_time", nullable = false, updatable = false, columnDefinition = "varchar", length = 19)
     private String dateTime;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (null == o || getClass() != o.getClass()) return false;
-        OperationLog operationLog = (OperationLog) o;
-        return null != logId && Objects.equals(logId, operationLog.logId);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 
 }

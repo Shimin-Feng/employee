@@ -1,3 +1,9 @@
+logging:
+  level:
+    sql: debug
+    web: debug
+    root: debug
+
 server:
   servlet:
     session:
@@ -5,13 +11,13 @@ server:
   port: 8080
 
 spring:
-  #  application:
-  #    name: Employee Management
+  application:
+    name: Employee Management
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/employee_management?useUnicode=true&characterEncoding=UTF-8
     username: root
-    password: 123456
+    password: MySQL1672943850
 
   jpa:
     # Silent
@@ -24,20 +30,3 @@ spring:
   thymeleaf:
     # Turn off caching while developing
     cache: false
-
-# swagger
-springfox:
-  documentation:
-    enabled: true
-    open-api:
-      enabled: true
-    swagger-ui:
-      enabled: true
-      base-url: http://localhost:8080/swagger-ui.html
-# ===== 自定义swagger配置 ===== #
-#swagger:
-#  enable: true
-#  application-name: ${spring.application.name}
-#  application-version: 1.0
-#  application-description: springfox swagger 3.0整合Demo
-#  try-host: http://localhost:${server.port}

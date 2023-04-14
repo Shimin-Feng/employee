@@ -1,5 +1,7 @@
 package com.shiminfxcvii.advice;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
@@ -16,23 +18,23 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.hibernate.sql.ast.SqlTreeCreationLogger.LOGGER;
-
 /**
  * 给 Controller 控制器添加统一的操作或处理。
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/5/12 12:54
  */
 @ControllerAdvice
 public final class SpringControllerAdvice {
+
+    private static final Log logger = LogFactory.getLog(SpringControllerAdvice.class);
 
     /**
      * 全局异常捕捉处理
      *
      * @param e Exception
      * @return MODEL_AND_VIEW
-     * @author shiminfxcvii
+     * @author ShiminFXCVII
      * @see java.lang.IllegalAccessException
      * @see java.lang.NullPointerException
      * @since 2022/5/12 15:46
@@ -49,10 +51,9 @@ public final class SpringControllerAdvice {
             body.put("msg", "发生异常的原因：" + e.getMessage() + "，发生异常的类：" + e.getStackTrace()[0].getFileName() +
                     "，发生异常的方法：" + e.getStackTrace()[0].getMethodName());
 
-        LOGGER.error(e.getClass());
-        LOGGER.error(e.getMessage());
-        LOGGER.error(e.getStackTrace()[0].getFileName());
-        LOGGER.error(e.getStackTrace()[0].getMethodName());
+        logger.error(e.getMessage());
+        logger.error(e.getStackTrace()[0].getFileName());
+        logger.error(e.getStackTrace()[0].getMethodName());
 
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -65,7 +66,7 @@ public final class SpringControllerAdvice {
      * 将 request 中字符串类型的参数通过转换器转换为 Date 类型的参数，从而供给 @RequestMapping 标注的方法使用。
      *
      * @param binder WebDataBinder
-     * @author shiminfxcvii
+     * @author ShiminFXCVII
      * @see org.springframework.web.bind.WebDataBinder
      * @since 2022/5/12 15:52
      */
@@ -96,7 +97,7 @@ public final class SpringControllerAdvice {
      * &#064;ModelAttribute  标注的方法的执行是在所有的拦截器的 preHandle() 方法执行之后才会执行。
      *
      * @param model Model
-     * @author shiminfxcvii
+     * @author ShiminFXCVII
      * @since 2022/5/12 15:49
      */
     @ModelAttribute

@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 /**
  * 员工管理操作日志工厂接口
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/5/2 1:10 周一
  */
 @Repository
-public interface OperationLogRepository extends JpaRepository<OperationLog, String> {
+public interface OperationLogRepository extends JpaRepository<OperationLog, Long> {
 }

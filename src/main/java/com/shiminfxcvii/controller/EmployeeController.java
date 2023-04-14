@@ -7,11 +7,13 @@ import com.shiminfxcvii.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +28,7 @@ import static org.springframework.http.MediaType.ALL_VALUE;
 /**
  * 操作员工信息 ———— CRUD
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/5/1 14:50
  */
 @Controller
@@ -36,14 +38,17 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    @Lazy
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
     @GetMapping
     @Operation(description = "员工管理界面", method = "GET", summary = "测试", tags = "employeeController")
-    public String employee(Model model) {
+    public String employee(Model model, Principal principal) {
+
+        //获取到登录的用户名 这里的User对象是Spring-Security提供的User
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         employeeService.employee(model);
         return "employee";
     }
@@ -71,7 +76,7 @@ public class EmployeeController {
             produces = ALL_VALUE
     )
     public ResponseEntity<String> deleteEmployeeById(@NotNull(value = "无法获取用户信息") Principal user,
-                                                     @NotNull(value = "员工 id 不能为空") String id)
+                                                     @NotNull(value = "员工 id 不能为空") Long id)
             throws IllegalAccessException {
         return employeeService.deleteEmployeeById(user, id);
     }

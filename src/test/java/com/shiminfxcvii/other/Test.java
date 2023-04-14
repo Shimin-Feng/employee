@@ -1,7 +1,7 @@
 package com.shiminfxcvii.other;
 
 /**
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @version 1.0
  * @description
  * @class test

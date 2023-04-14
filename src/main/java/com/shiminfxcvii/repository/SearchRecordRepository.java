@@ -13,7 +13,7 @@ import java.util.LinkedHashSet;
 /**
  * 搜索记录工厂接口，查询和删除搜索记录，用于前台搜索框 autocomplete
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/4/24 0:23 周日
  */
 @Repository
@@ -27,7 +27,7 @@ public interface SearchRecordRepository extends JpaRepository<SearchRecord, Stri
      * @param searchGroupBy 搜索字段
      * @param recordName    搜索名称
      * @return 返回符合条件的搜索名 record_name
-     * @author shiminfxcvii
+     * @author ShiminFXCVII
      * @see SearchRecordServiceImpl#getAllPropertiesOfEmployeesBy
      * @since 2022/5/20 14:53
      */

@@ -3,20 +3,21 @@ package com.shiminfxcvii.other;
 import com.shiminfxcvii.controller.SearchRecordController;
 import com.shiminfxcvii.entity.Employee;
 import com.shiminfxcvii.entity.SearchRecord;
-import com.shiminfxcvii.repository.SearchRecordRepository;
 import com.shiminfxcvii.enums.Sex;
+import com.shiminfxcvii.repository.SearchRecordRepository;
 import com.sun.istack.NotNull;
+import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.util.Assert;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StopWatch;
 import org.thymeleaf.util.StringUtils;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -79,8 +80,8 @@ public class TestClass {
     }
 
     @Test
-    public static String testParam1(@org.jetbrains.annotations.NotNull Employee employee) {
-        return employee.getEmployeeId();
+    public static Long testParam1(@org.jetbrains.annotations.NotNull Employee employee) {
+        return employee.getId();
     }
 
     public static void error() {
@@ -703,8 +704,8 @@ public class TestClass {
     @Test
     public void testStatic() {
 //        EmployeeController employeeController = new EmployeeController();
-        out.println(TestStatic.ENCODE);
-        out.println(TestStatic.STATUS);
+        out.println(com.shiminfxcvii.other.TestStatic.ENCODE);
+        out.println(com.shiminfxcvii.other.TestStatic.STATUS);
     }
 
     @Test
@@ -828,13 +829,13 @@ public class TestClass {
     @Test
     public void test1() {
 
-//        // admin1/2/3
-//        String a1 = BCrypt.hashpw("WsmW%SVCmz8K*aT%tj", BCrypt.gensalt());
-//        System.out.println(a1);
-//        String a2 = BCrypt.hashpw("nDr6%RE&n3j45FF7$*%", BCrypt.gensalt());
-//        System.out.println(a2);
-//        String a3 = BCrypt.hashpw("M4SfvYt$JKf*O9PX5&SF", BCrypt.gensalt());
-//        System.out.println(a3);
+        // admin1/2/3
+        String a1 = BCrypt.hashpw("WsmW%SVCmz8K*aT%tj", BCrypt.gensalt());
+        System.out.println(a1);
+        String a2 = BCrypt.hashpw("nDr6%RE&n3j45FF7$*%", BCrypt.gensalt());
+        System.out.println(a2);
+        String a3 = BCrypt.hashpw("M4SfvYt$JKf*O9PX5&SF", BCrypt.gensalt());
+        System.out.println(a3);
 //
 //        // user1/2/3
 //        String e1 = BCrypt.hashpw("jzRSMe%2wiR&poH7mfV*cr", BCrypt.gensalt());
@@ -983,8 +984,8 @@ public class TestClass {
         out.println(BAD_REQUEST);
         out.println(DATE_TIME);
         out.println(DATE_TIME);
-        out.println(Constants.ZERO_int);
-        out.println(Constants.ZERO_int.value() instanceof Integer);
+        out.println(com.shiminfxcvii.other.Constants.ZERO_int);
+        out.println(com.shiminfxcvii.other.Constants.ZERO_int.value() instanceof Integer);
         out.println(Constants.PAGE_NUM.value() instanceof Integer);
         out.println(Constants.PAGE_NUM.value() instanceof String);
         out.println(Constants.X_CSRF_TOKEN);

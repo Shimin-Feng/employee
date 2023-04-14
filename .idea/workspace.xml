@@ -4,144 +4,78 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="1. 新增表数据 sql&#10;2. 将控制层代码转移至新添加的业务层&#10;3. 增加视图类等&#10;4. js 代码优化&#10;5. 其他优化">
+    <list default="true" id="c3bd90f3-840e-4a7d-9a6c-ef36a8e35bdd" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jsLinters/eslint.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/g1672.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-client.cookies" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jsLinters/jshint.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/advice/SpringControllerAdvice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/advice/SpringControllerAdvice.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/config/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/config/SwaggerConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/EmployeeController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/HTTPStatusCodeErrorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/HTTPStatusCodeErrorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/OperationLogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/OperationLogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/SearchRecordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/SearchRecordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/WelcomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/WelcomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/OperationLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/OperationLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/SearchRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/SearchRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/enums/Sex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/enums/Sex.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/model/cmd/EmployeeCmd.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/model/cmd/EmployeeCmd.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/model/dto/EmployeeDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/model/dto/EmployeeDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/model/dto/OperationLogDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/model/dto/OperationLogDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/model/query/EmployeeQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/model/query/EmployeeQuery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/EmployeeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/EmployeeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/OperationLogRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/OperationLogRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/SearchRecordRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/SearchRecordRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/EmployeeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/OperationLogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/OperationLogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/SearchRecordService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/SearchRecordService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/impl/EmployeeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/impl/EmployeeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/impl/OperationLogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/impl/OperationLogServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/impl/SearchRecordServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/impl/SearchRecordServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/impl/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/service/impl/UserDetailsServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/util/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/error-code.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/error-code.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/operation-log.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/operation-log.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/controller/EmployeeControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/controller/EmployeeControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Consumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/DemoConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/DemoConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/HttpStatusTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/HttpStatusTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/MessageBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/MessageBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Test1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Test1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Test2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Test2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestComparator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestComparator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CodeInsightWorkspaceSettings">
-    <option name="optimizeImportsOnTheFly" value="true" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="CSS File" />
-        <option value="JavaScript File" />
-        <option value="HTML File" />
-        <option value="Record" />
-        <option value="Enum" />
-        <option value="JUnit5 Test Class" />
-        <option value="Thymeleaf" />
-        <option value="sql" />
-        <option value="Interface" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="github_search_record" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="GotoClassSymbolConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="Zeppelin" />
-    </file-type-list>
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="jar://$PROJECT_DIR$/../../../../Program Files/bellsoft-jdk18+37-windows-amd64-full/jdk-18-full/lib/src.zip!/java.base/java/lang/Integer.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/lang/Iterable.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/lang/annotation/ElementType.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/net/URI.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/Collections.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/Iterator.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/List.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/Locale.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/Objects.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/concurrent/ThreadPoolExecutor.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/function/Consumer.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/function/Function.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/function/Predicate.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/function/Supplier.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/stream/Collectors.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-18.0.1.1/lib/src.zip!/java.base/java/util/stream/Stream.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-19/lib/src.zip!/java.base/java/util/function/Consumer.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-19/lib/src.zip!/java.base/java/util/function/Function.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-19/lib/src.zip!/java.base/java/util/function/Supplier.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-19/lib/src.zip!/java.base/java/util/stream/Stream.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-19/lib/src.zip!/jdk.unsupported/sun/misc/Unsafe.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/io/swagger/core/v3/swagger-annotations/2.1.2/swagger-annotations-2.1.2-sources.jar!/io/swagger/v3/oas/annotations/Operation.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-core/9.0.62/tomcat-embed-core-9.0.62.jar!/javax/servlet/http/HttpServletResponse.class" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/jetbrains/annotations/23.0.0/annotations-23.0.0-sources.jar!/org/intellij/lang/annotations/Pattern.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/jetbrains/annotations/23.0.0/annotations-23.0.0-sources.jar!/org/jetbrains/annotations/NotNull.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-test/2.6.7/spring-boot-test-2.6.7-sources.jar!/org/springframework/boot/test/context/SpringBootTest.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-jpa/2.6.4/spring-data-jpa-2.6.4-sources.jar!/org/springframework/data/jpa/repository/JpaRepository.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/6.0.0-M7/spring-security-core-6.0.0-M7-sources.jar!/org/springframework/security/core/userdetails/User.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.3.19/spring-core-5.3.19-sources.jar!/org/springframework/lang/NonNull.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.3.19/spring-core-5.3.19-sources.jar!/org/springframework/lang/NonNullApi.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.3.19/spring-core-5.3.19-sources.jar!/org/springframework/lang/NonNullFields.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.3.19/spring-core-5.3.19-sources.jar!/org/springframework/lang/Nullable.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.3.19/spring-core-5.3.19-sources.jar!/org/springframework/util/Assert.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.3.19/spring-core-5.3.19-sources.jar!/org/springframework/util/MultiValueMap.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.3.19/spring-core-5.3.19-sources.jar!/org/springframework/util/ObjectUtils.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-tx/5.3.19/spring-tx-5.3.19-sources.jar!/org/springframework/transaction/annotation/Transactional.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/5.3.19/spring-web-5.3.19-sources.jar!/org/springframework/http/HttpCookie.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/5.3.19/spring-web-5.3.19-sources.jar!/org/springframework/http/HttpEntity.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/5.3.19/spring-web-5.3.19-sources.jar!/org/springframework/http/HttpHeaders.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/5.3.19/spring-web-5.3.19-sources.jar!/org/springframework/http/HttpStatus.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/5.3.19/spring-web-5.3.19-sources.jar!/org/springframework/http/RequestEntity.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/5.3.19/spring-web-5.3.19-sources.jar!/org/springframework/http/ResponseEntity.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/5.3.19/spring-web-5.3.19-sources.jar!/org/springframework/web/bind/annotation/RequestMethod.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/5.3.19/spring-web-5.3.19-sources.jar!/org/springframework/web/bind/annotation/ResponseBody.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/consoles/db/aafea0f0-8eaa-4de7-a4b7-2500cc5f6da9/console.sql" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_code.jquery.com_jquery-3.6.0.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_code.jquery.com_ui_1.13.1_jquery-ui.js" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_www.gstatic.com_jsaction_contract.js" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/pom.xml" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/Application.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/config/SecurityConfig.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/EmployeeController.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/HTTPStatusCodeErrorController.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/OperationLogController.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/controller/SearchRecordController.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/Employee.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/entity/OperationLog.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/resources/static/css/master.css" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/resources/static/js/employee.js" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/resources/templates/employee.html" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/resources/templates/login.html" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java" root0="FORCE_HIGHLIGHTING" />
-  </component>
-  <component name="JpbToolWindowState">
-    <option name="myId2FirstActivated">
-      <map>
-        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
-        <entry key="com.haulmont.jpb.jpaPalette" value="true" />
-        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
-      </map>
-    </option>
-    <option name="myId2Visible">
-      <map>
-        <entry key="com.haulmont.jpb.jpaInspector" value="false" />
-        <entry key="com.haulmont.jpb.jpaPalette" value="false" />
-        <entry key="com.haulmont.jpb.jpaStructure" value="false" />
-      </map>
-    </option>
-  </component>
-  <component name="JsBowerSettings">
-    <bower-package value="" />
-    <bower.json value="" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -153,185 +87,40 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
   </component>
-  <component name="ProjectId" id="277FsxNNobdQE10odHBakj0L9mP" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="2OEmzd288MwCCeboIGVeyD3ylBA" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;OverrideImplement.generate.javadoc&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
-    &quot;ignore.preview.features.used&quot;: &quot;true&quot;,
-    &quot;last_directory_selection&quot;: &quot;C:/Users/g1672/IdeaProjects/employee-management/src/main/java/com/shiminfxcvii/util&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/g1672/.m2/repository/org/springframework/spring-web/6.0.0-SNAPSHOT/spring-web-6.0.0-20221004.071042-903.jar&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;全局库&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Settings.JavaScript&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;89daeefeb373ccbfaf54ce642222d999&quot;,
-    &quot;typescript.add.unambiguous.imports.on.the.fly&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
-    ],
-    &quot;RunConfigurationTargetLRU&quot;: [
-      &quot;de5d2b22-ad4c-488e-b95b-ab4a8429f85f&quot;
-    ],
-    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/SQL 方言&quot;: [
-      &quot;MySQL&quot;
-    ]
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/dell/IdeaProjects/employee-management",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "SDK",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.21900827",
+    "rearrange.code.on.save": "true",
+    "settings.editor.selected.configurable": "actions.on.save",
+    "spring.configuration.checksum": "89daeefeb373ccbfaf54ce642222d999",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\g1672\IdeaProjects\employee-management\sql" />
-      <recent name="C:\Users\g1672\IdeaProjects\employee-management\src\test\resources\templates" />
-      <recent name="C:\Users\g1672\IdeaProjects\employee-management\src\test\resources\static\img" />
-      <recent name="C:\Users\g1672\IdeaProjects\employee\src\test\java\com\test" />
-      <recent name="C:\Users\g1672\IdeaProjects\employee\src\main\resources\static\ico" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\g1672\IdeaProjects\employee-management\src\test\resources\templates" />
-      <recent name="C:\Users\g1672\IdeaProjects\employee-management\src\main\resources\templates" />
-      <recent name="C:\Users\g1672\IdeaProjects\employee-management\src\test\resources\static\img" />
-      <recent name="C:\Users\g1672\IdeaProjects\employee-management\src\test\resources\static\css" />
-      <recent name="C:\Users\g1672\IdeaProjects\employee-management\src\test\java\com\test\src" />
-    </key>
-    <key name="CreateTestDialog.Recents.Supers">
-      <recent name="" />
-    </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="com.shiminfxcvii.controller" />
-      <recent name="com.shiminfxcvii.util" />
-      <recent name="com.shiminfxcvii.config" />
-    </key>
-    <key name="CreateTestDialog.RecentsKey">
-      <recent name="com.shiminfxcvii.controller" />
-      <recent name="com.example.controller" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.shiminfxcvii.controller" />
-      <recent name="com.example.repository" />
-      <recent name="com.example.methods" />
-      <recent name="com.example.config" />
-      <recent name="com.example.service" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Spring Boot.Application">
-    <configuration name="TestClass.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="employee-management" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.shiminfxcvii.other.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.shiminfxcvii.other" />
-      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.other.TestClass" />
-      <option name="METHOD_NAME" value="test" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TestClass.testGetTopTenList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="employee-management" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.shiminfxcvii.other.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.shiminfxcvii.other" />
-      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.other.TestClass" />
-      <option name="METHOD_NAME" value="testGetTopTenList" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TestClass.testList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="employee-management" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.shiminfxcvii.other.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.shiminfxcvii.other" />
-      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.other.TestClass" />
-      <option name="METHOD_NAME" value="testList" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TestClass.testParam2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="employee-management" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.shiminfxcvii.other.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.shiminfxcvii.other" />
-      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.other.TestClass" />
-      <option name="METHOD_NAME" value="testParam2" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TestClass.testZone" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="employee-management" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.shiminfxcvii.other.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.shiminfxcvii.other" />
-      <option name="MAIN_CLASS_NAME" value="com.shiminfxcvii.other.TestClass" />
-      <option name="METHOD_NAME" value="testZone" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <option name="ACTIVE_PROFILES" />
-      <option name="ALTERNATIVE_JRE_PATH" value="$USER_HOME$/.jdks/openjdk-18.0.1.1" />
+}]]></component>
+  <component name="RunManager">
+    <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="employee-management" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.shiminfxcvii.Application" />
       <extension name="coverage">
@@ -344,731 +133,32 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="JUnit.TestClass.testList" />
-      <item itemvalue="JUnit.TestClass.testParam2" />
-      <item itemvalue="JUnit.TestClass.testGetTopTenList" />
-      <item itemvalue="JUnit.TestClass.testZone" />
-      <item itemvalue="JUnit.TestClass.test" />
-      <item itemvalue="Spring Boot.Application" />
-    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.TestClass.testList" />
-        <item itemvalue="JUnit.TestClass.testParam2" />
-        <item itemvalue="JUnit.TestClass.testGetTopTenList" />
-        <item itemvalue="JUnit.TestClass.testZone" />
-        <item itemvalue="JUnit.TestClass.test" />
+        <item itemvalue="Spring Boot.Application" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
-  <component name="SvnConfiguration">
-    <configuration>C:\Users\g1672\AppData\Roaming\Subversion</configuration>
-  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
-      <changelist id="6c03811c-14fa-475a-b375-35a4bdf6d66c" name="变更" comment="" />
-      <created>1648663434924</created>
+      <changelist id="c3bd90f3-840e-4a7d-9a6c-ef36a8e35bdd" name="更改" comment="" />
+      <created>1681134379889</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1648663434924</updated>
-      <workItem from="1648663436367" duration="687000" />
-      <workItem from="1648664284619" duration="5662000" />
-      <workItem from="1648670042341" duration="31000" />
-      <workItem from="1648670644277" duration="241000" />
-      <workItem from="1648670933212" duration="118000" />
-      <workItem from="1648671132555" duration="413000" />
-      <workItem from="1648671654026" duration="70000" />
-      <workItem from="1648671760601" duration="275000" />
-      <workItem from="1648672063618" duration="2330000" />
-      <workItem from="1648704635802" duration="106000" />
-      <workItem from="1648704781761" duration="373000" />
-      <workItem from="1648705280479" duration="24540000" />
-      <workItem from="1648765313798" duration="10788000" />
-      <workItem from="1648802296435" duration="1986000" />
-      <workItem from="1648816068294" duration="1049000" />
-      <workItem from="1648818392004" duration="35845000" />
-      <workItem from="1648977274664" duration="36903000" />
-      <workItem from="1649053344052" duration="146728000" />
-      <workItem from="1649373114807" duration="22710000" />
-      <workItem from="1649417214475" duration="99000" />
-      <workItem from="1649417431566" duration="96248000" />
-      <workItem from="1649568306962" duration="67655000" />
-      <workItem from="1649912500105" duration="30694000" />
-      <workItem from="1650001127950" duration="15497000" />
-      <workItem from="1650023936645" duration="59101000" />
-      <workItem from="1650168712455" duration="22885000" />
-      <workItem from="1650216412163" duration="63494000" />
-      <workItem from="1650350320959" duration="93572000" />
-      <workItem from="1650534499575" duration="74855000" />
-      <workItem from="1651226683668" duration="45856000" />
-      <workItem from="1651308781778" duration="107271000" />
-      <workItem from="1651485498861" duration="228000" />
-      <workItem from="1651485793503" duration="14678000" />
-      <workItem from="1651504902842" duration="5244000" />
-      <workItem from="1651513306836" duration="841000" />
-      <workItem from="1651540472691" duration="96670000" />
-      <workItem from="1651728144667" duration="130642000" />
-      <workItem from="1651930246071" duration="57226000" />
-      <workItem from="1652065229258" duration="45702000" />
-      <workItem from="1652156511874" duration="59292000" />
-      <workItem from="1652327635931" duration="15998000" />
-      <workItem from="1652348685725" duration="40247000" />
-      <workItem from="1652597474353" duration="16025000" />
-      <workItem from="1652681380611" duration="11000" />
-      <workItem from="1652755067444" duration="41175000" />
-      <workItem from="1652956499870" duration="1202000" />
-      <workItem from="1652958750607" duration="652000" />
-      <workItem from="1653017616858" duration="15851000" />
-      <workItem from="1653055146031" duration="48000" />
-      <workItem from="1653123974564" duration="3479000" />
-      <workItem from="1653144606032" duration="1137000" />
-      <workItem from="1653184164415" duration="11319000" />
-      <workItem from="1653212239951" duration="8469000" />
-      <workItem from="1653238006177" duration="11297000" />
-      <workItem from="1653360201355" duration="109269000" />
-      <workItem from="1653617309968" duration="91647000" />
-      <workItem from="1653825302246" duration="30422000" />
-      <workItem from="1653885688975" duration="72426000" />
-      <workItem from="1654148798531" duration="7479000" />
-      <workItem from="1654162394036" duration="8346000" />
-      <workItem from="1654231661881" duration="28806000" />
-      <workItem from="1654350478743" duration="1136000" />
-      <workItem from="1654412012941" duration="7466000" />
-      <workItem from="1654422035760" duration="205000" />
-      <workItem from="1654422261959" duration="2211000" />
-      <workItem from="1654424556297" duration="461000" />
-      <workItem from="1654427360870" duration="24778000" />
-      <workItem from="1654509923250" duration="29949000" />
-      <workItem from="1654764340919" duration="3186000" />
-      <workItem from="1654859910448" duration="1375000" />
-      <workItem from="1654923488650" duration="643000" />
-      <workItem from="1654929288943" duration="500000" />
-      <workItem from="1654943284205" duration="7472000" />
-      <workItem from="1654998678963" duration="2988000" />
-      <workItem from="1655137174383" duration="796000" />
-      <workItem from="1655209182299" duration="608000" />
-      <workItem from="1655216705591" duration="1971000" />
-      <workItem from="1655516379467" duration="2630000" />
-      <workItem from="1655552524685" duration="583000" />
-      <workItem from="1656050238535" duration="832000" />
-      <workItem from="1656122694980" duration="122000" />
-      <workItem from="1656160001517" duration="1423000" />
-      <workItem from="1656412653895" duration="1630000" />
-      <workItem from="1656499949840" duration="752000" />
-      <workItem from="1656606520962" duration="2150000" />
-      <workItem from="1656638844786" duration="44000" />
-      <workItem from="1656726523905" duration="625000" />
-      <workItem from="1656825533075" duration="728000" />
-      <workItem from="1657245572969" duration="3008000" />
-      <workItem from="1657549192846" duration="658000" />
-      <workItem from="1657591616468" duration="57000" />
-      <workItem from="1657608572039" duration="330000" />
-      <workItem from="1657699733245" duration="760000" />
-      <workItem from="1658143133075" duration="732000" />
-      <workItem from="1658376419071" duration="815000" />
-      <workItem from="1658390927362" duration="174000" />
-      <workItem from="1658573811334" duration="1860000" />
-      <workItem from="1658730815614" duration="1305000" />
-      <workItem from="1658841740589" duration="1698000" />
-      <workItem from="1659597685704" duration="676000" />
-      <workItem from="1659710314096" duration="2409000" />
-      <workItem from="1659953461982" duration="2667000" />
-      <workItem from="1660274235167" duration="1715000" />
-      <workItem from="1660566629683" duration="1026000" />
-      <workItem from="1660977586162" duration="929000" />
-      <workItem from="1663920740436" duration="1499000" />
-      <workItem from="1664007005817" duration="807000" />
-      <workItem from="1664773549161" duration="78000" />
-      <workItem from="1664773704130" duration="91000" />
-      <workItem from="1664773831150" duration="26000" />
-      <workItem from="1664773887483" duration="281000" />
-      <workItem from="1664774257965" duration="5865000" />
-      <workItem from="1664780513181" duration="6082000" />
-      <workItem from="1664786638340" duration="2609000" />
-      <workItem from="1664790768561" duration="8786000" />
-      <workItem from="1664806720646" duration="32000" />
-      <workItem from="1664806798460" duration="27773000" />
-      <workItem from="1664863297439" duration="2710000" />
-      <workItem from="1664870207177" duration="25684000" />
-      <workItem from="1664972302929" duration="1040000" />
-      <workItem from="1664982668145" duration="290000" />
+      <updated>1681134379889</updated>
+      <workItem from="1681134381244" duration="3612000" />
+      <workItem from="1681189877789" duration="607000" />
+      <workItem from="1681190950171" duration="316000" />
+      <workItem from="1681395424265" duration="7305000" />
     </task>
-    <task id="LOCAL-00005" summary="增加分页、其他优化">
-      <created>1649012758903</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1649012758903</updated>
-    </task>
-    <task id="LOCAL-00006" summary="其他优化">
-      <created>1649070978511</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1649070978512</updated>
-    </task>
-    <task id="LOCAL-00007" summary="完善添加功能&#10;简化代码&#10;其他优化">
-      <created>1649189525424</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1649189525424</updated>
-    </task>
-    <task id="LOCAL-00008" summary="完善添加功能&#10;简化代码&#10;其他优化">
-      <created>1649189633376</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1649189633376</updated>
-    </task>
-    <task id="LOCAL-00009" summary="完善添加功能&#10;其他优化">
-      <created>1649338225098</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1649338225098</updated>
-    </task>
-    <task id="LOCAL-00010" summary="改进登录验证中。。。&#10;其他优化">
-      <created>1649354425759</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1649354425759</updated>
-    </task>
-    <task id="LOCAL-00011" summary="修复 spring security 配置&#10;其他优化">
-      <created>1649430771473</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1649430771473</updated>
-    </task>
-    <task id="LOCAL-00012" summary="修复 spring security 配置&#10;优化页面&#10;其他优化">
-      <created>1649567713661</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1649567713661</updated>
-    </task>
-    <task id="LOCAL-00013" summary="页面、其他优化">
-      <created>1649583957658</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1649583957658</updated>
-    </task>
-    <task id="LOCAL-00014" summary="页面、其他优化">
-      <created>1649610449846</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1649610449847</updated>
-    </task>
-    <task id="LOCAL-00015" summary="优化增删改查、其他优化">
-      <created>1649660017695</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1649660017695</updated>
-    </task>
-    <task id="LOCAL-00016" summary="实体类 Date 类型改为 String&#10;优化添加功能">
-      <created>1649919997205</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1649919997205</updated>
-    </task>
-    <task id="LOCAL-00017" summary="优化页面&#10;增加 README.md">
-      <created>1649939330286</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1649939330286</updated>
-    </task>
-    <task id="LOCAL-00018" summary="优化页面">
-      <created>1650021908834</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1650021908834</updated>
-    </task>
-    <task id="LOCAL-00019" summary="优化页面代码">
-      <created>1650038922636</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1650038922636</updated>
-    </task>
-    <task id="LOCAL-00020" summary="代码优化">
-      <created>1650042546154</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1650042546154</updated>
-    </task>
-    <task id="LOCAL-00021" summary="代码优化">
-      <created>1650095626518</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1650095626518</updated>
-    </task>
-    <task id="LOCAL-00022" summary="代码优化">
-      <created>1650103487656</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1650103487656</updated>
-    </task>
-    <task id="LOCAL-00023" summary="简化代码">
-      <created>1650131596639</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1650131596639</updated>
-    </task>
-    <task id="LOCAL-00024" summary="优化类 SecurityConfig">
-      <created>1650215997258</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1650215997259</updated>
-    </task>
-    <task id="LOCAL-00025" summary="优化类 SecurityConfig">
-      <created>1650222043595</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1650222043595</updated>
-    </task>
-    <task id="LOCAL-00026" summary="...">
-      <created>1650222407521</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1650222407521</updated>
-    </task>
-    <task id="LOCAL-00027" summary="代码优化">
-      <created>1650260840844</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1650260840844</updated>
-    </task>
-    <task id="LOCAL-00028" summary="优化页面：增加显示数据总条数、删除 footer、把部分弹窗改为 bootstrap 吐司消息、修改部分按钮颜色、暂时不显示最后修改时间--为了使界面更加和谐">
-      <created>1650287375367</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1650287375367</updated>
-    </task>
-    <task id="LOCAL-00029" summary="优化页面：合并添加、修改员工 jQuery/controller codes，恢复显示最后修改时间，简化 html 代码，取消对性别、年龄的可操作">
-      <created>1650306484057</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1650306484057</updated>
-    </task>
-    <task id="LOCAL-00030" summary="增加对员工属性的排序————页面点击，代码优化">
-      <created>1650399651670</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1650399651670</updated>
-    </task>
-    <task id="LOCAL-00031" summary="其他优化">
-      <created>1650429249282</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1650429249282</updated>
-    </task>
-    <task id="LOCAL-00032" summary="简化 jQuery 格式化时间&#10;错误修复&#10;其他优化">
-      <created>1650536545132</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1650536545132</updated>
-    </task>
-    <task id="LOCAL-00033" summary="根据系统主题自动调节背景颜色">
-      <created>1650632654935</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1650632654935</updated>
-    </task>
-    <task id="LOCAL-00034" summary="...">
-      <created>1650639314253</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1650639314253</updated>
-    </task>
-    <task id="LOCAL-00035" summary="添加&#10;1.搜索框 autocomplete&#10;2.搜索记录类&#10;3.搜索记录仓库接口&#10;4.根据条件搜索记录方法&#10;5.自定义方法类&#10;6.在 findEmployeesBy (原：findEmployee)方法中添加插入搜索记录方法&#10;7.employee.html 添加 jQuery UI 插件&#10;修改&#10;1.添加和修改方法、删除方法————取消返回 Model&#10;2.UserService 类名改为 UserDetailsServiceImpl&#10;3.Employee 实体类 employeeAge 类型由 Byte 改为 String，便于搜索操作&#10;删除&#10;employee.js 中非必要分号;&#10;其他优化">
-      <created>1651212684058</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1651212684058</updated>
-    </task>
-    <task id="LOCAL-00036" summary="优化：EmployeeController、js">
-      <created>1651248461578</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1651248461578</updated>
-    </task>
-    <task id="LOCAL-00037" summary="优化 EmployeeController、js&#10;将计算性别和年龄转到后台&#10;将获取用户信息由前台转到后台&#10;将部分 if 判断改为 switch&#10;其他优化">
-      <created>1651318427931</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1651318427931</updated>
-    </task>
-    <task id="LOCAL-00038" summary="解决了一个 TODO: 简化查询员工的规则匹配器————优化 findEmployeesBy 方法&#10;其他优化">
-      <created>1651337882558</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1651337882558</updated>
-    </task>
-    <task id="LOCAL-00039" summary="简化方法 saveRecordName">
-      <created>1651354106043</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1651354106043</updated>
-    </task>
-    <task id="LOCAL-00040" summary="将对实体类 SearchRecord 添加和查询的方法迁移到一个新类 SearchRecordController.java&#10;完善 Java Doc&#10;js 代码优化">
-      <created>1651409911513</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1651409911513</updated>
-    </task>
-    <task id="LOCAL-00041" summary="1.添加功能 ———— 保存用户操作记录 (dml)&#10;相关三个新类&#10;OperationLog.java&#10;OperationLogRepository.java&#10;OperationLogController.java&#10;2.完善实体类信息&#10;3.Delete the method ———— equals(@NotNull Employee o, @NotNull Employee t) of the class CustomMethods.java&#10;4.数据迁移到 new database employee_management&#10;5.其他优化">
-      <created>1651483579505</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1651483579505</updated>
-    </task>
-    <task id="LOCAL-00042" summary="change the package name, com.example -&gt; com.shiminfxcvii">
-      <created>1651485420057</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1651485420057</updated>
-    </task>
-    <task id="LOCAL-00043" summary="1.终于可以把 class JdbcCheckTableExit.java 安全删除!仅用一行代码就可代替&#10;2.将整个项目中的 Exception 的捕获方式由 try cash 改到方法签名&#10;原因：网上介绍说往上抛可以到最后统一处理异常">
-      <created>1651504730048</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1651504730048</updated>
-    </task>
-    <task id="LOCAL-00044" summary="优化 test library">
-      <created>1651513394950</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1651513394951</updated>
-    </task>
-    <task id="LOCAL-00045" summary="1.新增 class OperationLogController.java 方法 operationLog, findOperationLogsBy&#10;2.新增 operation-log.html&#10;3.新增 operation-log.js&#10;4.新增 js 通过输入框翻页的 enter 和 blur event&#10;5.优化 employee.js 代码，包括但不限于更多地复用 ajax&#10;6.优化 master.css (原名 employee.css)&#10;7.优化 HTML, js 文件命名&#10;8.减少 HTML, js 中 id 的使用&#10;9.更改 class OperationLog.java 中的重写方法 equals 和 hash">
-      <created>1651679437958</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1651679437958</updated>
-    </task>
-    <task id="LOCAL-00046" summary="1.减少对 jQuery 的使用, 改为 JavaScript. 包括选择器&#10;2.将基于 jQuery 的 Ajax 改为 JavaScript 原生代码&#10;3.其他优化">
-      <created>1651867434777</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1651867434777</updated>
-    </task>
-    <task id="LOCAL-00047" summary="1.更改 autocomplete&#10;2.新增 class SearchRecordController 方法 deleteByRecordName&#10;3.新增 interface SearchRecordRepository 方法 findThisRecordNamesBy, deleteByRecordName">
-      <created>1652037344880</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1652037344880</updated>
-    </task>
-    <task id="LOCAL-00048" summary="1.新增 class Constants.java, 用于常量的管理, 增加对 Java 现成常量的使用, &#10;2.新增 class WelcomeController.java, 将 login 和 index 请求单独写进该 class&#10;3.新增 js 方法注释&#10;4.所有 repository 都新增 @Repository 注解，交由 spring 管理&#10;5.将 operation-log.js, login.html jQuery 改为 JavaScript&#10;6.更改请求方式&#10;7.更改 jdk 版本, bellsoft-jdk18-full -&gt; Oracle jdk 18&#10;8.其他优化">
-      <created>1652198176373</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1652198176374</updated>
-    </task>
-    <task id="LOCAL-00049" summary="1. 新增 class SpringControllerAdvice.java. 作用: 添加 @Controller 层全局处理异常等方法&#10;2. 新增 enum Sex 用于对性别的控制&#10;3. 更改数据库存储性别的值, &quot;女&quot;|&quot;男&quot; -&gt; &quot;0&quot;|&quot;1&quot;&#10;4. 优化 Controller 接口，HttpServletResponse 改为 spring ResponseEntity&#10;5. 其他优化">
-      <created>1653226937527</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1653226937527</updated>
-    </task>
-    <task id="LOCAL-00050" summary="1. 优化 class SearchRecordController.java's method&#10;&#10;2. 优化 js employee.js&#10;&#10;3. 优化错误页面的代码&#10;&#10;4. 新增部分 Java class method 非空断言&#10;&#10;5. 删除 interface method countByUsernameAndSearchGroupByAndRecordName(), 使用更简单的 jpa count()&#10;&#10;6. 将 Java 中 .toString() 改为更安全的 String.valueOf()&#10;&#10;7. 增加 interface Constants 的安全性, 已设为 sealed&#10;&#10;8. 利用 Stream.of(propertiesResponse, newPropertiesResponse).flatMap(Collection::stream).distinct().toList(); 替换掉自定义的 method mergeTwoLists&#10;&#10;9. 利用 list.subList(0, 10); 替换掉自定义的 method getListTopTenData&#10;&#10;10. 其他优化">
-      <created>1653963890157</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1653963890159</updated>
-    </task>
-    <task id="LOCAL-00051" summary="1. 新增数据库表的 sql&#10;2. 其他优化">
-      <created>1654179175407</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1654179175412</updated>
-    </task>
-    <task id="LOCAL-00052" summary="1. 优化 sql&#10;2. 优化部分判断是否保存成功的查询 (java)&#10;3. 其他优化">
-      <created>1654450236711</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1654450236712</updated>
-    </task>
-    <task id="LOCAL-00053" summary="1. 新增表数据 sql&#10;2. 将控制层代码转移至新添加的业务层&#10;3. 增加视图类等&#10;4. js 代码优化&#10;5. 其他优化">
-      <created>1664882897640</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1664882897640</updated>
-    </task>
-    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="Vcs.Log.History.Properties">
-    <option name="COLUMN_ID_ORDER">
-      <list>
-        <option value="Default.Root" />
-        <option value="Default.Author" />
-        <option value="Default.Date" />
-        <option value="Default.Subject" />
-        <option value="Space.CommitStatus" />
-      </list>
-    </option>
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="CUSTOM_BOOLEAN_PROPERTIES">
-                <map>
-                  <entry key="Show.Git.Branches" value="true" />
-                </map>
-              </option>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="github/master" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-              <option name="COLUMN_ID_WIDTH">
-                <map>
-                  <entry key="Table.Default.Author.ColumnIdWidth" value="104" />
-                  <entry key="Table.Default.Date.ColumnIdWidth" value="101" />
-                  <entry key="Table.Space.CommitStatus.ColumnIdWidth" value="80" />
-                </map>
-              </option>
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <option name="CHECK_NEW_TODO" value="false" />
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="增加对员工属性的排序————页面点击，代码优化" />
-    <MESSAGE value="其他优化" />
-    <MESSAGE value="简化 jQuery 格式化时间&#10;错误修复&#10;其他优化" />
-    <MESSAGE value="根据系统主题自动调节背景颜色" />
-    <MESSAGE value="..." />
-    <MESSAGE value="添加&#10;1.搜索框 autocomplete&#10;2.搜索记录类&#10;3.搜索记录仓库接口&#10;4.根据条件搜索记录方法&#10;5.自定义方法类&#10;6.在 findEmployeesBy (原：findEmployee)方法中添加插入搜索记录方法&#10;7.employee.html 添加 jQuery UI 插件&#10;修改&#10;1.添加和修改方法、删除方法————取消返回 Model&#10;2.UserService 类名改为 UserDetailsServiceImpl&#10;3.Employee 实体类 employeeAge 类型由 Byte 改为 String，便于搜索操作&#10;删除&#10;employee.js 中非必要分号;&#10;其他优化" />
-    <MESSAGE value="小变动" />
-    <MESSAGE value="优化：EmployeeController、js" />
-    <MESSAGE value="优化 EmployeeController、js&#10;将计算性别和年龄转到后台&#10;将获取用户信息由前台转到后台&#10;将部分 if 判断改为 switch&#10;其他优化" />
-    <MESSAGE value="解决了一个 TODO: 简化查询员工的规则匹配器————优化 findEmployeesBy 方法&#10;其他优化" />
-    <MESSAGE value="简化方法 saveRecordName" />
-    <MESSAGE value="将对实体类 SearchRecord 添加和查询的方法迁移到一个新类 SearchRecordController.java&#10;完善 Java Doc&#10;js 代码优化" />
-    <MESSAGE value="1.添加功能 ———— 保存用户操作记录 (dml)&#10;相关三个新类&#10;OperationLog.java&#10;OperationLogRepository.java&#10;OperationLogController.java&#10;2.完善实体类信息&#10;3.Delete the method ———— equals(@NotNull Employee o, @NotNull Employee t) of the class CustomMethods.java&#10;4.数据迁移到 new database employee_management&#10;5.其他优化" />
-    <MESSAGE value="change the package name, com.example -&gt; com.shiminfxcvii" />
-    <MESSAGE value="1.终于可以把 class JdbcCheckTableExit.java 安全删除!仅用一行代码就可代替&#10;2.将整个项目中的 Exception 的捕获方式由 try cash 改到方法签名&#10;原因：网上介绍说往上抛可以到最后统一处理异常" />
-    <MESSAGE value="优化 test library" />
-    <MESSAGE value="1.新增 class OperationLogController.java 方法 operationLog, findOperationLogsBy&#10;2.新增 operation-log.html&#10;3.新增 operation-log.js&#10;4.新增 js 通过输入框翻页的 enter 和 blur event&#10;5.优化 employee.js 代码，包括但不限于更多地复用 ajax&#10;6.优化 master.css (原名 employee.css)&#10;7.优化 HTML, js 文件命名&#10;8.减少 HTML, js 中 id 的使用&#10;9.更改 class OperationLog.java 中的重写方法 equals 和 hash" />
-    <MESSAGE value="1.减少对 jQuery 的使用, 改为 JavaScript. 包括选择器&#10;2.将基于 jQuery 的 Ajax 改为 JavaScript 原生代码&#10;3.其他优化" />
-    <MESSAGE value="1.更改 autocomplete&#10;2.新增 class SearchRecordController 方法 deleteByRecordName&#10;3.新增 interface SearchRecordRepository 方法 findThisRecordNamesBy, deleteByRecordName" />
-    <MESSAGE value="1.新增 class Constants.java, 用于常量的管理, 增加对 Java 现成常量的使用, &#10;2.新增 class WelcomeController.java, 将 login 和 index 请求单独写进该 class&#10;3.新增 js 方法注释&#10;4.所有 repository 都新增 @Repository 注解，交由 spring 管理&#10;5.将 operation-log.js, login.html jQuery 改为 JavaScript&#10;6.更改请求方式&#10;7.更改 jdk 版本, bellsoft-jdk18-full -&gt; Oracle jdk 18&#10;8.其他优化" />
-    <MESSAGE value="1. 新增 class SpringControllerAdvice.java. 作用: 添加 @Controller 层全局处理异常等方法&#10;2. 新增 enum Sex 用于对性别的控制&#10;3. 更改数据库存储性别的值, &quot;女&quot;|&quot;男&quot; -&gt; &quot;0&quot;|&quot;1&quot;&#10;4. 优化 Controller 接口，HttpServletResponse 改为 spring ResponseEntity&#10;5. 其他优化" />
-    <MESSAGE value="1. 优化 class SearchRecordController.java's method&#10;&#10;2. 优化 js employee.js&#10;&#10;3. 优化错误页面的代码&#10;&#10;4. 新增部分 Java class method 非空断言&#10;&#10;5. 删除 interface method countByUsernameAndSearchGroupByAndRecordName(), 使用更简单的 jpa count()&#10;&#10;6. 将 Java 中 .toString() 改为更安全的 String.valueOf()&#10;&#10;7. 增加 interface Constants 的安全性, 已设为 sealed&#10;&#10;8. 利用 Stream.of(propertiesResponse, newPropertiesResponse).flatMap(Collection::stream).distinct().toList(); 替换掉自定义的 method mergeTwoLists&#10;&#10;9. 利用 list.subList(0, 10); 替换掉自定义的 method getListTopTenData&#10;&#10;10. 其他优化" />
-    <MESSAGE value="1. 新增数据库表的 sql&#10;2. 其他优化" />
-    <MESSAGE value="1. 优化 sql&#10;2. 优化部分判断是否保存成功的查询 (java)&#10;3. 其他优化" />
-    <MESSAGE value="1. 新增表数据 sql&#10;2. 将控制层代码转移至新添加的业务层&#10;3. 增加视图类等&#10;4. js 代码优化&#10;5. 其他优化" />
-    <option name="LAST_COMMIT_MESSAGE" value="1. 新增表数据 sql&#10;2. 将控制层代码转移至新添加的业务层&#10;3. 增加视图类等&#10;4. js 代码优化&#10;5. 其他优化" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <breakpoint type="java-exception">
-          <properties class="org.springframework.beans.factory.BeanCreationException" package="org.springframework.beans.factory" />
-          <option name="timeStamp" value="8" />
-        </breakpoint>
-        <breakpoint enabled="true" type="java-exception">
-          <properties class="java.lang.NoSuchMethodError" package="java.lang" />
-          <option name="timeStamp" value="160" />
-        </breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/main/resources/static/js/employee.js</url>
-          <line>867</line>
-          <option name="timeStamp" value="148" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/main/resources/static/js/employee.js</url>
-          <line>1101</line>
-          <option name="timeStamp" value="169" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/main/resources/static/js/employee.js</url>
-          <line>106</line>
-          <option name="timeStamp" value="170" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
-          <line>560</line>
-          <option name="timeStamp" value="46" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
-          <line>1062</line>
-          <option name="timeStamp" value="76" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
-          <line>1058</line>
-          <option name="timeStamp" value="77" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/MessageBuilder.java</url>
-          <line>50</line>
-          <properties>
-            <option name="lambda-ordinal" value="-1" />
-          </properties>
-          <option name="timeStamp" value="86" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/MessageBuilder.java</url>
-          <line>58</line>
-          <option name="timeStamp" value="87" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestComparator.java</url>
-          <line>39</line>
-          <option name="timeStamp" value="88" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestComparator.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="89" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/controller/EmployeeControllerTest.java</url>
-          <line>54</line>
-          <option name="timeStamp" value="106" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
-          <line>960</line>
-          <option name="timeStamp" value="119" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Test2.java</url>
-          <line>69</line>
-          <option name="timeStamp" value="145" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/Test2.java</url>
-          <line>67</line>
-          <option name="timeStamp" value="146" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
-          <line>313</line>
-          <option name="timeStamp" value="151" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
-          <line>408</line>
-          <option name="timeStamp" value="155" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
-          <line>387</line>
-          <option name="timeStamp" value="157" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestComparator.java</url>
-          <line>32</line>
-          <properties method="compare">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="91" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/test/java/com/shiminfxcvii/other/TestClass.java</url>
-          <line>371</line>
-          <properties class="com.shiminfxcvii.other.TestClass" method="remove">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="93" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-    <pin-to-top-manager>
-      <pinned-members>
-        <PinnedItemInfo parentTag="java.util.stream.ReferencePipeline$Head" memberName="sourceSpliterator" />
-      </pinned-members>
-    </pin-to-top-manager>
-  </component>
-  <component name="XPathView.XPathProjectComponent">
-    <history />
-    <find-history />
-  </component>
   <component name="XSLT-Support.FileAssociations.UIState">
-    <expand>
-      <path>
-        <item name="employee-management" type="b2602c69:ProjectViewProjectNode" />
-        <item name="employee-management" type="462c0819:PsiDirectoryNode" />
-      </path>
-      <path>
-        <item name="employee-management" type="b2602c69:ProjectViewProjectNode" />
-        <item name="employee-management" type="462c0819:PsiDirectoryNode" />
-        <item name="src" type="462c0819:PsiDirectoryNode" />
-      </path>
-    </expand>
+    <expand />
     <select />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/employee$Application.ic" NAME="Application 覆盖结果" MODIFIED="1651051987181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>com.example.*</FILTER>
-    </SUITE>
   </component>
 </project>

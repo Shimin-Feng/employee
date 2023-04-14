@@ -7,7 +7,7 @@ import lombok.Setter;
 /**
  * Employee DTO
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/10/3 13:36 周一
  */
 @Getter

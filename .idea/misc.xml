@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="EntryPointsManager">
-    <list size="2">
-      <item index="0" class="java.lang.String" itemvalue="javax.annotation.Resource" />
-      <item index="1" class="java.lang.String" itemvalue="org.junit.jupiter.api.Test" />
-    </list>
-  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="FindBugsConfigurable">
-    <option name="make" value="true" />
-    <option name="effort" value="default" />
-    <option name="priority" value="Medium" />
-    <option name="excludeFilter" value="" />
-  </component>
-  <component name="JavaScriptSettings">
-    <option name="languageLevel" value="FLOW" />
-  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
@@ -23,11 +8,5 @@
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_19_PREVIEW" project-jdk-name="openjdk-19" project-jdk-type="JavaSDK" />
-  <component name="ProjectType">
-    <option name="id" value="jpab" />
-  </component>
-  <component name="SuppressionsComponent">
-    <option name="suppComments" value="[]" />
-  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_20" default="true" project-jdk-name="openjdk-20" project-jdk-type="JavaSDK" />
 </project>

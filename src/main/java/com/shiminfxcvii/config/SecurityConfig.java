@@ -2,15 +2,15 @@ package com.shiminfxcvii.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
@@ -27,7 +27,7 @@ import static com.shiminfxcvii.util.Constants.*;
 /**
  * Spring Boot Security 用于用户的登录验证
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/5/1 14:45
  */
 @Configuration
@@ -37,7 +37,6 @@ public class SecurityConfig {
     private final DataSource dataSource;
     private final UserDetailsService userDetailsService;
 
-    @Lazy
     public SecurityConfig(DataSource dataSource, UserDetailsService userDetailsService) {
         this.dataSource = dataSource;
         this.userDetailsService = userDetailsService;
@@ -52,7 +51,7 @@ public class SecurityConfig {
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     /**
@@ -74,7 +73,7 @@ public class SecurityConfig {
      *
      * @param auth AuthenticationConfiguration
      * @throws Exception 未知异常
-     * @author shiminfxcvii
+     * @author ShiminFXCVII
      * @since 2022/5/1 14:50
      */
     @Bean
@@ -89,24 +88,28 @@ public class SecurityConfig {
      * @author ShiminFXCVII
      * @since 2022/10/5 23:15
      */
-    @Bean
-    public WebSecurityCustomizer swaggerWebSecurityCustomizer() {
-        return web -> web.ignoring().antMatchers(
-                "/swagger-ui.html",
-                "/swagger-ui/**",
-                "/swagger-resources/**",
-                "/v2/api-docs",
-                "/v3/api-docs",
-                "/webjars/**"
-        );
-    }
+//    @Bean
+//    public WebSecurityCustomizer swaggerWebSecurityCustomizer() {
+//        return web -> {
+//            // 将默认加载的登录页配置删除
+////            web.removeConfigurer(DefaultLoginPageConfigurer.class);
+//            web.ignoring()
+//                    .requestMatchers(
+//                            "/swagger-ui/index.html",
+//                            "/swagger-ui/**",
+//                            "/swagger-resources/**",
+//                            "/v2/api-docs",
+//                            "/v3/api-docs",
+//                            "/webjars/**");
+//        };
+//    }
 
     /**
      * 对登录、退出、页面的访问权限、静态资源的管理
      *
      * @param http HttpSecurity
      * @throws Exception 未知异常
-     * @author shiminfxcvii
+     * @author ShiminFXCVII
      * @since 2022/5/1 14:50
      */
     @Bean
@@ -143,23 +146,35 @@ public class SecurityConfig {
                 // 登录失败后的请求访问的地址，这里访问的是控制器
                 .failureForwardUrl("/loginFailed")
                 // 所有的登录请求都被允许，不设置就无法访问登录界面
+
+                // session 禁用配置
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 无状态
+
                 .and()
                 // 授权请求
-                .authorizeRequests()
+                .authorizeHttpRequests()
                 // 不需要拦截的页面
-                .antMatchers(/*"/403", */"/login",
+                .requestMatchers(
+                        "/login",
                         "/loginFailed",
                         "/logout",
-                        "/swagger-ui.html",
+
                         "/swagger-ui/**",
-                        "/swagger-resources/**"/*, "/timeout"*/)
+                        "/swagger-resources",
+                        "/swagger-resources/**",
+                        "/v2/api-docs",
+                        "/v3/api-docs",
+                        "/webjars/**"
+                )
                 .permitAll()
                 // 需要拦截的页面
                 // 如要访问 employee 页面必须具有 ROLE_ADMIN 权限
                 // ROLE_ADMIN 这个写法不对，这里不需要加 ROLE_ 前缀
                 // TODO: 下面这行为什么没有效果？
 //                .antMatchers("/index").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers("/employee").hasAuthority("ADMIN")
+                .requestMatchers("/employee").hasAuthority("ADMIN")
 //                .antMatchers("/user").hasAuthority("USER")
                 // 任何请求都需要通过认证
                 .anyRequest()
@@ -210,7 +225,7 @@ public class SecurityConfig {
      * 将 remember me token 信息存储进数据库
      *
      * @return {@code tokenRepository} 由该 token 仓库创建一个 token 并返回
-     * @author shiminfxcvii
+     * @author ShiminFXCVII
      * @see PersistentTokenRepository
      * @since 2022/5/1 15:15
      */

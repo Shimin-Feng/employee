@@ -1,14 +1,14 @@
 package com.shiminfxcvii.other;
 
+import jakarta.persistence.Persistence;
 import lombok.NonNull;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.Assert;
 
-import javax.persistence.Persistence;
 import java.util.function.Consumer;
 
 /**
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @version 1.0
  * @description
  * @class DemoConsumer

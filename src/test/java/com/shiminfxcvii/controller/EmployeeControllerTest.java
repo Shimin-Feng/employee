@@ -3,21 +3,17 @@ package com.shiminfxcvii.controller;
 import com.shiminfxcvii.entity.Employee;
 import com.shiminfxcvii.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 import static org.springframework.data.domain.ExampleMatcher.StringMatcher.CONTAINING;
 
 /**
- * @author shiminfxcvii
- * @version 1.0
- * @description
- * @class EmployeeControllerTest
- * @see
+ * @author ShiminFXCVII
  * @since 2022/5/28 3:05 周六
  */
 @SpringBootTest
@@ -25,7 +21,7 @@ class EmployeeControllerTest {
 
     private final Employee employee = new Employee();
     private final String path;
-    @Resource
+    @Autowired
     private EmployeeRepository employeeRepository;
 
     EmployeeControllerTest(String path) {
@@ -38,7 +34,7 @@ class EmployeeControllerTest {
 //        employee.setEmployeeId("");
 //        employee.setEmployeeName("");
 //        employee.setEmployeeSex("");
-        employee.setEmployeeAge("32");
+        employee.setEmployeeAge(32);
 //        employee.setEmployeeIdCard("");
         employee.setEmployeeAddress("中国上海");
 //        employee.setEmployeePhoneNumber("156");

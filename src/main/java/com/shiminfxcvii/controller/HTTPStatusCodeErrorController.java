@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 /**
  * 处理 HTTP status code
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/4/9 12:56
  */
 @Controller
@@ -25,7 +25,7 @@ public final class HTTPStatusCodeErrorController implements ErrorController {
      * @param response HttpServletResponse 响应的错误信息
      * @param user     Principal 包含登录用户信息
      * @return modelAndView 根据错误状态码设置并返回内容
-     * @author shiminfxcvii
+     * @author ShiminFXCVII
      * @see ModelAndView
      * @see HttpServletResponse
      * @see Principal

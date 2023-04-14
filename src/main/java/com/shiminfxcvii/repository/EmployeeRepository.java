@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 /**
  * 员工信息操作工厂接口
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/6/2 20:02
  */
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee, String> {
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 }

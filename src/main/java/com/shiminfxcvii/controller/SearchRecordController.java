@@ -5,7 +5,6 @@ import com.shiminfxcvii.entity.SearchRecord;
 import com.shiminfxcvii.model.cmd.EmployeeCmd;
 import com.shiminfxcvii.service.SearchRecordService;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +20,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 /**
  * 对搜索记录的保存与查询
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/5/1 15:54
  */
 @Controller
@@ -30,7 +29,6 @@ public class SearchRecordController {
 
     private final SearchRecordService searchRecordService;
 
-    @Lazy
     public SearchRecordController(SearchRecordService searchRecordService) {
         this.searchRecordService = searchRecordService;
     }

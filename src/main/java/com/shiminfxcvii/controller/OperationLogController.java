@@ -1,7 +1,6 @@
 package com.shiminfxcvii.controller;
 
 import com.shiminfxcvii.service.OperationLogService;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,7 @@ import static com.shiminfxcvii.util.Constants.*;
 /**
  * 保存和查询操作员工信息后的日志
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/5/2 1:15 周一
  */
 @Controller
@@ -24,7 +23,6 @@ public class OperationLogController {
 
     private final OperationLogService operationLogService;
 
-    @Lazy
     public OperationLogController(OperationLogService operationLogService) {
         this.operationLogService = operationLogService;
     }

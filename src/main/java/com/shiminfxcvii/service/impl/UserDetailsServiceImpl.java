@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 /**
  * 该类用于验证在有账号登录时是否与数据库账号匹配
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/5/1 15:31
  */
 

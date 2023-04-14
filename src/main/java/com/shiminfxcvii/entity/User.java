@@ -14,7 +14,7 @@ import java.util.Objects;
 /**
  * 用户信息表
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/6/2 20:01
  */
 @Entity

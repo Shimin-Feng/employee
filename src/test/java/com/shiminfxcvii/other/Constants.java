@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.time.format.DateTimeFormatter;
 
 /**
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @version 1.0
  * @description 统一管理常量
  * @class Constants

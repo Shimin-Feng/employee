@@ -6,6 +6,7 @@ import com.shiminfxcvii.enums.Sex;
 import com.shiminfxcvii.model.dto.OperationLogDTO;
 import com.shiminfxcvii.repository.OperationLogRepository;
 import com.shiminfxcvii.service.OperationLogService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -20,18 +21,17 @@ import org.springframework.util.StringUtils;
 import java.lang.reflect.Field;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import static com.shiminfxcvii.util.Constants.*;
-import static org.hibernate.sql.ast.SqlTreeCreationLogger.LOGGER;
 
 /**
  * OperationLogServiceImpl
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/10/3 23:03 周一
  */
 @Service
+@Slf4j
 public class OperationLogServiceImpl implements OperationLogService {
 
     private final OperationLogRepository operationLogRepository;
@@ -81,7 +81,7 @@ public class OperationLogServiceImpl implements OperationLogService {
     @Transactional(rollbackFor = Exception.class)
     public void saveOperationLog(String dml, Employee employee, Principal user) throws IllegalAccessException {
         if (!StringUtils.hasText(user.getName())) {
-            LOGGER.error("操作日志保存失败，原因：登录用户名不能为空但为空。");
+            log.error("操作日志保存失败，原因：登录用户名不能为空但为空。");
             return;
         }
 
@@ -89,33 +89,29 @@ public class OperationLogServiceImpl implements OperationLogService {
             field.setAccessible(true);
             // 在这里不能用 StringUtils.hasText(String.valueOf(obj)) 判断是否有值，因为 null 会被转换成 String
             if (ObjectUtils.isEmpty(field.get(employee))) {
-                LOGGER.error("操作日志保存失败，原因：实体类每个字段都不能为空，但 " + field.getName() + " 为空。");
+                log.error("操作日志保存失败，原因：实体类每个字段都不能为空，但 " + field.getName() + " 为空。");
                 return;
             }
         }
 
         OperationLog operationLog = new OperationLog();
-        operationLog.setLogId(String.valueOf(UUID.randomUUID()));
         operationLog.setDml(dml);
-        operationLog.setEmployeeId(employee.getEmployeeId());
+        operationLog.setEmployeeId(employee.getId());
         operationLog.setEmployeeName(employee.getEmployeeName());
         operationLog.setEmployeeSex(employee.getEmployeeSex());
         operationLog.setEmployeeAge(employee.getEmployeeAge());
         operationLog.setEmployeeIdCard(employee.getEmployeeIdCard());
         operationLog.setEmployeeAddress(employee.getEmployeeAddress());
         operationLog.setEmployeePhoneNumber(employee.getEmployeePhoneNumber());
-        operationLog.setCreatedBy(employee.getCreatedBy());
-        operationLog.setCreatedDate(employee.getCreatedDate());
-        operationLog.setLastModifiedDate(employee.getLastModifiedDate());
         operationLog.setUsername(user.getName());
         operationLog.setDateTime(LocalDateTime.now().format(DATE_TIME_FORMATTER));
         operationLogRepository.saveAndFlush(operationLog);
 
         // 检查是否成功保存到数据库
-        if (operationLogRepository.findById(operationLog.getLogId()).isPresent())
-            LOGGER.info("操作日志保存成功。");
+        if (operationLogRepository.findById(operationLog.getId()).isPresent())
+            log.info("操作日志保存成功。");
         else
-            LOGGER.error("操作日志保存失败。");
+            log.error("操作日志保存失败。");
     }
 
     /**

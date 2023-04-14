@@ -20,7 +20,7 @@ import java.util.Objects;
  * 实体类需要有一个无参数的构造函数，要么是 public 要么 protected
  * 实体属性必须是非 final
  *
- * @author shiminfxcvii
+ * @author ShiminFXCVII
  * @since 2022/4/24 0:11 周日
  */
 @Entity
