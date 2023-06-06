@@ -8,7 +8,6 @@ server:
   servlet:
     session:
       timeout: 1800
-  port: 8080
 
 spring:
   application:
@@ -17,16 +16,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/employee_management?useUnicode=true&characterEncoding=UTF-8
     username: root
-    password: MySQL1672943850
-
-  jpa:
-    # Silent
-    # open-in-view: true
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-
+    password: 123456
   thymeleaf:
     # Turn off caching while developing
     cache: false
