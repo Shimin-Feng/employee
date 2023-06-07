@@ -26,7 +26,7 @@
     </properties>
 
     <dependencies>
-        <!-- MySQL 驱动 -->
+        <!-- MySQL -->
         <!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
         <dependency>
             <groupId>com.mysql</groupId>
@@ -47,12 +47,19 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-        <!--  -->
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-configuration-processor -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
 
+        <!-- actuator -->
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
         <!-- 下面的依赖是为了能够使用到 JPA Hibernate -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -90,6 +97,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-jose -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-jose</artifactId>
+        </dependency>
+
         <!-- 添加 thymeleaf 属性 -->
         <!-- 获取登录用户名 -->
         <dependency>
@@ -113,7 +126,5 @@
             <version>${springdoc.version}</version>
         </dependency>
         <!-- springdoc end -->
-
     </dependencies>
-
 </project>

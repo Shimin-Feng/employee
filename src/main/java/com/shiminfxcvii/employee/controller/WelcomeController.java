@@ -1,7 +1,7 @@
 package com.shiminfxcvii.employee.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 接受登录和主页的请求
@@ -9,20 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author ShiminFXCVII
  * @since 2022/5/10 15:40
  */
-@Controller
+@RestController
 public final class WelcomeController {
-
-    /**
-     * 在登录之前访问任何资源都将跳转到自定义登录界面
-     *
-     * @return "login" login 页面
-     * @author ShiminFXCVII
-     * @since 2022/4/29 16:46
-     */
-    @GetMapping("login")
-    public String login() {
-        return "login";
-    }
 
     /**
      * 接受请求跳转到 index 页面
@@ -31,7 +19,7 @@ public final class WelcomeController {
      * @author ShiminFXCVII
      * @since 2022/4/29 16:33
      */
-    @GetMapping("index")
+    @PostMapping("index")
     public String index() {
         return "index";
     }

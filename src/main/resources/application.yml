@@ -4,19 +4,34 @@ logging:
     web: debug
     root: debug
 
+security:
+  cors:
+    # 允许跨源请求的源列表配置
+    allowed-origins: http://localhost:8080,http://127.0.0.1:8080
+  # 放行白名单配置
+  ignore:
+    whites:
+      - /actuator/**
+      - /error
+      - /swagger-ui/**
+      - /v3/api-docs/**
+      - /webjars/**
+  server:
+    # uri 方案，http 或者 https
+    schema: http
+    # 服务器地址
+    address: localhost
+
 server:
-  servlet:
-    session:
-      timeout: 1800
+  # 端口号
+  port: 8080
 
 spring:
   application:
+    # 应用程序名称
     name: Employee Management
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/employee_management?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: 123456
-  thymeleaf:
-    # Turn off caching while developing
-    cache: false

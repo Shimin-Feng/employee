@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.data.jpa.domain.AbstractAuditable;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * 用户信息表
@@ -27,5 +28,12 @@ public class User extends AbstractAuditable<User, Long> {
     private String password;
     @Column(name = "authorities", nullable = false, columnDefinition = "varchar", length = 64)
     private String authorities;
+
+    /**
+     * 用户详情
+     *
+     * @since 2023/6/7 21:32
+     */
+    private transient UserDetails userDetails;
 
 }
