@@ -1,15 +1,13 @@
 package com.shiminfxcvii.employee.service.impl;
 
 import com.shiminfxcvii.employee.advice.SpringControllerAdvice;
-import com.shiminfxcvii.employee.model.cmd.EmployeeCmd;
-import com.shiminfxcvii.employee.repository.EmployeeRepository;
-import com.shiminfxcvii.employee.util.Constants;
 import com.shiminfxcvii.employee.entity.Employee;
 import com.shiminfxcvii.employee.entity.SearchRecord;
+import com.shiminfxcvii.employee.model.cmd.EmployeeCmd;
+import com.shiminfxcvii.employee.repository.EmployeeRepository;
 import com.shiminfxcvii.employee.repository.SearchRecordRepository;
 import com.shiminfxcvii.employee.service.SearchRecordService;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.shiminfxcvii.employee.util.Constants;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
@@ -22,10 +20,7 @@ import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
 import java.security.Principal;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -96,7 +91,7 @@ public class SearchRecordServiceImpl implements SearchRecordService {
                     searchRecord.setRecordName(String.valueOf(object));
                     searchRecordRepository.saveAndFlush(searchRecord);
                     // 检查是否保存成功
-                    if (searchRecordRepository.existsById(searchRecord.getId())) {
+                    if (searchRecordRepository.existsById(Objects.requireNonNull(searchRecord.getId()))) {
                         body = "搜索记录保存成功。";
                         status = OK;
                     } else {
@@ -279,11 +274,11 @@ public class SearchRecordServiceImpl implements SearchRecordService {
      * @since 2022/5/25 13:24
      */
     public LinkedHashSet<String> getAllPropertiesOfEmployeesBy(
-            @NotNull("员工信息不能为空") Employee employee,
-            @NotNull("匹配方式不能为空") ExampleMatcher.StringMatcher stringMatcher,
-            @Nullable LinkedHashSet<String> recordNamesRequest,
+            Employee employee,
+            ExampleMatcher.StringMatcher stringMatcher,
+            LinkedHashSet<String> recordNamesRequest,
             int size,
-            @Nullable LinkedHashSet<String> propertiesResponse)
+            LinkedHashSet<String> propertiesResponse)
             throws IllegalAccessException {
         LinkedHashSet<String> newPropertiesResponse = new LinkedHashSet<>();
 
@@ -296,7 +291,7 @@ public class SearchRecordServiceImpl implements SearchRecordService {
         );
 
         // 如果有数据则将所需的值截取出来，如果没有数据则返回空数组
-        if (0 < employeeList.size()) {
+        if (!employeeList.isEmpty()) {
             // 获取 employee 的所有属性
             // 循环遍历所有的 fields
             for (Field field : employee.getClass().getDeclaredFields()) {

@@ -4,7 +4,7 @@ import com.shiminfxcvii.employee.entity.Employee;
 import com.shiminfxcvii.employee.entity.SearchRecord;
 import com.shiminfxcvii.employee.model.cmd.EmployeeCmd;
 import com.shiminfxcvii.employee.service.SearchRecordService;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +39,7 @@ public class SearchRecordController {
             consumes = ALL_VALUE,
             produces = ALL_VALUE
     )
-    public ResponseEntity<String> saveSearchRecord(@NotNull(value = "用户信息不能为空") Principal user, EmployeeCmd cmd)
+    public ResponseEntity<String> saveSearchRecord(@NotNull(message = "用户信息不能为空") Principal user, EmployeeCmd cmd)
             throws IllegalAccessException {
         return searchRecordService.saveSearchRecord(user, cmd);
     }
@@ -51,7 +51,7 @@ public class SearchRecordController {
             consumes = ALL_VALUE,
             produces = ALL_VALUE
     )
-    public ResponseEntity<String> deleteByRecordName(@NotNull(value = "用户信息不能为空") Principal user,
+    public ResponseEntity<String> deleteByRecordName(@NotNull(message = "用户信息不能为空") Principal user,
                                                      // TODO
                                                      @NotNull SearchRecord searchRecord/*,
                                                      @NotNull(value = "搜索字段不能为空") String searchGroupBy,
@@ -67,8 +67,8 @@ public class SearchRecordController {
             produces = APPLICATION_JSON_VALUE
     )
     // TODO: 为什么 recordName 中头和或尾有 % 就进不来接口？
-    public ResponseEntity<Set<String>> findRecordNamesBy(@NotNull(value = "用户信息不能为空") Principal user,
-                                                         @NotNull(value = "搜索字段不能为空") String searchGroupBy,
+    public ResponseEntity<Set<String>> findRecordNamesBy(@NotNull(message = "用户信息不能为空") Principal user,
+                                                         @NotNull(message = "搜索字段不能为空") String searchGroupBy,
                                                          @RequestParam(value = "recordName", required = false)
                                                          String recordName) {
         return searchRecordService.findRecordNamesBy(user, searchGroupBy, recordName);
@@ -84,7 +84,7 @@ public class SearchRecordController {
     public ResponseEntity<Set<String>> findAllPropertiesOfEmployeesBy(
             @RequestParam(value = "recordName", required = false) String[] recordNames,
             // TODO
-            @NotNull(value = "员工信息不能为空") Employee employee)
+            @NotNull(message = "员工信息不能为空") Employee employee)
             throws IllegalAccessException {
         return searchRecordService.findAllPropertiesOfEmployeesBy(recordNames, employee);
     }

@@ -2,8 +2,6 @@ package com.shiminfxcvii.employee.repository;
 
 import com.shiminfxcvii.employee.entity.SearchRecord;
 import com.shiminfxcvii.employee.service.impl.SearchRecordServiceImpl;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -40,8 +38,8 @@ public interface SearchRecordRepository extends JpaRepository<SearchRecord, Long
             ) AS rncd
             ORDER BY mcd DESC LIMIT 0, 10;
             """, nativeQuery = true)
-    LinkedHashSet<String> findThisRecordNames(@NotNull("用户名不能为空") String username,
-                                              @NotNull("搜索字段不能为空") String searchGroupBy,
-                                              @Nullable String recordName);
+    LinkedHashSet<String> findThisRecordNames(String username,
+                                              String searchGroupBy,
+                                              String recordName);
 
 }

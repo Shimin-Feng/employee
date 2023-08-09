@@ -5,22 +5,18 @@ logging:
     root: debug
 
 security:
-  cors:
-    # 允许跨源请求的源列表配置
-    allowed-origins: http://localhost:8080,http://127.0.0.1:8080
+  address: http://localhost:8080,http://127.0.0.1:8080
   # 放行白名单配置
-  ignore:
-    whites:
-      - /actuator/**
-      - /error
-      - /swagger-ui/**
-      - /v3/api-docs/**
-      - /webjars/**
-  server:
-    # uri 方案，http 或者 https
-    schema: http
-    # 服务器地址
-    address: localhost
+  whitelist:
+    - /actuator/**
+    - /error
+    - /swagger-ui/**
+    - /favicon.ico
+    - /favicon/**
+    - /v3/api-docs/**
+    - /webjars/**
+    - /login
+  expires: 604800
 
 server:
   # 端口号

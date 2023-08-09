@@ -1,5 +1,6 @@
 package com.shiminfxcvii.employee.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.oauth2.jwt.Jwt;
 
 /**
@@ -19,7 +20,7 @@ public interface NimbusJwtService {
      * @author ShiminFXCVII
      * @since 2/21/2023 12:06 PM
      */
-    Jwt encode(Long userId, String username);
+    Jwt encode(String userId, String username);
 
     /**
      * 从其紧凑的声明表示格式解码和验证 JWT
@@ -30,5 +31,15 @@ public interface NimbusJwtService {
      * @since 2/21/2023 12:54 PM
      */
     Jwt decode(String token);
+
+    /**
+     * 从请求中解析 JWT
+     *
+     * @param request the request
+     * @return 解析后的 JWT
+     * @author ShiminFXCVII
+     * @since 2023/6/17 20:23
+     */
+    Jwt resolve(HttpServletRequest request);
 
 }

@@ -1,7 +1,7 @@
 package com.shiminfxcvii.employee.config;
 
 import com.shiminfxcvii.employee.filter.JwtOncePerRequestFilter;
-import com.shiminfxcvii.employee.properties.IgnoreProperties;
+import com.shiminfxcvii.employee.properties.SecurityProperties;
 import com.shiminfxcvii.employee.util.Constants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -131,7 +131,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
             CorsConfigurationSource corsConfigurationSource,
-            IgnoreProperties ignoreProperties,
+            SecurityProperties securityProperties,
             AccessDeniedHandler accessDeniedHandler,
             AuthenticationEntryPoint authenticationEntryPoint,
             LogoutSuccessHandler logoutSuccessHandler,
@@ -330,7 +330,7 @@ public class SecurityConfig {
                         // 如果 HandlerMappingIntrospector 在类路径中可用，则映射到不关心使用哪个 HttpMethod 的 MvcRequestMatcher。
                         // 这个匹配器将使用 Spring MVC 用于匹配的相同规则。 例如，路径“/path”的映射通常会匹配“/path”、“/path/”、“/path.html”等。
                         // 如果 HandlerMappingIntrospector 不可用，则映射到 AntPathRequestMatcher。
-                        .requestMatchers(ignoreProperties.getWhites())
+                        .requestMatchers(securityProperties.getWhitelist())
                         // 指定任何人都允许使用 URL。
                         .permitAll()
                         // 如果 HandlerMappingIntrospector 在类路径中可用，则映射到与特定 HttpMethod 匹配的 MvcRequestMatcher。

@@ -2,7 +2,6 @@ package com.shiminfxcvii.employee.service.impl;
 
 import com.shiminfxcvii.employee.entity.User;
 import com.shiminfxcvii.employee.repository.UserRepository;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Example;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,7 +40,7 @@ public final class UserDetailsServiceImpl implements UserDetailsService {
      * Invalid remember-me token (Series/token) mismatch. Implies previous cookie theft attack.
      */
     @Override
-    public UserDetails loadUserByUsername(@NotNull("用户名不能为空") String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findOne(Example.of(new User().setUsername(username))).map(user -> {
             UserDetails userDetails = org.springframework.security.core.userdetails.User
                     .withUsername(user.getUsername())

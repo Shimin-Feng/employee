@@ -5,32 +5,65 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3bd90f3-840e-4a7d-9a6c-ef36a8e35bdd" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/component/AuthenticationEntryPointImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/component/AuthenticationFailureHandlerImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/component/AuthenticationSuccessHandlerImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/component/CustomAccessDeniedHandlerImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/component/LogoutSuccessHandlerImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/config/CacheConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/filter/JwtOncePerRequestFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/properties/CorsProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/properties/IgnoreProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/properties/ServerProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/service/NimbusJwtService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/service/impl/NimbusJwtServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/store/shiting-soil.crt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/store/shiting-soil.keystore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/compose.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/config/OpenAPIConfig.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/properties/SecurityProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/af5442ee-bb31-41b9-bab1-e42c477fda78.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/af5442ee-bb31-41b9-bab1-e42c477fda78.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-management.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/controller/WelcomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/controller/WelcomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/config/SwaggerConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/controller/EmployeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/controller/SearchRecordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/controller/SearchRecordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/filter/JwtOncePerRequestFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/filter/JwtOncePerRequestFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/properties/CorsProperties.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/properties/IgnoreProperties.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/properties/ServerProperties.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/repository/SearchRecordRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/repository/SearchRecordRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/service/NimbusJwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/service/NimbusJwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/service/impl/NimbusJwtServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/service/impl/NimbusJwtServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/service/impl/SearchRecordServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/service/impl/SearchRecordServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/service/impl/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/service/impl/UserDetailsServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/store/shiting-soil.crt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/store/shiting-soil.keystore" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -48,6 +81,10 @@
   <component name="OptimizeOnSaveOptions">
     <option name="myRunOnSave" value="true" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2OEmzd288MwCCeboIGVeyD3ylBA" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -68,7 +105,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/dell/IdeaProjects/employee-management/src/main/resources",
+    "last_opened_file_path": "C:/Users/dell/IdeaProjects/employee-management",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
     "node.js.detected.package.tslint": "true",
@@ -77,10 +114,10 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "项目",
-    "project.structure.proportion": "0.0",
+    "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.21900827",
     "rearrange.code.on.save": "true",
-    "settings.editor.selected.configurable": "actions.on.save",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
     "spring.configuration.checksum": "89daeefeb373ccbfaf54ce642222d999",
     "vue.rearranger.settings.migration": "true"
   },
@@ -90,11 +127,18 @@
     ]
   }
 }]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\dell\IdeaProjects\employee-management" />
       <recent name="C:\Users\dell\IdeaProjects\employee-management\src\main\resources" />
       <recent name="C:\Users\dell\IdeaProjects\employee-management\src\main\java\com\shiminfxcvii\employee\component" />
       <recent name="C:\Users\dell\IdeaProjects\employee-management\src\main\java\com\shiminfxcvii\employee" />
+    </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.shiminfxcvii.employee.config" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.shiminfxcvii.employee.component" />
@@ -104,7 +148,7 @@
   </component>
   <component name="RunManager">
     <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="employee-management" />
+      <module name="employee-management.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.shiminfxcvii.employee.Application" />
       <extension name="coverage">
         <pattern>
@@ -136,7 +180,18 @@
       <workItem from="1681395424265" duration="9905000" />
       <workItem from="1685092098329" duration="4051000" />
       <workItem from="1685428891177" duration="2028000" />
-      <workItem from="1686021481871" duration="23282000" />
+      <workItem from="1686021481871" duration="23834000" />
+      <workItem from="1686188217921" duration="6433000" />
+      <workItem from="1686553917014" duration="859000" />
+      <workItem from="1686750623031" duration="330000" />
+      <workItem from="1688440253321" duration="870000" />
+      <workItem from="1688448623081" duration="615000" />
+      <workItem from="1688549607541" duration="1295000" />
+      <workItem from="1689335696780" duration="3606000" />
+      <workItem from="1689428395209" duration="3696000" />
+      <workItem from="1690029447775" duration="2013000" />
+      <workItem from="1691472850187" duration="648000" />
+      <workItem from="1691580952219" duration="5794000" />
     </task>
     <task id="LOCAL-00001" summary="Changes&#10;1. 探索 AbstractAuditable&#10;2. 其他优化">
       <created>1681446415699</created>
@@ -161,11 +216,41 @@
       <option name="project" value="LOCAL" />
       <updated>1686060193670</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="⭐ New Features&#10;1. SecurityConfig 类配置更新">
+      <option name="closed" value="true" />
+      <created>1686146003570</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1686146003570</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -173,62 +258,36 @@
     <MESSAGE value="Changes&#10;1. 探索 AbstractAuditable&#10;2. 其他优化" />
     <MESSAGE value="⭐ New Features&#10;1. SecurityConfig 类配置更新&#10;&#10;Dependency Upgrades&#10;1. Spring Boot 升级至 3.1.0" />
     <MESSAGE value="⭐ New Features&#10;1. SecurityConfig 类配置更新&#10;2. 实体类更新" />
-    <option name="LAST_COMMIT_MESSAGE" value="⭐ New Features&#10;1. SecurityConfig 类配置更新&#10;2. 实体类更新" />
+    <MESSAGE value="⭐ New Features&#10;1. SecurityConfig 类配置更新" />
+    <option name="LAST_COMMIT_MESSAGE" value="⭐ New Features&#10;1. SecurityConfig 类配置更新" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/service/impl/UserDetailsServiceImpl.java</url>
-          <line>45</line>
-          <option name="timeStamp" value="1" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/filter/JwtOncePerRequestFilter.java</url>
+          <line>60</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/service/impl/UserDetailsServiceImpl.java</url>
+          <line>43</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/filter/JwtOncePerRequestFilter.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/filter/JwtOncePerRequestFilter.java</url>
+          <line>62</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/controller/EmployeeController.java</url>
           <line>44</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/component/AuditorAwareImpl.java</url>
-          <line>23</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/shiminfxcvii/employee/service/impl/UserDetailsServiceImpl.java</url>
-          <line>54</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-web/6.1.0/spring-security-web-6.1.0-sources.jar!/org/springframework/security/web/FilterChainProxy.java</url>
-          <line>363</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-web/6.1.0/spring-security-web-6.1.0-sources.jar!/org/springframework/security/web/FilterChainProxy.java</url>
-          <line>373</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <breakpoint enabled="true" type="java-exception">
-          <properties class="java.sql.SQLSyntaxErrorException" package="java.sql" />
-          <option name="timeStamp" value="5" />
-        </breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/6.0.9/spring-web-6.0.9-sources.jar!/org/springframework/web/filter/OncePerRequestFilter.java</url>
-          <line>227</line>
-          <properties class="org.springframework.web.filter.OncePerRequestFilter" method="doFilterInternal">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-core/10.1.8/tomcat-embed-core-10.1.8-sources.jar!/jakarta/servlet/Filter.java</url>
-          <line>89</line>
-          <properties class="jakarta.servlet.Filter" method="doFilter">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="7" />
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

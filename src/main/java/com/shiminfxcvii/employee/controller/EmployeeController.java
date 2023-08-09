@@ -6,7 +6,7 @@ import com.shiminfxcvii.employee.model.query.EmployeeQuery;
 import com.shiminfxcvii.employee.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
@@ -54,7 +54,7 @@ public class EmployeeController {
             consumes = ALL_VALUE,
             produces = ALL_VALUE
     )
-    public ResponseEntity<String> saveOrUpdateEmployee(@NotNull(value = "用户信息不能为空") Principal user,
+    public ResponseEntity<String> saveOrUpdateEmployee(@NotNull(message = "用户信息不能为空") Principal user,
                                                        @RequestBody @Validated EmployeeCmd cmd,
                                                        RequestEntity<Employee> request)
             throws IllegalAccessException {
@@ -68,8 +68,8 @@ public class EmployeeController {
             consumes = MediaType.IMAGE_JPEG_VALUE,
             produces = ALL_VALUE
     )
-    public ResponseEntity<String> deleteEmployeeById(@NotNull(value = "无法获取用户信息") Principal user,
-                                                     @NotNull(value = "员工 id 不能为空") Long id)
+    public ResponseEntity<String> deleteEmployeeById(@NotNull(message = "无法获取用户信息") Principal user,
+                                                     @NotNull(message = "员工 id 不能为空") Long id)
             throws IllegalAccessException {
         return employeeService.deleteEmployeeById(user, id);
     }
